@@ -1,5 +1,12 @@
 <template>
 	<view class="content">
+    <!-- 小程序头部兼容 -->
+    <!-- #ifdef MP -->
+    <view class="mp-search-box">
+      <input class="ser-input" type="text" value="输入关键字搜索" disabled />
+    </view>
+    <!-- #endif -->
+
 		<image class="logo" src="/static/logo.png"></image>
 		<view>
 			<text class="title">{{title}}</text>

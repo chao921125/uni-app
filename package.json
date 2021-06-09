@@ -59,6 +59,8 @@
     "@dcloudio/uni-stat": "^2.0.0-31920210514002",
     "@vue/shared": "^3.0.0",
     "core-js": "^3.6.5",
+    "clipboard": "2.0.6",
+    "nativeshare": "^2.1.5",
     "flyio": "^0.6.2",
     "regenerator-runtime": "^0.12.1",
     "vue": "^2.6.14",
@@ -80,17 +82,71 @@
     "@vue/cli-service": "~4.5.0",
     "babel-plugin-import": "^1.11.0",
     "cross-env": "^7.0.2",
+    "date-fns": "2.8.1",
     "jest": "^25.4.0",
     "mini-types": "*",
     "miniprogram-api-typings": "*",
+    "node-sass": "^6.0.0",
     "postcss-comment": "^2.0.0",
+    "sass-loader": "10.2.0",
+    "vue-style-loader": "^4.1.3",
     "vue-template-compiler": "^2.6.14"
   },
   "browserslist": [
     "Android >= 4",
     "ios >= 8"
   ],
+  "uni_modules": {
+    "dependencies": [],
+    "encrypt": [],
+    "platforms": {
+      "cloud": {
+        "tcb": "y",
+        "aliyun": "y"
+      },
+      "client": {
+        "App": {
+          "app-vue": "y",
+          "app-nvue": "y"
+        },
+        "H5-mobile": {
+          "Safari": "y",
+          "Android Browser": "y",
+          "微信浏览器(Android)": "y",
+          "QQ浏览器(Android)": "y"
+        },
+        "H5-pc": {
+          "Chrome": "y",
+          "IE": "y",
+          "Edge": "y",
+          "Firefox": "y",
+          "Safari": "y"
+        },
+        "小程序": {
+          "微信": "y",
+          "阿里": "y",
+          "百度": "y",
+          "字节跳动": "y",
+          "QQ": "y"
+        },
+        "快应用": {
+          "华为": "u",
+          "联盟": "u"
+        }
+      }
+    }
+  },
   "uni-app": {
-    "scripts": {}
+    "scripts": {
+      "mp-H5": {
+        "title": "H5",
+        "env": {
+          "UNI_PLATFORM": "mp-H5"
+        },
+        "define": {
+          "MP-H5": true
+        }
+      }
+    }
   }
 }
