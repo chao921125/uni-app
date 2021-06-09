@@ -68,9 +68,6 @@
 			"scope.userLocation" : {
 				"desc" : ""
 			}
-		},
-		"uniStatistics" : {
-			"enable" : true
 		}
 	},
 	"mp-alipay" : {
