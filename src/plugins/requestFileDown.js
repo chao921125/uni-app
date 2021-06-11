@@ -2,20 +2,14 @@ const baseUrl = process.env.NODE_ENV === 'production' ? 'https://unidemo.dcloud.
 const defaultHeader = {};
 // 同时发送异步代码的次数，防止一次点击中有多次请求，用于处理
 let ajaxTimes=0;
-// method
-/**
- * GET POST PUT DELETE CONNECT HEAD OPTIONS TRACE
- * @param options
- * @returns {Promise<unknown>}
- */
 const request = (options) => {
     uni.showLoading({
-        title: "Loading...",
+        title: "加载中",
         mask: true,
     });
     let url = options.url || '', date = options.date || {}, type = options.type || 'GET', header = options.header || {};
     return new Promise((resolve, reject) => {
-        uni.request({
+        uni.downloadFile({
             url: baseUrl + url,
             data: date,
             header: Object.assign(defaultHeader, header),
@@ -23,12 +17,12 @@ const request = (options) => {
             timeout: 60000,
             dataType: 'json',
             success: (res) => {
-                // data statusCode header cookies
-                resolve(res);
+                console.log(res.data);
+                resolve(res)
             },
             fail: (err) => {
-                // 如果不处理异常信息，这里可以统一处理
-                reject(err);
+                console.log(err);
+                reject(err)
             },
             complete: () => {
                 ajaxTimes--;
