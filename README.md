@@ -36,7 +36,7 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
 ├─manifest.json         配置应用名称、appid、logo、版本等打包信息，详见
 └─pages.json            配置页面路由、导航条、选项卡等页面类信息，详见
 ```
-```html
+```
 有效目录	说明
 app-plus	App
 h5	H5
@@ -44,3 +44,35 @@ mp-weixin	微信小程序
 mp-alipay	支付宝小程序
 mp-baidu	百度小程序
 ```
+```
+┌─wxcomponents                  微信小程序自定义组件存放目录
+│   └──custom                   微信小程序自定义组件
+│        ├─index.js
+│        ├─index.wxml
+│        ├─index.json
+│        └─index.wxss
+├─mycomponents                  支付宝小程序自定义组件存放目录
+│   └──custom                   支付宝小程序自定义组件
+│        ├─index.js
+│        ├─index.axml
+│        ├─index.json
+│        └─index.acss
+├─swancomponents                百度小程序自定义组件存放目录
+│   └──custom                   百度小程序自定义组件
+│        ├─index.js
+│        ├─index.swan
+│        ├─index.json
+│        └─index.css
+├─pages
+│  └─index
+│        └─index.vue
+│
+├─static
+├─main.js
+├─App.vue
+├─manifest.json
+└─pages.json
+```
+# 注意点
+所有用到的图片需要转成base64 \
+~@添加路径前缀
