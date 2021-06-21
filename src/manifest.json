@@ -77,7 +77,7 @@
         "usingComponents" : true,
         "permission" : {
             "scope.userLocation" : {
-                "desc" : ""
+                "desc" : "请求位置"
             }
         }
     },
