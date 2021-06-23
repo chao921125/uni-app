@@ -1,15 +1,5 @@
-let baseUrl = '';
-if (process.env.NODE_ENV === 'production') {
-    baseUrl = 'https://unidemo.dcloud.net.cn';
-} else if (process.env.NODE_ENV === 'development') {
-    baseUrl = 'https://unidemo.dcloud.net.cn';
-} else {
-    baseUrl = 'https://unidemo.dcloud.net.cn';
-}
-// #ifdef H5
-baseUrl = '/api';
-// #endif
-
+import config from '@/plugins/config';
+const baseUrl = config.baseUrl;
 const defaultHeader = {};
 // 同时发送异步代码的次数，防止一次点击中有多次请求，用于处理
 let ajaxTimes=0;

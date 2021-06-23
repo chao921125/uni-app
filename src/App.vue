@@ -1,5 +1,7 @@
 <script>
   import { mapMutations } from 'vuex';
+  import constants from '@/utils/constants';
+
 	export default {
 		onLaunch: function() {
 			console.log('App Launch')
@@ -12,6 +14,8 @@
             this.login(res.data);
           }
         });
+      } else {
+        uni.redirectTo({ url: constants.routerList.authorization.url });
       }
 		},
 		onShow: function() {

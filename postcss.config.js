@@ -15,7 +15,9 @@ module.exports = {
       }
     }),
     require('autoprefixer')({
-      remove: process.env.UNI_PLATFORM !== 'h5'
+      overrideBrowserslist: ["> 1%", "last 2 versions", "not dead"],
+      remove: process.env.UNI_PLATFORM !== 'h5',
+      ignoreUnknownVersions: true
     }),
     require('@dcloudio/vue-cli-plugin-uni/packages/postcss')
   ]

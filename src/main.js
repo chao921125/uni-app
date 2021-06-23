@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import App from './App'
-import store from './plugins/store'
+import store from './store'
 import Mock from './mock'
 
 const msg = (title, duration = 1500, mask = false, icon = 'none')=>{

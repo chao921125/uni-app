@@ -1,5 +1,5 @@
 {
-    "name" : "123",
+    "name" : "lead name",
     "appid" : "__UNI__9270974",
     "description" : "",
     "versionName" : "1.0.0",
@@ -77,7 +77,7 @@
         "usingComponents" : true,
         "permission" : {
             "scope.userLocation" : {
-                "desc" : "请求位置"
+                "desc" : "请求位置信息"
             }
         }
     },

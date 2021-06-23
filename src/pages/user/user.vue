@@ -1,5 +1,5 @@
 <template>
-    <view>test user</view>
+    <view>我的</view>
 </template>
 
 <script>

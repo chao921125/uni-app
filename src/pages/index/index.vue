@@ -11,11 +11,34 @@
 		<view>
 			<text class="title">{{title}}</text>
 		</view>
+    <view>
+      <view>请选择您的身份</view>
+      <view>开启您的职领生涯</view>
+    </view>
+    <view>
+      <view>s</view>
+      <view>s</view>
+      <view>s</view>
+      <view>s</view>
+      <view>s</view>
+      <view>s</view>
+      <view>s</view>
+      <view>s</view>
+      <view>j</view>
+      <view>t</view>
+    </view>
+    <uni-badge text="2" type="success"></uni-badge>
+    <view><button  @click="gotoHome">确定</button></view>
+    <button class="btnInfo" open-type="getUserInfo"/>
+
 	</view>
 </template>
 
 <script>
+import {uniBadge} from '@dcloudio/uni-ui'
+
 	export default {
+    components: {uniBadge},
 		data() {
 			return {
 				title: 'Hello'
@@ -25,12 +48,14 @@
 
 		},
 		methods: {
-
+      gotoHome() {
+        uni.navigateTo({url: '/pages/home/home'})
+      }
 		}
 	}
 </script>
 
-<style>
+<style lang="scss">
 	.content {
 		display: flex;
 		flex-direction: column;
