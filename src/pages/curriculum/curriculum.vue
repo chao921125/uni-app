@@ -1,5 +1,5 @@
 <template>
-  <view>课程</view>
+  <view class="curriculum-box">课程</view>
 </template>
 
 <script>
@@ -8,6 +8,8 @@ export default {
 }
 </script>
 
-<style scoped>
-
+<style scoped lang="scss">
+.curriculum-box {
+  background-color: #FFFFFF;
+}
 </style>

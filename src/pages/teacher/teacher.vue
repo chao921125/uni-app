@@ -1,5 +1,5 @@
 <template>
-  <view>导师
+  <view class="teacher-box">导师
     <tab-bar :active="1"></tab-bar></view>
 </template>
 
@@ -14,6 +14,8 @@ export default {
 }
 </script>
 
-<style scoped>
-
+<style scoped lang="scss">
+.teacher-box {
+  background-color: #FFFFFF;
+}
 </style>

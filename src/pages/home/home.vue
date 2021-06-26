@@ -1,5 +1,5 @@
 <template>
-  <view>
+  <view class="home-box">
     首页
     <tab-bar :active="0"></tab-bar>
   </view>
@@ -17,5 +17,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
-
+.home-box {
+  background-color: #FFFFFF;
+}
 </style>

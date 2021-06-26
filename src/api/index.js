@@ -1,1 +1,3 @@
-const basePath = '';
+export default {
+    basePath: '/api'
+};

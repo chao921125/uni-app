@@ -65,11 +65,18 @@
 		"backgroundTextStyle": "dark",
 		"enablePullDownRefresh": true,
 		"usingComponents": {
+			"van-transition": "/wxcomponents/vant/transition/index",
 			"van-cell": "/wxcomponents/vant/cell/index",
 			"van-cell-group": "/wxcomponents/vant/cell-group/index",
+			"van-row": "/wxcomponents/vant/row/index",
+			"van-col": "/wxcomponents/vant/col/index",
+			"van-icon": "/wxcomponents/vant/icon/index",
+			"van-popup": "/wxcomponents/vant/popup/index",
+			"van-toast": "/wxcomponents/vant/toast/index",
 			"van-button": "/wxcomponents/vant/button/index",
 			"van-tabbar": "/wxcomponents/vant/tabbar/index",
-			"van-tabbar-item": "/wxcomponents/vant/tabbar-item/index"
+			"van-tabbar-item": "/wxcomponents/vant/tabbar-item/index",
+			"van-image": "/wxcomponents/vant/image/index"
 		}
 	}
 }

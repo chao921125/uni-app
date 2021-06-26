@@ -64,6 +64,7 @@
     "flyio": "^0.6.2",
     "nativeshare": "^2.1.5",
     "regenerator-runtime": "^0.12.1",
+    "vconsole": "^3.8.1",
     "vue": "^2.6.14",
     "vuex": "^3.6.2"
   },

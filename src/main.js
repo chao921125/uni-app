@@ -1,7 +1,14 @@
-import Vue from 'vue'
-import App from './App'
-import store from './store'
-import Mock from './mock'
+import Vue from 'vue';
+import App from './App';
+import store from './store';
+import Mock from './mock';
+// import VConsole from 'vconsole';
+
+if (process.env.NODE_ENV === 'development') {
+  // let vConsole = new VConsole();
+  // Vue.use(vConsole);
+  // Vue.prototype.$vconsole = new VConsole();
+}
 
 const msg = (title, duration = 1500, mask = false, icon = 'none')=>{
   //统一提示方便全局修改

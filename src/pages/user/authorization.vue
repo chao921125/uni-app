@@ -1,5 +1,5 @@
 <template>
-  <view>
+  <view class="author-box">
     <button class="user-info-btn" open-type="getUserInfo"
             @getuserinfo="GetUserInfo"
             withCredentials="true">123</button>
@@ -45,7 +45,7 @@ export default {
       console.log(res);
     },
     loginUser() {
-      login( { jsCode: 'test123' } ).then(res => {
+      login({ jsCode: 'test123' }).then(res => {
         console.log(res);
       }).cache(err => {
         console.log(err);
@@ -55,6 +55,8 @@ export default {
 }
 </script>
 
-<style scoped>
-
+<style scoped lang="scss">
+.author-box {
+  background-color: #FFFFFF;
+}
 </style>

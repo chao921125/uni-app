@@ -1,5 +1,5 @@
 <template>
-  <view>话题广场
+  <view class="topic-box">话题广场
     <tab-bar :active="2"></tab-bar></view>
 </template>
 
@@ -14,6 +14,8 @@ export default {
 }
 </script>
 
-<style scoped>
-
+<style scoped lang="scss">
+.topic-box {
+  background-color: #FFFFFF;
+}
 </style>
