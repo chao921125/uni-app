@@ -65,6 +65,8 @@
 		"backgroundTextStyle": "dark",
 		"enablePullDownRefresh": true,
 		"usingComponents": {
+			"van-cell": "/wxcomponents/vant/cell/index",
+			"van-cell-group": "/wxcomponents/vant/cell-group/index",
 			"van-button": "/wxcomponents/vant/button/index",
 			"van-tabbar": "/wxcomponents/vant/tabbar/index",
 			"van-tabbar-item": "/wxcomponents/vant/tabbar-item/index"

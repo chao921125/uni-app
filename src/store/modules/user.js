@@ -8,7 +8,7 @@ export default {
     },
     getters: {
         isTokenValid(state) {
-            return !!state.token && state.tokenExpired > Date.now()
+            return !!state.token && state.tokenExpired > Date.now();
         }
     },
     mutations: {
@@ -16,20 +16,20 @@ export default {
             token,
             tokenExpired
         }) => {
-            state.token = token
-            state.tokenExpired = tokenExpired
-            uni.setStorageSync('uni_id_token', token)
-            uni.setStorageSync('uni_id_token_expired', tokenExpired)
+            state.token = token;
+            state.tokenExpired = tokenExpired;
+            uni.setStorageSync('uni_id_token', token);
+            uni.setStorageSync('uni_id_token_expired', tokenExpired);
         },
         REMOVE_TOKEN: (state) => {
-            state.token = ''
-            state.tokenExpired = 0
-            state.userInfo = {}
-            uni.removeStorageSync('uni_id_token')
-            uni.removeStorageSync('uni_id_token_expired')
+            state.token = '';
+            state.tokenExpired = 0;
+            state.userInfo = {};
+            uni.removeStorageSync('uni_id_token');
+            uni.removeStorageSync('uni_id_token_expired');
         },
         SET_USER_INFO: (state, userInfo) => {
-            state.userInfo = userInfo
+            state.userInfo = userInfo;
         },
         login(state, provider) {
             state.hasLogin = true;
@@ -37,7 +37,7 @@ export default {
             uni.setStorage({//缓存用户登陆状态
                 key: 'userInfo',
                 data: provider
-            })
+            });
             console.log(state.userInfo);
         },
         logout(state) {
@@ -45,7 +45,7 @@ export default {
             state.userInfo = {};
             uni.removeStorage({
                 key: 'userInfo'
-            })
+            });
         }
     },
     actions: {}

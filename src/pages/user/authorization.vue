@@ -3,10 +3,13 @@
     <button class="user-info-btn" open-type="getUserInfo"
             @getuserinfo="GetUserInfo"
             withCredentials="true">123</button>
+    <van-button @click="loginUser">test api</van-button>
   </view>
 </template>
 
 <script>
+import { login } from '@/api/user';
+
 export default {
   name: "authorization",
   onShow() {
@@ -40,6 +43,13 @@ export default {
   methods: {
     GetUserInfo(res) {
       console.log(res);
+    },
+    loginUser() {
+      login( { jsCode: 'test123' } ).then(res => {
+        console.log(res);
+      }).cache(err => {
+        console.log(err);
+      });
     }
   }
 }

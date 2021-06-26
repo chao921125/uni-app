@@ -31,18 +31,18 @@ const mock = type=>{
   return new Promise(resolve=>{
     setTimeout(()=>{
       resolve(Mock[type]);
-    }, 500)
-  })
+    }, 500);
+  });
 }
 
-Vue.config.productionTip = false
+Vue.config.productionTip = false;
 Vue.prototype.$fire = new Vue();
 Vue.prototype.$store = store;
 Vue.prototype.$api = {msg, mock, prePage};
 
-App.mpType = 'app'
+App.mpType = 'app';
 
 const app = new Vue({
   ...App
-})
-app.$mount()
+});
+app.$mount();

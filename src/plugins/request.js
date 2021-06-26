@@ -14,13 +14,13 @@ const request = (options) => {
         title: "Loading...",
         mask: true,
     });
-    let url = options.url || '', date = options.date || {}, type = options.type || 'GET', header = options.header || {};
+    let url = options.url || '', data = options.data || {}, method = options.method || 'GET', header = options.header || {};
     return new Promise((resolve, reject) => {
         uni.request({
             url: baseUrl + url,
-            data: date,
+            data: data,
             header: Object.assign(defaultHeader, header),
-            method: type.toUpperCase(),
+            method: method.toUpperCase(),
             timeout: 60000,
             dataType: 'json',
             success: (res) => {
