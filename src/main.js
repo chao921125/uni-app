@@ -42,6 +42,11 @@ const mock = type=>{
   });
 }
 
+// 调试模式
+uni.setEnableDebug({
+  enableDebug: process.env.NODE_ENV === 'development'
+})
+
 Vue.config.productionTip = false;
 Vue.prototype.$fire = new Vue();
 Vue.prototype.$store = store;

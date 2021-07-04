@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta itemprop="image" content="https://app-funpoints-1259661131.cos.ap-hongkong.myqcloud.com/produce/uis/home/fun2.png"/>
+    <meta property="og:title"  content="GuuCube魔盒大抽獎 豐富「傳說對決」虛寶獎品等着你嚟攞！"/>
+    <!-- <meta property="og:description"  content="我啱啱玩咗GuuCube嘅魔盒抽獎活動！呢個活動有豐富禮物包括好多《傳說對決》虛寶，快啲入去GuuCube 參加啦!"/> -->
+    <meta property="og:type"  content="website"/>
+    <meta property="og:image"  content="https://app-funpoints-1259661131.cos.ap-hongkong.myqcloud.com/produce/uis/home/fun3.png"/>
+    <title>
+      <%= htmlWebpackPlugin.options.title %>
+    </title>
+    <script>
+      document.addEventListener('DOMContentLoaded', function () {
+        document.documentElement.style.fontSize = document.documentElement.clientWidth / 20 + 'px'
+      });
+      // 解决Safari放大缩小
+      window.onload = function () {
+        document.addEventListener('touchstart', function (event) {
+          if (event.touches.length > 1) {
+            event.preventDefault();
+          }
+        });
+        var lastTouchEnd = 0;
+        document.addEventListener('touchend', function (event) {
+          var now = (new Date()).getTime();
+          if (now - lastTouchEnd <= 300) {
+            event.preventDefault();
+          }
+          lastTouchEnd = now;
+        }, false);
+      }
+      window.addEventListener(
+        "onorientationchange" in window
+        ? "orientationchange"
+        : "resize",
+      function () {
+        if (window.orientation === 90 || window.orientation === -90) {
+          alert('橫屏有可能會影響您的用戶體驗，建議豎屏使用。');
+        }
+      },
+      false);
+    </script>
+    <script src="https://pv.sohu.com/cityjson?ie=utf-8"></script>
+    <!-- <script>
+      var _hmt = _hmt || [];
+      (function () {
+        var hm = document.createElement("script");
+        hm.src = "https://hm.baidu.com/hm.js?046a152a48f702c05f92e116c68";
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+      })();
+    </script>-->
+    <link rel="stylesheet" href="<%= BASE_URL %>static/index.css"/>
+    <link rel="icon" href="static/image/logo.png" type="image/x-icon">
+    <meta name="theme-color" content="#ffffff">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-title" content="Traceability">
+    <link rel="apple-touch-icon" href="/image/logo.png">
+    <!-- <link rel="manifest" href="./devmanifest.json"> -->
+  </head>
+  <body>
+    <noscript>
+      <strong>Please enable JavaScript to continue.</strong>
+    </noscript>
+    <div id="app"></div>
+    <!-- built files will be auto injected -->
+  </body>
+</html>
