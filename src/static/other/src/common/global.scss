@@ -1,0 +1,178 @@
+html,
+body {
+  // min-height: 100vh;
+  font-size: 28rpx;
+  line-height: 1.5;
+  margin: auto;
+  color: $text-color;
+}
+page {
+  background: #f8f8f8;
+}
+a:any-link {
+  color: #68c5c8;
+}
+.view-body {
+  min-height: 100vh;
+}
+.flex-base {
+  display: flex;
+  align-items: center;
+}
+.flex-row {
+  @extend .flex-base;
+  flex-direction: row;
+}
+.flex-row-center {
+  @extend .flex-row;
+  justify-content: center;
+}
+
+.flex-column {
+  @extend .flex-base;
+  flex-direction: column;
+}
+
+.flex-column-center {
+  @extend .flex-column;
+  justify-content: center;
+}
+
+.flex-between {
+  @extend .flex-base;
+  justify-content: space-between;
+}
+.flex-wrap {
+  flex: 1;
+}
+
+.button-hover {
+  opacity: 0.8;
+}
+
+/** 一行超出隐藏 */
+.text-single {
+  width: 350rpx;
+  display: block;
+  /*设置超过的隐藏*/
+  overflow: hidden;
+  /*设置不断行*/
+  white-space: nowrap;
+  /*这就是省略号喽*/
+  text-overflow: ellipsis;
+}
+
+/** 最多显示两行 */
+.text-twice {
+  width: 350rpx;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+
+/** 头像圆形图 */
+.image-round {
+  width: 120rpx;
+  height: 120rpx;
+  border-radius: 50%;
+  overflow: hidden;
+  display: block;
+  background-size: 100%;
+}
+
+.gray-tv {
+  font-weight: 500;
+  color: rgba(0, 0, 0, 1);
+  font-size: 24rpx !important;
+  transform: scale(0.8);
+  -webkit-transform: scale(0.8);
+  margin-left: -28rpx;
+  // color: $text-grey9;
+}
+
+.line {
+  width: 100%;
+  height: 2rpx;
+  background-color: $border-line;
+}
+
+.loading-text {
+  width: 100%;
+  text-align: center;
+  line-height: 60rpx;
+  color: $text-grey9;
+  font-size: 24rpx;
+}
+
+.footer {
+  width: calc(750rpx - 60rpx);
+  padding: 16rpx 30rpx;
+  position: sticky;
+  z-index: 10;
+  bottom: -0rpx;
+  height: 68rpx;
+  background: white;
+  box-shadow: 0px 0px 10rpx 0px rgba(0, 0, 0, 0.16);
+}
+
+.isipx-view {
+  padding-bottom: 30rpx !important;
+  background-color: white;
+}
+
+.btn-disable {
+  -webkit-filter: grayscale(100%) !important; /* Chrome, Safari, Opera */
+  filter: grayscale(100%) !important;
+}
+uni-button {
+  border-radius: 0;
+}
+uni-button:after {
+  border-radius: 0;
+  border: none;
+}
+// 给tabBar添加阴影效果
+uni-tabbar .uni-tabbar {
+  // box-shadow: 0rpx 0rpx 24rpx 0rpx rgba(0, 0, 0, 0.2);
+  box-shadow: 0rpx 0rpx 10rpx 0rpx rgba(0, 0, 0, 0.3);
+}
+uni-modal .uni-modal {
+  border-radius: 0;
+}
+.uni-tabbar :nth-last-child(3) {
+  margin-right: 100rpx;
+}
+.uni-tabbar :nth-last-child(3) .uni-tabbar__icon {
+  margin-right: 0;
+}
+uni-toast {
+  z-index: 1000;
+}
+@media screen and (min-width: 480px) {
+  html,
+  body {
+    width: 375px;
+    margin: auto;
+    background-color: #f3f3f3;
+  }
+  .uni-tabbar {
+    width: 375px !important;
+    margin: 0 auto;
+    left: calc(50% - 188px) !important;
+  }
+  .mpvue-picker-content {
+    width: 375px !important;
+    margin: auto;
+    left: calc(50% - 188px) !important;
+  }
+  .uni-page-head {
+    width: 375px !important;
+    margin: 0 auto;
+    left: calc(50% - 188px) !important;
+  }
+  .uni-sample-toast {
+    max-width: 370px !important ;
+  }
+}

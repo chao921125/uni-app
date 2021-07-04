@@ -76,3 +76,5 @@ mp-baidu	百度小程序
 # 注意点
 所有用到的图片需要转成base64 \
 ~@添加路径前缀
+
+node-sass/vendor/darwin-x64-72/binding.node

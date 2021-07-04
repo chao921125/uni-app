@@ -1,0 +1,205 @@
+{
+  "pages": [
+    {
+      "path": "pages/tabbar/tabbar-home",
+      "style": {
+        "navigationBarTitleText": "诗乐氏溯源小程序"
+      }
+    },
+    {
+      "path": "pages/tabbar/tabbar-code",
+      "style": {
+        "navigationBarTitleText": "扫码历史"
+      }
+    },
+    {
+      "path": "pages/tabbar/tabbar-healthy",
+      "style": {
+        "navigationBarTitleText": "健康资讯"
+      }
+    },
+    // {
+    //   "path": "pages/tabbar/tabbar-me",
+    //   "style": {
+    //     "navigationBarTitleText": "积分商城"
+    //   }
+    // },
+    {
+      "path": "pages/question/healthy-question",
+      "style": {
+        "navigationBarTitleText": "健康问答"
+      }
+    },
+    {
+      "path": "pages/question/healthy-answer",
+      "style": {
+        "navigationBarTitleText": "健康问答"
+      }
+    },
+    {
+      "path": "pages/question/article-detail",
+      "style": {
+        "navigationBarTitleText": "详情"
+      }
+    },
+    {
+      "path": "pages/login/check-code",
+      "style": {
+        "navigationBarTitleText": "输入口令"
+      }
+    },
+    {
+      "path": "pages/login/login",
+      "style": {
+        "navigationBarTitleText": "授权",
+        "app-plus": {
+          "titleView": false
+        }
+      }
+    },
+    {
+      "path": "pages/tab/service",
+      "style": {
+        "navigationBarTitleText": "咨询"
+      }
+    },
+    {
+      "path": "pages/tab/register",
+      "style": {
+        "navigationBarTitleText": "详情"
+      }
+    },
+    {
+      "path": "pages/tab/buy-medicine",
+      "style": {
+        "navigationBarTitleText": "在线购买"
+      }
+    },
+    {
+      "path": "pages/tab/sale",
+      "style": {
+        "navigationBarTitleText": "促销专区"
+      }
+    }
+  ],
+  "subPackages": [
+    {
+      "root": "pages2",
+      "pages": [
+        {
+          "path": "shop/detail",
+          "style": {
+            "navigationBarTitleText": "详情"
+          }
+        },
+        {
+          "path": "order/confirm-order",
+          "style": {
+            "navigationBarTitleText": "确认订单"
+          }
+        },
+        {
+          "path": "order/pay-result",
+          "style": {
+            "navigationBarTitleText": "支付完成"
+          }
+        },
+        {
+          "path": "order/group-order",
+          "style": {
+            "navigationBarTitleText": "确认团购订单"
+          }
+        },
+        {
+          "path": "order/group-success",
+          "style": {
+            "navigationBarTitleText": "成功开团"
+          }
+        },
+        {
+          "path": "traceability/traceability",
+          "style": {
+            "navigationBarTitleText": "区块链溯源"
+          }
+        },
+        {
+          "path": "traceability/traceability-home",
+          "style": {
+            "navigationBarTitleText": "区块链溯源"
+          }
+        },
+        {
+          "path": "article/article-detail",
+          "style": {
+            "navigationBarTitleText": ""
+          }
+        },
+        {
+          "path": "group/group-detail",
+          "style": {
+            "navigationBarTitleText": "团购详情"
+          }
+        },
+        {
+          "path": "join/join-detail",
+          "style": {
+            "navigationBarTitleText": "参团"
+          }
+        },
+        {
+          "path": "join/join-success",
+          "style": {
+            "navigationBarTitleText": "成功参团"
+          }
+        }
+      ]
+    }
+  ],
+  "globalStyle": {
+    "navigationBarTextStyle": "black",
+    "navigationBarBackgroundColor": "#ffffff",
+    "navigationBarTitleText": "Traceability",
+    "backgroundColor": "#EFF9F9"
+  },
+  "tabBar": {
+    "borderStyle": "white",
+    "backgroundColor": "#ffffff",
+    "color": "#000000",
+    "selectedColor": "#000000",
+    "list": [
+      {
+        "pagePath": "pages/tabbar/tabbar-home",
+        "iconPath": "static/image/other-home.png",
+        "selectedIconPath": "static/image/home-sle.png",
+        "text": "首页"
+      },
+      {
+        "pagePath": "pages/tabbar/tabbar-code",
+        "iconPath": "static/image/other-code.png",
+        "selectedIconPath": "static/image/code-sle.png",
+        "text": "扫码历史"
+      },
+      {
+        "pagePath": "pages/tabbar/tabbar-healthy",
+        "iconPath": "static/image/other-healthy.png",
+        "selectedIconPath": "static/image/healthy-sle.png",
+        "text": "健康资讯"
+      }
+      // {
+      //   "pagePath": "pages/tabbar/tabbar-me",
+      //   "iconPath": "static/image/other-me.png",
+      //   "selectedIconPath": "static/image/me-sle.png",
+      //   "text": "我的"
+      // }
+    ]
+  },
+  "condition": {
+    "current": 0,
+    "list": [
+      {
+        "name": "dev_houlin",
+        "path": "pages/tabbar/tabbar-home"
+      }
+    ]
+  }
+}

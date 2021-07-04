@@ -1,6 +1,20 @@
 const imgBaseUrl =
   'https://nft-1259661131.cos.ap-hongkong.myqcloud.com/images/';
 export default {
+  routerList: {
+    // 首页
+    home: { url: '/pages/home/home', label: '首页'},
+    // 导师
+    teacher: { url: '/pages/teacher/teacher', label: '导师'},
+    // 广场
+    topic: { url: '/pages/topic/topic', label: '广场'},
+    // 课程
+    curriculum: { url: '/pages/curriculum/curriculum', label: '课程'},
+    // 我的
+    user: { url: '/pages/user/user', label: '我的'},
+    // 授权
+    authorization: { url: '/pages/user/authorization', label: '我的'},
+  },
   params: {
     emailCodeTypeLogin: '1',
     emailCodeTypeRegister: '2',

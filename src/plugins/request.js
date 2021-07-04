@@ -1,16 +1,10 @@
-let baseUrl = '';
-if (process.env.NODE_ENV === 'production') {
-    baseUrl = 'https://unidemo.dcloud.net.cn';
-} else if (process.env.NODE_ENV === 'development') {
-    baseUrl = 'https://unidemo.dcloud.net.cn';
-} else {
-    baseUrl = 'https://unidemo.dcloud.net.cn';
-}
-// #ifdef H5
-baseUrl = '/api';
-// #endif
-
-const defaultHeader = {};
+import config from '@/plugins/config';
+const defaultHeader = {
+    'Access-Control-Allow-Origin': '*',
+    'Access-Control-Max-Age': '3600',
+    'Access': 'application/json',
+    'Content-Type': 'application/json;charset=utf-8'
+};
 // 同时发送异步代码的次数，防止一次点击中有多次请求，用于处理
 let ajaxTimes=0;
 // method
@@ -24,20 +18,23 @@ const request = (options) => {
         title: "Loading...",
         mask: true,
     });
-    let url = options.url || '', date = options.date || {}, type = options.type || 'GET', header = options.header || {};
+    debugger;
+    let url = options.url || '', data = options.data || {}, method = options.method || 'GET', header = options.header || {};
     return new Promise((resolve, reject) => {
         uni.request({
-            url: baseUrl + url,
-            data: date,
+            url: config.baseUrl + url,
+            data: data,
             header: Object.assign(defaultHeader, header),
-            method: type.toUpperCase(),
+            method: method.toUpperCase(),
             timeout: 60000,
             dataType: 'json',
             success: (res) => {
+                debugger;
                 // data statusCode header cookies
                 resolve(res);
             },
             fail: (err) => {
+                debugger;
                 // 如果不处理异常信息，这里可以统一处理
                 reject(err);
             },
