@@ -11,5 +11,19 @@ module.exports = {
             ]
             return args
         })
+        // const oneOfsMap = config.module.rule('scss').oneOfs.store
+        // oneOfsMap.forEach(item => {
+        //     item
+        //         .use('sass-resources-loader')
+        //         .loader('sass-resources-loader')
+        //         .options({
+        //             // Provide path to the file with resources（这里是你.scss文件所在路径）
+        //             resources: './path/to/resources.scss',
+        //
+        //             // Or array of paths（这个可以删掉）
+        //             resources: ['./path/to/vars.scss', './path/to/mixins.scss']
+        //         })
+        //         .end()
+        // })
     }
 }

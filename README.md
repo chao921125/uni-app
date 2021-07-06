@@ -1,4 +1,4 @@
-# mini-app
+# mini-app（小程序专属，其他不支持）
 
 ## Project setup
 ```
@@ -39,7 +39,7 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
 ```
 有效目录	说明
 app-plus	App
-h5	H5
+h5	H5      请忽略该项以及所有关于h5配置，（TMD报错）
 mp-weixin	微信小程序
 mp-alipay	支付宝小程序
 mp-baidu	百度小程序
@@ -77,4 +77,6 @@ mp-baidu	百度小程序
 所有用到的图片需要转成base64 \
 ~@添加路径前缀
 
+只有使用HBuildX工具需要修改node-sass包里的文件 \
+darwin-x64-72_binding.node(此文件需要跟随node版本进行下载替换) \
 node-sass/vendor/darwin-x64-72/binding.node
