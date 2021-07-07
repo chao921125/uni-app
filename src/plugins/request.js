@@ -18,7 +18,6 @@ const request = (options) => {
         title: "Loading...",
         mask: true,
     });
-    debugger;
     let url = options.url || '', data = options.data || {}, method = options.method || 'GET', header = options.header || {};
     return new Promise((resolve, reject) => {
         uni.request({
