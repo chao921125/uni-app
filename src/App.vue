@@ -1,6 +1,6 @@
 <script>
   import { mapMutations } from 'vuex';
-  import constants from '@/utils/constants';
+  import constants from '@/common/constants';
   // import { updateApp } from '@/api/app';
 
 	export default {
