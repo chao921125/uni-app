@@ -77,6 +77,6 @@ mp-baidu	百度小程序
 所有用到的图片需要转成base64 \
 ~@添加路径前缀
 
-只有使用HBuildX工具需要修改node-sass包里的文件 \
+只有使用HBuildX工具开发需要修改node-sass包里的文件 \
 darwin-x64-72_binding.node(此文件需要跟随node版本进行下载替换) \
 node-sass/vendor/darwin-x64-72/binding.node
