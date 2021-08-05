@@ -1,6 +1,6 @@
 <script>
   import { mapMutations } from 'vuex';
-  import constants from '@/common/constants';
+  // import constants from '@/common/constants';
   // import { updateApp } from '@/api/app';
 
 	export default {
@@ -70,18 +70,18 @@
         }
       })
       // #endif
-      let userInfo = uni.getStorageSync('userInfo') || '';
-      if(userInfo.id){
-        //更新登陆状态
-        uni.getStorage({
-          key: 'userInfo',
-          success: (res) => {
-            this.login(res.data);
-          }
-        });
-      } else {
-        uni.redirectTo({ url: constants.routerList.authorization.url });
-      }
+      // let userInfo = uni.getStorageSync('userInfo') || '';
+      // if(userInfo.id){
+      //   //更新登陆状态
+      //   uni.getStorage({
+      //     key: 'userInfo',
+      //     success: (res) => {
+      //       this.login(res.data);
+      //     }
+      //   });
+      // } else {
+      //   uni.redirectTo({ url: constants.routerList.authorization.url });
+      // }
 		},
 		onShow: function() {
 			console.log('App Show');

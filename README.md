@@ -73,6 +73,7 @@ mp-baidu	百度小程序
 ├─manifest.json
 └─pages.json
 ```
+
 # 注意点
 所有用到的图片需要转成base64 \
 ~@添加路径前缀

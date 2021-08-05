@@ -1,69 +1,81 @@
 {
 	"pages": [
 		{
-			"path": "pages/index/index",
+			"path": "pages/tab-bar/index",
 			"style": {
 				"navigationBarTitleText": "首页",
 				"navigationBarBackgroundColor": "#FFFFFF",
 				"navigationBarTextStyle": "black"
 			}
-		},
-        {
-        	"path": "pages/home/home",
-        	"style": {
-        		"navigationBarTitleText": "uni-app",
+		}, {
+			"path": "pages/tab-bar/wrong",
+			"style": {
+				"navigationBarTitleText": "我的错题",
 				"navigationBarBackgroundColor": "#FFFFFF",
 				"navigationBarTextStyle": "black"
-        	}
-        },
-        {
-        	"path": "pages/teacher/teacher",
-        	"style": {
-        		"navigationBarTitleText": "uni-app",
+			}
+		}, {
+			"path": "pages/tab-bar/ranking",
+			"style": {
+				"navigationBarTitleText": "排行榜",
 				"navigationBarBackgroundColor": "#FFFFFF",
 				"navigationBarTextStyle": "black"
-        	}
-        },
-        {
-        	"path": "pages/topic/topic",
-        	"style": {
-        		"navigationBarTitleText": "uni-app",
+			}
+		}, {
+			"path": "pages/tab-bar/my",
+			"style": {
+				"navigationBarTitleText": "我的",
 				"navigationBarBackgroundColor": "#FFFFFF",
 				"navigationBarTextStyle": "black"
-        	}
-        },
-        {
-        	"path": "pages/curriculum/curriculum",
-        	"style": {
-        		"navigationBarTitleText": "uni-app",
+			}
+		}, {
+			"path": "pages/subject/subject",
+			"style": {
+				"navigationBarTitleText": "练习",
 				"navigationBarBackgroundColor": "#FFFFFF",
 				"navigationBarTextStyle": "black"
-        	}
-        },
-        {
-        	"path": "pages/user/user",
-        	"style": {
-        		"navigationBarTitleText": "uni-app",
-				"navigationBarBackgroundColor": "#FFFFFF",
-				"navigationBarTextStyle": "black"
-        	}
-        },
-        {
-        	"path": "pages/user/authorization",
-        	"style": {
-        		"navigationBarTitleText": "uni-app",
-				"navigationBarBackgroundColor": "#FFFFFF",
-				"navigationBarTextStyle": "black"
-        	}
-        }
+			}
+		}
 	],
+	"tabBar": {
+		"color": "#B2B8D2",
+		"selectedColor": "#84BAF8",
+		"backgroundColor": "#FFFFFF",
+		"height": "50px",
+		"fontSize": "10px",
+		"iconWidth": "24px",
+		"spacing": "3px",
+		"list": [{
+			"pagePath": "pages/tab-bar/index",
+			"iconPath": "static/images/tabbar-template.png",
+			"selectedIconPath": "static/images/tabbar-templateHL.png",
+			"text": "首页"
+		}, {
+			"pagePath": "pages/tab-bar/wrong",
+			"iconPath": "static/images/tabbar-template.png",
+			"selectedIconPath": "static/images/tabbar-templateHL.png",
+			"text": "我的错题"
+		}, {
+			"pagePath": "pages/tab-bar/ranking",
+			"iconPath": "static/images/tabbar-template.png",
+			"selectedIconPath": "static/images/tabbar-templateHL.png",
+			"text": "排行榜"
+		}, {
+			"pagePath": "pages/tab-bar/my",
+			"iconPath": "static/images/tabbar-template.png",
+			"selectedIconPath": "static/images/tabbar-templateHL.png",
+			"text": "我的"
+		}]
+	},
 	"globalStyle": {
-		"navigationBarTextStyle": "black",
-		"navigationBarTitleText": "uni-app",
-		"navigationBarBackgroundColor": "#F8F8F8",
+		"navigationBarBackgroundColor": "#FFFFFF",
+		"navigationBarTextStyle": "white",
+		"navigationBarTitleText": "mini-app",
 		"backgroundColor": "#F8F8F8",
 		"backgroundTextStyle": "dark",
 		"enablePullDownRefresh": true,
+		"onReachBottomDistance": 50,
+		"pageOrientation": "portrait",
 		"usingComponents": {
 			"van-transition": "/wxcomponents/vant/transition/index",
 			"van-cell": "/wxcomponents/vant/cell/index",

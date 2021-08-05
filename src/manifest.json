@@ -1,6 +1,6 @@
 {
     "name" : "mini-app",
-    "appid" : "__UNI__9270974",
+    "appid" : "__UNI__0F5F011",
     "description" : "",
     "versionName" : "1.0.0",
     "versionCode" : "100",
@@ -115,7 +115,7 @@
     /* 快应用特有相关 */
     "mp-weixin" : {
         /* 微信小程序特有相关 */
-        "appid" : "wx12099672b6429a82",
+        "appid" : "wxa52bb659b38d1ae2",
         "setting" : {
             "urlCheck" : true,
             "minified" : true,
