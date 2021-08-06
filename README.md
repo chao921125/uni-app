@@ -1,82 +1,129 @@
-# mini-app（小程序专属，其他不支持）
+# hello-uniapp
 
-## Project setup
+`uni-app`框架示例，一套代码，同时发行到iOS、Android、H5、小程序等多个平台，请使用手机在下方扫码快速体验`uni-app`的强大功能。[官方文档](https://uniapp.dcloud.net.cn/)
+
+## 快速上手
+hello-uniapp 示例工程可以通过两种方式创建， 一种是 HBuilderX, 配套 IDE，集成开发；另一种是 CLI 创建；推荐前者。
+### 通过 HBuilderX 可视化界面创建（推荐）
+
+可视化的方式比较简单，HBuilderX内置相关环境，开箱即用，无需配置nodejs。
+
+开始之前，开发者需先下载安装如下工具：
+
+- HBuilderX：[官方IDE下载地址](https://www.dcloud.io/hbuilderx.html)
+
+HBuilderX是通用的前端开发工具，但为`uni-app`做了特别强化，请下载App开发版。
+
+由于截图在 github 不便浏览，参见官方文档 [HBuilderX 可视化界面创建](https://uniapp.dcloud.net.cn/quickstart?id=_1-%e9%80%9a%e8%bf%87-hbuilderx-%e5%8f%af%e8%a7%86%e5%8c%96%e7%95%8c%e9%9d%a2)
+
+### 通过 vue-cli 创建
+
 ```
-yarn install
+npm install -g @vue/cli
 ```
 
-### Compiles and hot-reloads for development
+#### 创建uni-app
+
+**使用正式版**（对应HBuilderX最新正式版）
+
 ```
-yarn serve
+vue create -p dcloudio/uni-preset-vue my-project
 ```
 
-### Compiles and minifies for production
+**使用alpha版**（对应HBuilderX最新alpha版）
+
 ```
-yarn build
+vue create -p dcloudio/uni-preset-vue#alpha my-alpha-project
 ```
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
-```
-┌─uniCloud              云空间目录，阿里云为uniCloud-aliyun,腾讯云为uniCloud-tcb（详见uniCloud）
-├─components            符合vue组件规范的uni-app组件目录
-│  └─comp-a.vue         可复用的a组件
-├─hybrid                App端存放本地html文件的目录，详见
-├─platforms             存放各平台专用页面的目录，详见
-├─pages                 业务页面文件存放的目录
-│  ├─index
-│  │  └─index.vue       index页面
-│  └─list
-│     └─list.vue        list页面
-├─static                存放应用引用的本地静态资源（如图片、视频等）的目录，注意：静态资源只能存放于此
-├─uni_modules           存放[uni_module](/uni_modules)规范的插件。
-├─wxcomponents          存放小程序组件的目录，详见
-├─main.js               Vue初始化入口文件
-├─App.vue               应用配置，用来配置App全局样式以及监听 应用生命周期
-├─manifest.json         配置应用名称、appid、logo、版本等打包信息，详见
-└─pages.json            配置页面路由、导航条、选项卡等页面类信息，详见
-```
-```
-有效目录	说明
-app-plus	App
-h5	H5      请忽略该项以及所有关于h5配置，（TMD报错）
-mp-weixin	微信小程序
-mp-alipay	支付宝小程序
-mp-baidu	百度小程序
-```
-```
-┌─wxcomponents                  微信小程序自定义组件存放目录
-│   └──custom                   微信小程序自定义组件
-│        ├─index.js
-│        ├─index.wxml
-│        ├─index.json
-│        └─index.wxss
-├─mycomponents                  支付宝小程序自定义组件存放目录
-│   └──custom                   支付宝小程序自定义组件
-│        ├─index.js
-│        ├─index.axml
-│        ├─index.json
-│        └─index.acss
-├─swancomponents                百度小程序自定义组件存放目录
-│   └──custom                   百度小程序自定义组件
-│        ├─index.js
-│        ├─index.swan
-│        ├─index.json
-│        └─index.css
-├─pages
-│  └─index
-│        └─index.vue
-│
-├─static
-├─main.js
-├─App.vue
-├─manifest.json
-└─pages.json
-```
-# 注意点
-所有用到的图片需要转成base64 \
-~@添加路径前缀
+此时，会提示选择项目模板，选择 `hello uni-app` 项目模板，如下所示：
 
-只有使用HBuildX工具开发需要修改node-sass包里的文件 \
-darwin-x64-72_binding.node(此文件需要跟随node版本进行下载替换) \
-node-sass/vendor/darwin-x64-72/binding.node
+<div>
+<img src="https://img.cdn.aliyun.dcloud.net.cn/guide/uniapp/h5-cli-01.png" width="300">
+</div>
+
+创建好后，进入项目目录
+```
+cd my-project
+```
+
+执行该命令运行到 h5 端
+```
+npm run dev:h5
+```
+
+欢迎提 issues，推荐到[官方社区](https://ask.dcloud.net.cn/explore/)提问。
+
+## 扫码体验
+
+<div class="quick">
+    <p>一套代码编到10个平台，这不是梦想。眼见为实，扫描10个二维码，亲自体验最全面的跨平台效果！</p>
+    <div style="display: flex;">
+      <a href="//m3w.cn/uniapp" target="_blank" class="clear-style barcode-view">
+        <div class="barcode-img-box">
+          <img src="https://vkceyugu.cdn.bspapp.com/VKCEYUGU-dc-site/ba7d0750-517d-11eb-bdc1-8bd33eb6adaa.png" width="160" />
+        </div>
+        <b>Android版</b>
+      </a>
+      <a href="https://itunes.apple.com/cn/app/hello-uni-app/id1417078253?mt=8" target="_blank" class="clear-style barcode-view">
+        <div class="barcode-img-box">
+          <img src="https://vkceyugu.cdn.bspapp.com/VKCEYUGU-dc-site/bb3ef7c0-517d-11eb-bdc1-8bd33eb6adaa.png" width="160" />
+        </div>
+        <b>iOS版</b>
+      </a>
+      <a href="https://hellouniapp.dcloud.net.cn/" target="_blank" class="clear-style barcode-view">
+        <div class="barcode-img-box">
+          <img src="https://vkceyugu.cdn.bspapp.com/VKCEYUGU-dc-site/bb3ef7c0-517d-11eb-bdc1-8bd33eb6adaa.png" width="160" />
+        </div>
+        <b>H5版</b>
+      </a>
+      <a href="//m3w.cn/uniapp" target="_blank" class="clear-style barcode-view">
+        <div class="barcode-img-box"><img src="//img.cdn.aliyun.dcloud.net.cn/guide/uniapp/gh_33446d7f7a26_430.jpg" width="160" /></div>
+        <b>微信小程序版</b>
+      </a>
+      <a href="//m3w.cn/uniapp" target="_blank" class="clear-style barcode-view">
+        <div class="barcode-img-box"><img src="https://vkceyugu.cdn.bspapp.com/VKCEYUGU-dc-site/b131e0d0-517d-11eb-a16f-5b3e54966275.png" width="160" /></div>
+        <b>支付宝小程序版</b>
+      </a>
+    </div>
+    <div class="flex-img-group-view" style="margin-top: 20px;">
+      <a href="//m3w.cn/uniapp" target="_blank" class="clear-style barcode-view">
+        <div class="barcode-img-box"><img src="https://vkceyugu.cdn.bspapp.com/VKCEYUGU-dc-site/b204e840-517d-11eb-8ff1-d5dcf8779628.png" width="160" /></div>
+        <b>百度小程序版</b>
+      </a>
+      <a href="//m3w.cn/uniapp" target="_blank" class="clear-style barcode-view">
+        <div class="barcode-img-box">
+          <img src="https://img.cdn.aliyun.dcloud.net.cn/guide/uniapp/mp-toutiao.png" width="160" />
+        </div>
+        <b>字节跳动小程序版</b>
+      </a>
+      <a href="//m3w.cn/uniapp" target="_blank" class="clear-style barcode-view">
+        <div class="barcode-img-box">
+          <img src="https://img.cdn.aliyun.dcloud.net.cn/guide/uniapp/hello-uni-qq.png" width="160" />
+        </div>
+        <b>QQ小程序版</b>
+      </a>
+      <a href="//m3w.cn/uniapp" target="_blank" class="clear-style barcode-view">
+        <div class="barcode-img-box">
+          <img src="https://img.cdn.aliyun.dcloud.net.cn/guide/uniapp/hello-uni-qa-union.png" width="160" />
+        </div>
+        <b>快应用</b>
+      </a>
+      <a href="https://so.mp.360.cn/mp.html?appid=qh4j181qqtru354st6" target="_blank" class="clear-style barcode-view">
+        <div class="barcode-img-box">
+          <img src="https://img.cdn.aliyun.dcloud.net.cn/guide/uniapp/hello-uni-mp-360-qr.png" width="160" />
+        </div>
+        <b>360小程序</b>
+      </a>
+    </div>
+    <p>
+        <em>注：某些平台不能提交简单demo，故补充了一些其他功能；hello uni-app示例代码可从[github](https://github.com/dcloudio/hello-uniapp)获取</em></br>
+        <em>快应用仅支持 vivo 、oppo、华为</em></br>
+        <em>360小程序仅 windows平台支持，需要在360浏览器中打开</em></br>
+    </p>
+</div>
+
+`uni-app`官网文档详见[https://uniapp.dcloud.io](https://uniapp.dcloud.io)
+
+更多uni-app的模板、示例详见[插件市场](https://ext.dcloud.net.cn/)
+
