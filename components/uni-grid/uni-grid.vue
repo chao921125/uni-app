@@ -24,7 +24,7 @@
 	 */
 	export default {
 		name: 'UniGrid',
-		emits: ['change'],
+		emits:['change'],
 		props: {
 			// 每列显示个数
 			column: {
@@ -67,7 +67,7 @@
 			this.children = []
 		},
 		mounted() {
-			this.$nextTick(() => {
+			this.$nextTick(()=>{
 				this.init()
 			})
 		},
@@ -106,7 +106,7 @@
 	}
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 	.uni-grid-wrap {
 		/* #ifndef APP-NVUE */
 		display: flex;
@@ -122,6 +122,7 @@
 		/* #ifndef APP-NVUE */
 		display: flex;
 		/* #endif */
+		// flex: 1;
 		flex-direction: row;
 		flex-wrap: wrap;
 	}
@@ -129,13 +130,13 @@
 	.uni-grid--border {
 		position: relative;
 		/* #ifdef APP-NVUE */
-		border-left-color: #e5e5e5;
+		border-left-color: $uni-border-color;
 		border-left-style: solid;
 		border-left-width: 0.5px;
 		/* #endif */
 		/* #ifndef APP-NVUE */
 		z-index: 1;
-		border-left: 1px #e5e5e5 solid;
+		border-left: 1px $uni-border-color solid;
 		/* #endif */
 	}
 </style>
