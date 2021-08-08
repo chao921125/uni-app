@@ -1456,3 +1456,50 @@ radio-group label, checkbox-group label{
 .left-win-active text{
 	color: #007AFF !important;
 }
+
+/* 自定义css */
+.cc-flex {
+	display: flex;
+}
+
+.cc-flex-center {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.cc-flex-align-center {
+	display: flex;
+	align-items: center;
+}
+
+.cc-flex-justify-center {
+	display: flex;
+	justify-content: center;
+}
+
+.cc-flex-space-between {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+}
+
+.cc-text-center {
+	text-align: center;
+}
+
+.cc-text-weight {
+	font-weight: 400;
+}
+
+.cc-text-bold {
+	font-weight: bold;
+}
+
+/* css common */
+.view-box {
+	min-height: 100vh;
+	background-color: #F5F5F5;
+	font-size: 32rpx;
+	color: #333333;
+}

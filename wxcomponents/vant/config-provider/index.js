@@ -1,11 +1,9 @@
 import { VantComponent } from '../common/component';
 VantComponent({
   props: {
-    title: String,
-    border: {
-      type: Boolean,
-      value: true,
+    themeVars: {
+      type: Object,
+      value: {},
     },
-    inset: Boolean,
   },
 });
