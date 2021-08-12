@@ -19,20 +19,20 @@
 				<view class="subject-left item-box">
 					<view class="item-sub">
 						<view class="cc-flex-center item-img">
-							<image class="img" :src="images.demoImg"></image>
+							<image class="img" :src="images.random"></image>
 						</view>
 						<view class="cc-flex-center item-title">乱序刷题</view>
 					</view>
 					<view class="item-sub">
 						<view class="cc-flex-center item-img">
-							<image class="img" :src="images.demoImg"></image>
+							<image class="img" :src="images.accurate"></image>
 						</view>
 						<view class="cc-flex-center item-title">专项刷题</view>
 					</view>
 				</view>
 				<view class="cc-flex-center subject-center">
 					<view class="center-box">
-						<image class="center-img" :src="images.demoImg"></image>
+						<image class="center-img" :src="images.accurate"></image>
 						<view class="cc-text-center center-text">
 							<view class="cc-flex-center center-title">顺序练习</view>
 							<view class="cc-flex-center center-num">0/0</view>
@@ -42,13 +42,13 @@
 				<view class="subject-right item-box">
 					<view class="item-sub">
 						<view class="cc-flex-center item-img">
-							<image class="img" :src="images.demoImg"></image>
+							<image class="img" :src="images.edit"></image>
 						</view>
 						<view class="cc-flex-center item-title">未作习题</view>
 					</view>
 					<view class="item-sub">
 						<view class="cc-flex-center item-img">
-							<image class="img" :src="images.demoImg"></image>
+							<image class="img" :src="images.wrong"></image>
 						</view>
 						<view class="cc-flex-center item-title">我的错题</view>
 					</view>
@@ -58,20 +58,20 @@
 				<view class="subject-left item-box">
 					<view class="item-sub">
 						<view class="cc-flex-center item-img">
-							<image class="img" :src="images.demoImg"></image>
+							<image class="img" :src="images.menu"></image>
 						</view>
 						<view class="cc-flex-center item-title">题型刷题</view>
 					</view>
 					<view class="item-sub">
 						<view class="cc-flex-center item-img">
-							<image class="img" :src="images.demoImg"></image>
+							<image class="img" :src="images.collect"></image>
 						</view>
 						<view class="cc-flex-center item-title">我的收藏</view>
 					</view>
 				</view>
 				<view class="cc-flex-center subject-center">
 					<view class="center-box">
-						<image class="center-img" :src="images.demoImg"></image>
+						<image class="center-img" :src="images.accurate"></image>
 						<view class="cc-text-center center-text">
 							<view class="cc-flex-center center-title">模拟考试</view>
 						</view>
@@ -80,13 +80,13 @@
 				<view class="subject-right item-box">
 					<view class="item-sub">
 						<view class="cc-flex-center item-img">
-							<image class="img" :src="images.demoImg"></image>
+							<image class="img" :src="images.accurate"></image>
 						</view>
 						<view class="cc-flex-center item-title">刷知识点</view>
 					</view>
 					<view class="item-sub">
 						<view class="cc-flex-center item-img">
-							<image class="img" :src="images.demoImg"></image>
+							<image class="img" :src="images.accurate"></image>
 						</view>
 						<view class="cc-flex-center item-title">自我测评</view>
 					</view>
@@ -105,7 +105,12 @@
 		data() {
 			return {
 				images: {
-					demoImg: require("@/static/icon/tab-home-current.png")
+					random: require("@/static/icon/home-random.png"),
+					edit: require("@/static/icon/home-edit.png"),
+					accurate: require("@/static/icon/home-accurate.png"),
+					wrong: require("@/static/icon/home-wrong.png"),
+					menu: require("@/static/icon/home-menu.png"),
+					collect: require("@/static/icon/home-collect.png"),
 				}
 			}
 		},
