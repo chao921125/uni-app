@@ -24,7 +24,9 @@ global['__wxRoute'] = 'vant/calendar/index'
 import { VantComponent } from '../common/component';
 import {
   ROW_HEIGHT,
+  getPrevDay,
   getNextDay,
+  getToday,
   compareDay,
   copyDates,
   calcDateNum,
@@ -35,6 +37,15 @@ import {
 } from './utils';
 import Toast from '../toast/toast';
 import { requestAnimationFrame } from '../common/utils';
+const initialMinDate = getToday().getTime();
+const initialMaxDate = (() => {
+  const now = getToday();
+  return new Date(
+    now.getFullYear(),
+    now.getMonth() + 6,
+    now.getDate()
+  ).getTime();
+})();
 VantComponent({
   props: {
     title: {
@@ -77,15 +88,11 @@ VantComponent({
     },
     minDate: {
       type: null,
-      value: Date.now(),
+      value: initialMinDate,
     },
     maxDate: {
       type: null,
-      value: new Date(
-        new Date().getFullYear(),
-        new Date().getMonth() + 6,
-        new Date().getDate()
-      ).getTime(),
+      value: initialMaxDate,
     },
     position: {
       type: String,
@@ -174,19 +181,46 @@ VantComponent({
         }
       });
     },
-    getInitialDate() {
-      const { type, defaultDate, minDate } = this.data;
+    limitDateRange(date, minDate = null, maxDate = null) {
+      minDate = minDate || this.data.minDate;
+      maxDate = maxDate || this.data.maxDate;
+      if (compareDay(date, minDate) === -1) {
+        return minDate;
+      }
+      if (compareDay(date, maxDate) === 1) {
+        return maxDate;
+      }
+      return date;
+    },
+    getInitialDate(defaultDate = null) {
+      const { type, minDate, maxDate } = this.data;
+      const now = getToday().getTime();
       if (type === 'range') {
+        if (!Array.isArray(defaultDate)) {
+          defaultDate = [];
+        }
         const [startDay, endDay] = defaultDate || [];
-        return [
-          startDay || minDate,
-          endDay || getNextDay(new Date(minDate)).getTime(),
-        ];
+        const start = this.limitDateRange(
+          startDay || now,
+          minDate,
+          getPrevDay(maxDate).getTime()
+        );
+        const end = this.limitDateRange(
+          endDay || now,
+          getNextDay(minDate).getTime()
+        );
+        return [start, end];
       }
       if (type === 'multiple') {
-        return defaultDate || [minDate];
+        if (Array.isArray(defaultDate)) {
+          return defaultDate.map((date) => this.limitDateRange(date));
+        }
+        return [this.limitDateRange(now)];
       }
-      return defaultDate || minDate;
+      if (!defaultDate || Array.isArray(defaultDate)) {
+        defaultDate = now;
+      }
+      return this.limitDateRange(defaultDate);
     },
     scrollIntoView() {
       requestAnimationFrame(() => {

@@ -1,4 +1,5 @@
 <template>
+	<!-- 个人信息 -->
     <view class="user-box">我的</view>
 </template>
 

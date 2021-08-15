@@ -22,16 +22,18 @@
 					<uni-list-item title="题目类型2" rightText="1" :showArrow="true" :clickable="true" />
 				</uni-list>
 			</view>
-			<view class="cc-flex-center no-data">
-				暂无数据
-			</view>
+			<no-data class="no-data"></no-data>
 		</view>
 	</view>
 </template>
 
 <script>
+	import NoData from "@/pages/component/no-data/no-data.vue";
 	export default {
 		name: "wrong",
+		components: {
+			NoData
+		},
 		data() {
 			return {
 				images: {
@@ -52,7 +54,7 @@
 		height: 500rpx;
 		position: relative;
 		z-index: 1;
-		background-color: #7BC0FD;
+		background-color: #6DB5FB;
 		.wrong-bg {
 			width: 100%;
 			height: 500rpx;
@@ -94,7 +96,7 @@
 				margin-top: 20rpx;
 				.btn-box {
 					width: 260rpx;
-					height: 100rpx;
+					height: 80rpx;
 					border-radius: 40rpx;
 					font-size: 32rpx;
 				}

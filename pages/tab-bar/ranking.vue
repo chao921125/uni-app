@@ -46,7 +46,7 @@
 	.search-box {
 		width: 100%;
 		height: 120rpx;
-		background-color: #7BC0FD;
+		background-color: #6DB5FB;
 		position: relative;
 		z-index: 1;
 		.search-bg {

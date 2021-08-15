@@ -22,16 +22,21 @@ VantComponent({
       type: Boolean,
       observer: 'updateChildren',
     },
+    direction: {
+      type: String,
+      value: 'vertical',
+    },
   },
   methods: {
     updateChildren() {
       this.children.forEach((child) => this.updateChild(child));
     },
     updateChild(child) {
-      const { value, disabled } = this.data;
+      const { value, disabled, direction } = this.data;
       child.setData({
         value: value.indexOf(child.data.name) !== -1,
         parentDisabled: disabled,
+        direction,
       });
     },
   },
@@ -39,5 +44,5 @@ VantComponent({
 export default global['__wxComponents']['vant/checkbox-group/index']
 </script>
 <style platform="mp-weixin">
-@import '../common/index.css';
+@import '../common/index.css';.van-checkbox-group--horizontal{display:-webkit-flex;display:flex;-webkit-flex-wrap:wrap;flex-wrap:wrap}
 </style>

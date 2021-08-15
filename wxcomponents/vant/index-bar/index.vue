@@ -16,7 +16,7 @@ global['__wxRoute'] = 'vant/index-bar/index'
 import { GREEN } from '../common/color';
 import { VantComponent } from '../common/component';
 import { useChildren } from '../common/relation';
-import { getRect } from '../common/utils';
+import { getRect, isDef } from '../common/utils';
 import { pageScrollMixin } from '../mixins/page-scroll';
 const indexList = () => {
   const indexList = [];
@@ -111,6 +111,9 @@ VantComponent({
     },
     setSiderbarRect() {
       return getRect(this, '.van-index-bar__sidebar').then((res) => {
+        if (!isDef(res)) {
+          return;
+        }
         this.sidebar = {
           height: res.height,
           top: res.top,

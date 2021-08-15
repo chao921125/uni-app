@@ -1,6 +1,8 @@
 <template>
 	<view class="view-box">
-		<view class="ad-box"></view>
+		<view class="ad-box">
+			<image class="ad-img" :src="images.demoBg"></image>
+		</view>
 		<view class="cc-flex-space-between user-count">
 			<view class="left-box count-item">
 				<view class="cc-flex-center count-title">坚持天数</view>
@@ -17,78 +19,58 @@
 		<view class="subject-box">
 			<view class="cc-flex-space-between subject-top subject-item">
 				<view class="subject-left item-box">
-					<view class="item-sub">
+					<view class="item-sub" @click="toExercises">
 						<view class="cc-flex-center item-img">
 							<image class="img" :src="images.random"></image>
 						</view>
 						<view class="cc-flex-center item-title">乱序刷题</view>
 					</view>
-					<view class="item-sub">
+					<view class="item-sub" @click="toSpecial">
 						<view class="cc-flex-center item-img">
 							<image class="img" :src="images.accurate"></image>
 						</view>
 						<view class="cc-flex-center item-title">专项刷题</view>
 					</view>
-				</view>
-				<view class="cc-flex-center subject-center">
-					<view class="center-box">
-						<image class="center-img" :src="images.accurate"></image>
-						<view class="cc-text-center center-text">
-							<view class="cc-flex-center center-title">顺序练习</view>
-							<view class="cc-flex-center center-num">0/0</view>
-						</view>
-					</view>
-				</view>
-				<view class="subject-right item-box">
-					<view class="item-sub">
-						<view class="cc-flex-center item-img">
-							<image class="img" :src="images.edit"></image>
-						</view>
-						<view class="cc-flex-center item-title">未作习题</view>
-					</view>
-					<view class="item-sub">
-						<view class="cc-flex-center item-img">
-							<image class="img" :src="images.wrong"></image>
-						</view>
-						<view class="cc-flex-center item-title">我的错题</view>
-					</view>
-				</view>
-			</view>
-			<view class="cc-flex-space-between subject-bottom subject-item">
-				<view class="subject-left item-box">
-					<view class="item-sub">
+					<view class="item-sub" @click="toTypes">
 						<view class="cc-flex-center item-img">
 							<image class="img" :src="images.menu"></image>
 						</view>
 						<view class="cc-flex-center item-title">题型刷题</view>
 					</view>
-					<view class="item-sub">
-						<view class="cc-flex-center item-img">
-							<image class="img" :src="images.collect"></image>
-						</view>
-						<view class="cc-flex-center item-title">我的收藏</view>
-					</view>
 				</view>
-				<view class="cc-flex-center subject-center">
-					<view class="center-box">
-						<image class="center-img" :src="images.accurate"></image>
+				<view class="cc-flex-center-column subject-center">
+					<view class="center-box" @click="toExercises">
+						<image class="center-img" :src="images.order"></image>
 						<view class="cc-text-center center-text">
+							<view class="cc-flex-center center-title">顺序练习</view>
+							<view class="cc-flex-center center-num">0/0</view>
+						</view>
+					</view>
+					<view class="center-box center-bottom" @click="toExam">
+						<image class="center-img" :src="images.examination"></image>
+						<view class="cc-text-center center-text center-t-btm">
 							<view class="cc-flex-center center-title">模拟考试</view>
 						</view>
 					</view>
 				</view>
 				<view class="subject-right item-box">
-					<view class="item-sub">
+					<view class="item-sub" @click="toExercises">
 						<view class="cc-flex-center item-img">
-							<image class="img" :src="images.accurate"></image>
+							<image class="img" :src="images.edit"></image>
 						</view>
-						<view class="cc-flex-center item-title">刷知识点</view>
+						<view class="cc-flex-center item-title">未作习题</view>
 					</view>
-					<view class="item-sub">
+					<view class="item-sub" @click="toExercises">
 						<view class="cc-flex-center item-img">
-							<image class="img" :src="images.accurate"></image>
+							<image class="img" :src="images.wrong"></image>
 						</view>
-						<view class="cc-flex-center item-title">自我测评</view>
+						<view class="cc-flex-center item-title">我的错题</view>
+					</view>
+					<view class="item-sub" @click="toTypes">
+						<view class="cc-flex-center item-img">
+							<image class="img" :src="images.collect"></image>
+						</view>
+						<view class="cc-flex-center item-title">我的收藏</view>
 					</view>
 				</view>
 			</view>
@@ -105,19 +87,41 @@
 		data() {
 			return {
 				images: {
+					demoBg: require("@/static/images/logo.png"),
 					random: require("@/static/icon/home-random.png"),
 					edit: require("@/static/icon/home-edit.png"),
 					accurate: require("@/static/icon/home-accurate.png"),
 					wrong: require("@/static/icon/home-wrong.png"),
 					menu: require("@/static/icon/home-menu.png"),
 					collect: require("@/static/icon/home-collect.png"),
+					order: require("@/static/icon/home-order.png"),
+					examination: require("@/static/icon/home-exam.png"),
 				}
 			}
 		},
 		methods: {
-			toSubject() {
+			// 专项
+			toSpecial() {
 				uni.navigateTo({
-					url: "/pages/subject/order/order"
+					url: "/pages/subject/special"
+				});
+			},
+			// 类型
+			toTypes() {
+				uni.navigateTo({
+					url: "/pages/subject/typs"
+				});
+			},
+			// 习题
+			toExercises() {
+				uni.navigateTo({
+					url: "/pages/subject/exercises"
+				});
+			},
+			// 考试
+			toExam() {
+				uni.navigateTo({
+					url: "/pages/subject/exam"
 				});
 			}
 		}
@@ -126,10 +130,14 @@
 
 <style scoped lang="scss">
 	.ad-box {
-		height: 100%;
+		width: 100%;
 		height: 300rpx;
 		background-color: #FFFFFF;
 		margin-bottom: 10rpx;
+		.ad-img {
+			width: 100%;
+			height: 300rpx;
+		}
 	}
 	.user-count {
 		margin-bottom: 10rpx;
@@ -201,6 +209,12 @@
 					top: calc(50% - 32rpx);
 					line-height: 32rpx;
 				}
+				.center-t-btm {
+					top: calc(50% - 16rpx);
+				}
+			}
+			.center-bottom {
+				margin-top: 44rpx;
 			}
 		}
 	}

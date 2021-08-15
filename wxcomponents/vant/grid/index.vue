@@ -48,6 +48,11 @@ VantComponent({
       type: String,
       observer: 'updateChildren',
     },
+    reverse: {
+      type: Boolean,
+      value: false,
+      observer: 'updateChildren',
+    },
   },
   methods: {
     updateChildren() {
@@ -60,5 +65,5 @@ VantComponent({
 export default global['__wxComponents']['vant/grid/index']
 </script>
 <style platform="mp-weixin">
-@import '../common/index.css';.van-grid{position:relative;box-sizing:border-box;overflow:hidden}
+@import '../common/index.css';.van-grid{position:relative;box-sizing:border-box;overflow:hidden;border-radius: 20rpx;}
 </style>

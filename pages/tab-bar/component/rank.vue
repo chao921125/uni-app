@@ -2,7 +2,7 @@
 	<view class="rank-box">
 		<view class="search-box">
 			<view class="cc-flex-align-center select-rank">
-				<image class="icon-rank" :src="images.demoBg"></image>
+				<image class="icon-rank" :src="images.iconOrder"></image>
 				<picker @change="changeRank" class="rank-value" :value="indexPick" :range="arrayPick" mode="selector">
 					<view class="uni-input">{{arrayPick[indexPick]}}</view>
 				</picker>
@@ -20,8 +20,10 @@
 		<scroll-view class="list-box" scroll-y="true">
 			<view class="cc-flex-space-between list-item item-body" v-for="(item, index) in 10" :key="index">
 				<view class="item-order">
-					<image v-if="[0, 1, 2, '1', '2', '0'].indexOf(index) > -1" class="icon" :src="images.demoBg"></image>
-					<text v-else>{{ item }}</text>
+					<image v-if="[0, '0'].indexOf(index) > -1" class="icon" :src="images.iconOrder1"></image>
+					<image v-else-if="[1, '1'].indexOf(index) > -1" class="icon" :src="images.iconOrder2"></image>
+					<image v-else-if="[2, '2'].indexOf(index) > -1" class="icon" :src="images.iconOrder3"></image>
+					<text v-else class="cc-flex-center icon">{{ item + 1 }}</text>
 				</view>
 				<view class="cc-flex-align-center item-name">
 					<image class="user-img" :src="images.demoBg"></image>
@@ -39,7 +41,11 @@
 			return {
 				images: {
 					demoImg: require("@/static/icon/tab-home-current.png"),
-					demoBg: require("@/static/images/logo.png")
+					demoBg: require("@/static/images/logo.png"),
+					iconOrder: require("@/static/icon/icon-order.png"),
+					iconOrder1: require("@/static/icon/icon-order1.png"),
+					iconOrder2: require("@/static/icon/icon-order2.png"),
+					iconOrder3: require("@/static/icon/icon-order3.png")
 				},
 				arrayPick: ["全国排行榜", "全球排行榜"],
 				indexPick: 0
@@ -62,18 +68,18 @@
 		.search-box {
 			width: 100%;
 			height: 200rpx;
-			background-color: #7BC0FD;
+			background-color: #6DB5FB;
 			.select-rank {
 				height: 80rpx;
 				.icon-rank {
-					width: 30rpx;
-					height: 60rpx;
+					width: 40rpx;
+					height: 80rpx;
 					margin-left: 40rpx;
 				}
 				.rank-value {
-					background-color: #7BC0FD;
+					background-color: #6DB5FB;
 					::v-deep.uni-input {
-						background-color: #7BC0FD;
+						background-color: #6DB5FB;
 						font-size: 32rpx;
 						color: #FFFFFF;
 					}
@@ -89,7 +95,7 @@
 			border-bottom: 1rpx solid #F2F1F6;
 			padding: 20rpx 0;
 			.icon {
-				width: 20rpx;
+				width: 40rpx;
 				height: 50rpx;
 			}
 		}

@@ -18,6 +18,7 @@ VantComponent({
       type: Boolean,
       value: true,
     },
+    inset: Boolean,
   },
 });
 export default global['__wxComponents']['vant/cell-group/index']

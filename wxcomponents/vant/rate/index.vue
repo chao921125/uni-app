@@ -1,13 +1,13 @@
 <template>
-<uni-shadow-root class="vant-rate-index"><view class="van-rate custom-class" @touchmove="onTouchMove">
-  <view v-for="(item,index) in (innerCountArray)" :key="item.index" class="van-rate__item" :style="'padding-right: '+(index !== count - 1 ? utils.addUnit(gutter) : '')">
-    <van-icon :name="index + 1 <= innerValue ? icon : voidIcon" class="van-rate__icon" :style="'font-size: '+(utils.addUnit(size))" custom-class="icon-class" :data-score="index" :color="disabled ? disabledColor : index + 1 <= innerValue ? color : voidColor" @click="onSelect"></van-icon>
+<uni-shadow-root class="vant-rate-index"><view :class="(utils.bem('rate'))+' custom-class'" @touchmove="onTouchMove">
+  <view v-for="(item,index) in (innerCountArray)" :key="item.index" :class="utils.bem('rate__item')" :style="style({ paddingRight: index !== count - 1 ? utils.addUnit(gutter) : null })">
+    <van-icon :name="index + 1 <= innerValue ? icon : voidIcon" :class="utils.bem('rate__icon', [{ disabled, full: index + 1 <= innerValue }])" :style="style({ fontSize: utils.addUnit(size) })" custom-class="icon-class" :data-score="index" :color="disabled ? disabledColor : index + 1 <= innerValue ? color : voidColor" @click="onSelect"></van-icon>
 
-    <van-icon v-if="allowHalf" :name="index + 0.5 <= innerValue ? icon : voidIcon" :class="utils.bem('rate__icon', ['half'])" :style="'font-size: '+(utils.addUnit(size))" custom-class="icon-class" :data-score="index - 0.5" :color="disabled ? disabledColor : index + 0.5 <= innerValue ? color : voidColor" @click="onSelect"></van-icon>
+    <van-icon v-if="allowHalf" :name="index + 0.5 <= innerValue ? icon : voidIcon" :class="utils.bem('rate__icon', ['half', { disabled, full: index + 0.5 <= innerValue }])" :style="style({ fontSize: utils.addUnit(size) })" custom-class="icon-class" :data-score="index - 0.5" :color="disabled ? disabledColor : index + 0.5 <= innerValue ? color : voidColor" @click="onSelect"></van-icon>
   </view>
 </view></uni-shadow-root>
 </template>
-<wxs src="../wxs/utils.wxs" module="utils"></wxs>
+<wxs src="../wxs/utils.wxs" module="utils"></wxs><wxs src="../wxs/style.wxs" module="style"></wxs>
 <script>
 import VanIcon from '../icon/index.vue'
 global['__wxVueOptions'] = {components:{'van-icon': VanIcon}}
@@ -40,18 +40,9 @@ VantComponent({
       type: String,
       value: 'star-o',
     },
-    color: {
-      type: String,
-      value: '#ffd21e',
-    },
-    voidColor: {
-      type: String,
-      value: '#c7c7c7',
-    },
-    disabledColor: {
-      type: String,
-      value: '#bdbdbd',
-    },
+    color: String,
+    voidColor: String,
+    disabledColor: String,
     count: {
       type: Number,
       value: 5,

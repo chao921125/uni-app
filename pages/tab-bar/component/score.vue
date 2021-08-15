@@ -39,10 +39,10 @@
 			<view class="sub-card">
 				<view class="cc-flex-space-between sub-is">
 					<view class="sub-num">
-						<view class="cc-flex-align-center num-week">本周达标<text class="week-num">0</text>天</view>
-						<view class="cc-flex-align-center num-total">累计达标<text class="total-num">0</text>天</view>
+						<view class="cc-flex-align-center num-week">累计签到<text class="week-num">0</text>天</view>
+						<view v-if="false" class="cc-flex-align-center num-total">累计达标<text class="total-num">0</text>天</view>
 					</view>
-					<view class="sub-tips">
+					<view v-if="false" class="sub-tips">
 						<view class="cc-flex-align-center tips-box">
 							<view class="tips-sub"></view>
 							<text class="tips-text">已达标</text>
@@ -101,7 +101,7 @@
 	  left: -20%;
 	  top: 0;
 	  border-radius: 0 0 50% 50%;  /* 不同点2 */
-	  background: #7BC0FD;
+	  background: #6DB5FB;
 	}
 	.card-box {
 		padding: 0 30rpx;

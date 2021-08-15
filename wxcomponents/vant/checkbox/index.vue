@@ -1,5 +1,5 @@
 <template>
-<uni-shadow-root class="vant-checkbox-index"><view class="van-checkbox custom-class">
+<uni-shadow-root class="vant-checkbox-index"><view :class="(utils.bem('checkbox', [{ horizontal: direction === 'horizontal' }]))+' custom-class'">
   <view v-if="labelPosition === 'left'" :class="'label-class '+(utils.bem('checkbox__label', [labelPosition, { disabled: disabled || parentDisabled }]))" @click="onClickLabel">
     <slot></slot>
   </view>
@@ -49,6 +49,7 @@ VantComponent({
   },
   data: {
     parentDisabled: false,
+    direction: 'vertical',
   },
   methods: {
     emitChange(value) {

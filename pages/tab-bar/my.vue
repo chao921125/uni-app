@@ -48,7 +48,7 @@
 		height: 280rpx;
 		position: relative;
 		z-index: 1;
-		background-color: #7BC0FD;
+		background-color: #6DB5FB;
 		.img-bg {
 			width: 100%;
 			height: 280rpx;

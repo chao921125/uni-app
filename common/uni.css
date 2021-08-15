@@ -1484,6 +1484,13 @@ radio-group label, checkbox-group label{
 	justify-content: space-between;
 }
 
+.cc-flex-center-column {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex-direction: column;
+}
+
 .cc-text-center {
 	text-align: center;
 }
@@ -1496,10 +1503,42 @@ radio-group label, checkbox-group label{
 	font-weight: bold;
 }
 
-/* css common */
+.cc-text-ell {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.cc-text-ell-line {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	display: -webkit-box;
+	-webkit-line-clamp: 2;
+	-webkit-box-orient: vertical;
+}
+
+.cc-card {
+    box-shadow: 4rpx 4rpx 4rpx 4rpx rgba(0, 0, 0, 0.2);
+    transition: 0.3s;
+    border-radius: 8rpx;
+	border: 1rpx solid #ebeef5;
+	background-color: #FFFFFF;
+	overflow: hidden;
+	color: #333333;
+}
+
+/* 
+zindex 1 99 特殊 999
+css common
+font-size: 22 24 26 28 30 32 34
+color: #333333 #4E9BF5 #FFFFFF #D6D7D8 #7A7D7C #000000
+background: #6DB5FB #FFFFFF #F4F4F4 #F2F1F8
+right: #6CBAE2 #EBF4F7
+wrong: #DAB9BC #FEEBEF
+ */
 .view-box {
 	min-height: 100vh;
-	background-color: #F5F5F5;
+	background-color: #F2F1F8;
 	font-size: 32rpx;
 	color: #333333;
 }

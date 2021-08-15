@@ -1,55 +1,90 @@
 {
-	"pages": [
-		{
-			"path": "pages/tab-bar/index",
-			"style": {
-				"navigationBarTitleText": "首页",
-				"navigationBarBackgroundColor": "#FFFFFF",
-				"navigationBarTextStyle": "black"
-			}
-		}, {
-			"path": "pages/tab-bar/wrong",
-			"style": {
-				"navigationBarTitleText": "我的错题",
-				"navigationBarBackgroundColor": "#7BC0FD",
-				"navigationBarTextStyle": "black"
-			}
-		}, {
-			"path": "pages/tab-bar/ranking",
-			"style": {
-				"navigationBarTitleText": "排行榜",
-				"navigationBarBackgroundColor": "#7BC0FD",
-				"navigationBarTextStyle": "black"
-			}
-		}, {
-			"path": "pages/tab-bar/my",
-			"style": {
-				"navigationBarTitleText": "我的",
-				"navigationBarBackgroundColor": "#7BC0FD",
-				"navigationBarTextStyle": "black"
-			}
-		}, {
-            "path" : "pages/login/login",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "",
-                "enablePullDownRefresh": false
-            }
-            
-        }
-    ],
+	"pages": [{
+		"path": "pages/tab-bar/index",
+		"style": {
+			"navigationBarTitleText": "首页",
+			"navigationBarBackgroundColor": "#FFFFFF",
+			"navigationBarTextStyle": "black"
+		}
+	}, {
+		"path": "pages/tab-bar/wrong",
+		"style": {
+			"navigationBarTitleText": "我的错题",
+			"navigationBarBackgroundColor": "#6DB5FB",
+			"navigationBarTextStyle": "white"
+		}
+	}, {
+		"path": "pages/tab-bar/ranking",
+		"style": {
+			"navigationBarTitleText": "排行榜",
+			"navigationBarBackgroundColor": "#6DB5FB",
+			"navigationBarTextStyle": "white"
+		}
+	}, {
+		"path": "pages/tab-bar/my",
+		"style": {
+			"navigationBarTitleText": "我的",
+			"navigationBarBackgroundColor": "#6DB5FB",
+			"navigationBarTextStyle": "white"
+		}
+	}, {
+		"path": "pages/login/login",
+		"style": {
+			"navigationBarTitleText": "登录",
+			"navigationBarBackgroundColor": "#6DB5FB",
+			"navigationBarTextStyle": "white",
+			"enablePullDownRefresh": false
+		}
+
+	}, {
+		"path": "pages/about/feedback",
+		"style": {
+			"navigationBarTitleText": "用户反馈",
+			"navigationBarBackgroundColor": "#6DB5FB",
+			"navigationBarTextStyle": "white",
+			"enablePullDownRefresh": false
+		}
+
+	}],
 	"subPackages": [{
 		"root": "pages/subject",
-		"pages": [
-			{
-				"path": "order/order",
-				"style": {
-					"navigationBarTitleText": "习题",
-					"navigationBarBackgroundColor": "#57A5F4",
-					"navigationBarTextStyle": "white"
-				}
+		"pages": [{
+			"path": "exam",
+			"style": {
+				"navigationBarTitleText": "考试",
+				"navigationBarBackgroundColor": "#6DB5FB",
+				"navigationBarTextStyle": "white",
+				"enablePullDownRefresh": false
 			}
-		]
+
+		}, {
+			"path": "exercises",
+			"style": {
+				"navigationBarTitleText": "联系",
+				"navigationBarBackgroundColor": "#6DB5FB",
+				"navigationBarTextStyle": "white",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "special",
+			"style": {
+				"navigationBarTitleText": "专项",
+				"navigationBarBackgroundColor": "#6DB5FB",
+				"navigationBarTextStyle": "white",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "typs",
+			"style": {
+				"navigationBarTitleText": "题型",
+				"navigationBarBackgroundColor": "#6DB5FB",
+				"navigationBarTextStyle": "white",
+				"enablePullDownRefresh": false
+			}
+
+		}]
 	}],
 	"tabBar": {
 		"color": "#B2B8D2",

@@ -1,14 +1,14 @@
 <template>
-<uni-shadow-root class="vant-slider-index"><view :class="'custom-class '+(utils.bem('slider', { disabled }))" :style="inactiveColor ? 'background:' + inactiveColor : ''" @click="onClick">
-  <view class="van-slider__bar" :style="(barStyle)+';'+(computed.barStyle(barHeight, activeColor))">
-    <view class="van-slider__button-wrapper" @touchstart="onTouchStart" @touchmove.stop.prevent="onTouchMove" @touchend="onTouchEnd" @touchcancel="onTouchEnd">
+<uni-shadow-root class="vant-slider-index"><view :class="'custom-class '+(utils.bem('slider', { disabled }))" :style="style({ background: inactiveColor, height: utils.addUnit(barHeight) })" @click="onClick">
+  <view :class="utils.bem('slider__bar')" :style="(barStyle)+'; '+(style({ backgroundColor: activeColor }))">
+    <view :class="utils.bem('slider__button-wrapper')" @touchstart="onTouchStart" @touchmove.stop.prevent="onTouchMove" @touchend="onTouchEnd" @touchcancel="onTouchEnd">
       <slot v-if="useButtonSlot" name="button"></slot>
-      <view v-else class="van-slider__button"></view>
+      <view v-else :class="utils.bem('slider__button')"></view>
     </view>
   </view>
 </view></uni-shadow-root>
 </template>
-<wxs src="../wxs/utils.wxs" module="utils"></wxs><wxs src="./index.wxs" module="computed"></wxs>
+<wxs src="../wxs/utils.wxs" module="utils"></wxs><wxs src="../wxs/style.wxs" module="style"></wxs>
 <script>
 
 global['__wxRoute'] = 'vant/slider/index'
@@ -44,10 +44,7 @@ VantComponent({
         }
       },
     },
-    barHeight: {
-      type: null,
-      value: 2,
-    },
+    barHeight: null,
   },
   created() {
     this.updateValue(this.data.value);

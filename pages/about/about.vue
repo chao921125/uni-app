@@ -1,4 +1,5 @@
 <template>
+	<!-- 关于我们 -->
 	<view class="about">
 		<view class="content">
 			<view class="qrcode">
