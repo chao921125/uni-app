@@ -5,14 +5,35 @@
 			<view class="cc-flex-center type">单选题</view>
 		</view>
 		<view class="body-content">
-			单选题单选题单选题单选题单选题单选题单选题单选题单选题单选题单选题单选题单选题单选题单选题单选题
+			{{isShowIf}}单选题单选题单选题单选题单选题单选题单选题单选题单选题单选题单选题单选题单选题单选题单选题单选题
 		</view>
-		<view class="body-answer">
-			<view class="answer-item" v-for="(item, index) in 4" :key="index" @click="changeSelect(item)"
-				:class="isRightWrong">
-				<!-- :class="isShowIf ? [item] === item ? 'answer-right' : 'answer-wrong' : ''"> -->
-				<text>A.</text><text class="answer-select">11111</text>
-			</view>
+		<view v-if="isShowIf" class="body-answer">
+			<template v-for="(item, index) in 4">
+				<view v-if="rightAnswer.includes(item)" class="answer-item answer-right" :key="index" @click="changeSelect(item)">
+					<!-- :class="isShowIf ? [item] === item ? 'answer-right' : 'answer-wrong' : ''"> -->
+					<text>A.</text><text class="answer-select">11111</text>
+				</view>
+				<view v-else-if="selectAnswer.includes(item)" class="answer-item answer-wrong" :key="index" @click="changeSelect(item)">
+					<!-- :class="isShowIf ? [item] === item ? 'answer-right' : 'answer-wrong' : ''"> -->
+					<text>A.</text><text class="answer-select">11111</text>
+				</view>
+				<view v-else class="answer-item" :key="index" @click="changeSelect(item)">
+					<!-- :class="isShowIf ? [item] === item ? 'answer-right' : 'answer-wrong' : ''"> -->
+					<text>A.</text><text class="answer-select">11111</text>
+				</view>
+			</template>
+		</view>
+		<view v-else class="body-answer">
+			<template v-for="(item, index) in 4">
+				<view v-if="selectAnswer.includes(item)" class="answer-item answer-right" :key="index" @click="changeSelect(item)">
+					<!-- :class="isShowIf ? [item] === item ? 'answer-right' : 'answer-wrong' : ''"> -->
+					<text>A.</text><text class="answer-select">11111</text>
+				</view>
+				<view v-else class="answer-item" :key="index" @click="changeSelect(item)">
+					<!-- :class="isShowIf ? [item] === item ? 'answer-right' : 'answer-wrong' : ''"> -->
+					<text>A.</text><text class="answer-select">11111</text>
+				</view>
+			</template>
 		</view>
 	</view>
 </template>
@@ -28,21 +49,8 @@
 		data() {
 			return {
 				selectAnswer: [],
-				isShowIf: false,
-				rightWrong: {}
+				isShowIf: false
 			};
-		},
-		computed: {
-			isRightWrong(item) {
-				if (this.selectAnswer.includes(item)) {
-					return {
-						"answer-right": true
-					};
-				}
-				return {
-					"answer-wrong": true
-				};
-			}
 		},
 		methods: {
 			changeSelect(item) {
@@ -52,14 +60,12 @@
 					// 移除当前选择的答案
 					this.selectAnswer.splice(isHasIndex, 1);
 					// 移除对象数据
-					delete this.rightWrong[item]
 					return ;
 				}
 				// 长度相等则无法继续选择
 				let isIf = this.selectAnswer.length === this.rightAnswer.length;
 				if (isIf) return ;
 				this.selectAnswer.push(item);
-				this.rightWrong[item] = item;
 				this.isShowIf = this.selectAnswer.length === this.rightAnswer.length;
 			}
 		}

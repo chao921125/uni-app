@@ -1,7 +1,7 @@
 <template>
 	<view class="view-box ranking-box">
 		<view class="cc-flex-center search-box">
-			<!-- <image class="search-bg" :src="images.demoBg"></image> -->
+			<!-- <image class="search-bg" :src="images.userHead"></image> -->
 			<view class="cc-flex-center btn-box">
 				<button class="cc-flex-center btn-item btn-rank" :class="{'btn-un-select-r' : isShowScore}" @tap="changeRankScore(false)">排行榜</button>
 				<button class="cc-flex-center btn-item btn-score" :class="{'btn-un-select-l' : !isShowScore}" @tap="changeRankScore(true)">我的成绩</button>
@@ -25,8 +25,7 @@
 		data() {
 			return {
 				images: {
-					demoImg: require("@/static/icon/tab-home-current.png"),
-					demoBg: require("@/static/images/logo.png")
+					userHead: require("@/static/images/user-head.png"),
 				},
 				isShowScore: false
 			}

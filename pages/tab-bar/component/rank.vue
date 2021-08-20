@@ -26,7 +26,7 @@
 					<text v-else class="cc-flex-center icon">{{ item + 1 }}</text>
 				</view>
 				<view class="cc-flex-align-center item-name">
-					<image class="user-img" :src="images.demoBg"></image>
+					<image class="user-img" :src="images.userHead"></image>
 					<view class="user-name">{{ item }}</view>
 				</view>
 				<view class="item-score">{{ item }}</view>
@@ -40,8 +40,7 @@
 		data() {
 			return {
 				images: {
-					demoImg: require("@/static/icon/tab-home-current.png"),
-					demoBg: require("@/static/images/logo.png"),
+					userHead: require("@/static/images/user-head.png"),
 					iconOrder: require("@/static/icon/icon-order.png"),
 					iconOrder1: require("@/static/icon/icon-order1.png"),
 					iconOrder2: require("@/static/icon/icon-order2.png"),

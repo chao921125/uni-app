@@ -36,15 +36,6 @@
 			"enablePullDownRefresh": false
 		}
 
-	}, {
-		"path": "pages/about/feedback",
-		"style": {
-			"navigationBarTitleText": "用户反馈",
-			"navigationBarBackgroundColor": "#6DB5FB",
-			"navigationBarTextStyle": "white",
-			"enablePullDownRefresh": false
-		}
-
 	}],
 	"subPackages": [{
 		"root": "pages/subject",
@@ -79,6 +70,57 @@
 			"path": "typs",
 			"style": {
 				"navigationBarTitleText": "题型",
+				"navigationBarBackgroundColor": "#6DB5FB",
+				"navigationBarTextStyle": "white",
+				"enablePullDownRefresh": false
+			}
+
+		}]
+	}, {
+		"root": "pages/user",
+		"pages": [{
+			"path": "user",
+			"style": {
+				"navigationBarTitleText": "个人设置",
+				"navigationBarBackgroundColor": "#6DB5FB",
+				"navigationBarTextStyle": "white",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "safe-account",
+			"style": {
+				"navigationBarTitleText": "安全设置",
+				"navigationBarBackgroundColor": "#6DB5FB",
+				"navigationBarTextStyle": "white",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "safe",
+			"style": {
+				"navigationBarTitleText": "安全设置",
+				"navigationBarBackgroundColor": "#6DB5FB",
+				"navigationBarTextStyle": "white",
+				"enablePullDownRefresh": false
+			}
+
+		}]
+	}, {
+		"root": "pages/about",
+		"pages": [{
+			"path": "about",
+			"style": {
+				"navigationBarTitleText": "关于我们",
+				"navigationBarBackgroundColor": "#6DB5FB",
+				"navigationBarTextStyle": "white",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "feedback",
+			"style": {
+				"navigationBarTitleText": "用户反馈",
 				"navigationBarBackgroundColor": "#6DB5FB",
 				"navigationBarTextStyle": "white",
 				"enablePullDownRefresh": false

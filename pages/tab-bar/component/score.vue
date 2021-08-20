@@ -5,7 +5,7 @@
 			<view class="cc-flex-center score-body score-title">我的成绩</view>
 		</view>
 		<view class="card-box">
-			<view class="card-body">
+			<view class="cc-card card-body">
 				<!-- 需要修改内置样式 -->
 				<van-grid column-num="3" :border="false" class="card-grid">
 				  <van-grid-item use-slot class="card-item">
@@ -36,7 +36,7 @@
 			</view>
 		</view>
 		<view class="substance">
-			<view class="sub-card">
+			<view class="cc-card sub-card">
 				<view class="cc-flex-space-between sub-is">
 					<view class="sub-num">
 						<view class="cc-flex-align-center num-week">累计签到<text class="week-num">0</text>天</view>
@@ -112,7 +112,7 @@
 		color: #333333;
 		.card-body {
 			border-radius: 20rpx;
-			box-shadow: 0px 10rpx 10rpx #D6D6D6;
+			// box-shadow: 0px 10rpx 10rpx #D6D6D6;
 			.card-grid {
 				border-radius: 20rpx;
 				::v-deep.van-grid {
@@ -130,7 +130,7 @@
 		.sub-card {
 			border-radius: 20rpx;
 			padding: 20rpx;
-			box-shadow: 10rpx 10rpx 10rpx #D6D6D6;
+			// box-shadow: 10rpx 10rpx 10rpx #D6D6D6;
 			.sub-is {
 				.sub-num {
 					.num-week {

@@ -1,7 +1,7 @@
 <template>
 	<view class="view-box">
 		<view class="ad-box">
-			<image class="ad-img" :src="images.demoBg"></image>
+			<image class="ad-img" :src="images.userHead"></image>
 		</view>
 		<view class="cc-flex-space-between user-count">
 			<view class="left-box count-item">
@@ -87,7 +87,7 @@
 		data() {
 			return {
 				images: {
-					demoBg: require("@/static/images/logo.png"),
+					userHead: require("@/static/images/user-head.png"),
 					random: require("@/static/icon/home-random.png"),
 					edit: require("@/static/icon/home-edit.png"),
 					accurate: require("@/static/icon/home-accurate.png"),

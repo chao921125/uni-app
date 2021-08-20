@@ -2,7 +2,7 @@
 	<view class="fb-box">
 		<view class="body-item body-contact"><input class="contact" placeholder="请输入你的联系方式" v-model="form.contact"/></view>
 		<view class="body-item body-feedback"><textarea class="feedback" placeholder="请输入反馈信息,我们将及时改进" auto-height v-model="form.feedback"/></view>
-		<view class="cc-flex-center body-btn"><button class="btn">提交</button></view>
+		<view class="cc-flex-center body-btn"><button class="cc-flex-center btn">提交</button></view>
 	</view>
 </template>
 
@@ -48,7 +48,7 @@
 		margin-top: 80rpx;
 		.btn {
 			width: 500rpx;
-			height: 60rpx;
+			height: 80rpx;
 			font-size: 24rpx;
 			background-color: #6DB5FB;
 			color: #FFFFFF;

@@ -1517,16 +1517,6 @@ radio-group label, checkbox-group label{
 	-webkit-box-orient: vertical;
 }
 
-.cc-card {
-    box-shadow: 4rpx 4rpx 4rpx 4rpx rgba(0, 0, 0, 0.2);
-    transition: 0.3s;
-    border-radius: 8rpx;
-	border: 1rpx solid #ebeef5;
-	background-color: #FFFFFF;
-	overflow: hidden;
-	color: #333333;
-}
-
 /* 
 zindex 1 99 特殊 999
 css common
@@ -1541,4 +1531,26 @@ wrong: #DAB9BC #FEEBEF
 	background-color: #F2F1F8;
 	font-size: 32rpx;
 	color: #333333;
+}
+
+.cc-card {
+    box-shadow: 4rpx 4rpx 4rpx 4rpx rgba(0, 0, 0, 0.2);
+    transition: 0.3s;
+    border-radius: 8rpx;
+	border: 1rpx solid #ebeef5;
+	background-color: #FFFFFF;
+	overflow: hidden;
+	color: #333333;
+}
+
+.cc-text-click {
+	color: #4E9BF5;
+}
+
+.cc-btn {
+	width: 500rpx;
+	height: 80rpx;
+	background-color: #6DB5FB;
+	color: #FFFFFF;
+	font-size: 26rpx;
 }
