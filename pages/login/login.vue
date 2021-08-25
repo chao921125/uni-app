@@ -20,11 +20,13 @@
 				</view>
 				<view class="cc-flex-center wx-text">微信登录</view>
 			</view>
+			<view><button @click="faceUp">人脸识别</button></view>
 		</view>
 	</view>
 </template>
 
 <script>
+	import { isOpenSetting, getOpenSetting } from "@/common/plugin.js";
 	export default {
 		data() {
 			return {
@@ -103,6 +105,22 @@
 						console.log("获取用户信息失败", e);
 					}
 				});
+			},
+			faceUp() {
+				isOpenSetting(5).then(res => {
+					console.log(res);
+				});
+				getOpenSetting().then(res => {
+					console.log(res);
+				});
+				// uni.chooseImage({
+				// 	count: 1,
+				// 	sizeType: ["original", "compressed"],
+				// 	sourceType: ["camera"],
+				// 	success: (res) => {
+				// 		console.log(res);
+				// 	}
+				// });
 			}
 		}
 	}
