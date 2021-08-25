@@ -141,7 +141,52 @@ export function scren() {
     // plus.screen.unlockOrientation(); 
 }
 
+/**
+ * 获取已经授权的列表
+ */
+export function getOpenSetting() {
+	uni.getSetting({
+		success(res) {
+			return res.authSetting;
+		},
+		fail() {
+			return null;
+		}
+	});
+}
+/**
+ * 判断当前权限是否已经开启
+ * @param {Object} type
+ */
+export function isOpenSetting(type) {
+	if (!type) return false;
+	type = Number(type);
+	let key = "";
+	switch(type) {
+		case 1: key = "scope.userInfo"; break; // 用户信息 uni.getUserInfo
+		case 2: key = "scope.userLocation"; break; // 地理位置 uni.getLocation, uni.chooseLocation
+		case 3: key = "scope.userLocationBackground"; break; // 后台定位 wx.userLocationBackground
+		case 4: key = "scope.address"; break; // 通信地址 uni.chooseAddress
+		case 5: key = "scope.record"; break; // 录音功能 uni.getRecorderManager
+		case 6: key = "scope.writePhotosAlbum"; break; // 保存到相册 uni.saveImageToPhotosAlbum, uni.saveVideoToPhotosAlbum
+		case 7: key = "scope.camera"; break; // 摄像头 <camera />
+		case 8: key = "scope.invoice"; break; // 获取发票 wx.chooseInvoice
+		case 9: key = "scope.invoiceTitle"; break; // 发票抬头 uni.chooseInvoiceTitle
+		case 10: key = "scope.werun"; break; // 微信运动步数 wx.getWeRunData
+		default: key = ""; break;
+	}
+	if (!key) return false;
+	uni.openSetting({
+		success(res) {
+			return res.authSetting[key];
+		},
+		fail() {
+			return false;
+		}
+	});
+}
 export function loginWX() {
+	// 获取已经授权的列表信息
 	uni.authorize({
 	    scope: 'uni.getUserInfo',
 	    success() {
@@ -153,4 +198,23 @@ export function loginWX() {
 	        });
 	    }
 	});
+}
+
+/**
+ * 授权登录
+ */
+export function oauthWX() {
+	uni.getProvider({
+		service: "oauth	",
+		success: function(res) {
+			console.log(res);
+		},
+		fail: function() {
+			uni.showToast({
+			    title: "error",
+			    icon: 'none'
+			});
+		},
+		complete: function() {}
+	})
 }

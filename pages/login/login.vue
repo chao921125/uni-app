@@ -21,10 +21,6 @@
 				<view class="cc-flex-center wx-text">微信登录</view>
 			</view>
 		</view>
-		<!-- 如果用手机号登录，获取手机号码相关信息 -->
-		<button type="primary" open-type="getPhoneNumber" lang="zh_CN" @getphonenumber="getPhoneNumber">手机号一键登录</button>
-		<!-- 如果用微信登录，获取微信相关用户信息 -->
-		<button open-type="getUserInfo" lang="zh_CN" @getuserinfo="onGotUserInfo">获取用户信息</button>
 	</view>
 </template>
 
@@ -51,7 +47,8 @@
 					success(res) {
 						if (res.authSetting['scope.userInfo']) {
 							// 用户信息已授权，获取用户信息
-							uni.getUserInfo({
+							uni.getUserProfile({
+								desc: "用于完善会员资料",
 								success(res) {
 									console.log(res);
 								},
@@ -93,23 +90,18 @@
 					}
 				})
 			},
-			// 手机登录时获取手机号码相关信息的函数
-			getPhoneNumber(e) {
-				console.log(e);
-			},
 			wxLogin() {
-				debugger;
-				uni.authorize({
-				    scope: 'uni.getUserInfo',
-				    success(res) {
-						console.log(res);
-				        uni.getUserInfo({
-				            provider: 'weixin',
-				            success: function (infoRes) {
-								console.log('用户昵称为：' + infoRes.userInfo.nickName);
-				            }
-				        });
-				    }
+				uni.getUserProfile({
+				    desc: "完善用户资料",
+				    success: function (res) {
+						console.log('获取用户信息：' + JSON.stringify(res.userInfo));
+						uni.navigateTo({
+							url: "/"
+						});
+				    },
+					fail: function(e) {
+						console.log("获取用户信息失败", e);
+					}
 				});
 			}
 		}
