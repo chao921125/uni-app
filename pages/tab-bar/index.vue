@@ -82,6 +82,8 @@
 </template>
 
 <script>
+	import { bannerGet } from "@/api/other.js";
+	
 	export default {
 		name: "index",
 		data() {
@@ -99,7 +101,18 @@
 				}
 			}
 		},
+		onShow() {
+			this.initData();
+		},
 		methods: {
+			initData() {
+				this.getBanner();
+			},
+			getBanner() {
+				bannerGet({}).then(res => {
+					console.log(res);
+				});
+			},
 			// 专项
 			toSpecial() {
 				uni.navigateTo({
