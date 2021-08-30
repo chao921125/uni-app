@@ -1,7 +1,10 @@
 <template>
 	<view class="score-box">
 		<view class="my-score">
-			<view class="cc-flex-center score-body score">0</view>
+			<view class="cc-flex-center score-body score">
+				<text v-if="score">{{ score.sorce || 0 }}</text>
+				<text v-else>0</text>
+			</view>
 			<view class="cc-flex-center score-body score-title">我的成绩</view>
 		</view>
 		<view class="card-box">
@@ -9,27 +12,45 @@
 				<!-- 需要修改内置样式 -->
 				<van-grid column-num="3" :border="false" class="card-grid">
 				  <van-grid-item use-slot class="card-item">
-					  <view class="cc-flex-center card-text text-num">0</view>
+					  <view class="cc-flex-center card-text text-num">
+						  <text v-if="score">{{ score.jige || 0 }}</text>
+						  <text v-else>0</text>
+					  </view>
 					  <view class="cc-flex-center card-text text-title">及格次数</view>
 				  </van-grid-item>
 				  <van-grid-item use-slot class="card-item">
-					  <view class="cc-flex-center card-text text-num">0</view>
+					  <view class="cc-flex-center card-text text-num">
+						  <text v-if="score">{{ score.total || 0 }}</text>
+						  <text v-else>0</text>
+					  </view>
 					  <view class="cc-flex-center card-text text-title">累计考试次数</view>
 				  </van-grid-item>
-				  <van-grid-item use-slot class="card-item">
-					  <view class="cc-flex-center card-text text-num">0</view>
+				  <van-grid-item v-if="false" use-slot class="card-item">
+					  <view class="cc-flex-center card-text text-num">
+						  <text v-if="score">{{ score.sorce || 0 }}</text>
+						  <text v-else>0</text>
+					  </view>
 					  <view class="cc-flex-center card-text text-title">分数预测</view>
 				  </van-grid-item>
 				  <van-grid-item use-slot class="card-item">
-					  <view class="cc-flex-center card-text text-num">0</view>
+					  <view class="cc-flex-center card-text text-num">
+						  <text v-if="score">{{ score.havenum || 0 }}</text>
+						  <text v-else>0</text>
+					  </view>
 					  <view class="cc-flex-center card-text text-title">做题数量</view>
 				  </van-grid-item>
 				  <van-grid-item use-slot class="card-item">
-					  <view class="cc-flex-center card-text text-num">0</view>
+					  <view class="cc-flex-center card-text text-num">
+						  <text v-if="score">{{ score.right || 0 }}%</text>
+						  <text v-else>0</text>
+					  </view>
 					  <view class="cc-flex-center card-text text-title">正确率</view>
 				  </van-grid-item>
 				  <van-grid-item use-slot class="card-item">
-					  <view class="cc-flex-center card-text text-num">0</view>
+					  <view class="cc-flex-center card-text text-num">
+						  <text v-if="score">{{ score.nonum || 0 }}</text>
+						  <text v-else>0</text>
+					  </view>
 					  <view class="cc-flex-center card-text text-title">未做数量</view>
 				  </van-grid-item>
 				</van-grid>
@@ -39,7 +60,9 @@
 			<view class="cc-card sub-card">
 				<view class="cc-flex-space-between sub-is">
 					<view class="sub-num">
-						<view class="cc-flex-align-center num-week">累计签到<text class="week-num">0</text>天</view>
+						<view class="cc-flex-align-center num-week">
+							累计签到<text v-if="score" class="week-num">{{ score.timelog || 0 }}</text>
+							<text v-else class="week-num">0</text>天</view>
 						<view v-if="false" class="cc-flex-align-center num-total">累计达标<text class="total-num">0</text>天</view>
 					</view>
 					<view v-if="false" class="sub-tips">
@@ -62,13 +85,11 @@
 
 <script>
 	export default {
-		data() {
-			return {
-				
-			};
-		},
-		created() {
-			console.log("score");
+		props: {
+			score: {
+				type: Object,
+				default: () => { return null; }
+			}
 		}
 	}
 </script>

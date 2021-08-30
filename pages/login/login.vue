@@ -5,13 +5,15 @@
 			<view class="cc-flex-center login-title">请登录</view>
 			<view class="cc-flex-center form-phone">
 				<image class="input-icon" :src="images.iconPhone"></image>
-				<input class="form-input" placeholder="请输入账号" />
+				<input class="form-input" maxlength="20" v-model="form.name" placeholder="请输入账号" />
 			</view>
 			<view class="cc-flex-center form-code">
 				<image class="input-icon" :src="images.iconLock"></image>
-				<input class="form-input" placeholder="请输入密码" />
+				<input class="form-input" type="password" maxlength="30" v-model="form.password" placeholder="请输入密码" />
 			</view>
-			<view class="cc-flex-center form-btn"><button class="cc-flex-center btn">登录</button></view>
+			<view class="cc-flex-center form-btn">
+				<button class="cc-flex-center btn" @click="loginUser" :disabled="isLoadingLogin" :loading="isLoadingLogin">登录</button>
+			</view>
 			<view class="login-wx">
 				<view class="cc-flex-center">
 					<view class="wx-line"></view>
@@ -20,13 +22,16 @@
 				</view>
 				<view class="cc-flex-center wx-text">微信登录</view>
 			</view>
-			<view><button @click="faceUp">人脸识别</button></view>
+			<view><button @click="faceUp">人脸登录</button></view>
 		</view>
 	</view>
 </template>
 
 <script>
 	import { isOpenSetting, getOpenSetting } from "@/common/plugin.js";
+	import Storage from "@/common/storage.js";
+	import { login } from "@/api/user.js";
+	
 	export default {
 		data() {
 			return {
@@ -34,14 +39,49 @@
 					iconPhone: require("@/static/icon/icon-phone.png"),
 					iconLock: require("@/static/icon/icon-lock.png"),
 					iconWx: require("@/static/icon/icon-wx.png")
+				},
+				isLoadingLogin: false,
+				form: {
+					name: "18811746451",
+					password: "1"
 				}
 			};
 		},
-        onLoad() {
-            // 执行查看授权选项
-            this.getSettingMes();
-        },
 		methods: {
+			loginUser() {
+				if (!this.form.name) {
+					uni.showToast({
+					    title: "请输入账户",
+					    icon: "none"
+					});
+					return false;
+				} else if (!this.form.password) {
+					uni.showToast({
+					    title: "请输入密码",
+					    icon: "none"
+					});
+					return false;
+				}
+				this.isLoadingLogin = true;
+				// 18811746451   1
+				login(this.form).then(res => {
+					this.isLoadingLogin = false;
+					if (res) {
+						Storage.setStorageSync("userInfo", res);
+						uni.switchTab({
+							url: "/pages/tab-bar/index"
+						});
+					} else {
+						uni.showToast({
+						    title: "账号密码错误",
+						    icon: "none"
+						});
+					}
+				}).catch(e => {
+					this.isLoadingLogin = false;
+					console.log("login faild", e);
+				});
+			},
 			// 查看已授权选项
 			getSettingMes() {
 				let _this = this;
@@ -52,7 +92,7 @@
 							uni.getUserProfile({
 								desc: "用于完善会员资料",
 								success(res) {
-									console.log(res);
+									console.log("getUserProfile", res);
 								},
 								fail() {
 									console.log("获取用户信息失败")
@@ -93,12 +133,19 @@
 				})
 			},
 			wxLogin() {
+				// this.getSettingMes();
 				uni.getUserProfile({
 				    desc: "完善用户资料",
 				    success: function (res) {
 						console.log('获取用户信息：' + JSON.stringify(res.userInfo));
-						uni.navigateTo({
-							url: "/"
+						uni.login({
+						  provider: 'weixin',
+						  success: function (loginRes) {
+						    console.log(loginRes.authResult);
+						  }
+						});
+						uni.switchTab({
+							url: "/pages/tab-bar/index"
 						});
 				    },
 					fail: function(e) {

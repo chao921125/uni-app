@@ -490,7 +490,7 @@ export function shareBrowser(shareData) {
   } catch (e) {
     uni.showToast({
       title: e.toString(),
-      icon: 'none'
+      icon: "none"
     });
   }
 }

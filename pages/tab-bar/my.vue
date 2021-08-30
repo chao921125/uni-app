@@ -4,12 +4,15 @@
 			<!-- <image class="img-bg" :src="images.demoImg"></image> -->
 			<view class="cc-flex-space-between info-box">
 				<view class="user-left">
-					<view class="cc-flex-align-center">您还未登录哦！</view>
-					<view class="cc-flex-align-center">我的积分：<text class="score-num">0</text></view>
+					<view class="cc-flex-align-center">
+						<text v-if="userInfo">{{ userInfo.username || "" }}</text>
+						<text v-else>您还未登录哦！</text>
+					</view>
+					<view class="cc-flex-align-center">我的积分：<text class="score-num">{{ userInfo.userscore || 0 }}</text></view>
 				</view>
 				<view class="cc-flex-center user-right">
-					<button v-if="true" class="cc-flex-center to-login" @click="toLogin">登录</button>
-					<image v-else class="to-login" :src="images.demoImg"></image>
+					<image v-if="userInfo" class="to-login" :src="userInfo.head_pic || images.userHead"></image>
+					<button v-else class="cc-flex-center to-login" @click="toLogin">登录</button>
 				</view>
 			</view>
 		</view>
@@ -61,21 +64,33 @@
 </template>
 
 <script>
+	import Storage from "@/common/storage.js";
+	
 	export default {
 		name: "my",
 		data() {
 			return {
 				images: {
+					userHead: require("@/static/images/user-head.png"),
 					demoImg: require("@/static/images/logo.png"),
 					iconAbout: require("@/static/icon/icon-about.png"),
 					iconFbk: require("@/static/icon/icon-fbk.png"),
 					iconSet: require("@/static/icon/icon-set.png"),
 					iconSafe: require("@/static/icon/icon-safe.png"),
 					iconOut: require("@/static/icon/icon-out.png")
-				}
+				},
+				userInfo: null
 			}
 		},
+		onShow() {
+			this.initData();
+		},
 		methods: {
+			initData() {
+				if (Storage.getStorageSync("userInfo")) {
+					this.userInfo = Storage.getStorageSync("userInfo");
+				}
+			},
 			toLogin() {
 				uni.redirectTo({
 					url: "/pages/login/login"
@@ -102,6 +117,7 @@
 				});
 			},
 			logout() {
+				Storage.clearStorageSync();
 				uni.redirectTo({
 					url: "/pages/login/login"
 				});

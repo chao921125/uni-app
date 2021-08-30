@@ -1,19 +1,39 @@
 <template>
 	<view class="view-box">
 		<view class="ad-box">
-			<image class="ad-img" :src="images.userHead"></image>
+			<swiper v-if="bannerList.length > 0" class="swiper" :indicator-dots="swiperConfig.indicatorDots" :autoplay="swiperConfig.autoplay"
+				:interval="swiperConfig.interval" :duration="swiperConfig.duration">
+				<swiper-item v-for="(item, index) in bannerList" :key="index" @click="gotoUrl(item.url)">
+					<view class="swiper-item">
+						<image class="ad-img" :src="item.pic"></image>
+					</view>
+				</swiper-item>
+			</swiper>
+			<view v-else></view>
 		</view>
 		<view class="cc-flex-space-between user-count">
 			<view class="left-box count-item">
 				<view class="cc-flex-center count-title">坚持天数</view>
-				<view class="cc-flex-center count-day">0</view>
-				<view class="cc-flex-center count-order">排名0名</view>
+				<view class="cc-flex-center count-day">
+					<text v-if="userInfo">{{ userInfo.aa || 0 }}</text>
+					<text v-else>0</text>
+				</view>
+				<view class="cc-flex-center count-order">
+					<text v-if="userInfo">排名{{ userInfo.aa || 0 }}名</text>
+					<text v-else>排名0名</text>
+				</view>
 			</view>
 			<view class="line-bule"></view>
 			<view class="right-box count-item">
 				<view class="cc-flex-center count-title">刷题正确率</view>
-				<view class="cc-flex-center count-day">0%</view>
-				<view class="cc-flex-center count-order">排名0名</view>
+				<view class="cc-flex-center count-day">
+					<text v-if="userInfo">{{ userInfo.acc || 0 }}%</text>
+					<text v-else>0%</text>
+				</view>
+				<view class="cc-flex-center count-order">
+					<text v-if="userInfo">排名{{ userInfo.aa || 0 }}名</text>
+					<text v-else>排名0名</text>
+				</view>
 			</view>
 		</view>
 		<view class="subject-box">
@@ -82,6 +102,7 @@
 </template>
 
 <script>
+	import Storage from "@/common/storage.js";
 	import { bannerGet } from "@/api/other.js";
 	
 	export default {
@@ -98,7 +119,15 @@
 					collect: require("@/static/icon/home-collect.png"),
 					order: require("@/static/icon/home-order.png"),
 					examination: require("@/static/icon/home-exam.png"),
-				}
+				},
+				swiperConfig: {
+					indicatorDots: false,
+					autoplay: true,
+					interval: 2000,
+					duration: 500
+				},
+				bannerList: [],
+				userInfo: {}
 			}
 		},
 		onShow() {
@@ -106,12 +135,21 @@
 		},
 		methods: {
 			initData() {
+				if (Storage.getStorageSync("userInfo")) {
+					this.userInfo = Storage.getStorageSync("userInfo");
+				}
 				this.getBanner();
 			},
 			getBanner() {
 				bannerGet({}).then(res => {
-					console.log(res);
+					if (res) {
+						this.bannerList = res;
+					}
 				});
+			},
+			gotoUrl(url) {
+				// TODO 跳转页面
+				console.log(url);
 			},
 			// 专项
 			toSpecial() {
@@ -147,6 +185,16 @@
 		height: 300rpx;
 		background-color: #FFFFFF;
 		margin-bottom: 10rpx;
+		text-align: center;
+		line-height: 300rpx;
+		.swiper {
+			width: 100%;
+			height: 300rpx;
+			.swiper-item {
+				width: 100%;
+				height: 300rpx;
+			}
+		}
 		.ad-img {
 			width: 100%;
 			height: 300rpx;

@@ -8,13 +8,15 @@
 			</view>
 		</view>
 		<rank v-show="!isShowScore"></rank>
-		<score v-show="isShowScore"></score>
+		<score v-show="isShowScore" :score="myScore"></score>
 	</view>
 </template>
 
 <script>
 	import rank from "./component/rank.vue";
 	import score from "./component/score.vue";
+	import Storage from "@/common/storage.js";
+	import { myresult } from "@/api/user.js";
 	
 	export default {
 		name: "ranking",
@@ -27,10 +29,32 @@
 				images: {
 					userHead: require("@/static/images/user-head.png"),
 				},
-				isShowScore: false
+				isShowScore: false,
+				userInfo: null,
+				myScore: null
 			}
 		},
+		onShow() {
+			this.initData();
+		},
 		methods: {
+			initData() {
+				if (Storage.getStorageSync("userInfo")) {
+					this.userInfo = Storage.getStorageSync("userInfo");
+					this.getMyresult();
+				}
+			},
+			getMyresult() {
+				// 我的成绩
+				myresult({
+					uid: this.userInfo.id,
+					cateid: this.userInfo.cateid
+				}).then(res => {
+					if (res) {
+						this.myScore = res;
+					}
+				});
+			},
 			changeRankScore(val) {
 				this.isShowScore = val;
 			}

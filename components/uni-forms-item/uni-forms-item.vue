@@ -325,7 +325,7 @@
 					if (this.form.errShowType === 'toast') {
 						uni.showToast({
 							title: result.errorMessage || '校验错误',
-							icon: 'none'
+							icon: "none"
 						});
 					}
 					if (this.form.errShowType === 'modal') {

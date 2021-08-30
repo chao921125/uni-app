@@ -29,16 +29,25 @@
 </template>
 
 <script>
-export default {
-	name: "user",
-	data() {
-		return {
-			images: {
-				userHead: require("@/static/images/user-head.png"),
+	import Storage from "@/common/storage.js";
+	
+	export default {
+		name: "user",
+		data() {
+			return {
+				images: {
+					userHead: require("@/static/images/user-head.png"),
+				},
+				userInfo: {}
 			}
+		},
+		onShow() {
+			this.initData();
+		},
+		methods: {
+			initData() {}
 		}
 	}
-}
 </script>
 
 <style scoped lang="scss">

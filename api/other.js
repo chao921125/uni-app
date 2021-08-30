@@ -1,5 +1,5 @@
 import config from './index';
-import request from '../common/request';
+import request from '../plugins/request';
 
 // 获取banner列表
 export function bannerGet(data) {

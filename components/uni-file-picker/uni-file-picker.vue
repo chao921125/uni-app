@@ -299,7 +299,7 @@
 					'array') {
 					uni.showToast({
 						title: `您最多选择 ${this.limitLength} 个文件`,
-						icon: 'none'
+						icon: "none"
 					})
 					return
 				}

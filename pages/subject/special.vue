@@ -16,7 +16,7 @@
 						<view class="type-title-line"></view>
 					</view>
 					<view class="cc-flex-space-between">
-						<view class="cc-flex-center list-item" v-for="(row, i) in item.list" :key="i" :class="{ 'un-auth' : !row.auth }" @click="toExercises(row)">{{ row.name}}</view>
+						<view class="cc-flex-center list-item" v-for="(row, i) in item.child" :key="i" :class="{ 'un-auth' : !row.is_select }" @click="toExercises(row)">{{ row.name}}</view>
 					</view>
 				</view>
 			</scroll-view>
@@ -25,12 +25,16 @@
 </template>
 
 <script>
+	import Storage from "@/common/storage.js";
+	import { getCate } from "@/api/subject.js";
+	
 	export default {
 		data() {
 			return {
 				specialList: [],
 				childrenList: [],
-				currentIndex: 0
+				currentIndex: 0,
+				userInfo: null
 			};
 		},
 		onShow() {
@@ -38,91 +42,22 @@
 		},
 		methods: {
 			initData() {
-				this.specialList = [
-					{
-						id: "1",
-						name: "示例1",
-						types: [
-							{
-								id: "",
-								name: "1-1",
-								list: [
-									{
-										id: "",
-										name: "单选",
-										auth: true
-									},
-									{
-										id: "",
-										name: "多选",
-										auth: true
-									}
-								]
-							},
-							{
-								id: "",
-								name: "1-2",
-								list: [
-									{
-										id: "",
-										name: "单选",
-										auth: false
-									},
-									{
-										id: "",
-										name: "多选",
-										auth: false
-									}
-								]
-							}
-						]
-					},
-					{
-						id: "1",
-						name: "示例2",
-						types: [
-							{
-								id: "",
-								name: "2-1",
-								list: [
-									{
-										id: "",
-										name: "单选",
-										auth: true
-									},
-									{
-										id: "",
-										name: "多选",
-										auth: false
-									}
-								]
-							},
-							{
-								id: "",
-								name: "2-2",
-								list: [
-									{
-										id: "",
-										name: "单选",
-										auth: false
-									},
-									{
-										id: "",
-										name: "多选",
-										auth: true
-									}
-								]
-							}
-						]
-					}
-				];
-				this.childrenList = [];
-				this.childrenList = this.specialList[this.currentIndex].types;
+				if (Storage.getStorageSync("userInfo")) {
+					this.userInfo = Storage.getStorageSync("userInfo");
+					getCate({
+						uid: this.userInfo.id
+					}).then(res => {
+						if (res) {
+							this.specialList = res;
+							this.childrenList = this.specialList[0].child;
+						}
+					});
+				}
 			},
 			changeTap(index) {
 				this.currentIndex = Number(index);
 				this.childrenList = [];
-				this.childrenList = this.specialList[this.currentIndex].types;
+				this.childrenList = this.specialList[this.currentIndex].child;
 			},
 			// 习题
 			toExercises(item) {

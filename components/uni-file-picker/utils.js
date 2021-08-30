@@ -42,7 +42,7 @@ export const get_files_and_is_max = (res, _extname) => {
 	if (files.length !== res.tempFiles.length) {
 		uni.showToast({
 			title: `当前选择了${res.tempFiles.length}个文件 ，${res.tempFiles.length - files.length} 个文件格式不正确`,
-			icon: 'none',
+			icon: "none",
 			duration: 5000
 		})
 	}
