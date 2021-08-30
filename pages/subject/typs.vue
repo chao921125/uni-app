@@ -11,22 +11,39 @@
 </template>
 
 <script>
+	import Storage from "@/common/storage.js";
+	import { getType } from "@/api/subject.js";
+	
 	export default {
 		data() {
 			return {
-				typeList: [
-					{
-						id: "1",
-						name: "单选题"
-					},
-					{
-						id: "2",
-						name: "多选题"
-					}
-				]
+				userInfo: null,
+				typeList: []
 			};
 		},
+		onShow() {
+			this.initData();
+		},
 		methods: {
+			initData() {
+				if (Storage.getStorageSync("userInfo")) {
+					this.userInfo = Storage.getStorageSync("userInfo");
+					getType({
+						uid: this.userInfo.id
+					}).then(res => {
+						if (res) {
+							let array = [];
+							for (let k in res) {
+								array.push({
+									id: k,
+									name: res[k]
+								});
+							}
+							this.typeList = array;
+						}
+					});
+				}
+			},
 			// 习题
 			toExercises(item) {
 				uni.navigateTo({

@@ -10,7 +10,7 @@ import request from '../plugins/request';
  * is_refur 是否刷新默认0，1刷新
  * page 页码
  */
-export function disorder(data) {
+export function getDisorder(data) {
     return request({
         url: config.basePath + '/index/disorder',
         method: 'POST',
@@ -26,7 +26,7 @@ export function disorder(data) {
  * type 0未作题1单选2多选3判断4填空5简答
  * page 页码
  */
-export function getti(data) {
+export function getSubjectType(data) {
     return request({
         url: config.basePath + '/index/getti',
         method: 'POST',
@@ -69,7 +69,7 @@ export function getCate(data) {
  * answer 答案 单选 答案id 多选 答案id逗号分隔 判断 答案id
  * paper_id 试卷id 没有传0
  */
-export function addanswer(data) {
+export function addAnswer(data) {
     return request({
         url: config.basePath + '/index/addanswer',
         method: 'POST',
@@ -82,7 +82,7 @@ export function addanswer(data) {
  * @param {Object} data
  * paper_id
  */
-export function subtijiao(data) {
+export function subjectSave(data) {
     return request({
         url: config.basePath + '/index/subtijiao',
         method: 'POST',
@@ -110,7 +110,7 @@ export function paper(data) {
  * uid
  * paper_id
  */
-export function paperinfo(data) {
+export function paperInfo(data) {
     return request({
         url: config.basePath + '/index/paperinfo',
         method: 'POST',
