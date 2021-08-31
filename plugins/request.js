@@ -1,6 +1,6 @@
 import config from '@/plugins/config';
 import Storage from "@/common/storage.js";
-import { isGotoLogin } from "@/common/plugin.js";
+import { isGotoLogin, toLogin } from "@/common/plugin.js";
 const defaultHeader = {
     'Access-Control-Allow-Origin': '*',
     'Access-Control-Max-Age': '3600',
@@ -39,11 +39,12 @@ const request = (options) => {
             success: (res) => {
                 // data statusCode header cookies
                 console.log("response success : ", res);
-                resolve(res.data.data);
+                resolve(res.data);
             },
             fail: (err) => {
                 // 如果不处理异常信息，这里可以统一处理
                 console.log("response err : ", err);
+				toLogin();
                 reject(err);
             },
             complete: () => {

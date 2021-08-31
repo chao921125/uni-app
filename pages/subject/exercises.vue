@@ -6,9 +6,9 @@
 				<button class="cc-flex-center btn btn-recite" :class="{ 'btn-select' : isShowRecite }" @click="changeModel(true)">背题模式</button>
 			</views>
 		</view>
-		<view v-if="!isShowRecite" class="body-subject"><answer></answer></view>
-		<view v-else class="body-subject"><recite></recite></view>
-		<view v-show="isShowAnalysis" class="body-an"><analysis></analysis></view>
+		<view v-if="!isShowRecite" class="body-subject"><answer :subjectInfo="subjectInfo" :typeObj="typeObj" :index="page" @submit="submitAnswer" @change="changeAnwer"></answer></view>
+		<view v-else class="body-subject"><recite :subjectInfo="subjectInfo" :typeObj="typeObj" :index="page"></recite></view>
+		<view v-show="isShowAnalysis" class="body-an"><analysis :subjectInfo="subjectInfo"></analysis></view>
 		<view class="btn-fixed">
 			<view class="btn-space"></view>
 			<view class="cc-flex-center btn-position">
@@ -23,11 +23,11 @@
 					</view>
 					<view class="btn-item">
 						<view class="cc-flex-center btn-icon"><image class="icon" :src="images.iconMenu"></image></view>
-						<view class="cc-flex-center btn-text">1/2</view>
+						<view class="cc-flex-center btn-text">{{ page }}/{{ subjectObj.totalnum || 1 }}</view>
 					</view>
-					<view v-if="isCollection" class="btn-item" @click="addRemoveCollect(false)">
+					<view v-if="isCollection || is_store" class="btn-item" @click="addRemoveCollect(false)">
 						<view class="cc-flex-center btn-icon"><image class="icon" :src="images.iconCollection"></image></view>
-						<view class="cc-flex-center btn-text"><text>已加入收藏</text></view>
+						<view class="cc-flex-center btn-text"><text>取消收藏</text></view>
 					</view>
 					<view v-else class="btn-item" @click="addRemoveCollect(true)">
 						<view class="cc-flex-center btn-icon"><image class="icon" :src="images.iconCollec"></image></view>
@@ -47,6 +47,10 @@
 	import answer from "./component/answer.vue";
 	import recite from "./component/recite.vue";
 	import analysis from "./component/analysis.vue";
+    import Storage from "@/common/storage.js";
+	import { formatSubjectType } from "@/common/format.js";
+    import { getDisorder, getSubjectType, addAnswer, addCollect, wrongInfo, collectInfo } from "@/api/subject.js";
+    
 	export default {
 		components: {
 			answer,
@@ -66,20 +70,202 @@
 				isShowRecite: false,
 				isShowAnalysis: false,
 				isCollection: false,
-				subject: {}
+				subjectObj: {},
+				subjectInfo: {},
+				userInfo: null,
+				typeObj: {
+					name: "",
+					value: ""
+				},
+                page: 1,
+                cateid: 1,
+				// 1 乱序 顺序 专项 2 题型 未作 3 错题 4 收藏
+                methods: 1,
+                type: 0,
+				userAnswer: ""
 			};
+		},
+        onLoad(options) {
+            this.page = 1;
+            if (options.methods) {
+                this.methods = options.methods;
+            }
+            if (options.type) {
+                this.type = options.type;
+            }
+			if (options.cateid) {
+				this.cateid = options.cateid;
+			}
+        },
+		onShow() {
+			this.initData();
 		},
 		methods: {
 			initData() {
-				
+				if (Storage.getStorageSync("userInfo")) {
+					this.userInfo = Storage.getStorageSync("userInfo");
+				}
+				Storage.removeStorageSync("userSubjectAnswer");
+				this.getSubject();
 			},
+            getSubject() {
+				this.isCollection = false;
+                if (!this.isShowRecite) {
+                    this.isShowAnalysis = false;
+                }
+                if (this.methods === 1) {
+                    // type 0乱序 1顺序 cateid 专项
+                    getSubjectType({
+                        uid: this.userInfo.id,
+                        cateid: this.userInfo.cateid,
+                        type: this.type,
+                        is_refur: 1,
+                        page: this.page
+                    }).then(res => {
+                        if (res.data) {
+							this.subjectObj = res;
+                            this.subjectInfo = res.data[0];
+							this.typeObj.name = formatSubjectType(res.data[0].type);
+							this.typeObj.value = res.data[0].type;
+							if (!Storage.getStorageSync("userSubjectAnswer")) {
+								Storage.setStorageSync("userSubjectAnswer", new Array(res.totalnum + 2));
+							}
+                        }
+                    }).catch(() => {
+                        uni.showToast({
+                            title: "已经是最后一题了",
+                            icon: "none"
+                        });
+                    });
+                } else if (this.methods === 2) {
+                    // type 0未作题1单选2多选3判断4填空5简答
+                    getDisorder({
+                        uid: this.userInfo.id,
+                        cateid: this.userInfo.cateid,
+                        type: this.type,
+                        page: this.page
+                    }).then(res => {
+                        if (res.data) {
+							this.subjectObj = res;
+                            this.subjectInfo = res.data[0];
+							this.typeObj.name = formatSubjectType(res.data[0].type);
+							this.typeObj.value = res.data[0].type;
+							if (!Storage.getStorageSync("userSubjectAnswer")) {
+								Storage.setStorageSync("userSubjectAnswer", new Array(res.totalnum + 2));
+							}
+                        }
+                    }).catch(() => {
+                        uni.showToast({
+                            title: "已经是最后一题了",
+                            icon: "none"
+                        });
+                    });
+                } else if (this.methods === 3) {
+					// type 0未作题1单选2多选3判断4填空5简答
+					wrongInfo({
+					    uid: this.userInfo.id,
+					    cateid: this.userInfo.cateid,
+					    type: this.type,
+					    page: this.page
+					}).then(res => {
+					    if (res.data) {
+							this.subjectObj = res;
+					        this.subjectInfo = res.data[0];
+							this.typeObj.name = formatSubjectType(res.data[0].type);
+							this.typeObj.value = res.data[0].type;
+							if (!Storage.getStorageSync("userSubjectAnswer")) {
+								Storage.setStorageSync("userSubjectAnswer", new Array(res.totalnum + 2));
+							}
+					    }
+					}).catch(() => {
+					    uni.showToast({
+					        title: "已经是最后一题了",
+					        icon: "none"
+					    });
+					});
+				} else {
+					// type 0未作题1单选2多选3判断4填空5简答
+					collectInfo({
+					    uid: this.userInfo.id,
+					    cateid: this.userInfo.cateid,
+					    type: this.type,
+					    page: this.page
+					}).then(res => {
+					    if (res.data) {
+							this.subjectObj = res;
+					        this.subjectInfo = res.data[0];
+							this.typeObj.name = formatSubjectType(res.data[0].type);
+							this.typeObj.value = res.data[0].type;
+							if (!Storage.getStorageSync("userSubjectAnswer")) {
+								Storage.setStorageSync("userSubjectAnswer", new Array(res.totalnum + 2));
+							}
+					    }
+					}).catch(() => {
+					    uni.showToast({
+					        title: "已经是最后一题了",
+					        icon: "none"
+					    });
+					});
+				}
+            },
 			preSubject() {
-				
+				if (this.page === 1) {
+                    uni.showToast({
+                        title: "已经是第一题了",
+                        icon: "none"
+                    });
+                    return false;
+                }
+                this.page -= 1;
+                this.getSubject();
 			},
 			nextSubject() {
-				
+				if (this.subjectObj.totalnum === this.page) {
+					uni.showToast({
+					    title: "已经是最后一题了",
+					    icon: "none"
+					});
+					return false;
+				}
+                this.page += 1;
+				// 交卷只在答题模式中才可以提交，获取下一题目
+				if (!this.isShowRecite) {
+					this.submitSubject();
+				} else {
+					this.getSubject();
+				}
 			},
-			changeSubject() {},
+			changeAnwer(value) {
+				this.userAnswer = value;
+			},
+			submitAnswer(value) {
+				this.userAnswer = value;
+				this.nextSubject();
+			},
+			submitSubject() {
+				// 缓存
+				let answerArray = Storage.getStorageSync("userSubjectAnswer") || [];
+				let selectAnswer = [];
+				if (this.userAnswer.length > 1) {
+					selectAnswer = this.userAnswer.split(",");
+				} else {
+					selectAnswer.push(this.userAnswer);
+				}
+				this.$set(answerArray, this.page-1, selectAnswer);
+				Storage.setStorageSync("userSubjectAnswer", answerArray);
+				// 提交
+				addAnswer({
+					uid: this.userInfo.id,
+					tid: this.subjectInfo.id,
+					type: this.subjectInfo.type,
+					answer: this.userAnswer,
+					paper_id: 0
+				}).then(res => {
+					if (Number(res.code) === 0) {
+						this.getSubject();
+					}
+				});
+			},
 			changeModel(val) {
 				this.isShowRecite = val;
 			},
@@ -87,7 +273,14 @@
 				this.isShowAnalysis = !this.isShowAnalysis;
 			},
 			addRemoveCollect(val) { // 是否加入收藏
-				this.isCollection = val;
+				addCollect({
+					uid: this.userInfo.id,
+					tid: this.subjectInfo.id,
+				}).then(res => {
+					if (Number(res.code) === 0) {
+						this.isCollection = val;
+					}
+				});
 			}
 		}
 	}

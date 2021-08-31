@@ -7,16 +7,17 @@ export function isGotoLogin() {
     let routes = getCurrentPages();
     if (!routes[routes.length - 1]) return ;
     let curRoute = routes[routes.length - 1].route;
-    if (!Storage.getStorageSync('userInfo')
-	 && !(curRoute.includes("/login")
-	  || curRoute.includes("/index")
-	  || curRoute.includes("/my")
-	  || curRoute.includes("/ranking")
-	  || curRoute.includes("/wrong"))) {
+    if (!Storage.getStorageSync('userInfo')) {
         uni.navigateTo({
             url: "/pages/login/login"
         });
     }
+}
+
+export function toLogin() {
+	uni.navigateTo({
+	    url: "/pages/login/login"
+	});
 }
 
 /**

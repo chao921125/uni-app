@@ -3,12 +3,12 @@
 		<view class="cc-flex-align-center an-title"><text class="title-text">试题解析</text></view>
 		<view class="an-body">
 			<view class="cc-flex-space-between an-an">
-				<view><text class="detail-title">正确答案：</text><text class="detail-an">D</text></view>
+				<view><text class="detail-title">正确答案：</text><text class="detail-an">{{ subjectInfo.correct_answer || "" }}</text></view>
 				<view><text class="feedback" @click="toFeedback">纠错</text></view>
 			</view>
 			<view class="an-content">
 				<text class="ct-title">解析：</text>
-				<text class="ct-detail">xxxxxxxxxxxxxxxxxxxxxxxxxx</text>
+				<text class="ct-detail">{{ subjectInfo.dec || "" }}</text>
 			</view>
 		</view>
 	</view>
@@ -16,6 +16,12 @@
 
 <script>
 	export default {
+        props: {
+            subjectInfo: {
+                type: Object,
+                default: () => { return {}; }
+            }
+        },
 		data() {
 			return {
 				

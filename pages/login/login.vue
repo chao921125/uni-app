@@ -66,8 +66,8 @@
 				// 18811746451   1
 				login(this.form).then(res => {
 					this.isLoadingLogin = false;
-					if (res) {
-						Storage.setStorageSync("userInfo", res);
+					if (res.data) {
+						Storage.setStorageSync("userInfo", res.data);
 						uni.switchTab({
 							url: "/pages/tab-bar/index"
 						});

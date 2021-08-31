@@ -18,9 +18,20 @@
 		data() {
 			return {
 				userInfo: null,
-				typeList: []
+				typeList: [],
+				// 1 乱序 顺序 专项 2 题型 未作 3 错题 4 收藏
+                methods: 1,
+                type: 0
 			};
 		},
+        onLoad(options) {
+            if (options.methods) {
+                this.methods = options.methods;
+            }
+            if (options.type) {
+                this.type = options.type;
+            }
+        },
 		onShow() {
 			this.initData();
 		},
@@ -31,12 +42,12 @@
 					getType({
 						uid: this.userInfo.id
 					}).then(res => {
-						if (res) {
+						if (res.data) {
 							let array = [];
-							for (let k in res) {
+							for (let k in res.data) {
 								array.push({
 									id: k,
-									name: res[k]
+									name: res.data[k]
 								});
 							}
 							this.typeList = array;
@@ -46,8 +57,9 @@
 			},
 			// 习题
 			toExercises(item) {
+				console.log(item);
 				uni.navigateTo({
-					url: "/pages/subject/exercises"
+					url: `/pages/subject/exercises?method=${this.methods}&type=${item.id}`
 				});
 			}
 		}

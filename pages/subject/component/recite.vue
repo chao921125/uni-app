@@ -1,15 +1,15 @@
 <template>
 	<view class="comp-box">
 		<view class="cc-flex-align-center body-title">
-			<view class="order">第1题</view>
-			<view class="cc-flex-center type">单选题</view>
+			<view class="order">第{{ index }}题</view>
+			<view class="cc-flex-center type">{{ typeObj.name }}</view>
 		</view>
 		<view class="body-content">
-			单选题单选题单选题单选题单选题单选题单选题单选题单选题单选题单选题单选题单选题单选题单选题单选题
+			{{ subjectInfo.name || "" }}
 		</view>
-		<view class="body-answer">
-			<view class="answer-item" v-for="(item, index) in 4" :key="index" :class="{ 'answer-right' : index === 3 }" @click="selectAnswer(item)">
-				<text>A.</text><text class="answer-select">11111</text>
+		<view v-if="subjectInfo.anwer" class="body-answer">
+			<view class="answer-item" v-for="(item, index) in subjectInfo.anwer" :key="index" :class="{ 'answer-right' : Number(item.is_true) === 1 }" @click="selectAnswer(item)">
+				<text v-if="typeObj.value === 1 || typeObj.value === 2">{{ item.name }}.</text><text class="answer-select">{{ item.value }}</text>
 			</view>
 		</view>
 	</view>
@@ -18,9 +18,17 @@
 <script>
 	export default {
 		props: {
-			rightAnswer: {
-				type: Array,
-				default: () => { return [1]; }
+            subjectInfo: {
+                type: Object,
+                default: () => { return {}; }
+            },
+			typeObj: {
+				type: Object,
+				default: () => { return {}; }
+			},
+			index: {
+				type: [String, Number],
+				default: "1"
 			}
 		},
 		data() {

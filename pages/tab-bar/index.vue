@@ -39,19 +39,19 @@
 		<view class="subject-box">
 			<view class="cc-flex-space-between subject-top subject-item">
 				<view class="subject-left item-box">
-					<view class="item-sub" @click="toExercises">
+					<view class="item-sub" @click="toExercises(1, 0)">
 						<view class="cc-flex-center item-img">
 							<image class="img" :src="images.random"></image>
 						</view>
 						<view class="cc-flex-center item-title">乱序刷题</view>
 					</view>
-					<view class="item-sub" @click="toSpecial">
+					<view class="item-sub" @click="toSpecial(1, 0)">
 						<view class="cc-flex-center item-img">
 							<image class="img" :src="images.accurate"></image>
 						</view>
 						<view class="cc-flex-center item-title">专项刷题</view>
 					</view>
-					<view class="item-sub" @click="toTypes">
+					<view class="item-sub" @click="toTypes(2, 1)">
 						<view class="cc-flex-center item-img">
 							<image class="img" :src="images.menu"></image>
 						</view>
@@ -59,7 +59,7 @@
 					</view>
 				</view>
 				<view class="cc-flex-center-column subject-center">
-					<view class="center-box" @click="toExercises">
+					<view class="center-box" @click="toExercises(1, 1)">
 						<image class="center-img" :src="images.order"></image>
 						<view class="cc-text-center center-text">
 							<view class="cc-flex-center center-title">顺序练习</view>
@@ -74,19 +74,19 @@
 					</view>
 				</view>
 				<view class="subject-right item-box">
-					<view class="item-sub" @click="toExercises">
+					<view class="item-sub" @click="toExercises(2, 0)">
 						<view class="cc-flex-center item-img">
 							<image class="img" :src="images.edit"></image>
 						</view>
 						<view class="cc-flex-center item-title">未作习题</view>
 					</view>
-					<view class="item-sub" @click="toExercises">
+					<view class="item-sub" @click="toExercises(3, 0)">
 						<view class="cc-flex-center item-img">
 							<image class="img" :src="images.wrong"></image>
 						</view>
 						<view class="cc-flex-center item-title">我的错题</view>
 					</view>
-					<view class="item-sub" @click="toTypes">
+					<view class="item-sub" @click="toTypes(4, 1)">
 						<view class="cc-flex-center item-img">
 							<image class="img" :src="images.collect"></image>
 						</view>
@@ -95,7 +95,7 @@
 				</view>
 			</view>
 		</view>
-		<view class="convenient-box">
+		<view class="convenient-box" v-if="false">
 			<uni-list-item title="激活码通道" rightText="快捷入口" :showArrow="true" :clickable="true" :border="false" />
 		</view>
 	</view>
@@ -142,8 +142,8 @@
 			},
 			getBanner() {
 				bannerGet({}).then(res => {
-					if (res) {
-						this.bannerList = res;
+					if (res.data) {
+						this.bannerList = res.data;
 					}
 				});
 			},
@@ -152,21 +152,21 @@
 				console.log(url);
 			},
 			// 专项
-			toSpecial() {
+			toSpecial(method, type) {
 				uni.navigateTo({
-					url: "/pages/subject/special"
+					url: `/pages/subject/special?method=${method}&type=${type}`
 				});
 			},
 			// 类型
-			toTypes() {
+			toTypes(method, type) {
 				uni.navigateTo({
-					url: "/pages/subject/typs"
+					url: `/pages/subject/typs?method=${method}&type=${type}`
 				});
 			},
 			// 习题
-			toExercises() {
+			toExercises(method, type) {
 				uni.navigateTo({
-					url: "/pages/subject/exercises"
+					url: `/pages/subject/exercises?method=${method}&type=${type}`
 				});
 			},
 			// 考试

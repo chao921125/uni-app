@@ -2,6 +2,46 @@ import config from './index';
 import request from '../plugins/request';
 
 /**
+ * 获取题型接口
+ * @param {Object} data
+ * uid
+ */
+export function getType(data) {
+    return request({
+        url: config.basePath + '/index/get_type',
+        method: 'POST',
+        data: data
+    });
+}
+
+/**
+ * 获取分类接口
+ * @param {Object} data
+ * uid
+ */
+export function getCate(data) {
+    return request({
+        url: config.basePath + '/index/get_cate',
+        method: 'POST',
+        data: data
+    });
+}
+
+/**
+ * 添加收藏
+ * @param {Object} data
+ * uid
+ * tid
+ */
+export function addCollect(data) {
+    return request({
+        url: config.basePath + '/wap/addstore',
+        method: 'POST',
+        data: data
+    });
+}
+
+/**
  * 乱序/顺序/专项刷题接口
  * @param {Object} data
  * uid
@@ -35,26 +75,56 @@ export function getSubjectType(data) {
 }
 
 /**
- * 获取题型接口
+ * 模拟考试接口
  * @param {Object} data
  * uid
+ * cateid
  */
-export function getType(data) {
+export function paper(data) {
     return request({
-        url: config.basePath + '/index/get_type',
+        url: config.basePath + '/index/paper',
         method: 'POST',
         data: data
     });
 }
 
 /**
- * 获取分类接口
+ * 试卷详情接口
  * @param {Object} data
  * uid
+ * paper_id
  */
-export function getCate(data) {
+export function paperInfo(data) {
     return request({
-        url: config.basePath + '/index/get_cate',
+        url: config.basePath + '/index/paperinfo',
+        method: 'POST',
+        data: data
+    });
+}
+
+/**
+ * 错题详情接口
+ * @param {Object} data
+ * uid
+ * paper_id
+ */
+export function wrongInfo(data) {
+    return request({
+        url: config.basePath + '/wap/wronginfo',
+        method: 'POST',
+        data: data
+    });
+}
+
+/**
+ * 收藏详情接口
+ * @param {Object} data
+ * uid
+ * paper_id
+ */
+export function collectInfo(data) {
+    return request({
+        url: config.basePath + '/wap/storeinfo',
         method: 'POST',
         data: data
     });
@@ -85,34 +155,6 @@ export function addAnswer(data) {
 export function subjectSave(data) {
     return request({
         url: config.basePath + '/index/subtijiao',
-        method: 'POST',
-        data: data
-    });
-}
-
-/**
- * 模拟考试接口
- * @param {Object} data
- * uid
- * cateid
- */
-export function paper(data) {
-    return request({
-        url: config.basePath + '/index/paper',
-        method: 'POST',
-        data: data
-    });
-}
-
-/**
- * 试卷详情接口
- * @param {Object} data
- * uid
- * paper_id
- */
-export function paperInfo(data) {
-    return request({
-        url: config.basePath + '/index/paperinfo',
         method: 'POST',
         data: data
     });

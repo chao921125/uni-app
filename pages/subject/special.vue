@@ -34,9 +34,20 @@
 				specialList: [],
 				childrenList: [],
 				currentIndex: 0,
-				userInfo: null
+				userInfo: null,
+				// 1 乱序 顺序 专项 2 题型 未作 3 错题 4 收藏
+                methods: 1,
+                type: 0
 			};
 		},
+        onLoad(options) {
+            if (options.methods) {
+                this.methods = options.methods;
+            }
+            if (options.type) {
+                this.type = options.type;
+            }
+        },
 		onShow() {
 			this.initData();
 		},
@@ -47,8 +58,8 @@
 					getCate({
 						uid: this.userInfo.id
 					}).then(res => {
-						if (res) {
-							this.specialList = res;
+						if (res.data) {
+							this.specialList = res.data;
 							this.childrenList = this.specialList[0].child;
 						}
 					});
@@ -63,7 +74,7 @@
 			toExercises(item) {
 				if (!item.auth) return ;
 				uni.navigateTo({
-					url: "/pages/subject/exercises"
+					url: `/pages/subject/exercises?method=${this.methods}&type=${this.type}&cateid=${item.id}`
 				});
 			}
 		}

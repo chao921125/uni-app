@@ -1,6 +1,6 @@
-import * as dateFns from 'date-fns';
+// import * as dateFns from 'date-fns';
 // import i18n from '../plugins/i18n';
-import NativeShare from 'nativeshare';
+// import NativeShare from 'nativeshare';
 
 export function formatMoneyMillionQuot(money) {
   money = money.toString().replace(/\\,/g, '');
@@ -535,4 +535,23 @@ export function handleM2PC(path) {
     }
   }
   return returnUrl;
+}
+
+/**
+ * @param {Object} value
+ * 类型1单选2多选3判断4填空5简答
+ */
+export function formatSubjectType(value) {
+	let result = "单选题";
+	if (!value) return result;
+	value = Number(value);
+	switch (value) {
+		case 1: result = "单选题"; break;
+		case 2: result = "多选题"; break;
+		case 3: result = "判断题"; break;
+		case 4: result = "填空题"; break;
+		case 5: result = "简答题"; break;
+		default: break;
+	}
+	return result;
 }

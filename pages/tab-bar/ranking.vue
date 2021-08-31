@@ -50,8 +50,8 @@
 					uid: this.userInfo.id,
 					cateid: this.userInfo.cateid
 				}).then(res => {
-					if (res) {
-						this.myScore = res;
+					if (res.data) {
+						this.myScore = res.data;
 					}
 				});
 			},

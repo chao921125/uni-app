@@ -1,9 +1,9 @@
 let BASE_URL = '';
 // http://101.201.121.81
 if (process.env.NODE_ENV === 'development') {
-    BASE_URL = 'http://101.201.121.81'; // qe环境
+    BASE_URL = 'https://tiku.ilovenever.com/'; // qe环境
 } else {
-    BASE_URL = 'http://101.201.121.81'; // 生产环境
+    BASE_URL = 'https://tiku.ilovenever.com/'; // 生产环境
 }
 
 export default {

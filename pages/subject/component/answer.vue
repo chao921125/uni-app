@@ -1,37 +1,33 @@
 <template>
 	<view class="comp-box">
 		<view class="cc-flex-align-center body-title">
-			<view class="order">第1题</view>
-			<view class="cc-flex-center type">单选题</view>
+			<view class="order">第{{ index }}题</view>
+			<view class="cc-flex-center type">{{ typeObj.name }}</view>
 		</view>
 		<view class="body-content">
-			{{isShowIf}}单选题单选题单选题单选题单选题单选题单选题单选题单选题单选题单选题单选题单选题单选题单选题单选题
+			{{ subjectInfo.name || "" }}
 		</view>
+		<!-- 判断是否展示答案 -->
 		<view v-if="isShowIf" class="body-answer">
-			<template v-for="(item, index) in 4">
-				<view v-if="rightAnswer.includes(item)" class="answer-item answer-right" :key="index" @click="changeSelect(item)">
-					<!-- :class="isShowIf ? [item] === item ? 'answer-right' : 'answer-wrong' : ''"> -->
-					<text>A.</text><text class="answer-select">11111</text>
+			<template v-for="(item, index) in subjectInfo.anwer">
+				<view v-if="Number(item.is_true) === 1" class="answer-item answer-right" :key="index" @click="changeSelect(item.name)">
+					<text v-if="typeObj.value === 1 || typeObj.value === 2">{{ item.name }}.</text><text class="answer-select">{{ item.value }}</text>
 				</view>
-				<view v-else-if="selectAnswer.includes(item)" class="answer-item answer-wrong" :key="index" @click="changeSelect(item)">
-					<!-- :class="isShowIf ? [item] === item ? 'answer-right' : 'answer-wrong' : ''"> -->
-					<text>A.</text><text class="answer-select">11111</text>
+				<view v-else-if="selectAnswer.includes(item.name)" class="answer-item answer-wrong" :key="index" @click="changeSelect(item.name)">
+					<text v-if="typeObj.value === 1 || typeObj.value === 2">{{ item.name }}.</text><text class="answer-select">{{ item.value }}</text>
 				</view>
-				<view v-else class="answer-item" :key="index" @click="changeSelect(item)">
-					<!-- :class="isShowIf ? [item] === item ? 'answer-right' : 'answer-wrong' : ''"> -->
-					<text>A.</text><text class="answer-select">11111</text>
+				<view v-else class="answer-item" :key="index" @click="changeSelect(item.name)">
+					<text v-if="typeObj.value === 1 || typeObj.value === 2">{{ item.name }}.</text><text class="answer-select">{{ item.value }}</text>
 				</view>
 			</template>
 		</view>
 		<view v-else class="body-answer">
-			<template v-for="(item, index) in 4">
-				<view v-if="selectAnswer.includes(item)" class="answer-item answer-right" :key="index" @click="changeSelect(item)">
-					<!-- :class="isShowIf ? [item] === item ? 'answer-right' : 'answer-wrong' : ''"> -->
-					<text>A.</text><text class="answer-select">11111</text>
+			<template v-for="(item, index) in subjectInfo.anwer">
+				<view v-if="selectAnswer.includes(item.name)" class="answer-item answer-right" :key="index" @click="changeSelect(item.name)">
+					<text v-if="typeObj.value === 1 || typeObj.value === 2">{{ item.name }}.</text><text class="answer-select">{{ item.value }}</text>
 				</view>
-				<view v-else class="answer-item" :key="index" @click="changeSelect(item)">
-					<!-- :class="isShowIf ? [item] === item ? 'answer-right' : 'answer-wrong' : ''"> -->
-					<text>A.</text><text class="answer-select">11111</text>
+				<view v-else class="answer-item" :key="index" @click="changeSelect(item.name)">
+					<text v-if="typeObj.value === 1 || typeObj.value === 2">{{ item.name }}.</text><text class="answer-select">{{ item.value }}</text>
 				</view>
 			</template>
 		</view>
@@ -39,18 +35,38 @@
 </template>
 
 <script>
+    import Storage from "@/common/storage.js";
+	
 	export default {
 		props: {
-			rightAnswer: {
-				type: Array,
-				default: () => { return [1]; }
+            subjectInfo: {
+                type: Object,
+                default: () => { return {}; }
+            },
+			typeObj: {
+				type: Object,
+				default: () => { return {}; }
+			},
+			index: {
+				type: [String, Number],
+				default: "1"
 			}
 		},
 		data() {
 			return {
+				answerArray: [],
 				selectAnswer: [],
+				subjectType: "",
 				isShowIf: false
 			};
+		},
+		watch: {
+			subjectInfo() {
+				this.answerArray = Storage.getStorageSync("userSubjectAnswer") || [];
+				this.selectAnswer = this.answerArray[this.index] || [];
+				this.subjectType = "";
+				this.isShowIf = this.selectAnswer.length === this.subjectInfo.correct_answer.length;
+			}
 		},
 		methods: {
 			changeSelect(item) {
@@ -59,15 +75,46 @@
 				if (isHasIndex > -1) {
 					// 移除当前选择的答案
 					this.selectAnswer.splice(isHasIndex, 1);
+					this.isShowIf = false;
+					this.changeAnswer();
 					// 移除对象数据
-					return ;
+					return false;
 				}
 				// 长度相等则无法继续选择
-				let isIf = this.selectAnswer.length === this.rightAnswer.length;
-				if (isIf) return ;
-				this.selectAnswer.push(item);
-				this.isShowIf = this.selectAnswer.length === this.rightAnswer.length;
-			}
+				if (this.typeObj.value === 3) {
+					let isIf = this.selectAnswer.length === 1;
+					if (isIf) return false;
+					this.selectAnswer.push(item);
+					this.changeAnswer();
+					this.isShowIf = this.selectAnswer.length === 1;
+					// 提交答案
+					this.submitForm();
+				} else {
+					let isIf = this.selectAnswer.length === this.subjectInfo.correct_answer.length;
+					if (isIf) return false;
+					this.selectAnswer.push(item);
+					this.changeAnswer();
+					this.isShowIf = this.selectAnswer.length === this.subjectInfo.correct_answer.length;
+					// 提交答案
+					if (this.isShowIf) {
+						this.submitForm();
+					}
+				}
+			},
+			changeAnswer() {
+				let answerResult = this.selectAnswer.join("");
+				if (this.selectAnswer.length > 1) {
+					answerResult = this.selectAnswer.join(",");
+				}
+				this.$emit("change", answerResult);
+			},
+			submitForm() {
+				let answerResult = this.selectAnswer.join("");
+				if (this.selectAnswer.length > 1) {
+					answerResult = this.selectAnswer.join(",");
+				}
+				this.$emit("submit", answerResult);
+			},
 		}
 	}
 </script>
