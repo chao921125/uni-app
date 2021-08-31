@@ -10,23 +10,23 @@
 		<!-- 判断是否展示答案 -->
 		<view v-if="isShowIf" class="body-answer">
 			<template v-for="(item, index) in subjectInfo.anwer">
-				<view v-if="Number(item.is_true) === 1" class="answer-item answer-right" :key="index" @click="changeSelect(item.name)">
+				<view v-if="Number(item.is_true) === 1" class="answer-item answer-right" :key="index" @click="changeSelect(item.id)">
 					<text v-if="typeObj.value === 1 || typeObj.value === 2">{{ item.name }}.</text><text class="answer-select">{{ item.value }}</text>
 				</view>
-				<view v-else-if="selectAnswer.includes(item.name)" class="answer-item answer-wrong" :key="index" @click="changeSelect(item.name)">
+				<view v-else-if="selectAnswer.includes(item.id.toString())" class="answer-item answer-wrong" :key="index" @click="changeSelect(item.id)">
 					<text v-if="typeObj.value === 1 || typeObj.value === 2">{{ item.name }}.</text><text class="answer-select">{{ item.value }}</text>
 				</view>
-				<view v-else class="answer-item" :key="index" @click="changeSelect(item.name)">
+				<view v-else class="answer-item" :key="index" @click="changeSelect(item.id)">
 					<text v-if="typeObj.value === 1 || typeObj.value === 2">{{ item.name }}.</text><text class="answer-select">{{ item.value }}</text>
 				</view>
 			</template>
 		</view>
 		<view v-else class="body-answer">
 			<template v-for="(item, index) in subjectInfo.anwer">
-				<view v-if="selectAnswer.includes(item.name)" class="answer-item answer-right" :key="index" @click="changeSelect(item.name)">
+				<view v-if="selectAnswer.includes(item.id.toString())" class="answer-item answer-right" :key="index" @click="changeSelect(item.id)">
 					<text v-if="typeObj.value === 1 || typeObj.value === 2">{{ item.name }}.</text><text class="answer-select">{{ item.value }}</text>
 				</view>
-				<view v-else class="answer-item" :key="index" @click="changeSelect(item.name)">
+				<view v-else class="answer-item" :key="index" @click="changeSelect(item.id)">
 					<text v-if="typeObj.value === 1 || typeObj.value === 2">{{ item.name }}.</text><text class="answer-select">{{ item.value }}</text>
 				</view>
 			</template>
@@ -65,13 +65,17 @@
 				this.answerArray = Storage.getStorageSync("userSubjectAnswer") || [];
 				this.selectAnswer = this.answerArray[this.index] || [];
 				this.subjectType = "";
-				this.isShowIf = this.selectAnswer.length === this.subjectInfo.correct_answer.length;
+				if (this.typeObj.value === 3) {
+					this.isShowIf = this.selectAnswer.length === 1;
+				} else {
+					this.isShowIf = this.selectAnswer.length === this.subjectInfo.correct_answer.length;
+				}
 			}
 		},
 		methods: {
 			changeSelect(item) {
 				// 选择和已选择重复，则取消
-				let isHasIndex = this.selectAnswer.indexOf(item);
+				let isHasIndex = this.selectAnswer.indexOf(item.toString());
 				if (isHasIndex > -1) {
 					// 移除当前选择的答案
 					this.selectAnswer.splice(isHasIndex, 1);
@@ -84,7 +88,7 @@
 				if (this.typeObj.value === 3) {
 					let isIf = this.selectAnswer.length === 1;
 					if (isIf) return false;
-					this.selectAnswer.push(item);
+					this.selectAnswer.push(item.toString());
 					this.changeAnswer();
 					this.isShowIf = this.selectAnswer.length === 1;
 					// 提交答案
@@ -92,7 +96,7 @@
 				} else {
 					let isIf = this.selectAnswer.length === this.subjectInfo.correct_answer.length;
 					if (isIf) return false;
-					this.selectAnswer.push(item);
+					this.selectAnswer.push(item.toString());
 					this.changeAnswer();
 					this.isShowIf = this.selectAnswer.length === this.subjectInfo.correct_answer.length;
 					// 提交答案

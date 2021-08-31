@@ -8,7 +8,7 @@
 			{{ subjectInfo.name || "" }}
 		</view>
 		<view v-if="subjectInfo.anwer" class="body-answer">
-			<view class="answer-item" v-for="(item, index) in subjectInfo.anwer" :key="index" :class="{ 'answer-right' : Number(item.is_true) === 1 }" @click="selectAnswer(item)">
+			<view class="answer-item" v-for="(item, index) in subjectInfo.anwer" :key="index" :class="{ 'answer-right' : Number(item.is_true) === 1 }">
 				<text v-if="typeObj.value === 1 || typeObj.value === 2">{{ item.name }}.</text><text class="answer-select">{{ item.value }}</text>
 			</view>
 		</view>
@@ -35,9 +35,6 @@
 			return {
 				
 			};
-		},
-		methods: {
-			selectAnswer(item) {}
 		}
 	}
 </script>

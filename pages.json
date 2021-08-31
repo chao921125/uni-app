@@ -51,7 +51,7 @@
 		}, {
 			"path": "exercises",
 			"style": {
-				"navigationBarTitleText": "联系",
+				"navigationBarTitleText": "练习",
 				"navigationBarBackgroundColor": "#6DB5FB",
 				"navigationBarTextStyle": "white",
 				"enablePullDownRefresh": false

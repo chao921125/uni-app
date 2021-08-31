@@ -2,7 +2,7 @@
 	<view class="view-box">
 		<view class="ad-box">
 			<swiper v-if="bannerList.length > 0" class="swiper" :indicator-dots="swiperConfig.indicatorDots" :autoplay="swiperConfig.autoplay"
-				:interval="swiperConfig.interval" :duration="swiperConfig.duration">
+				:interval="swiperConfig.interval" :duration="swiperConfig.duration" :circular="swiperConfig.circular">
 				<swiper-item v-for="(item, index) in bannerList" :key="index" @click="gotoUrl(item.url)">
 					<view class="swiper-item">
 						<image class="ad-img" :src="item.pic"></image>
@@ -122,6 +122,7 @@
 				},
 				swiperConfig: {
 					indicatorDots: false,
+					circular: true,
 					autoplay: true,
 					interval: 2000,
 					duration: 500
