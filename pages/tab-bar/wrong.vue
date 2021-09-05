@@ -5,21 +5,23 @@
 			<view class="cc-flex-center num-box">
 				<view class="num-detail">
 					<image class="wrong-img" :src="images.userHead"></image>
-					<view class="cc-flex-center cc-text-weight num-text">0</view>
+					<view class="cc-flex-center cc-text-weight num-text">
+						<text v-if="selectDayAll === 1">{{ wrongNum.day || 0 }}</text>
+						<text v-else>{{ wrongNum.all || 0 }}</text>
+					</view>
 					<view class="cc-flex-center num-text">我的错题</view>
 				</view>
 			</view>
 			<view class="cc-flex-space-between num-box">
 				<view class="cc-flex-center btn-item"><button class="cc-flex-center btn-box btn-left" :class="{ 'btn-active' : selectDayAll === 1 }" @click="changeSelect(1)">今日错题</button></view>
-				<view class="cc-flex-center btn-item"><button class="cc-flex-center btn-box btn-right" :class="{ 'btn-active' : selectDayAll === 2 }" @click="changeSelect(2)">全部错题</button></view>
+				<view class="cc-flex-center btn-item"><button class="cc-flex-center btn-box btn-right" :class="{ 'btn-active' : selectDayAll === 0 }" @click="changeSelect(0)">全部错题</button></view>
 			</view>
 		</view>
 		<view class="wrong-detail">
 			<view class="detail-title">按题型练习</view>
-			<view v-if="wrongList && wrongList.length > 0" class="detail-list">
+			<view v-if="showWrong" class="detail-list">
 				<uni-list :border="false">
-					<uni-list-item title="题目类型1" rightText="0" :showArrow="true" :clickable="true" />
-					<uni-list-item title="题目类型2" rightText="1" :showArrow="true" :clickable="true" />
+					<uni-list-item v-for="(item, index) in typeList" :key="index" :title="item.name" @click="toExercises(item)" rightText=" " :showArrow="true" :clickable="true" />
 				</uni-list>
 			</view>
 			<no-data v-else class="no-data"></no-data>
@@ -29,6 +31,10 @@
 
 <script>
 	import NoData from "@/pages/component/no-data/no-data.vue";
+	import Storage from "@/common/storage.js";
+	import { getWrongNum } from "@/api/user.js";
+	import { getType } from "@/api/subject.js";
+	
 	export default {
 		name: "wrong",
 		components: {
@@ -39,13 +45,75 @@
 				images: {
 					userHead: require("@/static/icon/home-exam.png"),
 				},
+				// 1 乱序 顺序 专项 2 题型 未作 3 错题 4 收藏
+                methods: 3,
 				selectDayAll: 1,
-				wrongList: []
+				showWrong: false,
+				typeList: [],
+				wrongNum: {
+					day: 0,
+					all: 0
+				},
+				userInfo: {}
 			}
 		},
+		onShow() {
+			this.initData();
+		},
 		methods: {
+			initData() {
+				if (Storage.getStorageSync("userInfo")) {
+					this.userInfo = Storage.getStorageSync("userInfo");
+					this.getWrongInfo();
+					this.getTypes();
+				} else {
+					uni.navigateTo({
+						url: "/pages/login/login"
+					});
+				}
+			},
+			getWrongInfo() {
+				getWrongNum({
+					uid: this.userInfo.id
+				}).then(res => {
+					if (res.data) {
+						this.wrongNum.day = res.data.todaynum;
+						this.wrongNum.all = res.data.allnum;
+						this.showWrong = !!res.data.todaynum;
+					}
+				});
+			},
+			getTypes() {
+				getType({
+					uid: this.userInfo.id
+				}).then(res => {
+					if (res.data) {
+						let array = [];
+						for (let k in res.data) {
+							array.push({
+								id: k,
+								name: res.data[k]
+							});
+						}
+						this.typeList = array;
+					}
+				});
+			},
 			changeSelect(val) {
 				this.selectDayAll = val;
+				if (val === 1 && this.wrongNum.day) {
+					this.showWrong = true;
+				} else if (val === 0 && this.wrongNum.all) {
+					this.showWrong = true;
+				} else {
+					this.showWrong = false;
+				}
+			},
+			// 习题
+			toExercises(item) {
+				uni.navigateTo({
+					url: `/pages/subject/exercises?method=${this.methods}&type=${item.id}&isTody=${this.selectDayAll}`
+				});
 			}
 		}
 	}

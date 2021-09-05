@@ -7,7 +7,7 @@
 				<button class="cc-flex-center btn-item btn-score" :class="{'btn-un-select-l' : !isShowScore}" @tap="changeRankScore(true)">我的成绩</button>
 			</view>
 		</view>
-		<rank v-show="!isShowScore"></rank>
+		<rank v-show="!isShowScore" :rank="rankInfo"></rank>
 		<score v-show="isShowScore" :score="myScore"></score>
 	</view>
 </template>
@@ -16,7 +16,8 @@
 	import rank from "./component/rank.vue";
 	import score from "./component/score.vue";
 	import Storage from "@/common/storage.js";
-	import { myresult } from "@/api/user.js";
+	import { getUserScore } from "@/api/user.js";
+	import { getRank } from "@/api/other.js";
 	
 	export default {
 		name: "ranking",
@@ -31,6 +32,7 @@
 				},
 				isShowScore: false,
 				userInfo: null,
+				rankInfo: [],
 				myScore: null
 			}
 		},
@@ -41,17 +43,27 @@
 			initData() {
 				if (Storage.getStorageSync("userInfo")) {
 					this.userInfo = Storage.getStorageSync("userInfo");
+					this.getRankInfo();
 					this.getMyresult();
 				}
 			},
 			getMyresult() {
 				// 我的成绩
-				myresult({
+        getUserScore({
 					uid: this.userInfo.id,
 					cateid: this.userInfo.cateid
 				}).then(res => {
 					if (res.data) {
 						this.myScore = res.data;
+					}
+				});
+			},
+			getRankInfo() {
+				getRank({
+					uid: this.userInfo.id
+				}).then(res => {
+					if (res.data) {
+						this.rankInfo = res.data;
 					}
 				});
 			},

@@ -26,7 +26,7 @@
 						</view>
 					</template>
 				</uni-list-item>
-				<uni-list-item class="list-item" :showArrow="true" :clickable="true" @click="toSafe">
+				<uni-list-item v-if="false" class="list-item" :showArrow="true" :clickable="true" @click="toSafe">
 					<template v-slot:header>
 						<view class="item-header">
 							<image class="list-icon" :src="images.iconSafe"></image>
@@ -65,6 +65,7 @@
 
 <script>
 	import Storage from "@/common/storage.js";
+	import { getUserInfo } from "@/api/user.js";
 	
 	export default {
 		name: "my",
@@ -79,6 +80,7 @@
 					iconSafe: require("@/static/icon/icon-safe.png"),
 					iconOut: require("@/static/icon/icon-out.png")
 				},
+				info: {},
 				userInfo: null
 			}
 		},
@@ -89,7 +91,17 @@
 			initData() {
 				if (Storage.getStorageSync("userInfo")) {
 					this.userInfo = Storage.getStorageSync("userInfo");
+					this.getInfo();
 				}
+			},
+			getInfo() {
+        getUserInfo({
+					uid: this.userInfo.id
+				}).then(res => {
+					if (res.data) {
+						this.info = res.data;
+					}
+				});
 			},
 			toLogin() {
 				uni.redirectTo({

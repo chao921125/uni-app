@@ -57,7 +57,6 @@
 			},
 			// 习题
 			toExercises(item) {
-				console.log(item);
 				uni.navigateTo({
 					url: `/pages/subject/exercises?method=${this.methods}&type=${item.id}`
 				});

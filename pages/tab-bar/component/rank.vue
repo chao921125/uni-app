@@ -13,30 +13,47 @@
 				<view class="cc-flex-space-between list-item">
 					<view class="item-order">排名</view>
 					<view class="item-name">昵称</view>
-					<view class="item-score">分数（分）</view>
+					<view class="item-score">正确率</view>
 				</view>
 			</view>
 		</view>
 		<scroll-view class="list-box" scroll-y="true">
-			<view class="cc-flex-space-between list-item item-body" v-for="(item, index) in 10" :key="index">
-				<view class="item-order">
-					<image v-if="[0, '0'].indexOf(index) > -1" class="icon" :src="images.iconOrder1"></image>
-					<image v-else-if="[1, '1'].indexOf(index) > -1" class="icon" :src="images.iconOrder2"></image>
-					<image v-else-if="[2, '2'].indexOf(index) > -1" class="icon" :src="images.iconOrder3"></image>
-					<text v-else class="cc-flex-center icon">{{ item + 1 }}</text>
+			<template v-if="rank.length > 1">
+				<view class="cc-flex-space-between list-item item-body" v-for="(item, index) in rank" :key="index">
+					<view class="item-order">
+						<image v-if="[0, '0'].indexOf(index) > -1" class="icon" :src="images.iconOrder1"></image>
+						<image v-else-if="[1, '1'].indexOf(index) > -1" class="icon" :src="images.iconOrder2"></image>
+						<image v-else-if="[2, '2'].indexOf(index) > -1" class="icon" :src="images.iconOrder3"></image>
+						<text v-else class="cc-flex-center icon">{{ item + 1 }}</text>
+					</view>
+					<view class="cc-flex-align-center item-name">
+						<image class="user-img" :src="item.head_pic"></image>
+						<view class="user-name">
+							<text v-if="item.is_my">我</text>
+							<text v-else>{{ item.username }}</text>
+						</view>
+					</view>
+					<view class="item-score">{{ item.acc }}%</view>
 				</view>
-				<view class="cc-flex-align-center item-name">
-					<image class="user-img" :src="images.userHead"></image>
-					<view class="user-name">{{ item }}</view>
-				</view>
-				<view class="item-score">{{ item }}</view>
-			</view>
+			</template>
+			<no-data class="no-data"></no-data>
 		</scroll-view>
 	</view>
 </template>
 
 <script>
+	import NoData from "@/pages/component/no-data/no-data.vue";
+	
 	export default {
+		components: {
+			NoData
+		},
+		props: {
+			rank: {
+				type: Array,
+				default: []
+			}
+		},
 		data() {
 			return {
 				images: {
@@ -46,7 +63,7 @@
 					iconOrder2: require("@/static/icon/icon-order2.png"),
 					iconOrder3: require("@/static/icon/icon-order3.png")
 				},
-				arrayPick: ["全国排行榜", "全球排行榜"],
+				arrayPick: ["全国排行榜"],
 				indexPick: 0
 			};
 		},

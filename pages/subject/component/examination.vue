@@ -1,45 +1,86 @@
 <template>
 	<view class="comp-box">
 		<view class="cc-flex-align-center body-title">
-			<view class="order">第1题</view>
-			<view class="cc-flex-center type">单选题</view>
+			<view class="order">第{{ index }}题</view>
+			<view class="cc-flex-center type">{{ typeObj.name }}</view>
 		</view>
-		<view class="body-content">
-			单选题单选题单选题单选题单选题单选题单选题单选题单选题单选题单选题单选题单选题单选题单选题单选题
-		</view>
+		<view class="body-content" v-html="subjectInfo.name"></view>
 		<view class="body-answer">
-			<view class="answer-item" v-for="(item, index) in 4" :key="index" :class="{ 'answer-right' : selectAnswer.includes(item) }" @click="changeSelect(item)">
-				<text>A.</text><text class="answer-select">11111</text>
-			</view>
+			<template v-for="(item, index) in subjectInfo.anwer">
+				<view v-if="selectAnswer.includes(item.id.toString())" class="answer-item answer-right" :key="index" @click="changeSelect(item.id)">
+					<text v-if="typeObj.value === 1 || typeObj.value === 2">{{ item.name }}.</text><text class="answer-select">{{ item.value }}</text>
+				</view>
+				<view v-else class="answer-item" :key="index" @click="changeSelect(item.id)">
+					<text v-if="typeObj.value === 1 || typeObj.value === 2">{{ item.name }}.</text><text class="answer-select">{{ item.value }}</text>
+				</view>
+			</template>
 		</view>
 	</view>
 </template>
 
 <script>
+    import Storage from "@/common/storage.js";
+	
 	export default {
 		props: {
-			rightAnswer: {
-				type: Array,
-				default: () => { return [1]; }
+            subjectInfo: {
+                type: Object,
+                default: () => { return {}; }
+            },
+			typeObj: {
+				type: Object,
+				default: () => { return {}; }
+			},
+			index: {
+				type: [String, Number],
+				default: "1"
 			}
 		},
 		data() {
 			return {
-				selectAnswer: [],
 				isRadio: false,
+				answerArray: [],
+				selectAnswer: []
 			};
+		},
+		watch: {
+			subjectInfo() {
+				this.answerArray = Storage.getStorageSync("userSubjectAnswer") || [];
+				this.selectAnswer = this.answerArray[this.index] || [];
+			}
 		},
 		methods: {
 			changeSelect(item) {
-				if (this.isRadio && this.selectAnswer.length > 0) {
-					this.selectAnswer.splice(0, 1);
+				// 选择和已选择重复，则取消
+				let isHasIndex = this.selectAnswer.indexOf(item.toString());
+				if (isHasIndex > -1) {
+					// 移除当前选择的答案
+					this.selectAnswer.splice(isHasIndex, 1);
+					this.isShowIf = false;
+					this.changeAnswer();
+					// 移除对象数据
+					return false;
 				}
-				let selectIndex = this.selectAnswer.indexOf(item);
-				if (selectIndex > -1) {
-					this.selectAnswer.splice(selectIndex, 1);
-					return ;
+				// 长度相等则无法继续选择
+				if (this.typeObj.value === 1 || this.typeObj.value === 3) {
+					let isIf = this.selectAnswer.length === 1;
+					if (isIf) {
+						this.selectAnswer = [];
+					};
+					this.selectAnswer.push(item.toString());
+					// 提交答案
+					this.changeAnswer();
+				} else {
+					this.selectAnswer.push(item.toString());
+					this.changeAnswer();
 				}
-				this.selectAnswer.push(item);
+			},
+			changeAnswer() {
+				let answerResult = this.selectAnswer.join("");
+				if (this.selectAnswer.length > 1) {
+					answerResult = this.selectAnswer.join(",");
+				}
+				this.$emit("change", answerResult);
 			}
 		}
 	}

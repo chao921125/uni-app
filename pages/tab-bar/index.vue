@@ -15,11 +15,11 @@
 			<view class="left-box count-item">
 				<view class="cc-flex-center count-title">坚持天数</view>
 				<view class="cc-flex-center count-day">
-					<text v-if="userInfo">{{ userInfo.aa || 0 }}</text>
+					<text v-if="userInfo">{{ userInfo.timelog || 0 }}</text>
 					<text v-else>0</text>
 				</view>
 				<view class="cc-flex-center count-order">
-					<text v-if="userInfo">排名{{ userInfo.aa || 0 }}名</text>
+					<text v-if="userInfo">排名{{ userInfo.rank || 0 }}名</text>
 					<text v-else>排名0名</text>
 				</view>
 			</view>
@@ -27,12 +27,10 @@
 			<view class="right-box count-item">
 				<view class="cc-flex-center count-title">刷题正确率</view>
 				<view class="cc-flex-center count-day">
-					<text v-if="userInfo">{{ userInfo.acc || 0 }}%</text>
-					<text v-else>0%</text>
+					<text>{{ countInfo.acc || 0 }}%</text>
 				</view>
 				<view class="cc-flex-center count-order">
-					<text v-if="userInfo">排名{{ userInfo.aa || 0 }}名</text>
-					<text v-else>排名0名</text>
+					<text>排名{{ countInfo.aa || 0 }}名</text>
 				</view>
 			</view>
 		</view>
@@ -63,7 +61,7 @@
 						<image class="center-img" :src="images.order"></image>
 						<view class="cc-text-center center-text">
 							<view class="cc-flex-center center-title">顺序练习</view>
-							<view class="cc-flex-center center-num">0/0</view>
+							<view class="cc-flex-center center-num">{{ countInfo.zts || 0 }}/{{ countInfo.totalnum || 0 }}</view>
 						</view>
 					</view>
 					<view class="center-box center-bottom" @click="toExam">
@@ -103,7 +101,7 @@
 
 <script>
 	import Storage from "@/common/storage.js";
-	import { bannerGet } from "@/api/other.js";
+	import { getBanner, getIndexCount } from "@/api/other.js";
 	
 	export default {
 		name: "index",
@@ -128,7 +126,8 @@
 					duration: 500
 				},
 				bannerList: [],
-				userInfo: {}
+				userInfo: {},
+				countInfo: {}
 			}
 		},
 		onShow() {
@@ -138,13 +137,24 @@
 			initData() {
 				if (Storage.getStorageSync("userInfo")) {
 					this.userInfo = Storage.getStorageSync("userInfo");
+					this.getCount();
 				}
-				this.getBanner();
+				this.getBanners();
 			},
-			getBanner() {
-				bannerGet({}).then(res => {
+      getBanners() {
+        getBanner({}).then(res => {
 					if (res.data) {
 						this.bannerList = res.data;
+					}
+				});
+			},
+			getCount() {
+				getIndexCount({
+					uid: this.userInfo.id,
+					cateid: this.userInfo.cateid
+				}).then(res => {
+					if (res.data) {
+						this.countInfo = res.data;
 					}
 				});
 			},
@@ -270,6 +280,10 @@
 					z-index: 3;
 					top: calc(50% - 32rpx);
 					line-height: 32rpx;
+					.center-num {
+						margin-top: 5rpx;
+						font-size: 24rpx;
+					}
 				}
 				.center-t-btm {
 					top: calc(50% - 16rpx);

@@ -6,7 +6,7 @@
 				<button class="cc-flex-center btn btn-recite" :class="{ 'btn-select' : isShowRecite }" @click="changeModel(true)">背题模式</button>
 			</views>
 		</view>
-		<view v-if="!isShowRecite" class="body-subject"><answer :subjectInfo="subjectInfo" :typeObj="typeObj" :index="page" @submit="submitAnswer" @change="changeAnwer"></answer></view>
+		<view v-if="!isShowRecite" class="body-subject"><answer :subjectInfo="subjectInfo" :typeObj="typeObj" :index="page" @submit="submitAnswer" @change="changeAnswer"></answer></view>
 		<view v-else class="body-subject"><recite :subjectInfo="subjectInfo" :typeObj="typeObj" :index="page"></recite></view>
 		<view v-show="isShowAnalysis" class="body-an"><analysis :subjectInfo="subjectInfo"></analysis></view>
 		<view class="btn-fixed">
@@ -49,7 +49,7 @@
 	import analysis from "./component/analysis.vue";
     import Storage from "@/common/storage.js";
 	import { formatSubjectType } from "@/common/format.js";
-    import { getDisorder, getSubjectType, addAnswer, addCollect, wrongInfo, collectInfo } from "@/api/subject.js";
+    import { getDisorder, getSubjectType, addAnswer, addCollect, getWrong, getCollect } from "@/api/subject.js";
     
 	export default {
 		components: {
@@ -70,25 +70,27 @@
 				isShowRecite: false,
 				isShowAnalysis: false,
 				isCollection: false,
+				userInfo: null,
 				subjectObj: {},
 				subjectInfo: {},
-				userInfo: null,
 				typeObj: {
 					name: "",
 					value: ""
 				},
+				userAnswer: "",
                 page: 1,
                 cateid: 1,
 				// 1 乱序 顺序 专项 2 题型 未作 3 错题 4 收藏
                 methods: 1,
                 type: 0,
-				userAnswer: ""
+				// 0全部 1今天
+				isTody: 0
 			};
 		},
         onLoad(options) {
             this.page = 1;
             if (options.methods) {
-                this.methods = options.methods;
+                this.methods = Number(options.methods);
             }
             if (options.type) {
                 this.type = options.type;
@@ -96,16 +98,19 @@
 			if (options.cateid) {
 				this.cateid = options.cateid;
 			}
+			if (options.isTody) {
+				this.isTody = options.isTody;
+			}
         },
 		onShow() {
 			this.initData();
 		},
 		methods: {
 			initData() {
+				Storage.removeStorageSync("userSubjectAnswer");
 				if (Storage.getStorageSync("userInfo")) {
 					this.userInfo = Storage.getStorageSync("userInfo");
 				}
-				Storage.removeStorageSync("userSubjectAnswer");
 				this.getSubject();
 			},
             getSubject() {
@@ -162,11 +167,12 @@
                     });
                 } else if (this.methods === 3) {
 					// type 0未作题1单选2多选3判断4填空5简答
-					wrongInfo({
+					getWrong({
 					    uid: this.userInfo.id,
 					    cateid: this.userInfo.cateid,
 					    type: this.type,
-					    page: this.page
+					    page: this.page,
+					    isTody: this.isTody
 					}).then(res => {
 					    if (res.data) {
 							this.subjectObj = res;
@@ -185,7 +191,7 @@
 					});
 				} else {
 					// type 0未作题1单选2多选3判断4填空5简答
-					collectInfo({
+					getCollect({
 					    uid: this.userInfo.id,
 					    cateid: this.userInfo.cateid,
 					    type: this.type,
@@ -220,6 +226,9 @@
                 this.getSubject();
 			},
 			nextSubject() {
+				if (!this.subjectObj.totalnum) {
+					return false;
+				}
 				if (this.subjectObj.totalnum === this.page) {
 					uni.showToast({
 					    title: "已经是最后一题了",
@@ -235,7 +244,7 @@
 					this.getSubject();
 				}
 			},
-			changeAnwer(value) {
+      changeAnswer(value) {
 				this.userAnswer = value;
 			},
 			submitAnswer(value) {

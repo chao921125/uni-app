@@ -8,7 +8,7 @@
 			</view>
 			<view class="an-content">
 				<text class="ct-title">解析：</text>
-				<text class="ct-detail">{{ subjectInfo.dec || "" }}</text>
+				<text class="ct-detail" v-html="subjectInfo.dec"></text>
 			</view>
 		</view>
 	</view>

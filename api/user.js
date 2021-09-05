@@ -15,14 +15,40 @@ export function login(data) {
 }
 
 /**
+ * 用户信息
+ * @param {Object} data
+ * uid
+ */
+export function getUserInfo(data) {
+    return request({
+        url: config.basePath + '/index/mycenter',
+        method: 'POST',
+        data: data
+    });
+}
+
+/**
  * 我的成绩接口
  * @param {Object} data
  * uid
  * cateid 分类id
  */
-export function myresult(data) {
+export function getUserScore(data) {
     return request({
         url: config.basePath + '/index/myresult',
+        method: 'POST',
+        data: data
+    });
+}
+
+/**
+ * 我的错题数据
+ * @param {Object} data
+ * uid
+ */
+export function getWrongNum(data) {
+    return request({
+        url: config.basePath + '/index/mywrongnum',
         method: 'POST',
         data: data
     });

@@ -80,7 +80,7 @@ export function getSubjectType(data) {
  * uid
  * cateid
  */
-export function paper(data) {
+export function getPaper(data) {
     return request({
         url: config.basePath + '/index/paper',
         method: 'POST',
@@ -94,7 +94,7 @@ export function paper(data) {
  * uid
  * paper_id
  */
-export function paperInfo(data) {
+export function getPaperInfo(data) {
     return request({
         url: config.basePath + '/index/paperinfo',
         method: 'POST',
@@ -107,8 +107,9 @@ export function paperInfo(data) {
  * @param {Object} data
  * uid
  * paper_id
+ * page
  */
-export function wrongInfo(data) {
+export function getWrong(data) {
     return request({
         url: config.basePath + '/wap/wronginfo',
         method: 'POST',
@@ -122,7 +123,7 @@ export function wrongInfo(data) {
  * uid
  * paper_id
  */
-export function collectInfo(data) {
+export function getCollect(data) {
     return request({
         url: config.basePath + '/wap/storeinfo',
         method: 'POST',
@@ -152,7 +153,7 @@ export function addAnswer(data) {
  * @param {Object} data
  * paper_id
  */
-export function subjectSave(data) {
+export function addSubject(data) {
     return request({
         url: config.basePath + '/index/subtijiao',
         method: 'POST',

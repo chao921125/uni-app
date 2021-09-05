@@ -4,9 +4,7 @@
 			<view class="order">第{{ index }}题</view>
 			<view class="cc-flex-center type">{{ typeObj.name }}</view>
 		</view>
-		<view class="body-content">
-			{{ subjectInfo.name || "" }}
-		</view>
+		<view class="body-content" v-html="subjectInfo.name"></view>
 		<!-- 判断是否展示答案 -->
 		<view v-if="isShowIf" class="body-answer">
 			<template v-for="(item, index) in subjectInfo.anwer">
@@ -56,7 +54,6 @@
 			return {
 				answerArray: [],
 				selectAnswer: [],
-				subjectType: "",
 				isShowIf: false
 			};
 		},
@@ -64,7 +61,6 @@
 			subjectInfo() {
 				this.answerArray = Storage.getStorageSync("userSubjectAnswer") || [];
 				this.selectAnswer = this.answerArray[this.index] || [];
-				this.subjectType = "";
 				if (this.typeObj.value === 3) {
 					this.isShowIf = this.selectAnswer.length === 1;
 				} else {

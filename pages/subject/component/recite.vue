@@ -4,9 +4,7 @@
 			<view class="order">第{{ index }}题</view>
 			<view class="cc-flex-center type">{{ typeObj.name }}</view>
 		</view>
-		<view class="body-content">
-			{{ subjectInfo.name || "" }}
-		</view>
+		<view class="body-content" v-html="subjectInfo.name"></view>
 		<view v-if="subjectInfo.anwer" class="body-answer">
 			<view class="answer-item" v-for="(item, index) in subjectInfo.anwer" :key="index" :class="{ 'answer-right' : Number(item.is_true) === 1 }">
 				<text v-if="typeObj.value === 1 || typeObj.value === 2">{{ item.name }}.</text><text class="answer-select">{{ item.value }}</text>
