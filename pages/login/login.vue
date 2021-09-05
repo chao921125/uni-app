@@ -14,7 +14,7 @@
 			<view class="cc-flex-center form-btn">
 				<button class="cc-flex-center btn" @click="loginUser" :disabled="isLoadingLogin" :loading="isLoadingLogin">登录</button>
 			</view>
-			<view class="login-wx">
+			<view v-if="false" class="login-wx">
 				<view class="cc-flex-center">
 					<view class="wx-line"></view>
 					<image class="wx-icon" :src="images.iconWx" @click="wxLogin"></image>
@@ -22,7 +22,7 @@
 				</view>
 				<view class="cc-flex-center wx-text">微信登录</view>
 			</view>
-			<view><button @click="faceUp">人脸登录</button></view>
+			<view v-if="false"><button @click="faceUp">人脸登录</button></view>
 		</view>
 	</view>
 </template>

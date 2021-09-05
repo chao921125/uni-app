@@ -28,6 +28,19 @@ export function getUserInfo(data) {
 }
 
 /**
+ * 用户信息修改
+ * @param {Object} data
+ * uid
+ */
+export function updateUserInfo(data) {
+    return request({
+        url: config.basePath + '/index/putset',
+        method: 'POST',
+        data: data
+    });
+}
+
+/**
  * 我的成绩接口
  * @param {Object} data
  * uid

@@ -18,9 +18,9 @@
 					<text v-if="userInfo">{{ userInfo.timelog || 0 }}</text>
 					<text v-else>0</text>
 				</view>
-				<view class="cc-flex-center count-order">
-					<text v-if="userInfo">排名{{ userInfo.rank || 0 }}名</text>
-					<text v-else>排名0名</text>
+				<view class="cc-flex-center count-order"> 
+					<!-- <text v-if="userInfo">排名{{ userInfo.rank || 0 }}名</text>
+					<text v-else>排名0名</text> -->
 				</view>
 			</view>
 			<view class="line-bule"></view>
@@ -141,8 +141,8 @@
 				}
 				this.getBanners();
 			},
-      getBanners() {
-        getBanner({}).then(res => {
+			getBanners() {
+				getBanner({}).then(res => {
 					if (res.data) {
 						this.bannerList = res.data;
 					}

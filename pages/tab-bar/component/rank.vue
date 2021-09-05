@@ -2,11 +2,11 @@
 	<view class="rank-box">
 		<view class="search-box">
 			<view class="cc-flex-align-center select-rank">
-				<image class="icon-rank" :src="images.iconOrder"></image>
-				<picker @change="changeRank" class="rank-value" :value="indexPick" :range="arrayPick" mode="selector">
+				<image v-if="false" class="icon-rank" :src="images.iconOrder"></image>
+				<picker v-if="false" @change="changeRank" class="rank-value" :value="indexPick" :range="arrayPick" mode="selector">
 					<view class="uni-input">{{arrayPick[indexPick]}}</view>
 				</picker>
-				<uni-icons type="arrowdown" size="10" color="#FFFFFF"></uni-icons>
+				<uni-icons v-if="false" type="arrowdown" size="10" color="#FFFFFF"></uni-icons>
 			</view>
 			<view class="list-title-box">
 				<view class="list-space"></view>
