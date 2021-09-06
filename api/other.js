@@ -51,3 +51,18 @@ export function addFeedback(data) {
         data: data
     });
 }
+
+/**
+ * 反馈
+ * @param {Object} data
+ * uid
+ * relation
+ * content
+ */
+export function getAbout(data) {
+    return request({
+        url: config.basePath + '/index/about',
+        method: 'POST',
+        data: data
+    });
+}
