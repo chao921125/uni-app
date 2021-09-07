@@ -151,6 +151,7 @@ export function addAnswer(data) {
 /**
  * 全部提交接口（试卷交卷）
  * @param {Object} data
+ * uid
  * paper_id
  */
 export function addSubject(data) {

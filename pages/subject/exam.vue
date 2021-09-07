@@ -255,7 +255,10 @@
 					paper_id: 0
 				}).then(res => {
 					if (Number(res.code) === 0) {
-						addSubject().then(res => {
+						addSubject({
+							uid: this.userInfo.id,
+							paper_id: Number(this.examId)
+						}).then(res => {
 							if (res) {
 								uni.switchTab({
 									url: "/pages/tab-bar/index"
