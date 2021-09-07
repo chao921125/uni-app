@@ -44,6 +44,7 @@ const request = (options) => {
             fail: (err) => {
                 // 如果不处理异常信息，这里可以统一处理
                 console.log("response err : ", err);
+				uni.hideLoading();
 				toLogin();
                 reject(err);
             },
