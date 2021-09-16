@@ -2,6 +2,18 @@ import config from './index';
 import request from '../plugins/request';
 
 /**
+ * @param {Object} data
+ * uid
+ */
+export function getIndexSubjectType(data) {
+	return request({
+		url: config.basePath + '/index/getcategory',
+		method: 'POST',
+		data: data
+	});
+}
+
+/**
  * 获取题型接口
  * @param {Object} data
  * uid

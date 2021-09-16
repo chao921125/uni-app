@@ -1,5 +1,6 @@
 <template>
 	<view class="view-box">
+		<nav-bar></nav-bar>
 		<view class="ad-box">
 			<swiper v-if="bannerList.length > 0" class="swiper" :indicator-dots="swiperConfig.indicatorDots" :autoplay="swiperConfig.autoplay"
 				:interval="swiperConfig.interval" :duration="swiperConfig.duration" :circular="swiperConfig.circular">
@@ -101,10 +102,14 @@
 
 <script>
 	import Storage from "@/common/storage.js";
+	import NavBar from "@/pages/component/nav-bar/nav-bar.vue";
 	import { getBanner, getIndexCount } from "@/api/other.js";
 	
 	export default {
 		name: "index",
+		components: {
+			NavBar
+		},
 		data() {
 			return {
 				images: {

@@ -4,7 +4,8 @@
 		"style": {
 			"navigationBarTitleText": "首页",
 			"navigationBarBackgroundColor": "#FFFFFF",
-			"navigationBarTextStyle": "black"
+			"navigationBarTextStyle": "black",
+			"navigationStyle": "custom"
 		}
 	}, {
 		"path": "pages/tab-bar/wrong",
