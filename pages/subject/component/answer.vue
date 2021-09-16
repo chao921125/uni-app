@@ -87,18 +87,12 @@
 					this.selectAnswer.push(item.toString());
 					this.changeAnswer();
 					this.isShowIf = this.selectAnswer.length === 1;
-					// 提交答案
-					this.submitForm();
 				} else {
 					let isIf = this.selectAnswer.length === this.subjectInfo.correct_answer.length;
 					if (isIf) return false;
 					this.selectAnswer.push(item.toString());
 					this.changeAnswer();
 					this.isShowIf = this.selectAnswer.length === this.subjectInfo.correct_answer.length;
-					// 提交答案
-					if (this.isShowIf) {
-						this.submitForm();
-					}
 				}
 			},
 			changeAnswer() {
@@ -107,13 +101,6 @@
 					answerResult = this.selectAnswer.join(",");
 				}
 				this.$emit("change", answerResult);
-			},
-			submitForm() {
-				let answerResult = this.selectAnswer.join("");
-				if (this.selectAnswer.length > 1) {
-					answerResult = this.selectAnswer.join(",");
-				}
-				this.$emit("submit", answerResult);
 			},
 		}
 	}

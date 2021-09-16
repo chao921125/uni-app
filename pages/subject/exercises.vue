@@ -6,7 +6,7 @@
 				<button class="cc-flex-center btn btn-recite" :class="{ 'btn-select' : isShowRecite }" @click="changeModel(true)">背题模式</button>
 			</views>
 		</view>
-		<view v-if="!isShowRecite" class="body-subject"><answer :subjectInfo="subjectInfo" :typeObj="typeObj" :index="page" @submit="submitAnswer" @change="changeAnswer"></answer></view>
+		<view v-if="!isShowRecite" class="body-subject"><answer :subjectInfo="subjectInfo" :typeObj="typeObj" :index="page" @change="changeAnswer"></answer></view>
 		<view v-else class="body-subject"><recite :subjectInfo="subjectInfo" :typeObj="typeObj" :index="page"></recite></view>
 		<view v-show="isShowAnalysis" class="body-an"><analysis :subjectInfo="subjectInfo"></analysis></view>
 		<view class="btn-fixed">
@@ -223,7 +223,12 @@
                     return false;
                 }
                 this.page -= 1;
-                this.getSubject();
+				// 交卷只在答题模式中才可以提交，获取下一题目
+				if (!this.isShowRecite) {
+					this.submitSubject();
+				} else {
+					this.getSubject();
+				}
 			},
 			nextSubject() {
 				if (!this.subjectObj.totalnum) {
@@ -244,12 +249,8 @@
 					this.getSubject();
 				}
 			},
-      changeAnswer(value) {
+			changeAnswer(value) {
 				this.userAnswer = value;
-			},
-			submitAnswer(value) {
-				this.userAnswer = value;
-				this.nextSubject();
 			},
 			submitSubject() {
 				// 缓存
