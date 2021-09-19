@@ -4,7 +4,7 @@
 			<view class="tn-space"></view>
 			<view class="cc-flex-space-between tn-fixed">
 				<view class="tn-num"><text class="num-current">{{ page }}</text><text>/</text><text>{{ subjectObj.totalnum || 1 }}</text></view>
-				<view v-if="false" class="cc-flex-center tn-time"><text class="time-title">剩余时间：</text><cd-time class="time-text" :type="2" :seconds="1.5 * 60 * 60" @end="autoSubmit"></cd-time></view>
+				<view class="cc-flex-center tn-time"><text class="time-title">剩余时间：</text><cd-time class="time-text" :type="2" :seconds="Number(subjectObj.longtime) * 60" @end="autoSubmit"></cd-time></view>
 			</view>
 		</view>
 		<view class="body-subject"><examination :subjectInfo="subjectInfo" :typeObj="typeObj" :index="page" @change="changeAnswer"></examination></view>
@@ -111,6 +111,8 @@
 					submitImg: require("@/static/images/subject-confirm.png")
 				},
 				userInfo: null,
+				showCheck: 0,
+				isShowCheck: true, // 是否验证通过
 				// 试卷id
 				examId: "",
 				subjectObj: {},
@@ -153,6 +155,19 @@
 				});
 			},
 			getSubject() {
+				// 没有验证的情况下必须验证
+				if (!this.isShowCheck) {
+					this.faceUp();
+				} else if (this.showCheck && this.showCheck === index) {
+					this.isShowCheck = false;
+					// 调用人脸验证
+					this.faceUp();
+				} else {
+					this.getSubjectInfo();
+				}
+				
+			},
+			getSubjectInfo() {
 				getPaperInfo({
 					uid: this.userInfo.id,
 					paper_id: this.examId,
@@ -160,6 +175,11 @@
 				}).then(res => {
 					if (res.data) {
 						this.subjectObj = res;
+						if (res.totalnum < 30) {
+							this.showCheck = Math.round(Math.random() * (20 - 10) + 10);
+						} else {
+							this.showCheck = Math.round(Math.random() * (res.totalnum - 10) + 10);
+						}
 						this.subjectInfo = res.data[0];
 						this.typeObj.name = formatSubjectType(res.data[0].type);
 						this.typeObj.value = res.data[0].type;
@@ -294,6 +314,45 @@
 			dialogClose() {
 				this.$refs.dialogList.close();
 				this.$refs.dialogSubmit.close();
+			},
+			faceUp() {
+				let _this = this;
+				uni.chooseImage({
+					count: 1,
+					sizeType: ["original", "compressed"],
+					sourceType: ["camera"],
+					success: (res) => {
+						// 调用摄像头用这个
+						uni.getFileSystemManager().readFile({
+								filePath: res.tempFilePaths[0],
+								encoding: 'base64',
+								success: r => { 
+								let base64 = 'data:image/jpeg;base64,'  + r.data;
+								_this.loginFace(base64);
+							}
+						});
+					}
+				});
+			},
+			loginFace(base64) {
+				let _this = this;
+				loginFace({
+					name: this.userInfo.username,
+					pic: base64
+				}).then(res => {
+					if (res.data) {
+						_this.isShowCheck = true;
+						_this.getSubjectInfo();
+					} else {
+						_this.isShowCheck = false;
+						uni.switchTab({
+							url: "/pages/tab-bar/index"
+						});
+					}
+				}).catch(e => {
+					_this.isShowCheck = false;
+					console.log("login faild", e);
+				});
 			}
 		}
 	}

@@ -15,6 +15,20 @@ export function login(data) {
 }
 
 /**
+ * 人脸登录
+ * @param {Object} data
+ * name
+ * pic base64
+ */
+export function loginFace(data) {
+    return request({
+        url: config.basePath + '/index/pepolematch',
+        method: 'POST',
+        data: data
+    });
+}
+
+/**
  * 用户信息
  * @param {Object} data
  * uid

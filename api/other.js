@@ -66,3 +66,34 @@ export function getAbout(data) {
         data: data
     });
 }
+
+/**
+ * 评论
+ * @param {Object} data
+ * uid
+ * tid
+ * touid 用户id
+ * toid 评论id
+ * content
+ */
+export function addDiscuss(data) {
+    return request({
+        url: config.basePath + '/index/addcomment',
+        method: 'POST',
+        data: data
+    });
+}
+
+/**
+ * 获取评论
+ * @param {Object} data
+ * uid
+ * tid
+ */
+export function getDiscuss(data) {
+    return request({
+        url: config.basePath + '/index/getcomment',
+        method: 'POST',
+        data: data
+    });
+}

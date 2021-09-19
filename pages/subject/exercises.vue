@@ -9,6 +9,7 @@
 		<view v-if="!isShowRecite" class="body-subject"><answer :subjectInfo="subjectInfo" :typeObj="typeObj" :index="page" @change="changeAnswer"></answer></view>
 		<view v-else class="body-subject"><recite :subjectInfo="subjectInfo" :typeObj="typeObj" :index="page"></recite></view>
 		<view v-show="isShowAnalysis" class="body-an"><analysis :subjectInfo="subjectInfo"></analysis></view>
+		<view v-if="discussInfo.comment && discussInfo.comment.length > 0" class="body-discuss"><discuss :discussInfo="discussInfo" @add="addDiscussInfo"></discuss></view>
 		<view class="btn-fixed">
 			<view class="btn-space"></view>
 			<view class="cc-flex-center btn-position">
@@ -47,15 +48,18 @@
 	import answer from "./component/answer.vue";
 	import recite from "./component/recite.vue";
 	import analysis from "./component/analysis.vue";
+	import discuss from "./component/discuss.vue";
     import Storage from "@/common/storage.js";
 	import { formatSubjectType } from "@/common/format.js";
     import { getDisorder, getSubjectType, addAnswer, addCollect, getWrong, getCollect } from "@/api/subject.js";
+	import { getDiscuss, addDiscuss } from "@/api/other.js";
     
 	export default {
 		components: {
 			answer,
 			recite,
-			analysis
+			analysis,
+			discuss
 		},
 		data() {
 			return {
@@ -84,7 +88,8 @@
                 methods: 1,
                 type: 0,
 				// 0全部 1今天
-				isTody: 0
+				isTody: 0,
+				discussInfo: {}
 			};
 		},
         onLoad(options) {
@@ -135,6 +140,7 @@
 							if (!Storage.getStorageSync("userSubjectAnswer")) {
 								Storage.setStorageSync("userSubjectAnswer", new Array(res.totalnum + 2));
 							}
+							this.getDiscussInfo();
                         }
                     }).catch(() => {
                         uni.showToast({
@@ -158,6 +164,7 @@
 							if (!Storage.getStorageSync("userSubjectAnswer")) {
 								Storage.setStorageSync("userSubjectAnswer", new Array(res.totalnum + 2));
 							}
+							this.getDiscussInfo();
                         }
                     }).catch(() => {
                         uni.showToast({
@@ -182,6 +189,7 @@
 							if (!Storage.getStorageSync("userSubjectAnswer")) {
 								Storage.setStorageSync("userSubjectAnswer", new Array(res.totalnum + 2));
 							}
+							this.getDiscussInfo();
 					    }
 					}).catch(() => {
 					    uni.showToast({
@@ -205,6 +213,7 @@
 							if (!Storage.getStorageSync("userSubjectAnswer")) {
 								Storage.setStorageSync("userSubjectAnswer", new Array(res.totalnum + 2));
 							}
+							this.getDiscussInfo();
 					    }
 					}).catch(() => {
 					    uni.showToast({
@@ -291,6 +300,85 @@
 						this.isCollection = val;
 					}
 				});
+			},
+			getDiscussInfo() {
+				let _this = this;
+				this.discussInfo = {};
+				getDiscuss({ uid: this.userInfo.id, tid: this.subjectInfo.id }).then(res => {
+					if (res) {
+						let data = JSON.parse(JSON.stringify(res.data));
+						_this.formatDiscussInfo(data);
+						_this.discussInfo = {
+							comment: data
+						};
+					}
+				}).catch(e => {
+					console.log(e);
+				});
+			},
+			formatDiscussInfo(data) {
+				/**
+				 * comment // list
+				 * avatarUrl //头像
+				 * content //评论内容
+				 * nickName //评论账号
+				 * id //评论id
+				 * uId //评论用户id
+				 * createTime //评论时间
+				 * children //子节点
+				 * 
+				 * "id":"",//评论id
+				 * "uid":"",//评论用户id
+				 * "username":"",//评论账号
+				 * "truename":"",//真实姓名
+				 * "head_pic":"",//头像
+				 * "content":"",//评论内容
+				 * "addtime":"",//评论时间
+				 * "child":"",//子节点
+				 */
+				if (!data && data.length < 1) { return false; }
+				for (let i of data) {
+					if (i.child && i.child.legth > 0) {
+						// i["id"] = i.id;
+						i["uId"] = i.uid;
+						i["createTime"] = i.addtime;
+						i["nickName"] = i.truename;
+						i["avatarUrl"] = i.head_pic;
+						i["content"] = i.content;
+						i["children"] = i.child;
+						this.formatDiscussInfo(i.children);
+					} else {
+						// i["id"] = i.id;
+						i["uId"] = i.uid;
+						i["createTime"] = i.addtime;
+						i["nickName"] = i.truename;
+						i["avatarUrl"] = i.head_pic;
+						i["content"] = i.content;
+						i["children"] = [];
+					}
+				}
+			},
+			addDiscussInfo(param) {
+				let params = {
+					uid: this.userInfo.id,
+					tid: this.subjectInfo.id,
+					content: param.content
+				};
+				if (param.pId) {
+					Object.assign(params, { toid: param.pId });
+				}
+				if (param.uId) {
+					Object.assign(params, { touid: param.uId });
+				}
+				addDiscuss(params).then(res => {
+					uni.showToast({
+						title: "评论成功",
+						duration: 2000
+					});
+					this.getDiscussInfo();
+				}).catch(e => {
+					console.log(e);
+				});
 			}
 		}
 	}
@@ -334,6 +422,9 @@
 		margin-top: 10rpx;
 	}
 	.body-an {
+		margin-top: 10rpx;
+	}
+	.body-discuss {
 		margin-top: 10rpx;
 	}
 	.btn-fixed {

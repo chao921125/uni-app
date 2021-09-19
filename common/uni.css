@@ -1547,6 +1547,12 @@ wrong: #DAB9BC #FEEBEF
 	color: #4E9BF5;
 }
 
+.cc-btn-bg {
+	background-color: #6DB5FB;
+	color: #FFFFFF;
+	font-size: 26rpx;
+}
+
 .cc-btn {
 	width: 500rpx;
 	height: 80rpx;

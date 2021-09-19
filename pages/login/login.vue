@@ -22,7 +22,7 @@
 				</view>
 				<view class="cc-flex-center wx-text">微信登录</view>
 			</view>
-			<view v-if="false"><button @click="faceUp">人脸登录</button></view>
+			<view class="cc-flex-center form-btn"><button class="cc-flex-center btn" @click="faceUp">人脸登录</button></view>
 		</view>
 	</view>
 </template>
@@ -30,7 +30,7 @@
 <script>
 	import { isOpenSetting, getOpenSetting } from "@/common/plugin.js";
 	import Storage from "@/common/storage.js";
-	import { login } from "@/api/user.js";
+	import { login, loginFace } from "@/api/user.js";
 	
 	export default {
 		data() {
@@ -154,20 +154,78 @@
 				});
 			},
 			faceUp() {
-				isOpenSetting(5).then(res => {
-					console.log(res);
-				});
-				getOpenSetting().then(res => {
-					console.log(res);
-				});
-				// uni.chooseImage({
-				// 	count: 1,
-				// 	sizeType: ["original", "compressed"],
-				// 	sourceType: ["camera"],
-				// 	success: (res) => {
-				// 		console.log(res);
-				// 	}
+				let _this = this;
+				// isOpenSetting(5).then(res => {
+				// 	console.log(res);
 				// });
+				// getOpenSetting().then(res => {
+				// 	console.log(res);
+				// });
+				if (!this.form.name) {
+					uni.showToast({
+						title: "请输入账户",
+						icon: "none"
+					});
+					return false;
+				}
+				uni.chooseImage({
+					count: 1,
+					sizeType: ["original", "compressed"],
+					sourceType: ["camera"],
+					success: (res) => {
+						// 调用相册用这个
+						// this.urlToBase64(res.tempFilePaths[0]).then(res => {
+						// 	console.log(res);
+						// });
+						// 调用摄像头用这个
+						uni.getFileSystemManager().readFile({
+								filePath: res.tempFilePaths[0],
+								encoding: 'base64',
+								success: r => { 
+								let base64 = 'data:image/jpeg;base64,'  + r.data;
+								_this.loginFace(base64);
+							}
+						});
+					}
+				});
+			},
+			loginFace(base64) {
+				loginFace({
+					name: this.form.name,
+					pic: base64
+				}).then(res => {
+					if (res.data) {
+						Storage.setStorageSync("userInfo", res.data);
+						uni.switchTab({
+							url: "/pages/tab-bar/index"
+						});
+					} else {
+						uni.showToast({
+						    title: "不存在的账号",
+						    icon: "none"
+						});
+					}
+				}).catch(e => {
+					this.isLoadingLogin = false;
+					console.log("login faild", e);
+				});
+			},
+			urlToBase64(url) {
+				return new Promise((resolve, reject) => {
+					uni.request({
+						url: url,
+						method: "GET",
+						responseType: "arraybuffer",
+						success: res => {
+							let base64 = wx.arrayBufferToBase64(res.data); //把arraybuffer转成base64
+							base64 = "data:image/jpeg;base64," + base64; //不加上这串字符，在页面无法显示
+							resolve(base64);
+						},
+						fail: e => {
+							reject(e);
+						}
+					});
+				});
 			}
 		}
 	}

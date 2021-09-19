@@ -11,7 +11,7 @@
 			},
 			seconds: {
 				type: Number,
-				default: 120
+				default: 0
 			},
 			startDate: {
 				type: [Date, String],
@@ -25,7 +25,7 @@
 		data() {
 			return {
 				countdown: "",
-				secondsTime: 120,
+				secondsTime: 0,
 				time: null
 			};
 		},
