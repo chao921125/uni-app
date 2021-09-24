@@ -49,7 +49,7 @@
 			},
 			getMyresult() {
 				// 我的成绩
-        getUserScore({
+				getUserScore({
 					uid: this.userInfo.id,
 					cateid: this.userInfo.cateid
 				}).then(res => {
