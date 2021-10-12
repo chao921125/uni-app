@@ -181,7 +181,7 @@
 						uni.getFileSystemManager().readFile({
 								filePath: res.tempFilePaths[0],
 								encoding: 'base64',
-								success: r => { 
+								success: r => {
 								let base64 = 'data:image/jpeg;base64,'  + r.data;
 								_this.loginFace(base64);
 							}

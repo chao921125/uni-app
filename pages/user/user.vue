@@ -66,27 +66,15 @@
 					sizeType: ["original", "compressed"],
 					sourceType: ["album"],
 					success: (res) => {
-						this.urlToBase64(res.tempFilePaths[0]).then(res => {
-							this.form.img = res;
+						const imgSrc = res.tempFilePaths[0];
+						uni.getFileSystemManager().readFile({
+							filePath: imgSrc,
+							encoding: 'base64',
+							success: r => {
+								this.form.img = 'data:image/jpeg;base64,'  + r.data;
+							}
 						});
 					}
-				});
-			},
-			urlToBase64(url) {
-				return new Promise((resolve, reject) => {
-					uni.request({
-						url: url,
-						method: "GET",
-						responseType: "arraybuffer",
-						success: res => {
-							let base64 = wx.arrayBufferToBase64(res.data); //把arraybuffer转成base64
-							base64 = "data:image/jpeg;base64," + base64; //不加上这串字符，在页面无法显示
-							resolve(base64);
-						},
-						fail: e => {
-							reject(e);
-						}
-					});
 				});
 			},
 			submitForm() {
