@@ -158,7 +158,7 @@
 				// 没有验证的情况下必须验证
 				if (!this.isShowCheck) {
 					this.faceUp();
-				} else if (this.showCheck && this.showCheck === index) {
+				} else if (this.showCheck && this.showCheck === this.page) {
 					this.isShowCheck = false;
 					// 调用人脸验证
 					this.faceUp();
@@ -175,9 +175,9 @@
 				}).then(res => {
 					if (res.data) {
 						this.subjectObj = res;
-						if (res.totalnum < 30) {
+						if (!this.showCheck && res.totalnum < 30) {
 							this.showCheck = Math.round(Math.random() * (20 - 10) + 10);
-						} else {
+						} else if(!this.showCheck) {
 							this.showCheck = Math.round(Math.random() * (res.totalnum - 10) + 10);
 						}
 						this.subjectInfo = res.data[0];
