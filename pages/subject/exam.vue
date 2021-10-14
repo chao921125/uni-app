@@ -4,7 +4,7 @@
 			<view class="tn-space"></view>
 			<view class="cc-flex-space-between tn-fixed">
 				<view class="tn-num"><text class="num-current">{{ page }}</text><text>/</text><text>{{ subjectObj.totalnum || 1 }}</text></view>
-				<view class="cc-flex-center tn-time"><text class="time-title">剩余时间：</text><cd-time class="time-text" :type="2" :seconds="Number(subjectObj.longtime) * 60" @end="autoSubmit"></cd-time></view>
+				<view class="cc-flex-center tn-time"><text class="time-title">剩余时间：</text><cd-time v-if="subjectObj.longtime" class="time-text" :type="2" :seconds="Number(subjectObj.longtime) * 60" @end="autoSubmit"></cd-time></view>
 			</view>
 		</view>
 		<view class="body-subject"><examination :subjectInfo="subjectInfo" :typeObj="typeObj" :index="page" @change="changeAnswer"></examination></view>
