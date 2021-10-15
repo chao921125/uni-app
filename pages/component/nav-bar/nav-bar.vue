@@ -66,6 +66,7 @@
 				this.userInfo.cateid = item.pid;
 				Storage.setStorageSync("userInfo", this.userInfo);
 				this.isShowOptions = !this.isShowOptions;
+                this.$emit("change");
 			}
 		}
 	}

@@ -1,6 +1,6 @@
 <template>
 	<view class="view-box">
-		<nav-bar></nav-bar>
+		<nav-bar @change="changeNavBar"></nav-bar>
 		<view class="ad-box">
 			<swiper v-if="bannerList.length > 0" class="swiper" :indicator-dots="swiperConfig.indicatorDots" :autoplay="swiperConfig.autoplay"
 				:interval="swiperConfig.interval" :duration="swiperConfig.duration" :circular="swiperConfig.circular">
@@ -139,6 +139,9 @@
 			this.initData();
 		},
 		methods: {
+            changeNavBar() {
+                this.initData();
+            },
 			initData() {
 				if (Storage.getStorageSync("userInfo")) {
 					this.userInfo = Storage.getStorageSync("userInfo");
