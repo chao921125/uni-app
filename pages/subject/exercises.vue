@@ -94,8 +94,8 @@
 		},
         onLoad(options) {
             this.page = 1;
-            if (options.methods) {
-                this.methods = Number(options.methods);
+            if (options.method) {
+                this.methods = Number(options.method);
             }
             if (options.type) {
                 this.type = options.type;

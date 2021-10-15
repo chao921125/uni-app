@@ -25,8 +25,8 @@
 			};
 		},
         onLoad(options) {
-            if (options.methods) {
-                this.methods = options.methods;
+            if (options.method) {
+                this.methods = options.method;
             }
             if (options.type) {
                 this.type = options.type;
