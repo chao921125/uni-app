@@ -54,6 +54,7 @@
 						this.selected.label = res.data[0].name;
 						this.userInfo.cateid = res.data[0].pid;
 						Storage.setStorageSync("userInfo", this.userInfo);
+						this.$emit("change");
 					}
 				});
 			},

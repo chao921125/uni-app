@@ -26,7 +26,7 @@
 						<view class="cc-flex-center btn-icon"><image class="icon" :src="images.iconMenu"></image></view>
 						<view class="cc-flex-center btn-text">{{ page }}/{{ subjectObj.totalnum || 1 }}</view>
 					</view>
-					<view v-if="isCollection || is_store" class="btn-item" @click="addRemoveCollect(false)">
+					<view v-if="!!subjectInfo.is_store" class="btn-item" @click="addRemoveCollect(false)">
 						<view class="cc-flex-center btn-icon"><image class="icon" :src="images.iconCollection"></image></view>
 						<view class="cc-flex-center btn-text"><text>取消收藏</text></view>
 					</view>
@@ -125,7 +125,7 @@
                 }
                 if (this.methods === 1) {
                     // type 0乱序 1顺序 cateid 专项
-                    getSubjectType({
+                    getDisorder({
                         uid: this.userInfo.id,
                         cateid: this.userInfo.cateid,
                         type: this.type,
@@ -150,7 +150,7 @@
                     });
                 } else if (this.methods === 2) {
                     // type 0未作题1单选2多选3判断4填空5简答
-                    getDisorder({
+                    getSubjectType({
                         uid: this.userInfo.id,
                         cateid: this.userInfo.cateid,
                         type: this.type,
@@ -298,6 +298,7 @@
 				}).then(res => {
 					if (Number(res.code) === 0) {
 						this.isCollection = val;
+						this.initData();
 					}
 				});
 			},

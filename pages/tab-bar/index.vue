@@ -136,7 +136,7 @@
 			}
 		},
 		onShow() {
-			this.initData();
+			// this.initData();
 		},
 		methods: {
             changeNavBar() {
