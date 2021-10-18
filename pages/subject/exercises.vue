@@ -26,7 +26,12 @@
 						<view class="cc-flex-center btn-icon"><image class="icon" :src="images.iconMenu"></image></view>
 						<view class="cc-flex-center btn-text">{{ page }}/{{ subjectObj.totalnum || 1 }}</view>
 					</view>
-					<view v-if="!!subjectInfo.is_store" class="btn-item" @click="addRemoveCollect(false)">
+					
+					<view v-if="methods === 3" class="btn-item" @click="removeWrong">
+						<view class="cc-flex-center btn-icon"><image class="icon" :src="images.iconCollection"></image></view>
+						<view class="cc-flex-center btn-text"><text>移除错题</text></view>
+					</view>
+					<view v-else-if="!!subjectInfo.is_store" class="btn-item" @click="addRemoveCollect(false)">
 						<view class="cc-flex-center btn-icon"><image class="icon" :src="images.iconCollection"></image></view>
 						<view class="cc-flex-center btn-text"><text>取消收藏</text></view>
 					</view>
@@ -51,7 +56,7 @@
 	import discuss from "./component/discuss.vue";
     import Storage from "@/common/storage.js";
 	import { formatSubjectType } from "@/common/format.js";
-    import { getDisorder, getSubjectType, addAnswer, addCollect, getWrong, getCollect } from "@/api/subject.js";
+    import { getDisorder, getSubjectType, addAnswer, addCollect, deleteCollect, deleteWrong, getWrong, getCollect } from "@/api/subject.js";
 	import { getDiscuss, addDiscuss } from "@/api/other.js";
     
 	export default {
@@ -324,13 +329,38 @@
 				this.isShowAnalysis = !this.isShowAnalysis;
 			},
 			addRemoveCollect(val) { // 是否加入收藏
-				addCollect({
+				if (val) {
+					addCollect({
+						uid: this.userInfo.id,
+						tid: this.subjectInfo.id,
+					}).then(res => {
+						if (Number(res.code) === 0) {
+							this.isCollection = val;
+							this.subjectInfo.is_store = 1;
+						}
+					});
+				} else {
+					deleteCollect({
+						uid: this.userInfo.id,
+						tid: this.subjectInfo.id,
+					}).then(res => {
+						if (Number(res.code) === 0 && this.methods === 4) {
+							this.getSubject();
+						} else if (Number(res.code) === 0) {
+							this.isCollection = val;
+							this.subjectInfo.is_store = 0;
+						}
+					});
+				}
+				
+			},
+			removeWrong() {
+				deleteWrong({
 					uid: this.userInfo.id,
 					tid: this.subjectInfo.id,
 				}).then(res => {
 					if (Number(res.code) === 0) {
-						this.isCollection = val;
-						this.subjectInfo.is_store = 1;
+						this.getSubject();
 					}
 				});
 			},

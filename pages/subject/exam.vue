@@ -66,21 +66,16 @@
 		</uni-popup>
 		<uni-popup ref="dialogScore" type="center" :mask-click="false">
 			<view class="submit-box">
-				<view class="cc-flex-center submit-title">交卷</view>
+				<view class="cc-flex-center submit-title">得分</view>
 				<view class="cc-flex-center submit-img"><image class="img" :src="images.submitImg"></image></view>
-				<view class="cc-flex-space-between submit-do">
+				<view class="cc-flex-center submit-do">
 					<view class="do-num">
-						<view class="cc-flex-center do-num-val">{{doVal}}</view>
-						<view class="cc-flex-center do-num-title">已做</view>
-					</view>
-					<view class="do-num">
-						<view class="cc-flex-center do-num-val">{{unDoVal}}</view>
-						<view class="cc-flex-center do-num-title">未做</view>
+						<view class="cc-flex-center do-num-val">{{resultScoe}}</view>
+						<view class="cc-flex-center do-num-title"></view>
 					</view>
 				</view>
-				<view class="cc-flex-space-between submit-btn">
-					<view class="cc-flex-center btn-box"><button class="btn btn-submit" @click="submitForm">现在交卷</button></view>
-					<view class="cc-flex-center btn-box"><button class="btn btn-continue" @click="dialogClose">继续答题</button></view>
+				<view class="cc-flex-center submit-btn">
+					<view class="cc-flex-center btn-box"><button class="btn btn-continue" @click="closeScore">确认</button></view>
 				</view>
 			</view>
 		</uni-popup>
@@ -127,7 +122,8 @@
 				userAnswer: "",
 				unDoVal: 0,
 				doVal: 0,
-                page: 1
+                page: 1,
+				resultScoe: 0
 			};
 		},
 		onShow() {
@@ -275,6 +271,7 @@
 				this.submitSubject();
 			},
 			submitForm() {
+				let _this = this;
 				addAnswer({
 					uid: this.userInfo.id,
 					tid: this.subjectInfo.id,
@@ -284,13 +281,12 @@
 				}).then(res => {
 					if (Number(res.code) === 0) {
 						addSubject({
-							uid: this.userInfo.id,
-							paper_id: Number(this.examId)
+							uid: _this.userInfo.id,
+							paper_id: Number(_this.examId)
 						}).then(res => {
 							if (res) {
-								uni.switchTab({
-									url: "/pages/tab-bar/index"
-								});
+								_this.resultScoe = res.totalfen;
+								_this.showScore();
 							}
 						});
 					}

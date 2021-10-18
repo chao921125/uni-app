@@ -54,6 +54,34 @@ export function addCollect(data) {
 }
 
 /**
+ * 移除收藏
+ * @param {Object} data
+ * uid
+ * tid
+ */
+export function deleteCollect(data) {
+    return request({
+        url: config.basePath + '/wap/removestore',
+        method: 'POST',
+        data: data
+    });
+}
+
+/**
+ * 移除错题
+ * @param {Object} data
+ * uid
+ * tid
+ */
+export function deleteWrong(data) {
+    return request({
+        url: config.basePath + '/wap/removewrong',
+        method: 'POST',
+        data: data
+    });
+}
+
+/**
  * 乱序/顺序/专项刷题接口
  * @param {Object} data
  * uid
