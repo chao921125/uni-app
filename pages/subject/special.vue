@@ -9,14 +9,14 @@
 		</view>
 		<view class="body-box right-box">
 			<scroll-view scroll-y="true" class="scroll-box">
-				<view class="cc-card right-item card-item" v-for="(item, index) in childrenList" :key="index" @click="toExercises(item)">
-					<view class="cc-flex-center">
+				<view class="cc-card right-item card-item" v-for="(item, index) in childrenList" :key="index">
+					<view class="cc-flex-center" @click.stop="toExercises(item)">
 						<view class="type-title-line"></view>
 						<view class="type-title">{{item.name}}</view>
 						<view class="type-title-line"></view>
 					</view>
 					<view class="cc-flex-space-between">
-						<view class="cc-flex-center list-item" v-for="(row, i) in item.child" :key="i" :class="{ 'un-auth' : !row.is_select }">{{ row.name}}</view>
+						<view class="cc-flex-center list-item" v-for="(row, i) in item.child" :key="i" :class="{ 'un-auth' : !row.is_select }" @click.stop="toExercises(row)">{{ row.name}}</view>
 					</view>
 				</view>
 			</scroll-view>
@@ -60,7 +60,7 @@
 					}).then(res => {
 						if (res.data) {
 							this.specialList = res.data;
-							this.childrenList = this.specialList[0].child;
+							this.childrenList = this.specialList[this.currentIndex].child;
 						}
 					});
 				}
@@ -72,7 +72,7 @@
 			},
 			// 习题
 			toExercises(item) {
-				if (!item.is_select) return ;
+				// if (!item.is_select) return ;
 				uni.navigateTo({
 					url: `/pages/subject/exercises?method=${this.methods}&type=${this.type}&cateid=${item.id}`
 				});

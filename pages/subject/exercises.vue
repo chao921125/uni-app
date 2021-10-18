@@ -141,6 +141,14 @@
 								Storage.setStorageSync("userSubjectAnswer", new Array(res.totalnum + 2));
 							}
 							this.getDiscussInfo();
+                        } else {
+                            uni.showToast({
+                                title: res.msg,
+                                icon: "none"
+                            });
+                            setTimeout(() => {
+                                uni.navigateBack({});
+                            }, 1500);
                         }
                     }).catch(() => {
                         uni.showToast({
@@ -165,6 +173,14 @@
 								Storage.setStorageSync("userSubjectAnswer", new Array(res.totalnum + 2));
 							}
 							this.getDiscussInfo();
+                        } else {
+                            uni.showToast({
+                                title: res.msg,
+                                icon: "none"
+                            });
+                            setTimeout(() => {
+                                uni.navigateBack({});
+                            }, 1500);
                         }
                     }).catch(() => {
                         uni.showToast({
@@ -190,7 +206,15 @@
 								Storage.setStorageSync("userSubjectAnswer", new Array(res.totalnum + 2));
 							}
 							this.getDiscussInfo();
-					    }
+					    } else {
+                            uni.showToast({
+                                title: res.msg,
+                                icon: "none"
+                            });
+                            setTimeout(() => {
+                                uni.navigateBack({});
+                            }, 1500);
+                        }
 					}).catch(() => {
 					    uni.showToast({
 					        title: "已经是最后一题了",
@@ -214,7 +238,15 @@
 								Storage.setStorageSync("userSubjectAnswer", new Array(res.totalnum + 2));
 							}
 							this.getDiscussInfo();
-					    }
+					    } else {
+                            uni.showToast({
+                                title: res.msg,
+                                icon: "none"
+                            });
+                            setTimeout(() => {
+                                uni.navigateBack({});
+                            }, 1500);
+                        }
 					}).catch(() => {
 					    uni.showToast({
 					        title: "已经是最后一题了",

@@ -151,7 +151,15 @@
 						this.examId = res.paper_id;
 						// 根据试卷获取试题
 						this.getSubject();
-					}
+					} else {
+                        uni.showToast({
+                            title: res.msg,
+                            icon: "none"
+                        });
+                        setTimeout(() => {
+                            uni.navigateBack({});
+                        }, 1500);
+                    }
 				});
 			},
 			getSubject() {
