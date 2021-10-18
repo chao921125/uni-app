@@ -298,7 +298,7 @@
 				}).then(res => {
 					if (Number(res.code) === 0) {
 						this.isCollection = val;
-						this.initData();
+						this.subjectInfo.is_store = 1;
 					}
 				});
 			},
