@@ -257,7 +257,7 @@
 					tid: this.subjectInfo.id,
 					type: this.subjectInfo.type,
 					answer: this.userAnswer,
-					paper_id: 0
+					paper_id: this.examId
 				}).then(res => {
 					if (Number(res.code) === 0) {
 						this.getSubject();
@@ -277,7 +277,7 @@
 					tid: this.subjectInfo.id,
 					type: this.subjectInfo.type,
 					answer: this.userAnswer,
-					paper_id: 0
+					paper_id: this.examId
 				}).then(res => {
 					if (Number(res.code) === 0) {
 						addSubject({
