@@ -135,9 +135,22 @@
 				countInfo: {}
 			}
 		},
+        onLoad() {
+            uni.startPullDownRefresh({
+                success: () => {
+                    this.initData();
+                }
+            })
+        },
 		onShow() {
 			// this.initData();
 		},
+        onPullDownRefresh() {
+            this.initData();
+            setTimeout(() => {
+                uni.stopPullDownRefresh();
+            }, 1500);
+        },
 		methods: {
             changeNavBar() {
                 this.initData();
