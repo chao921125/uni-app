@@ -30,3 +30,17 @@ plugins 公共的插件
 static 图片等静态资源
 pages.json 页面配置路径
 ```
+
+```
+@media screen and (min-width: 800px) {
+
+  html, body {
+    font-size: 28rpx;
+    line-height: 1.5;
+    margin: auto;
+    color: $text-color;
+    font-family: Arial;
+    width: 375px;
+  }
+}
+```
