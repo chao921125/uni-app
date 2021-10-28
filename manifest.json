@@ -157,5 +157,6 @@
         "async" : {
             "timeout" : 20000
         }
-    }
+    },
+    "vueVersion" : "3"
 }
