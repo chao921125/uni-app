@@ -1,5 +1,6 @@
 # v1.8.6
-# 由于种种原因，还是建议下载使用HBuilderX工具，cli对uniapp支持并不友好，看后续的需要吧。
+# 由于种种原因，还是建议下载使用HBuilderX工具，cli对uniapp支持并不友好。
+# [APP离线打包](./BUILD_APP.md)
 # 目录及文件
 ```
 api 接口存放
