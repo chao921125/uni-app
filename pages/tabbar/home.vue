@@ -10,8 +10,8 @@
 </template>
 
 <script>
-	import http from "@/common/plugins/http.js";
-	import router from "@/common/config/router.js";
+	import utils from "@/common/plugins/common.utils.js";
+	import defaultConfig from "@/common/config/index.js";
 	
     export default {
         data() {
@@ -23,8 +23,8 @@
 			
 		},
 		methods: {
-			toExpert() {
-				http.href(router.orderExpert, false);
+			toExpert(type) {
+				utils.href(defaultConfig.routePath.orderExpert + `?id=${type}`, false);
 			}
 		}
     }

@@ -1,7 +1,7 @@
 /**
  * 题目相关
  */
-import config from "config.js";
+import config from "@/common/api/params.js";
 
 export default {
     login: function(params) {

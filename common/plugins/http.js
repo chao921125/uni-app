@@ -1,72 +1,19 @@
-import color from "@/common/config/color.js";
-import config from "@/common/config/config.js";
+import defaultConfig from "@/common/config/index.js";
+import utils from "@/common/plugins/common.utils.js";
 
 let ajaxTimes = 1;
-
-const http = {
-	toast: function(text, duration, success) {
-		uni.showToast({
-			title: text || "出错啦~",
-			icon: success ? "success" : "none",
-			duration: duration || 2000
-		});
-	},
-	modal: function(title, content, showCancel, callback, confirmColor, confirmText) {
-		uni.showModal({
-			title: title || "提示",
-			content: content,
-			showCancel: showCancel,
-			cancelColor: color.modalBtnCancel,
-			confirmColor: confirmColor || color.modalBtnConfirm,
-			confirmText: confirmText || "确定",
-			success(res) {
-				if (res.confirm) {
-					callback && callback(true);
-				} else {
-					callback && callback(false);
-				}
-			}
-		});
-	},
-	isAndroid: function() {
-		const res = uni.getSystemInfoSync();
-		return res.platform.toLocaleLowerCase() == "android";
-	},
-	isPhoneX: function() {
-		const res = uni.getSystemInfoSync();
-		let iphonex = false;
-		let models = ["iphonex", "iphonexr", "iphonexsmax", "iphone11", "iphone11pro", "iphone11promax"];
-		const model = res.model.replace(/\s/g, "").toLowerCase();
-		if (models.includes(model)) {
-			iphonex = true;
-		}
-		return iphonex;
-	},
-	constNum: function() {
-		let time = 0;
-		// #ifdef APP-PLUS
-		time = this.isAndroid() ? 300 : 0;
-		// #endif
-		return time;
-	},
-	delayed: null,
-	showLoading: function(title, mask = true) {
-		uni.showLoading({
-			mask: mask,
-			title: title || "请稍候..."
-		})
-	},
-    defaultHeader: {
-        "Access-Control-Allow-Origin": "*",
-        "Access-Control-Max-Age": "3600",
-        "Access": "application/json",
-        "Content-Type": "application/json;charset=utf-8",
-        "accept": "application/json",
-        "Authorization": getToken()
-    },
-    defaultHeaderFile: {
-        "Authorization": getToken()
-    },
+let defaultHeader = {
+	"Access-Control-Allow-Origin": "*",
+	"Access-Control-Max-Age": "3600",
+	"Access": "application/json",
+	"Content-Type": "application/json;charset=utf-8",
+	"accept": "application/json",
+	"Authorization": utils.getToken()
+};
+let defaultHeaderFile = {
+	"Authorization": utils.getToken()
+};
+export default {
 	/**
 	 * 请求数据处理
 	 * @param string url 请求地址
@@ -85,17 +32,17 @@ const http = {
 		let loadding = false;
 		if (!hideLoading) {
             loadding = true;
-            http.showLoading();
+            utils.showLoading();
 		}
         if (isForm) {
-            Object.assign(http.defaultHeader, { "Content-Type": "application/x-www-form-urlencoded" })
+            Object.assign(defaultHeader, { "Content-Type": "application/x-www-form-urlencoded" })
         }
 
 		return new Promise((resolve, reject) => {
 			uni.request({
-				url: config.baseUrl + url,
+				url: defaultConfig.baseUrl + url,
 				data: params,
-				header: http.defaultHeader,
+				header: defaultHeader,
 				method: method, //"GET","POST"
 				dataType: "json",
 				success: (res) => {
@@ -106,7 +53,7 @@ const http = {
 				},
 				fail: (res) => {
                     uni.hideLoading();
-					http.toast("网络不给力，请稍后再试~");
+					utils.toast("网络不给力，请稍后再试~");
 					reject(res);
 				},
                 complete: () => {
@@ -125,13 +72,13 @@ const http = {
 	 * @param string src 文件路径
 	 */
 	uploadFile: function(url, src) {
-		http.showLoading()
+		utils.showLoading()
 		return new Promise((resolve, reject) => {
 			const uploadTask = uni.uploadFile({
-				url: config.baseUrl + url,
+				url: defaultConfig.baseUrl + url,
 				filePath: src,
 				name: "imageFile",
-				header: http.defaultHeaderFile,
+				header: defaultHeaderFile,
 				formData: {},
 				success: function(res) {
 					uni.hideLoading()
@@ -161,27 +108,4 @@ const http = {
 		document.head.removeChild(httpScript);
 		// #endif
 	},
-	//设置用户信息
-	setUserInfo: function(userInfo, token) {
-		uni.setStorageSync(config.tokenKey, token);
-		uni.setStorageSync(config.userKey, userInfo);
-	},
-	//获取token
-	getToken: function() {
-		return uni.getStorageSync(config.tokenKey);
-	},
-	//判断是否登录
-	isLogin: function() {
-		return uni.getStorageSync(config.tokenKey) ? true : false;
-	},
-	//跳转页面，校验登录状态
-	href(url, isVerify = true) {
-		if (isVerify && !http.isLogin()) {
-			uni.navigateTo({ url: config.routePath.login });
-		} else {
-			uni.navigateTo({ url: url });
-		}
-	},
 };
-
-export default http;

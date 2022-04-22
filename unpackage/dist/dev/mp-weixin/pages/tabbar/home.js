@@ -1,9 +1,8 @@
 "use strict";
-var common_plugins_http = require("../../common/plugins/http.js");
-var common_config_router = require("../../common/config/router.js");
+var common_plugins_common_utils = require("../../common/plugins/common.utils.js");
+var common_config_index = require("../../common/config/index.js");
 var common_vendor = require("../../common/vendor.js");
 require("../../common/config/color.js");
-require("../../common/config/config.js");
 const _sfc_main = {
   data() {
     return {};
@@ -11,8 +10,8 @@ const _sfc_main = {
   created() {
   },
   methods: {
-    toExpert() {
-      common_plugins_http.http.href(common_config_router.router.orderExpert, false);
+    toExpert(type) {
+      common_plugins_common_utils.utils.href(common_config_index.defaultConfig.routePath.orderExpert + `?id=${type}`, false);
     }
   }
 };

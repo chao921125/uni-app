@@ -23,4 +23,28 @@
 /* 垂直间距 */
 /* 透明度 */
 /* 文章场景相关 */
-/*每个页面公共css */page{--status-bar-height:25px;--top-window-height:0px;--window-top:0px;--window-bottom:0px;--window-left:0px;--window-right:0px;--window-magin:0px}[data-c-h="true"]{display: none !important;}
+/*每个页面公共css */
+.re-flex, .re-flex-column-reverse, .re-flex-column, .re-flex-row-reverse, .re-flex-row, .re-flex-row-between, .re-flex-row-center {
+  display: flex;
+  display: -webkit-flex;
+}
+.re-flex-row, .re-flex-row-between, .re-flex-row-center {
+  flex-direction: row;
+}
+.re-flex-row-center {
+  align-items: center;
+  justify-content: center;
+}
+.re-flex-row-between {
+  align-items: center;
+  justify-content: space-between;
+}
+.re-flex-row-reverse {
+  flex-direction: row-reverse;
+}
+.re-flex-column {
+  flex-direction: column;
+}
+.re-flex-column-reverse {
+  flex-direction: column-reverse;
+}page{--status-bar-height:25px;--top-window-height:0px;--window-top:0px;--window-bottom:0px;--window-left:0px;--window-right:0px;--window-magin:0px}[data-c-h="true"]{display: none !important;}

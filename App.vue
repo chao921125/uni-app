@@ -14,4 +14,7 @@
 
 <style lang="scss">
 	/*每个页面公共css */
+	@import "@/static/style/color.scss";
+	@import "@/static/style/common.scss";
+	@import "@/static/style/reset-ui.scss";
 </style>

@@ -1,13 +1,13 @@
 import { createStore } from "vuex";
 import fetch from "@/common/plugins/http.js";
-import config from "@/common/config/config.js";
+import defaultConfig from "@/common/config/index.js";
 
 const store = createStore({
 	state: {
 		//用户登录手机号
-		mobile: uni.getStorageSync(config.tokenKey) || "echo.",
+		mobile: uni.getStorageSync(defaultConfig.tokenKey) || "echo.",
 		//是否登录 项目中改为真实登录信息判断，如token
-		isLogin: uni.getStorageSync(config.tokenKey) ? true : false,
+		isLogin: uni.getStorageSync(defaultConfig.tokenKey) ? true : false,
 		//登录后跳转的页面路径 + 页面参数
 		returnUrl: "",
 		//app版本
