@@ -1,4 +1,9 @@
-module.exports = {
+/**
+数据验证（表单验证）
+来自 grace.hcoder.net 
+作者 hcoder 深海
+*/
+export default {
 	error:'',
 	check : function (data, rule){
 		for(var i = 0; i < rule.length; i++){
@@ -40,7 +45,7 @@ module.exports = {
 						return false;
 					}
 				break;
-				case 'betweenF':
+				case 'betweenF': 
 					var reg = /^-?[0-9][0-9]?.+[0-9]+$/;
 					if (!reg.test(data[rule[i].name])){this.error = rule[i].errorMsg; return false;}
 					var minMax = rule[i].checkRule.split(',');

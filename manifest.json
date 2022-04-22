@@ -1,22 +1,11 @@
 {
-    "name" : "mini-app",
-    "appid" : "__UNI__87A760F",
-    "description" : "",
+    "name" : "uni-app",
+    "appid" : "__UNI__C9F9D0B",
+    "description" : "应用描述",
     "versionName" : "1.0.0",
     "versionCode" : "100",
     "transformPx" : false,
-    "screenOrientation" : [
-        "portrait-primary",
-        "portrait-secondary",
-        "landscape-primary",
-        "landscape-secondary"
-    ],
-    "debug" : false,
-    "uniStatistics" : {
-        "enable" : true
-    },
     "app-plus" : {
-        /* 5+App特有相关 */
         "usingComponents" : true,
         "nvueCompiler" : "uni-app",
         "nvueStyleCompiler" : "uni-app",
@@ -36,11 +25,8 @@
             "Speech" : {},
             "VideoPlayer" : {}
         },
-        /* 模块配置 */
         "distribute" : {
-            /* 应用发布信息 */
             "android" : {
-                /* android打包配置 */
                 "permissions" : [
                     "<uses-feature android:name=\"android.hardware.camera\"/>",
                     "<uses-feature android:name=\"android.hardware.camera.autofocus\"/>",
@@ -77,22 +63,16 @@
                     "<uses-permission android:name=\"android.permission.RECEIVE_USER_PRESENT\"/>"
                 ]
             },
-            /* ios打包配置 */
             "ios" : {
                 "UIBackgroundModes" : [ "audio" ],
                 "urlschemewhitelist" : [ "baidumap", "iosamap" ]
             },
-            /* SDK配置 */
             "sdkConfigs" : {
                 "speech" : {
                     "ifly" : {}
                 }
             },
             "orientation" : [ "portrait-primary" ]
-        },
-        /* SDK配置 */
-        "uniStatistics" : {
-            "enable" : false
         }
     },
     "quickapp" : {},
@@ -112,20 +92,15 @@
         "versionName" : "1.0.0",
         "versionCode" : 100
     },
-    /* 快应用特有相关 */
     "mp-weixin" : {
-        /* 微信小程序特有相关 */
-        "appid" : "wx5610aa972e979a02",
+        "appid" : "",
         "setting" : {
-            "urlCheck" : true,
-            "minified" : true,
-            "postcss" : true,
-            "es6" : true
+            "urlCheck" : false
         },
         "usingComponents" : true,
         "permission" : {
             "scope.userLocation" : {
-                "desc" : "请求位置信息"
+                "desc" : "演示定位能力"
             }
         }
     },
@@ -138,7 +113,7 @@
     "mp-toutiao" : {
         "usingComponents" : true
     },
-    "mp-qq" : {
+    "mp-jd" : {
         "usingComponents" : true
     },
     "h5" : {

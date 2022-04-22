@@ -192,7 +192,7 @@ radio-group label, checkbox-group label{
 	padding-bottom:30rpx;
 }
 /*数字角标*/
-.uni-badge,
+/* .uni-badge,
 .uni-badge-default {
 	font-family: 'Helvetica Neue', Helvetica, sans-serif;
 	font-size: 12px;
@@ -202,7 +202,7 @@ radio-group label, checkbox-group label{
 	color: #333;
 	border-radius: 100px;
 	background-color: rgba(0, 0, 0, .15);
-}
+} */
 .uni-badge.uni-badge-inverted {
 	padding: 0 5px 0 0;
 	color: #929292;
@@ -274,7 +274,7 @@ radio-group label, checkbox-group label{
 	border-radius: 8rpx;
 	margin:20rpx 0;
 	position: relative;
-	box-shadow: 0 2rpx 4rpx rgba(0, 0, 0, .3);
+	/* box-shadow: 0 2rpx 4rpx rgba(0, 0, 0, .3); */
 }
 .uni-card-content {
 	font-size: 30rpx;
@@ -366,7 +366,7 @@ radio-group label, checkbox-group label{
 	transform: scaleY(.5);
 	background-color: #c8c7cc;
 }
-.uni-list::before {
+/* .uni-list::before {
 	position: absolute;
 	z-index: 10;
 	right: 0;
@@ -377,7 +377,7 @@ radio-group label, checkbox-group label{
 	-webkit-transform: scaleY(.5);
 	transform: scaleY(.5);
 	background-color: #c8c7cc;
-}
+} */
 .uni-list-cell {
 	position: relative;
 	display: flex;
@@ -1455,108 +1455,4 @@ radio-group label, checkbox-group label{
 
 .left-win-active text{
 	color: #007AFF !important;
-}
-
-/* 自定义css */
-.cc-flex {
-	display: flex;
-}
-
-.cc-flex-center {
-	display: flex;
-	align-items: center;
-	justify-content: center;
-}
-
-.cc-flex-align-center {
-	display: flex;
-	align-items: center;
-}
-
-.cc-flex-justify-center {
-	display: flex;
-	justify-content: center;
-}
-
-.cc-flex-space-between {
-	display: flex;
-	align-items: center;
-	justify-content: space-between;
-}
-
-.cc-flex-center-column {
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	flex-direction: column;
-}
-
-.cc-text-center {
-	text-align: center;
-}
-
-.cc-text-weight {
-	font-weight: 400;
-}
-
-.cc-text-bold {
-	font-weight: bold;
-}
-
-.cc-text-ell {
-	overflow: hidden;
-	text-overflow: ellipsis;
-	white-space: nowrap;
-}
-
-.cc-text-ell-line {
-	overflow: hidden;
-	text-overflow: ellipsis;
-	display: -webkit-box;
-	-webkit-line-clamp: 2;
-	-webkit-box-orient: vertical;
-}
-
-/* 
-zindex 1 99 特殊 999
-css common
-font-size: 22 24 26 28 30 32 34
-color: #333333 #4E9BF5 #FFFFFF #D6D7D8 #7A7D7C #000000
-background: #6DB5FB #FFFFFF #F4F4F4 #F2F1F8
-right: #6CBAE2 #EBF4F7
-wrong: #DAB9BC #FEEBEF
- */
-.view-box {
-	min-height: 100vh;
-	background-color: #F2F1F8;
-	font-size: 32rpx;
-	color: #333333;
-}
-
-.cc-card {
-    box-shadow: 4rpx 4rpx 4rpx 4rpx rgba(0, 0, 0, 0.2);
-    transition: 0.3s;
-    border-radius: 8rpx;
-	border: 1rpx solid #ebeef5;
-	background-color: #FFFFFF;
-	overflow: hidden;
-	color: #333333;
-}
-
-.cc-text-click {
-	color: #4E9BF5;
-}
-
-.cc-btn-bg {
-	background-color: #6DB5FB;
-	color: #FFFFFF;
-	font-size: 26rpx;
-}
-
-.cc-btn {
-	width: 500rpx;
-	height: 80rpx;
-	background-color: #6DB5FB;
-	color: #FFFFFF;
-	font-size: 26rpx;
 }

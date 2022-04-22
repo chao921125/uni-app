@@ -1,0 +1,1 @@
+<view class="{{[f, 'uni-fav', 'data-v-77148eac']}}" style="{{g}}" bindtap="{{h}}"><uni-icons wx:if="{{a}}" style="{{'color:' + b}}" class="uni-fav-star data-v-77148eac" u-i="77148eac-0" bind:__l="__l" u-p="{{c}}"/><text style="{{'color:' + e}}" class="uni-fav-text data-v-77148eac">{{d}}</text></view>

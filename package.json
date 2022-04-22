@@ -1,16 +1,15 @@
 {
-	"id": "mini-app",
-	"name": "mini-app",
-	"displayName": "mini-app",
-	"version": "3.2.7",
-  "private": true,
+	"id": "hello-uniapp",
+	"name": "hello-uniapp",
+	"displayName": "hello-uniapp 示例工程",
+	"version": "3.3.7",
 	"description": "uni-app 框架示例，一套代码，同时发行到iOS、Android、H5、小程序等多个平台，请使用手机扫码快速体验 uni-app 的强大功能",
 	"scripts": {
 		"test": "echo \"Error: no test specified\" && exit 1"
 	},
-	"repository": "https://github.com/dcloudio/mini-app.git",
+	"repository": "https://github.com/dcloudio/hello-uniapp.git",
 	"keywords": [
-        "mini-app",
+        "hello-uniapp",
         "uni-app",
         "uni-ui",
         "示例工程"
@@ -18,9 +17,9 @@
 	"author": "",
 	"license": "MIT",
 	"bugs": {
-		"url": "https://github.com/dcloudio/mini-app/issues"
+		"url": "https://github.com/dcloudio/hello-uniapp/issues"
 	},
-	"homepage": "https://github.com/dcloudio/mini-app#readme",
+	"homepage": "https://github.com/dcloudio/hello-uniapp#readme",
 	"dependencies": {},
 	"dcloudext": {
 		"category": [
@@ -45,10 +44,6 @@
 		},
 		"npmurl": ""
 	},
-    "browserslist": [
-        "Android >= 4",
-        "ios >= 8"
-    ],
 	"uni_modules": {
 		"dependencies": [],
 		"encrypt": [],
@@ -80,7 +75,8 @@
 					"阿里": "y",
 					"百度": "y",
 					"字节跳动": "y",
-					"QQ": "y"
+					"QQ": "y",
+					"京东": "y"
 				},
 				"快应用": {
 					"华为": "u",
