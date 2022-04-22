@@ -1,0 +1,44 @@
+{
+  "pages": [
+    "pages/tabbar/home",
+    "pages/tabbar/order",
+    "pages/tabbar/user",
+    "pages/order/expert",
+    "pages/order/orderPay",
+    "pages/order/payResult",
+    "pages/order/list"
+  ],
+  "window": {
+    "navigationBarTextStyle": "black",
+    "navigationBarTitleText": "uni-app",
+    "navigationBarBackgroundColor": "#F8F8F8",
+    "backgroundColor": "#F8F8F8"
+  },
+  "tabBar": {
+    "borderStyle": "black",
+    "backgroundColor": "#FFFFFF",
+    "color": "#8F8F94",
+    "selectedColor": "#f33e54",
+    "list": [
+      {
+        "pagePath": "pages/tabbar/home",
+        "iconPath": "static/images/tabbar/home.png",
+        "selectedIconPath": "static/images/tabbar/homeactive.png",
+        "text": "专家"
+      },
+      {
+        "pagePath": "pages/tabbar/order",
+        "iconPath": "static/images/tabbar/news.png",
+        "selectedIconPath": "static/images/tabbar/newsactive.png",
+        "text": "订单"
+      },
+      {
+        "pagePath": "pages/tabbar/user",
+        "iconPath": "static/images/tabbar/me.png",
+        "selectedIconPath": "static/images/tabbar/meactive.png",
+        "text": "我"
+      }
+    ]
+  },
+  "usingComponents": {}
+}

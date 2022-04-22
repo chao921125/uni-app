@@ -1,130 +1,81 @@
-// #ifndef VUE3
-import Vue from 'vue'
-import Vuex from 'vuex'
-Vue.use(Vuex)
-const store = new Vuex.Store({
-// #endif
+import { createStore } from "vuex";
+import fetch from "@/common/plugins/http.js";
+import config from "@/common/config/config.js";
 
-// #ifdef VUE3
-import { createStore } from 'vuex'
 const store = createStore({
-// #endif
 	state: {
-		hasLogin: false,
-		isUniverifyLogin: false,
-		loginProvider: "",
-		openid: null,
-		testvuex: false,
-		colorIndex: 0,
-		colorList: ['#FF0000', '#00FF00', '#0000FF'],
-		noMatchLeftWindow: true,
-		active: 'componentPage',
-		leftWinActive: '/pages/component/view/view',
-		activeOpen: '',
-		menu: [],
-		univerifyErrorMsg: ''
+		//用户登录手机号
+		mobile: uni.getStorageSync(config.tokenKey) || "echo.",
+		//是否登录 项目中改为真实登录信息判断，如token
+		isLogin: uni.getStorageSync(config.tokenKey) ? true : false,
+		//登录后跳转的页面路径 + 页面参数
+		returnUrl: "",
+		//app版本
+		version: "1.7.2",
+		//当前是否有网络连接
+		networkConnected: true,
+		isOnline: true
 	},
 	mutations: {
-		login(state, provider) {
-			state.hasLogin = true;
-			state.loginProvider = provider;
+		login(state, payload) {
+			if (payload) {
+				state.mobile = payload.mobile;
+			}
+			state.isLogin = true;
 		},
 		logout(state) {
-			state.hasLogin = false
-			state.openid = null
+			state.mobile = "";
+			state.isLogin = false;
+			state.returnUrl = "";
 		},
-		setOpenid(state, openid) {
-			state.openid = openid
+		setReturnUrl(state, returnUrl) {
+			state.returnUrl = returnUrl;
 		},
-		setTestTrue(state) {
-			state.testvuex = true
+		networkChange(state, payload) {
+			state.networkConnected = payload.isConnected;
 		},
-		setTestFalse(state) {
-			state.testvuex = false
-		},
-		setColorIndex(state, index) {
-			state.colorIndex = index
-		},
-		setMatchLeftWindow(state, matchLeftWindow) {
-			state.noMatchLeftWindow = !matchLeftWindow
-		},
-		setActive(state, tabPage) {
-			state.active = tabPage
-		},
-		setLeftWinActive(state, leftWinActive) {
-			state.leftWinActive = leftWinActive
-		},
-		setActiveOpen(state, activeOpen) {
-			state.activeOpen = activeOpen
-		},
-		setMenu(state, menu) {
-			state.menu = menu
-		},
-		setUniverifyLogin(state, payload) {
-			typeof payload !== 'boolean' ? payload = !!payload : '';
-			state.isUniverifyLogin = payload;
-		},
-		setUniverifyErrorMsg(state,payload = ''){
-			state.univerifyErrorMsg = payload
+		setOnline(state, payload) {
+			state.isOnline = state.isOnline;
 		}
 	},
 	getters: {
-		currentColor(state) {
-			return state.colorList[state.colorIndex]
-		}
+		// currentColor(state) {
+		// 	return state.colorList[state.colorIndex]
+		// }
 	},
 	actions: {
-		// lazy loading openid
-		getUserOpenId: async function({
+		getOnlineStatus: async function({
 			commit,
 			state
 		}) {
 			return await new Promise((resolve, reject) => {
-				if (state.openid) {
-					resolve(state.openid)
+				// #ifndef MP-WEIXIN
+				resolve(true);
+				// #endif
+				// #ifdef MP-WEIXIN
+				if (state.isOnline) {
+					resolve(state.isOnline);
 				} else {
-					uni.login({
-						success: (data) => {
-							commit('login')
-							setTimeout(function() { //模拟异步请求服务器获取 openid
-								const openid = '123456789'
-								console.log('uni.request mock openid[' + openid + ']');
-								commit('setOpenid', openid)
-								resolve(openid)
-							}, 1000)
-						},
-						fail: (err) => {
-							console.log('uni.login 接口调用失败，将无法正常使用开放接口等服务', err)
-							reject(err)
+					fetch.request("/Home/GetStatus", "GET", {}, false, true, true).then((res) => {
+						if (res.code == 100 && res.data == 1) {
+							commit("setOnline", {
+								isOnline: true
+							});
+							resolve(true)
+						} else {
+							commit("setOnline", {
+								isOnline: false
+							});
+							resolve(false);
 						}
+					}).catch((res) => {
+						reject(false);
 					})
 				}
-			})
-		},
-		getPhoneNumber: function({
-			commit
-		}, univerifyInfo) {
-			return new Promise((resolve, reject) => {
-				uni.request({
-					url: 'https://97fca9f2-41f6-449f-a35e-3f135d4c3875.bspapp.com/http/univerify-login',
-					method: 'POST',
-					data: univerifyInfo,
-					success: (res) => {
-						const data = res.data
-						if (data.success) {
-							resolve(data.phoneNumber)
-						} else {
-							reject(res)
-						}
-
-					},
-					fail: (err) => {
-						reject(res)
-					}
-				})
+				// #endif
 			})
 		}
 	}
 })
 
-export default store
+export default store;
