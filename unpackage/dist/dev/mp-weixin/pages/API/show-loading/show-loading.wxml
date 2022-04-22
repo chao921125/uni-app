@@ -1,1 +1,0 @@
-<view><page-head wx:if="{{a}}" u-i="b439fa36-0" bind:__l="__l" u-p="{{a}}"></page-head><view class="uni-padding-wrap"><view class="uni-btn-v"><button class="btn-load" type="primary" bindtap="{{b}}">显示 loading 提示框</button><button bindtap="{{c}}">隐藏 loading 提示框</button></view></view></view>
