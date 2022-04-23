@@ -1,5 +1,5 @@
 {
-  "navigationBarTitleText": "订单",
+  "navigationBarTitleText": "咨询",
   "enablePullDownRefresh": false,
   "usingComponents": {
     "uni-card": "../../uni_modules/uni-card/components/uni-card/uni-card"

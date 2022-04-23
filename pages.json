@@ -10,7 +10,7 @@
         }, {
             "path" : "pages/tabbar/order",
             "style" : {
-                "navigationBarTitleText": "订单",
+                "navigationBarTitleText": "咨询",
                 "enablePullDownRefresh": false
             }
             
@@ -25,7 +25,7 @@
             "path" : "pages/order/expert",
             "style" :                                                                                    
             {
-                "navigationBarTitleText": "",
+                "navigationBarTitleText": "专家选择",
                 "enablePullDownRefresh": false
             }
             
@@ -33,7 +33,7 @@
             "path" : "pages/order/orderPay",
             "style" :                                                                                    
             {
-                "navigationBarTitleText": "",
+                "navigationBarTitleText": "下单支付",
                 "enablePullDownRefresh": false
             }
             
@@ -41,7 +41,7 @@
             "path" : "pages/order/payResult",
             "style" :                                                                                    
             {
-                "navigationBarTitleText": "",
+                "navigationBarTitleText": "支付结果",
                 "enablePullDownRefresh": false
             }
             
@@ -49,7 +49,7 @@
             "path" : "pages/order/list",
             "style" :                                                                                    
             {
-                "navigationBarTitleText": "",
+                "navigationBarTitleText": "咨询详情",
                 "enablePullDownRefresh": false
             }
             
@@ -58,19 +58,19 @@
     "tabBar": {
         "borderStyle": "black",
         "backgroundColor": "#FFFFFF",
-        "color": "#8F8F94",
-        "selectedColor": "#f33e54",
+        "color": "#8a8a8a",
+        "selectedColor": "#0088ff",
         "list": [{
         		"pagePath": "pages/tabbar/home",
-        		"iconPath": "static/images/tabbar/home.png",
-        		"selectedIconPath": "static/images/tabbar/homeactive.png",
+        		"iconPath": "static/images/tabbar/expret.png",
+        		"selectedIconPath": "static/images/tabbar/expret_active.png",
         		"text": "专家"
         	},
         	{
         		"pagePath": "pages/tabbar/order",
-        		"iconPath": "static/images/tabbar/news.png",
-        		"selectedIconPath": "static/images/tabbar/newsactive.png",
-        		"text": "订单"
+        		"iconPath": "static/images/tabbar/message.png",
+        		"selectedIconPath": "static/images/tabbar/message_active.png",
+        		"text": "咨询"
         	},
         	//#ifdef MP-WEIXIN
         	// {
@@ -89,8 +89,8 @@
         	//#endif
         	{
         		"pagePath": "pages/tabbar/user",
-        		"iconPath": "static/images/tabbar/me.png",
-        		"selectedIconPath": "static/images/tabbar/meactive.png",
+        		"iconPath": "static/images/tabbar/user.png",
+        		"selectedIconPath": "static/images/tabbar/user_active.png",
         		"text": "我"
         	}
         ]
