@@ -20,6 +20,21 @@ const _sfc_main = {
   },
   onHide: function() {
     console.log("App Hide");
+  },
+  onError: function() {
+    console.log("App Error");
+  },
+  onUnhandledRejection: function() {
+    console.log("App UnhandledRejection");
+  },
+  onPageNotFound: function() {
+    console.log("App PageNotFound");
+  },
+  onThemeChange: function() {
+    console.log("App ThemeChange");
+  },
+  globalData: {
+    text: "text"
   }
 };
 var App = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["__file", "/Users/huangchao/Works/GitHub/uni-app/App.vue"]]);

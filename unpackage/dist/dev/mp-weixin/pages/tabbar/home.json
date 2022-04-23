@@ -2,7 +2,6 @@
   "navigationBarTitleText": "专家",
   "enablePullDownRefresh": false,
   "usingComponents": {
-    "uni-card": "../../uni_modules/uni-card/components/uni-card/uni-card",
     "uni-grid-item": "../../uni_modules/uni-grid/components/uni-grid-item/uni-grid-item",
     "uni-grid": "../../uni_modules/uni-grid/components/uni-grid/uni-grid"
   }

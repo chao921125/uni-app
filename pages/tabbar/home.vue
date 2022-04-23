@@ -1,10 +1,11 @@
 <template>
     <view>
-        <uni-grid :column="3" :showBorder="false"  :square="false">
-            <uni-grid-item><uni-card @click="toExpert(1)">医疗</uni-card></uni-grid-item>
-            <uni-grid-item><uni-card @click="toExpert(2)">教育</uni-card></uni-grid-item>
-            <uni-grid-item><uni-card @click="toExpert(3)">咨询</uni-card></uni-grid-item>
-            <uni-grid-item><uni-card @click="toExpert(4)">其他</uni-card></uni-grid-item>
+        <uni-grid :column="5" :showBorder="false"  :square="false" @change="toExpert">
+			<view v-if="!subjectList || subjectList.length === 0">No Data</view>
+			<uni-grid-item v-else v-for="(item, index) in subjectList" :key="index" :index="index">
+				<view class="re-flex re-flex-row-center"><icon class="iconfont icon-zhuanjia"></icon></view>
+				<view class="re-flex re-flex-row-center">{{item.name}}</view>
+			</uni-grid-item>
         </uni-grid>
     </view>
 </template>
@@ -12,19 +13,25 @@
 <script>
 	import utils from "@/common/plugins/common.utils.js";
 	import defaultConfig from "@/common/config/index.js";
+	import { subjectList } from "@/common/api/subject.js";
 	
     export default {
         data() {
             return {
-                
+                subjectList: [],
             };
         },
 		created() {
-			
+			this.getSubjectList();
 		},
 		methods: {
-			toExpert(type) {
-				utils.href(defaultConfig.routePath.orderExpert + `?id=${type}`, false);
+			getSubjectList() {
+				subjectList().then((res) => {
+					this.subjectList = res.data;
+				});
+			},
+			toExpert(e) {
+				utils.href(defaultConfig.routePath.orderExpert + `?id=${this.subjectList[e.detail.index].value}`, false);
 			}
 		}
     }

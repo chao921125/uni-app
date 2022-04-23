@@ -1,7 +1,7 @@
 "use strict";
 function getBaseUrl() {
   {
-    return "https://tiku.ilovenever.com";
+    return "http://127.0.0.1";
   }
 }
 var defaultConfig = {

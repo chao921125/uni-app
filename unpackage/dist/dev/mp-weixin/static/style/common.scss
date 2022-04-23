@@ -1,39 +1,46 @@
+// 定制统一前缀
+$prefix: re;
+
+%text-center {
+  text-align: center;
+}
+
 // @for $var from start |to,through| end
 // 从 0 开始 至 90 结束，间隔为10
 @for $i from 0 through 9 {
-	.re-z-index-#{$i}{
+	.#{$prefix}-z-index-#{$i}{
 		z-index: $i * 10;
 	}
 }
 
-.re-flex {
+.#{$prefix}-flex {
     display: flex;
     display: -webkit-flex;
 }
-.re-flex-row {
-	@extend .re-flex;
+.#{$prefix}-flex-row {
+	@extend .#{$prefix}-flex;
 	flex-direction: row;
 }
-.re-flex-row-center {
-	@extend .re-flex-row;
+.#{$prefix}-flex-row-center {
+	@extend .#{$prefix}-flex-row;
 	align-items: center;
 	justify-content: center;
 }
-.re-flex-row-between {
-	@extend .re-flex-row;
+.#{$prefix}-flex-row-between {
+	@extend .#{$prefix}-flex-row;
 	align-items: center;
 	justify-content: space-between;
 }
-.re-flex-row-reverse {
-	@extend .re-flex;
+.#{$prefix}-flex-row-reverse {
+	@extend .#{$prefix}-flex;
 	flex-direction: row-reverse;
 }
-.re-flex-column {
-	@extend .re-flex;
+.#{$prefix}-flex-column {
+	@extend .#{$prefix}-flex;
 	flex-direction: column;
 }
-.re-flex-column-reverse {
-	@extend .re-flex;
+.#{$prefix}-flex-column-reverse {
+	@extend .#{$prefix}-flex;
 	flex-direction: column-reverse;
 }
 

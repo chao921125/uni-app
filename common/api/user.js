@@ -1,7 +1,7 @@
 /**
  * 用户相关
  */
-import config from "@/common/api/params.js";
+import config from "@/common/api/index.js";
 
 export default {
     login: function(params) {

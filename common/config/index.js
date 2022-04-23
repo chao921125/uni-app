@@ -1,8 +1,8 @@
 function getBaseUrl() {
 	if (process.env.NODE_ENV === "development") {
-		return "https://tiku.ilovenever.com"; // qe & 本地环境
+		return "http://127.0.0.1"; // qe & 本地环境
 	} else {
-		return "https://tiku.ilovenever.com"; // 生产环境
+		return "https://192.168.1.10"; // 生产环境
 	}
 }
 
