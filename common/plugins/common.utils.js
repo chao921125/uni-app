@@ -59,12 +59,24 @@ export default {
 	isLogin: function() {
 		return uni.getStorageSync(defaultConfig.tokenKey) ? true : false;
 	},
-	//跳转页面，校验登录状态
-	href(url, isVerify = true) {
+	//跳转页面，校验登录状态，如果为了做APP那么需要做一些处理 使用 redirectTo
+	// animationType https://uniapp.dcloud.io/api/router.html#animation
+	// animationDuration 300
+	href: function(url, isVerify = true) {
 		if (isVerify && !http.isLogin()) {
 			uni.navigateTo({ url: defaultConfig.routePath.login });
 		} else {
 			uni.navigateTo({ url: url });
 		}
-	}
+	},
+	hrefTabbar: function(url, isVerify = true) {
+		if (isVerify && !http.isLogin()) {
+			uni.switchTab({ url: defaultConfig.routePath.login });
+		} else {
+			uni.switchTab({ url: url });
+		}
+	},
+	back: function() {
+		uni.navigateBack();
+	},
 }

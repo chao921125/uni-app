@@ -1,3 +1,11 @@
+// @for $var from start |to,through| end
+// 从 0 开始 至 90 结束，间隔为10
+@for $i from 0 through 9 {
+	.re-z-index-#{$i}{
+		z-index: $i * 10;
+	}
+}
+
 .re-flex {
     display: flex;
     display: -webkit-flex;
@@ -28,3 +36,4 @@
 	@extend .re-flex;
 	flex-direction: column-reverse;
 }
+

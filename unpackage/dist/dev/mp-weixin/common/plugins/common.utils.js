@@ -57,12 +57,22 @@ var utils = {
   isLogin: function() {
     return common_vendor.index.getStorageSync(common_config_index.defaultConfig.tokenKey) ? true : false;
   },
-  href(url, isVerify = true) {
+  href: function(url, isVerify = true) {
     if (isVerify && !http.isLogin()) {
       common_vendor.index.navigateTo({ url: common_config_index.defaultConfig.routePath.login });
     } else {
       common_vendor.index.navigateTo({ url });
     }
+  },
+  hrefTabbar: function(url, isVerify = true) {
+    if (isVerify && !http.isLogin()) {
+      common_vendor.index.switchTab({ url: common_config_index.defaultConfig.routePath.login });
+    } else {
+      common_vendor.index.switchTab({ url });
+    }
+  },
+  back: function() {
+    common_vendor.index.navigateBack();
   }
 };
 exports.utils = utils;

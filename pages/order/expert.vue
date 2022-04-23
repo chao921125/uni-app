@@ -14,7 +14,13 @@
 	import { onLoad, onShow, } from "@dcloudio/uni-app";
 	import utils from "@/common/plugins/common.utils.js";
 	import defaultConfig from "@/common/config/index.js";
+	
 	export default {
+		data() {
+			return {
+				
+			};
+		},
 		setup() {
 			// const props = defineProps({ id: { type: String }, });
 			// onLoad 接受 A 页面传递的参数
@@ -24,11 +30,6 @@
 			onShow(() => {
 			  console.log("B 页面 onShow");
 			});
-		},
-		data() {
-			return {
-				
-			};
 		},
 		methods: {
 			toOrderPay(type) {

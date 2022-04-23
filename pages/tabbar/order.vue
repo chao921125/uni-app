@@ -1,6 +1,6 @@
 <template>
     <view>
-        <uni-card>
+        <uni-card @click="toDetail(1)">
             <view>订单编号：1111111111</view>
             <view>专家：111111</view>
             <view>问题名称：111111</view>
@@ -10,12 +10,20 @@
 </template>
 
 <script>
+	import utils from "@/common/plugins/common.utils.js";
+	import defaultConfig from "@/common/config/index.js";
+	
     export default {
         data() {
             return {
                 
             };
-        }
+        },
+		methods: {
+			toDetail(id) {
+				utils.href(defaultConfig.routePath.orderList + `?id=${id}`, false);
+			}
+		}
     }
 </script>
 

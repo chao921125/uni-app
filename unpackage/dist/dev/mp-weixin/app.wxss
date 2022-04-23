@@ -24,6 +24,36 @@
 /* 透明度 */
 /* 文章场景相关 */
 /*每个页面公共css */
+.re-z-index-0 {
+  z-index: 0;
+}
+.re-z-index-1 {
+  z-index: 10;
+}
+.re-z-index-2 {
+  z-index: 20;
+}
+.re-z-index-3 {
+  z-index: 30;
+}
+.re-z-index-4 {
+  z-index: 40;
+}
+.re-z-index-5 {
+  z-index: 50;
+}
+.re-z-index-6 {
+  z-index: 60;
+}
+.re-z-index-7 {
+  z-index: 70;
+}
+.re-z-index-8 {
+  z-index: 80;
+}
+.re-z-index-9 {
+  z-index: 90;
+}
 .re-flex, .re-flex-column-reverse, .re-flex-column, .re-flex-row-reverse, .re-flex-row, .re-flex-row-between, .re-flex-row-center {
   display: flex;
   display: -webkit-flex;

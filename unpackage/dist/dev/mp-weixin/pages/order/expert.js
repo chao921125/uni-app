@@ -4,6 +4,9 @@ var common_plugins_common_utils = require("../../common/plugins/common.utils.js"
 var common_config_index = require("../../common/config/index.js");
 require("../../common/config/color.js");
 const _sfc_main = {
+  data() {
+    return {};
+  },
   setup() {
     common_vendor.onLoad((option) => {
       console.log("B \u9875\u9762 onLoad:", option);
@@ -11,9 +14,6 @@ const _sfc_main = {
     common_vendor.onShow(() => {
       console.log("B \u9875\u9762 onShow");
     });
-  },
-  data() {
-    return {};
   },
   methods: {
     toOrderPay(type) {

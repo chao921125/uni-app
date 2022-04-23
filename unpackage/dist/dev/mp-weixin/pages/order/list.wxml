@@ -1,1 +1,1 @@
-<view></view>
+<view><hb-comment wx:if="{{a}}" class="r" u-r="hbComment" bindadd="{{c}}" binddel="{{d}}" bindlike="{{e}}" bindfocusOn="{{f}}" u-i="6f86971d-0" bind:__l="__l" u-p="{{g}}"></hb-comment></view>

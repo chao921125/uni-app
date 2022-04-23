@@ -1,1 +1,1 @@
-<view></view>
+<view><view>专家</view><view>价格</view><view>问题</view><view>描述</view></view><btn-pay bindpay="{{a}}" bindcancel="{{b}}" u-i="7d7d9379-0" bind:__l="__l"></btn-pay>
