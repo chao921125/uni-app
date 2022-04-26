@@ -1,6 +1,10 @@
 "use strict";
 var common_vendor = require("../../common/vendor.js");
+const MessageInput = () => "./component/MessageInput.js";
 const _sfc_main = {
+  components: {
+    MessageInput
+  },
   data() {
     return {
       commentData: {
@@ -93,27 +97,11 @@ const _sfc_main = {
   }
 };
 if (!Array) {
-  const _easycom_hb_comment2 = common_vendor.resolveComponent("hb-comment");
-  _easycom_hb_comment2();
-}
-const _easycom_hb_comment = () => "../../uni_modules/hb-comment/components/hb-comment/hb-comment.js";
-if (!Math) {
-  _easycom_hb_comment();
+  const _component_MessageInput = common_vendor.resolveComponent("MessageInput");
+  _component_MessageInput();
 }
 function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
-  return common_vendor.e({
-    a: $data.commentData
-  }, $data.commentData ? {
-    b: common_vendor.sr("hbComment", "6f86971d-0"),
-    c: common_vendor.o($options.add),
-    d: common_vendor.o($options.del),
-    e: common_vendor.o($options.like),
-    f: common_vendor.o($options.focusOn),
-    g: common_vendor.p({
-      deleteTip: "\u786E\u8BA4\u5220\u9664\uFF1F",
-      cmData: $data.commentData
-    })
-  } : {});
+  return {};
 }
-var MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render], ["__file", "/Users/huangchao/Works/GitHub/uni-app/pages/order/list.vue"]]);
+var MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render], ["__file", "/Users/huangchao/works/Study/uni-app/pages/order/list.vue"]]);
 wx.createPage(MiniProgramPage);

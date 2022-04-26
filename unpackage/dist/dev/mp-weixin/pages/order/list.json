@@ -2,6 +2,6 @@
   "navigationBarTitleText": "咨询详情",
   "enablePullDownRefresh": false,
   "usingComponents": {
-    "hb-comment": "../../uni_modules/hb-comment/components/hb-comment/hb-comment"
+    "message-input": "./component/MessageInput"
   }
 }

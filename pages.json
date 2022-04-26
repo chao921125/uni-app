@@ -54,6 +54,15 @@
             }
             
         }
+        ,{
+            "path" : "pages/API/load-more/load-more",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
+        }
     ],
     "tabBar": {
         "borderStyle": "black",

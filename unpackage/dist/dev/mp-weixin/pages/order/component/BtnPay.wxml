@@ -1,0 +1,1 @@
+<view class="btn-space"></view><view class="btn-bottom re-flex-row-between re-z-index-80"><view class="btn-box btn-left"><button type="primary" class="btn" bindtap="{{a}}">取消</button></view><view class="btn-box btn-right"><button type="primary" class="btn" bindtap="{{b}}">支付</button></view></view>

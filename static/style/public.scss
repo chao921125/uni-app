@@ -1,0 +1,54 @@
+.body-padding {
+    padding: 0 20rpx;
+}
+
+.avatar-circle {
+    width: 100rpx;
+    height: 100rpx;
+    border-radius: 50%;
+}
+
+.title-h1 {
+    font-size: 60rpx;
+    font-weight: bold;
+}
+.title-h2 {
+    font-size: 50rpx;
+    font-weight: bold;
+}
+.title-h3 {
+    font-size: 40rpx;
+    font-weight: bold;
+}
+
+.title-sub-h1 {
+    font-size: 30rpx;
+    font-weight: bold;
+}
+.title-sub-h2 {
+    font-size: 20rpx;
+    font-weight: bold;
+}
+.title-sub-h3 {
+    font-size: 10rpx;
+    font-weight: bold;
+}
+
+.form-box {
+    margin: 30rpx;
+}
+.form-item {
+    margin-bottom: 30rpx;
+}
+.form-title {
+    font-size: 30rpx;
+    font-weight: bold;
+    margin-bottom: 20rpx;
+    margin-right: 10rpx;
+}
+.form-label {}
+
+.btn-primary {
+    background-color: $btn-primary;
+    color: $text-default;
+}

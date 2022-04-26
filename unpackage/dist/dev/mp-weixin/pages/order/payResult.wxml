@@ -1,1 +1,1 @@
-<view> 支付成功 </view>
+<view class="re-flex-row-center pay-rel-title title-h1"> 支付成功 </view><view class="re-flex-row-center pay-rel-img"><cover-image wx:if="{{a}}" class="rel-img" src="{{b}}"></cover-image></view><view class="re-flex-row-center pay-rel-text"><text>{{c}}</text>s 后返回 </view>

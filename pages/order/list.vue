@@ -1,12 +1,27 @@
 <template>
-	<view>
-		<hb-comment ref="hbComment" @add="add" @del="del" @like="like" @focusOn="focusOn" :deleteTip="'确认删除？'"
-		    :cmData="commentData" v-if="commentData"></hb-comment>
+	<view class="body-padding">
+        <view>
+            <text>专家</text>
+            <text>XX</text>
+        </view>
+        <view>
+            <text>问题</text>
+            <text>XX</text>
+        </view>
 	</view>
+    <scroll-view class="body-padding">
+        <view>专家：123123123</view>
+        <view>5345345345：我</view>
+    </scroll-view>
+    <MessageInput></MessageInput>
 </template>
 
 <script>
+    import MessageInput from "./component/MessageInput.vue";
 	export default {
+        components: {
+            MessageInput
+        },
 		data() {
 			return {
 				commentData: {

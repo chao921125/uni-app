@@ -6,7 +6,8 @@
     "pages/order/expert",
     "pages/order/orderPay",
     "pages/order/payResult",
-    "pages/order/list"
+    "pages/order/list",
+    "pages/API/load-more/load-more"
   ],
   "window": {
     "navigationBarTextStyle": "black",

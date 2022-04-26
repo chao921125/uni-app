@@ -2,6 +2,8 @@
   "navigationBarTitleText": "咨询",
   "enablePullDownRefresh": false,
   "usingComponents": {
-    "uni-card": "../../uni_modules/uni-card/components/uni-card/uni-card"
+    "no-data": "../../components/no-data/NoData",
+    "uni-card": "../../uni_modules/uni-card/components/uni-card/uni-card",
+    "uni-load-more": "../../uni_modules/uni-load-more/components/uni-load-more/uni-load-more"
   }
 }

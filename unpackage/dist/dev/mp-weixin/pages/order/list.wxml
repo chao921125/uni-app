@@ -1,1 +1,1 @@
-<view><hb-comment wx:if="{{a}}" class="r" u-r="hbComment" bindadd="{{c}}" binddel="{{d}}" bindlike="{{e}}" bindfocusOn="{{f}}" u-i="6f86971d-0" bind:__l="__l" u-p="{{g}}"></hb-comment></view>
+<view class="body-padding"><view><text>专家</text><text>XX</text></view><view><text>问题</text><text>XX</text></view></view><scroll-view class="body-padding"><view>专家：123123123</view><view>5345345345：我</view></scroll-view><message-input u-i="28f5bb6f-0" bind:__l="__l"></message-input>

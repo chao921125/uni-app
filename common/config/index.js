@@ -6,6 +6,15 @@ function getBaseUrl() {
 	}
 }
 
+import NoData from "@/static/images/toast/img_nodata.png";
+import UserAvatar from "@/static/images/my/user-avatar.png";
+import PaySuccess from "@/static/images/mall/pay/icon_pay_weixin.png";
+const imgPath = {
+    NoData: NoData,
+    UserAvatar: UserAvatar,
+    PaySuccess: PaySuccess,
+}
+
 export default {
     baseUrl: getBaseUrl(),
     tokenKey: "user-access-token",
@@ -23,5 +32,6 @@ export default {
         orderPay: "/pages/order/orderPay",
         orderPayResult: "/pages/order/payResult",
         orderList: "/pages/order/list",
-    }
+    },
+    imgPath: imgPath
 };

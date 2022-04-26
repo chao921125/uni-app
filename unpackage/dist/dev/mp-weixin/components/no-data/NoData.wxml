@@ -1,0 +1,1 @@
+<view class="re-flex-row-center"><cover-image wx:if="{{a}}" class="img-no-data" src="{{b}}"></cover-image></view>

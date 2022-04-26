@@ -34,7 +34,7 @@
     "useCompilerPlugins": false
   },
   "compileType": "miniprogram",
-  "libVersion": "2.24.0",
+  "libVersion": "2.20.1",
   "appid": "touristappid",
   "projectname": "uni-base",
   "condition": {},
