@@ -53,12 +53,11 @@
                 "enablePullDownRefresh": false
             }
             
-        }
-        ,{
-            "path" : "pages/API/load-more/load-more",
+        }, {
+            "path" : "pages/permission/permission",
             "style" :                                                                                    
             {
-                "navigationBarTitleText": "",
+                "navigationBarTitleText": "授权登录",
                 "enablePullDownRefresh": false
             }
             

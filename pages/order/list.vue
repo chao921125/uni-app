@@ -1,23 +1,29 @@
 <template>
 	<view class="body-padding">
         <view>
-            <text>专家</text>
+            <text class="title-sub-h1">专家</text>
             <text>XX</text>
         </view>
         <view>
-            <text>问题</text>
+            <text class="title-sub-h1">问题</text>
             <text>XX</text>
         </view>
 	</view>
     <scroll-view class="body-padding">
-        <view>专家：123123123</view>
-        <view>5345345345：我</view>
+        <view class="re-flex-row-start">
+            <view class="title-sub-h1">专家</view>
+            <view>123123123</view>
+        </view>
+        <view class="re-flex-row-end">
+            <view>5345345345</view>
+            <view class="title-sub-h1">我</view>
+        </view>
     </scroll-view>
     <MessageInput></MessageInput>
 </template>
 
 <script>
-    import MessageInput from "./component/MessageInput.vue";
+    import MessageInput from "../components/order/MessageInput.vue";
 	export default {
         components: {
             MessageInput

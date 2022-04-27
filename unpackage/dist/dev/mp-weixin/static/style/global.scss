@@ -3,7 +3,22 @@ $prefix: re;
 
 // @for $var from start |to,through| end
 // 从 0 开始 至 90 结束，间隔为10
-@for $i from 0 through 9 {
+// $i: 50;
+// @while $i > 0 {
+//   .#{$prefix}-m-#{$i} { margin: #{$i}px; }
+//   .#{$prefix}-mt-#{$i} { margin-top: #{$i}px; }
+//   .#{$prefix}-mr-#{$i} { margin-right: #{$i}px; }
+//   .#{$prefix}-mb-#{$i} { margin-bottom: #{$i}px; }
+//   .#{$prefix}-ml-#{$i} { margin-left: #{$i}px; }
+
+//   .#{$prefix}-p-#{$i} { padding: #{$i}px; }
+//   .#{$prefix}-pt-#{$i} { padding-top: #{$i}px; }
+//   .#{$prefix}-pr-#{$i} { padding-right: #{$i}px; }
+//   .#{$prefix}-pb-#{$i} { padding-bottom: #{$i}px; }
+//   .#{$prefix}-pl-#{$i} { padding-left: #{$i}px; }
+//   $i: $i - 5;
+// }
+@for $i from 0 through 90 {
 	.#{$prefix}-z-index-#{$i}{
 		z-index: $i * 10;
 	}
@@ -11,34 +26,34 @@ $prefix: re;
 
 @for $i from 1 through 50 {
     .#{$prefix}-padding-#{$i}{
-    	padding: $i + "rpx";
+    	padding: #{$i}rpx;
     }
     .#{$prefix}-padding-left-#{$i}{
-    	padding-left: $i + "rpx";
+    	padding-left: #{$i}rpx;
     }
     .#{$prefix}-padding-right-#{$i}{
-    	padding-right: $i + "rpx";
+    	padding-right: #{$i}rpx;
     }
     .#{$prefix}-padding-top-#{$i}{
-    	padding-top: $i + "rpx";
+    	padding-top: #{$i}rpx;
     }
     .#{$prefix}-padding-bottom-#{$i}{
-    	padding-bottom: $i + "rpx";
+    	padding-bottom: #{$i}rpx;
     }
     .#{$prefix}-margin-#{$i}{
-    	margin: $i + "rpx";
+    	margin: #{$i}rpx;
     }
     .#{$prefix}-margin-left-#{$i}{
-    	margin-left: $i + "rpx";
+    	margin-left: #{$i}rpx;
     }
     .#{$prefix}-margin-right-#{$i}{
-    	margin-right: $i + "rpx";
+    	margin-right: #{$i}rpx;
     }
     .#{$prefix}-margin-top-#{$i}{
-    	margin-top: $i + "rpx";
+    	margin-top: #{$i}rpx;
     }
     .#{$prefix}-margin-bottom-#{$i}{
-    	margin-bottom: $i + "rpx";
+    	margin-bottom: #{$i}rpx;
     }
 }
 
@@ -55,6 +70,16 @@ $prefix: re;
 	align-items: center;
 	justify-content: center;
 }
+.#{$prefix}-flex-row-start {
+    @extend .#{$prefix}-flex-row;
+    align-items: flex-start;
+    justify-content: flex-start;
+}
+.#{$prefix}-flex-row-end {
+    @extend .#{$prefix}-flex-row;
+    align-items: flex-start;
+    justify-content: flex-end;
+}
 .#{$prefix}-flex-row-center-start {
 	@extend .#{$prefix}-flex-row;
 	align-items: center;
@@ -68,6 +93,12 @@ $prefix: re;
 .#{$prefix}-flex-row-reverse {
 	@extend .#{$prefix}-flex;
 	flex-direction: row-reverse;
+}
+.#{$prefix}-flex-row-reverse-start {
+	@extend .#{$prefix}-flex;
+	flex-direction: row-reverse;
+	align-items: flex-start;
+	justify-content: flex-start;
 }
 .#{$prefix}-flex-column {
 	@extend .#{$prefix}-flex;

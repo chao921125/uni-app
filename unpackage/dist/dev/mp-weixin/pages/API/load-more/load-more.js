@@ -109,7 +109,7 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
       return {
         a: common_vendor.t(item.name),
         b: index,
-        c: "5abcf858-2-" + i0 + ",5abcf858-1",
+        c: "1368da34-2-" + i0 + ",1368da34-1",
         d: common_vendor.p({
           index
         })
@@ -131,7 +131,7 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
         b: common_vendor.t(item.name),
         c: common_vendor.t(item.desc),
         d: index,
-        e: "5abcf858-4-" + i0
+        e: "1368da34-4-" + i0
       });
     }),
     g: $data.imgPath,
@@ -144,5 +144,5 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
     k: common_vendor.o((...args) => $options.getMoreSubjectList && $options.getMoreSubjectList(...args))
   });
 }
-var MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render], ["__file", "/Users/huangchao/works/Study/uni-app/pages/API/load-more/load-more.vue"]]);
+var MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render], ["__file", "/Users/huangchao/Works/GitHub/uni-app/pages/API/load-more/load-more.vue"]]);
 wx.createPage(MiniProgramPage);

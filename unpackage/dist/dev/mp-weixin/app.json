@@ -7,7 +7,7 @@
     "pages/order/orderPay",
     "pages/order/payResult",
     "pages/order/list",
-    "pages/API/load-more/load-more"
+    "pages/permission/permission"
   ],
   "window": {
     "navigationBarTextStyle": "black",

@@ -3,7 +3,7 @@
 	    <NoData></NoData>
 	</view>
 	<view v-else>
-	    <uni-card v-for="(item, index) in expertList" :key="index" @click="toDetail(item.name)">
+	    <uni-card v-for="(item, index) in expertList" :key="index" @click="toOrderPay(item.name)">
 	        <view class="re-flex-row-center-start home-expert">
 	            <view><cover-image class="avatar-circle" v-if="imgPath" :src="item.avatar || imgPath.UserAvatar"></cover-image></view>
 	            <view class="expert-info">

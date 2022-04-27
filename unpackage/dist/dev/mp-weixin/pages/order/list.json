@@ -2,6 +2,6 @@
   "navigationBarTitleText": "咨询详情",
   "enablePullDownRefresh": false,
   "usingComponents": {
-    "message-input": "./component/MessageInput"
+    "message-input": "../components/order/MessageInput"
   }
 }

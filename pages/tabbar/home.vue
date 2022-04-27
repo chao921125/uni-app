@@ -10,7 +10,7 @@
 			</uni-grid-item>
         </uni-grid>
     </view>
-    <view class="body-padding title-h2">热门</view>
+    <view class="body-padding title-h2 re-margin-top-40">热门</view>
     <view v-if="!expertList || expertList.length === 0" class="re-flex-row-center">
         <NoData></NoData>
     </view>
@@ -19,8 +19,8 @@
             <view class="re-flex-row-center-start home-expert">
                 <view><cover-image class="avatar-circle" v-if="imgPath" :src="item.avatar || imgPath.UserAvatar"></cover-image></view>
                 <view class="expert-info">
-                    <view class="expert-name"><text class="expert-title">专家：</text><text>{{item.name}}</text></view>
-                    <view class="expert-desc"><text class="expert-title">简介：</text><text>{{item.desc}}</text></view>
+                    <view class="expert-name"><text class="expert-title title-sub-h1">专家：</text><text>{{item.name}}</text></view>
+                    <view class="expert-desc"><text class="expert-title title-sub-h1">简介：</text><text>{{item.desc}}</text></view>
                 </view>
             </view>
         </uni-card>
@@ -32,7 +32,7 @@
     import NoData from "@/components/no-data/NoData.vue";
 	import utils from "@/common/plugins/common.utils.js";
 	import defaultConfig from "@/common/config/index.js";
-	import { subjectList } from "@/common/api/subject.js";
+	import { subjectList, expertList } from "@/common/api/subject.js";
 	
     export default {
         components: {
@@ -58,7 +58,7 @@
             };
         },
 		created() {
-			// this.getSubjectList();
+			this.getSubjectList();
 			this.getExpertList();
 		},
         onReachBottom(e) {
@@ -72,6 +72,9 @@
 				});
 			},
             getExpertList() {
+				expertList({ pageNum: this.pageOption.page, pageSize: this.pageOption.pageSize }).then((res) => {
+					console.log(res);
+				});
                 let tempArr = [];
                 for (let i = 0; i < 10; i++) {
                     tempArr.push({

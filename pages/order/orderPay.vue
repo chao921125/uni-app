@@ -24,7 +24,7 @@
 </template>
 
 <script>
-	import BtnPay from "./component/BtnPay.vue";
+	import BtnPay from "../components/order/BtnPay.vue";
 	import { onLoad, onShow, } from "@dcloudio/uni-app";
 	import utils from "@/common/plugins/common.utils.js";
 	import defaultConfig from "@/common/config/index.js";

@@ -1,5 +1,5 @@
 {
-  "navigationBarTitleText": "",
+  "navigationBarTitleText": "加载更多",
   "enablePullDownRefresh": false,
   "usingComponents": {
     "no-data": "../../../components/no-data/NoData",

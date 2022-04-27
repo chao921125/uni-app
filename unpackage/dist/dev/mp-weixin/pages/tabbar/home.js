@@ -4,6 +4,10 @@ var common_config_index = require("../../common/config/index.js");
 var common_api_subject = require("../../common/api/subject.js");
 var common_vendor = require("../../common/vendor.js");
 require("../../common/config/color.js");
+require("../../common/config/routers.js");
+require("../../common/config/images.js");
+require("../../common/config/http.config.js");
+require("../../common/config/emoji.js");
 require("../../common/api/index.js");
 require("../../common/plugins/http.js");
 const NoData = () => "../../components/no-data/NoData.js";
@@ -31,6 +35,7 @@ const _sfc_main = {
     };
   },
   created() {
+    this.getSubjectList();
     this.getExpertList();
   },
   onReachBottom(e) {
@@ -44,6 +49,9 @@ const _sfc_main = {
       });
     },
     getExpertList() {
+      common_api_subject.expertList({ pageNum: this.pageOption.page, pageSize: this.pageOption.pageSize }).then((res) => {
+        console.log(res);
+      });
       let tempArr = [];
       for (let i = 0; i < 10; i++) {
         tempArr.push({
@@ -104,7 +112,7 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
       return {
         a: common_vendor.t(item.name),
         b: index,
-        c: "3669fff0-2-" + i0 + ",3669fff0-1",
+        c: "7c16cbfc-2-" + i0 + ",7c16cbfc-1",
         d: common_vendor.p({
           index
         })
@@ -127,7 +135,7 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
         c: common_vendor.t(item.desc),
         d: index,
         e: common_vendor.o(($event) => $options.toOrderPay(item.name)),
-        f: "3669fff0-4-" + i0
+        f: "7c16cbfc-4-" + i0
       });
     }),
     g: $data.imgPath,
@@ -138,5 +146,5 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
     })
   });
 }
-var MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render], ["__file", "/Users/huangchao/works/Study/uni-app/pages/tabbar/home.vue"]]);
+var MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render], ["__file", "/Users/huangchao/Works/GitHub/uni-app/pages/tabbar/home.vue"]]);
 wx.createPage(MiniProgramPage);

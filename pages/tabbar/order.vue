@@ -3,16 +3,16 @@
         <NoData></NoData>
     </view>
     <view v-else>
-        <uni-card v-for="(item, index) in expertList" :key="index" @click="toDetail(item.name)">
-            <view class="re-flex-row-center-start home-expert">
+        <uni-card v-for="(item, index) in expertList" :key="index" @click="toDetail(item.name)" class="home-expert">
+            <view class="re-flex-row-center-start">
                 <view><cover-image class="avatar-circle" v-if="imgPath" :src="item.avatar || imgPath.UserAvatar"></cover-image></view>
                 <view class="expert-info">
-                    <view class="expert-name"><text class="expert-title">专家：</text><text>{{item.name}}</text></view>
-                    <view class="expert-desc"><text class="expert-title">简介：</text><text>{{item.desc}}</text></view>
+                    <view class="expert-name"><text class="expert-title title-sub-h1">专家：</text><text>{{item.name}}</text></view>
+                    <view class="expert-desc"><text class="expert-title title-sub-h1">简介：</text><text>{{item.desc}}</text></view>
                 </view>
             </view>
-            <view class="expert-desc"><text class="expert-title">问题：</text><text>{{item.desc}}</text></view>
-            <view class="expert-desc"><text class="expert-title">描述：</text><text>{{item.desc}}</text></view>
+            <view class="expert-desc"><text class="expert-title title-sub-h1">问题：</text><text>{{item.desc}}</text></view>
+            <view class="expert-desc"><text class="expert-title title-sub-h1">描述：</text><text>{{item.desc}}</text></view>
         </uni-card>
         <uni-load-more :status="loadMoreOption.status" :contentText="loadMoreOption.contentText" @clickLoadMore="getMoreSubjectList"></uni-load-more>
     </view>
@@ -92,5 +92,13 @@
 </script>
 
 <style lang="scss">
-
+.home-expert {
+    .expert-title {
+        color: #000000;
+        font-weight: bold;
+    }
+    .expert-info {
+        padding-left: 20rpx;
+    }
+}
 </style>

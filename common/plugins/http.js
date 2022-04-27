@@ -49,6 +49,7 @@ export default {
 					if (loadding && !hideLoading) {
 						uni.hideLoading();
 					}
+					// if () {}
 					resolve(res.data);
 				},
 				fail: (res) => {

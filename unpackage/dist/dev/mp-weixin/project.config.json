@@ -6,12 +6,12 @@
   },
   "setting": {
     "urlCheck": false,
+    "postcss": true,
+    "minified": true,
     "coverView": true,
     "es6": true,
-    "postcss": true,
     "lazyloadPlaceholderEnable": false,
     "preloadBackgroundData": false,
-    "minified": true,
     "autoAudits": false,
     "uglifyFileName": false,
     "uploadWithSourceMap": true,
@@ -34,8 +34,8 @@
     "useCompilerPlugins": false
   },
   "compileType": "miniprogram",
-  "libVersion": "2.20.1",
-  "appid": "touristappid",
+  "libVersion": "2.24.0",
+  "appid": "wxa52bb659b38d1ae2",
   "projectname": "uni-base",
   "condition": {},
   "editorSetting": {

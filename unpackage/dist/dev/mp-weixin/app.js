@@ -10,7 +10,7 @@ if (!Math) {
   "./pages/order/orderPay.js";
   "./pages/order/payResult.js";
   "./pages/order/list.js";
-  "./pages/API/load-more/load-more.js";
+  "./pages/permission/permission.js";
 }
 const _sfc_main = {
   onLaunch: function() {
@@ -38,7 +38,7 @@ const _sfc_main = {
     text: "text"
   }
 };
-var App = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["__file", "/Users/huangchao/works/Study/uni-app/App.vue"]]);
+var App = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["__file", "/Users/huangchao/Works/GitHub/uni-app/App.vue"]]);
 function createApp() {
   const app = common_vendor.createSSRApp(App);
   return { app };
