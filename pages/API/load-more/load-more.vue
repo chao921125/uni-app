@@ -30,7 +30,7 @@
 
 <script>
     import NoData from "@/components/no-data/NoData.vue";
-	import utils from "@/common/plugins/common.utils.js";
+	import utils from "@/common/plugins/utils.js";
 	import defaultConfig from "@/common/config/index.js";
 	import { subjectList } from "@/common/api/subject.js";
 	
@@ -93,7 +93,7 @@
                 this.expertList = tempArr;
             },
 			toExpert(e) {
-				utils.href(defaultConfig.routePath.orderExpert + `?id=${this.subjectList[e.detail.index].value}`, false);
+				utils.href(defaultConfig.routePath.orderExpert + `?id=${this.subjectList[e.detail.index].value}`, true);
 			},
             getMoreSubjectList() {
                 this.pageOption.page++;

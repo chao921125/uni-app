@@ -63,15 +63,15 @@ export default {
 	// animationType https://uniapp.dcloud.io/api/router.html#animation
 	// animationDuration 300
 	href: function(url, isVerify = true) {
-		if (isVerify && !http.isLogin()) {
-			uni.navigateTo({ url: defaultConfig.routePath.login });
+		if (isVerify && !uni.getStorageSync(defaultConfig.tokenKey)) {
+			uni.navigateTo({ url: defaultConfig.routePath.loginPermission });
 		} else {
 			uni.navigateTo({ url: url });
 		}
 	},
 	hrefTabbar: function(url, isVerify = true) {
-		if (isVerify && !http.isLogin()) {
-			uni.switchTab({ url: defaultConfig.routePath.login });
+		if (isVerify && !uni.getStorageSync(defaultConfig.tokenKey)) {
+			uni.switchTab({ url: defaultConfig.routePath.loginPermission });
 		} else {
 			uni.switchTab({ url: url });
 		}

@@ -1,11 +1,11 @@
 "use strict";
 var common_vendor = require("../../common/vendor.js");
-var common_plugins_common_utils = require("../../common/plugins/common.utils.js");
+var common_plugins_utils = require("../../common/plugins/utils.js");
 var common_config_index = require("../../common/config/index.js");
 require("../../common/config/color.js");
 require("../../common/config/routers.js");
 require("../../common/config/images.js");
-require("../../common/config/http.config.js");
+require("../../common/config/request.js");
 require("../../common/config/emoji.js");
 const BtnPay = () => "../components/order/BtnPay.js";
 const _sfc_main = {
@@ -36,10 +36,10 @@ const _sfc_main = {
       console.log(this.form.questionDesc);
     },
     toOrderPayResult() {
-      common_plugins_common_utils.utils.href(common_config_index.defaultConfig.routePath.orderPayResult, false);
+      common_plugins_utils.utils.href(common_config_index.defaultConfig.routePath.orderPayResult, true);
     },
     toBack() {
-      common_plugins_common_utils.utils.back();
+      common_plugins_utils.utils.hrefTabbar(common_config_index.defaultConfig.routePath.tabbarHome, false);
     }
   }
 };
@@ -57,5 +57,5 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
     f: common_vendor.o($options.toBack)
   };
 }
-var MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render], ["__file", "/Users/huangchao/Works/GitHub/uni-app/pages/order/orderPay.vue"]]);
+var MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render], ["__file", "/Users/huangchao/works/Study/uni-app/pages/order/orderPay.vue"]]);
 wx.createPage(MiniProgramPage);

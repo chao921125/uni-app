@@ -5,5 +5,6 @@ export default {
 	orderExpert: "/pages/order/expert",
 	orderPay: "/pages/order/orderPay",
 	orderPayResult: "/pages/order/payResult",
-	orderList: "/pages/order/list",
+	orderDetail: "/pages/order/orderDetail",
+	loginPermission: "/pages/permission/permission",
 }

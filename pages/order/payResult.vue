@@ -12,7 +12,7 @@
 
 <script>
 	import defaultConfig from "@/common/config/index.js";
-	import utils from "@/common/plugins/common.utils.js";
+	import utils from "@/common/plugins/utils.js";
     
 	export default {
 		data() {
@@ -30,7 +30,7 @@
                 setInterval(() => {
                     _this.returnTime--;
                     if (_this.returnTime === 0) {
-                        utils.hrefTabbar(defaultConfig.routePath.tabbarOrder, false);
+                        utils.hrefTabbar(defaultConfig.routePath.tabbarOrder, true);
                     }
                 }, 1000);
             }

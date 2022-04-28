@@ -1,9 +1,14 @@
 <template>
 	<view>
-		<page-head :title="title"></page-head>
+        <!-- #ifdef APP-PLUS || MP-ALIPAY || MP-TOUTIAO -->
+		<page-head></page-head>
+        <!-- #endif -->
 		<view class="uni-padding-wrap">
 			<view style="background:#FFF; padding:40rpx;">
 				<block v-if="hasUserInfo === false">
+                    <view style="padding:30rpx 0; text-align:center;">
+                        <image class="userinfo-avatar" :src="imgPath.UserAvatar"></image>
+                    </view>
 					<view class="uni-hello-text uni-center">
 						<text>请点击下方按钮获取用户头像及昵称或手机号</text>
 					</view>
@@ -20,35 +25,29 @@
 				<button type="primary" :loading="btnLoading" @click="getUserInfo">获取用户信息</button>
 				<!-- #endif -->
 				<!-- #ifdef MP-WEIXIN || MP-BAIDU || MP-QQ  || MP-JD -->
-				<button type="primary" open-type="getUserInfo" @getuserinfo="mpGetUserInfo">获取用户信息</button>
+				<button type="primary" open-type="getUserInfo" withCredentials="true" @getuserinfo="mpGetUserInfo">获取用户信息</button>
+                <!-- <button open-type="getPhoneNumber" @getphonenumber="onGetPhoneNumber">onGetPhoneNumber</button> -->
 				<!-- #endif -->
-				<button @click="clear">清空</button>
 			</view>
 		</view>
 	</view>
 </template>
 <script>
-	import {
-		mapState,
-		mapMutations,
-		mapActions
-	} from 'vuex'
+	import { mapState, mapMutations, mapActions } from 'vuex';
+	import defaultConfig from "@/common/config/index.js";
+	import utils from "@/common/plugins/utils.js";
 
 	export default {
 		data() {
 			return {
-				title: 'getUserInfo',
+                imgPath: defaultConfig.imgPath,
 				hasUserInfo: false,
 				userInfo: {},
 				btnLoading: false
 			}
 		},
 		onLoad() {
-			uni.login({
-				success: (res) => {
-					console.log(res);
-				}
-			})
+			// this.checkLogin();
 		},
 		computed: {
 			...mapState([
@@ -138,6 +137,7 @@
 			},
 			mpGetUserInfo(result) {
 				console.log('mpGetUserInfo', result);
+                
 				if (result.detail.errMsg !== 'getUserInfo:ok') {
 					uni.showModal({
 						title: '获取用户信息失败',
@@ -146,19 +146,72 @@
 					});
 					return;
 				}
+                
+                // uni.getUserInfo({
+                // 	provider: 'weixin',
+                // 	success: (result) => {
+                //         uni.setStorageSync(defaultConfig.userKey, result.userInfo);
+                // 	},
+                // 	fail: (error) => {
+                // 		console.log('getUserInfo fail', error);
+                // 	},
+                // 	complete: () => {}
+                // });
+                
 				this.hasUserInfo = true;
 				if(result.detail && result.detail.userInfo){
 					this.userInfo = result.detail.userInfo;
+                    uni.setStorageSync(defaultConfig.userKey, result.detail.userInfo);
+                    this.checkLogin();
 				}else{
 					// #ifdef MP-JD
 					this.userInfo = result.detail.user_info;
 					// #endif
 				}
 			},
+            onGetPhoneNumber(result) {
+                console.log(result);
+            },
 			clear() {
 				this.hasUserInfo = false;
 				this.userInfo = {};
-			}
+			},
+            checkLogin() {
+                let _this = this;
+                /**
+                 * provider: String uni.getProvider()
+                 * scopes: String/Array
+                 * timeout: Number
+                 * univerifyStyle: Object
+                 * onlyAuthorize: Boolean
+                 */
+                // uni.checkSession({
+                //     success: (res) => {
+                //         console.log("checkSession success", res);
+                //     },
+                //     fail: (err) => {
+                //         console.log("checkSession fail", err);
+                //     },
+                //     complete: () => {},
+                // });
+                uni.login({
+                    onlyAuthorize: true,
+                    success: (res) => {
+                        let url = 'https://api.weixin.qq.com/sns/jscode2session?appid=' + defaultConfig.appId + '&secret=' + defaultConfig.secret + '&js_code=' + res.code + '&grant_type=authorization_code';
+                        uni.request({
+                          url: url, // 请求路径
+                          method: 'GET', //请求方式
+                          success: result => {
+                            uni.setStorageSync(defaultConfig.tokenKey, result.data.openid);
+                            utils.hrefTabbar(defaultConfig.routePath.tabbarHome, false);
+                          },
+                          fail: err => {} //失败
+                        });
+                    },
+                    fail: () => {},
+                    complete: () => {},
+                })
+            },
 		}
 	}
 </script>

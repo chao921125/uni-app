@@ -19,21 +19,23 @@ var __spreadValues = (a, b) => {
 };
 var __spreadProps = (a, b) => __defProps(a, __getOwnPropDescs(b));
 var common_vendor = require("../../common/vendor.js");
+var common_config_index = require("../../common/config/index.js");
+var common_plugins_utils = require("../../common/plugins/utils.js");
+require("../../common/config/routers.js");
+require("../../common/config/images.js");
+require("../../common/config/request.js");
+require("../../common/config/color.js");
+require("../../common/config/emoji.js");
 const _sfc_main = {
   data() {
     return {
-      title: "getUserInfo",
+      imgPath: common_config_index.defaultConfig.imgPath,
       hasUserInfo: false,
       userInfo: {},
       btnLoading: false
     };
   },
   onLoad() {
-    common_vendor.index.login({
-      success: (res) => {
-        console.log(res);
-      }
-    });
   },
   computed: __spreadValues({}, common_vendor.mapState([
     "loginProvider",
@@ -118,29 +120,47 @@ const _sfc_main = {
       this.hasUserInfo = true;
       if (result.detail && result.detail.userInfo) {
         this.userInfo = result.detail.userInfo;
+        common_vendor.index.setStorageSync(common_config_index.defaultConfig.userKey, result.detail.userInfo);
+        this.checkLogin();
       }
+    },
+    onGetPhoneNumber(result) {
+      console.log(result);
     },
     clear() {
       this.hasUserInfo = false;
       this.userInfo = {};
+    },
+    checkLogin() {
+      common_vendor.index.login({
+        onlyAuthorize: true,
+        success: (res) => {
+          let url = "https://api.weixin.qq.com/sns/jscode2session?appid=" + common_config_index.defaultConfig.appId + "&secret=" + common_config_index.defaultConfig.secret + "&js_code=" + res.code + "&grant_type=authorization_code";
+          common_vendor.index.request({
+            url,
+            method: "GET",
+            success: (result) => {
+              common_vendor.index.setStorageSync(common_config_index.defaultConfig.tokenKey, result.data.openid);
+              common_plugins_utils.utils.hrefTabbar(common_config_index.defaultConfig.routePath.tabbarHome, false);
+            },
+            fail: (err) => {
+            }
+          });
+        },
+        fail: () => {
+        },
+        complete: () => {
+        }
+      });
     }
   })
 };
-if (!Array) {
-  const _easycom_page_head2 = common_vendor.resolveComponent("page-head");
-  _easycom_page_head2();
-}
-const _easycom_page_head = () => "../../components/page-head/page-head.js";
-if (!Math) {
-  _easycom_page_head();
-}
 function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
   return common_vendor.e({
-    a: common_vendor.p({
-      title: $data.title
-    }),
-    b: $data.hasUserInfo === false
-  }, $data.hasUserInfo === false ? {} : {}, {
+    a: $data.hasUserInfo === false
+  }, $data.hasUserInfo === false ? {
+    b: $data.imgPath.UserAvatar
+  } : {}, {
     c: $data.hasUserInfo === true
   }, $data.hasUserInfo === true ? common_vendor.e({
     d: common_vendor.t($data.userInfo.nickName || $data.userInfo.nickname || $data.userInfo.gender || $data.userInfo.email || $data.userInfo.phoneNumber),
@@ -148,9 +168,8 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
   }, $data.userInfo.avatarUrl || $data.userInfo.avatar_url ? {
     f: $data.userInfo.avatarUrl || $data.userInfo.avatar_url
   } : {}) : {}, {
-    g: common_vendor.o((...args) => $options.mpGetUserInfo && $options.mpGetUserInfo(...args)),
-    h: common_vendor.o((...args) => $options.clear && $options.clear(...args))
+    g: common_vendor.o((...args) => $options.mpGetUserInfo && $options.mpGetUserInfo(...args))
   });
 }
-var MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render], ["__file", "/Users/huangchao/Works/GitHub/uni-app/pages/permission/permission.vue"]]);
+var MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render], ["__file", "/Users/huangchao/works/Study/uni-app/pages/permission/permission.vue"]]);
 wx.createPage(MiniProgramPage);

@@ -1,21 +1,38 @@
 <template>
 	<view class="body-padding">
-        <view>
+        <view class="re-margin-top-30">
             <text class="title-sub-h1">专家</text>
-            <text>XX</text>
+            <text class="re-margin-left-20">XX</text>
         </view>
-        <view>
+        <view class="re-margin-top-30">
             <text class="title-sub-h1">问题</text>
-            <text>XX</text>
+            <text class="re-margin-left-20">XX</text>
         </view>
 	</view>
+    <view class="re-margin-top-30 line-default"></view>
     <scroll-view class="body-padding">
-        <view class="re-flex-row-start">
+        <view class="re-flex-row-start re-margin-top-30">
             <view class="title-sub-h1">专家</view>
-            <view>123123123</view>
+            <view class="re-margin-left-20">123123123</view>
         </view>
-        <view class="re-flex-row-end">
-            <view>5345345345</view>
+        <view class="re-flex-row-start re-margin-top-30">
+            <view class="title-sub-h1">专家</view>
+            <view class="re-margin-left-20">123123123</view>
+        </view>
+        <view class="re-flex-row-end re-margin-top-30">
+            <view class="re-margin-right-20">5345345345</view>
+            <view class="title-sub-h1">我</view>
+        </view>
+        <view class="re-flex-row-start re-margin-top-30">
+            <view class="title-sub-h1">专家</view>
+            <view class="re-margin-left-20">123123123</view>
+        </view>
+        <view class="re-flex-row-start re-margin-top-30">
+            <view class="title-sub-h1">专家</view>
+            <view class="re-margin-left-20">123123123</view>
+        </view>
+        <view class="re-flex-row-end re-margin-top-30">
+            <view class="re-margin-right-20">5345345345</view>
             <view class="title-sub-h1">我</view>
         </view>
     </scroll-view>

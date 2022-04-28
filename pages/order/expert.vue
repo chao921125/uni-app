@@ -19,7 +19,7 @@
 <script>
     import NoData from "@/components/no-data/NoData.vue";
 	import { onLoad, onShow, } from "@dcloudio/uni-app";
-	import utils from "@/common/plugins/common.utils.js";
+	import utils from "@/common/plugins/utils.js";
 	import defaultConfig from "@/common/config/index.js";
 	
 	export default {
@@ -93,7 +93,7 @@
                 }, 3000);
             },
 			toOrderPay(type) {
-				utils.href(defaultConfig.routePath.orderPay + `?id=${type}`, false);
+				utils.href(defaultConfig.routePath.orderPay + `?id=${type}`, true);
 			}
 		}
 	}

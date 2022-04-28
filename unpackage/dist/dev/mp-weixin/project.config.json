@@ -8,8 +8,8 @@
     "urlCheck": false,
     "postcss": true,
     "minified": true,
-    "coverView": true,
     "es6": true,
+    "coverView": true,
     "lazyloadPlaceholderEnable": false,
     "preloadBackgroundData": false,
     "autoAudits": false,
@@ -31,10 +31,11 @@
       "outputPath": ""
     },
     "disableUseStrict": false,
-    "useCompilerPlugins": false
+    "useCompilerPlugins": false,
+    "ignoreUploadUnusedFiles": false
   },
   "compileType": "miniprogram",
-  "libVersion": "2.24.0",
+  "libVersion": "2.24.1",
   "appid": "wxa52bb659b38d1ae2",
   "projectname": "uni-base",
   "condition": {},

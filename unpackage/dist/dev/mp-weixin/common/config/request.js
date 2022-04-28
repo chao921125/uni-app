@@ -1,13 +1,13 @@
 "use strict";
-var httpConfig = {
+var request = {
   getBaseUrl: function() {
     {
       return "http://127.0.0.1";
     }
   },
   httpCode: {
-    unLogin: 1
+    unLogin: 1001
   },
   httpCodeStr: {}
 };
-exports.httpConfig = httpConfig;
+exports.request = request;

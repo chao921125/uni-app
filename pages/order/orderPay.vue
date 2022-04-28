@@ -26,7 +26,7 @@
 <script>
 	import BtnPay from "../components/order/BtnPay.vue";
 	import { onLoad, onShow, } from "@dcloudio/uni-app";
-	import utils from "@/common/plugins/common.utils.js";
+	import utils from "@/common/plugins/utils.js";
 	import defaultConfig from "@/common/config/index.js";
 	
 	export default {
@@ -59,10 +59,10 @@
                 console.log(this.form.questionDesc);
             },
 			toOrderPayResult() {
-				utils.href(defaultConfig.routePath.orderPayResult, false);
+				utils.href(defaultConfig.routePath.orderPayResult, true);
 			},
 			toBack() {
-				utils.back();
+				utils.hrefTabbar(defaultConfig.routePath.tabbarHome, false);
 			},
 		}
 	}

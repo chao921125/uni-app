@@ -1,11 +1,11 @@
 "use strict";
-var common_plugins_common_utils = require("../../common/plugins/common.utils.js");
+var common_plugins_utils = require("../../common/plugins/utils.js");
 var common_config_index = require("../../common/config/index.js");
 var common_vendor = require("../../common/vendor.js");
 require("../../common/config/color.js");
 require("../../common/config/routers.js");
 require("../../common/config/images.js");
-require("../../common/config/http.config.js");
+require("../../common/config/request.js");
 require("../../common/config/emoji.js");
 const NoData = () => "../../components/no-data/NoData.js";
 const _sfc_main = {
@@ -69,7 +69,7 @@ const _sfc_main = {
     },
     toDetail(id) {
       console.log(id);
-      common_plugins_common_utils.utils.href(common_config_index.defaultConfig.routePath.orderList + `?id=${id}`, false);
+      common_plugins_utils.utils.href(common_config_index.defaultConfig.routePath.orderDetail + `?id=${id}`, true);
     }
   }
 };
@@ -98,7 +98,7 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
         e: common_vendor.t(item.desc),
         f: index,
         g: common_vendor.o(($event) => $options.toDetail(item.name)),
-        h: "2cb2ab8a-1-" + i0
+        h: "03de020d-1-" + i0
       });
     }),
     c: $data.imgPath,
@@ -109,5 +109,5 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
     })
   });
 }
-var MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render], ["__file", "/Users/huangchao/Works/GitHub/uni-app/pages/tabbar/order.vue"]]);
+var MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render], ["__file", "/Users/huangchao/works/Study/uni-app/pages/tabbar/order.vue"]]);
 wx.createPage(MiniProgramPage);

@@ -20,7 +20,7 @@
 
 <script>
     import NoData from "@/components/no-data/NoData.vue";
-	import utils from "@/common/plugins/common.utils.js";
+	import utils from "@/common/plugins/utils.js";
 	import defaultConfig from "@/common/config/index.js";
 	
     export default {
@@ -85,7 +85,7 @@
             },
 			toDetail(id) {
                 console.log(id);
-				utils.href(defaultConfig.routePath.orderList + `?id=${id}`, false);
+				utils.href(defaultConfig.routePath.orderDetail + `?id=${id}`, true);
 			}
 		}
     }

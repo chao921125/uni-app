@@ -58,15 +58,15 @@ var utils = {
     return common_vendor.index.getStorageSync(common_config_index.defaultConfig.tokenKey) ? true : false;
   },
   href: function(url, isVerify = true) {
-    if (isVerify && !http.isLogin()) {
-      common_vendor.index.navigateTo({ url: common_config_index.defaultConfig.routePath.login });
+    if (isVerify && !common_vendor.index.getStorageSync(common_config_index.defaultConfig.tokenKey)) {
+      common_vendor.index.navigateTo({ url: common_config_index.defaultConfig.routePath.loginPermission });
     } else {
       common_vendor.index.navigateTo({ url });
     }
   },
   hrefTabbar: function(url, isVerify = true) {
-    if (isVerify && !http.isLogin()) {
-      common_vendor.index.switchTab({ url: common_config_index.defaultConfig.routePath.login });
+    if (isVerify && !common_vendor.index.getStorageSync(common_config_index.defaultConfig.tokenKey)) {
+      common_vendor.index.switchTab({ url: common_config_index.defaultConfig.routePath.loginPermission });
     } else {
       common_vendor.index.switchTab({ url });
     }

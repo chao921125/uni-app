@@ -3,23 +3,38 @@
     "pages/tabbar/home",
     "pages/tabbar/order",
     "pages/tabbar/user",
-    "pages/order/expert",
-    "pages/order/orderPay",
-    "pages/order/payResult",
-    "pages/order/list",
     "pages/permission/permission"
   ],
+  "subPackages": [
+    {
+      "root": "pages/order",
+      "pages": [
+        "expert",
+        "orderPay",
+        "payResult",
+        "orderDetail"
+      ]
+    }
+  ],
+  "usingComponents": {
+    "van-button": "/wxcomponents/vant/button/index"
+  },
   "window": {
     "navigationBarTextStyle": "black",
     "navigationBarTitleText": "uni-app",
     "navigationBarBackgroundColor": "#F8F8F8",
-    "backgroundColor": "#F8F8F8"
+    "backgroundColor": "#F8F8F8",
+    "backgroundTextStyle": "dark",
+    "enablePullDownRefresh": true,
+    "onReachBottomDistance": 50,
+    "pageOrientation": "portrait"
   },
   "tabBar": {
     "borderStyle": "black",
     "backgroundColor": "#FFFFFF",
     "color": "#8a8a8a",
     "selectedColor": "#0088ff",
+    "position": "bottom",
     "list": [
       {
         "pagePath": "pages/tabbar/home",
@@ -41,5 +56,12 @@
       }
     ]
   },
-  "usingComponents": {}
+  "preloadRule": {
+    "pages/order/expert": {
+      "network": "all",
+      "packages": [
+        "__APP__"
+      ]
+    }
+  }
 }

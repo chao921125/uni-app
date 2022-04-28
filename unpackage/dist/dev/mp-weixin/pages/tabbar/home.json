@@ -1,6 +1,6 @@
 {
   "navigationBarTitleText": "专家",
-  "enablePullDownRefresh": false,
+  "enablePullDownRefresh": true,
   "usingComponents": {
     "no-data": "../../components/no-data/NoData",
     "uni-grid-item": "../../uni_modules/uni-grid/components/uni-grid-item/uni-grid-item",

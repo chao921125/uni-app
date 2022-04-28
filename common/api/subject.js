@@ -9,7 +9,7 @@ import http from "@/common/plugins/http.js";
  * @param {Object} params
  */
 export function subjectList(params) {
-	return http.request(config.basePath + "/area/list", "POST", null, false, false);
+	return http.request(config.basePath + "/area/list", "POST", params, false, false);
 }
 
 /**
@@ -26,5 +26,5 @@ export function subjectList(params) {
  * }
  */
 export function expertList(params) {
-	return http.request(config.basePath + "/profic/list", "POST", null, false, false);
+	return http.request(config.basePath + "/profic/list", "POST", params, false, false);
 }

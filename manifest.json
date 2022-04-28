@@ -10,6 +10,10 @@
     },
     /* 5+App特有相关 */
     "app-plus" : {
+        "optimization" : {
+            "subPackages" : true
+        },
+        "runmode" : "liberate",
         "usingComponents" : true,
         "nvueStyleCompiler" : "uni-app",
         "compilerVersion" : 3,
@@ -57,7 +61,8 @@
         "setting" : {
             "urlCheck" : false,
             "postcss" : true,
-            "minified" : true
+            "minified" : true,
+            "es6" : true
         },
         "usingComponents" : true
     },

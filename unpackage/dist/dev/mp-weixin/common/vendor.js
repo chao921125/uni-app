@@ -5694,11 +5694,6 @@ const createSubpackageApp = initCreateSubpackageApp();
   wx.createPluginApp = global.createPluginApp = createPluginApp;
   wx.createSubpackageApp = global.createSubpackageApp = createSubpackageApp;
 }
-const createHook = (lifecycle) => (hook, target = getCurrentInstance()) => {
-  !isInSSRComponentSetup && injectHook(lifecycle, hook, target);
-};
-const onShow = /* @__PURE__ */ createHook(ON_SHOW$1);
-const onLoad = /* @__PURE__ */ createHook(ON_LOAD$1);
 /*!
  * vuex v4.0.2
  * (c) 2021 Evan You
@@ -6411,6 +6406,11 @@ function getModuleByNamespace(store, helper, namespace) {
   }
   return module;
 }
+const createHook = (lifecycle) => (hook, target = getCurrentInstance()) => {
+  !isInSSRComponentSetup && injectHook(lifecycle, hook, target);
+};
+const onShow = /* @__PURE__ */ createHook(ON_SHOW$1);
+const onLoad = /* @__PURE__ */ createHook(ON_LOAD$1);
 const isArray = Array.isArray;
 const isObject = (val) => val !== null && typeof val === "object";
 const defaultDelimiters = ["{", "}"];

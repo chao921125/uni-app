@@ -10,6 +10,7 @@
 			</uni-grid-item>
         </uni-grid>
     </view>
+    <button @click="toLogin">to login</button>
     <view class="body-padding title-h2 re-margin-top-40">热门</view>
     <view v-if="!expertList || expertList.length === 0" class="re-flex-row-center">
         <NoData></NoData>
@@ -30,7 +31,7 @@
 
 <script>
     import NoData from "@/components/no-data/NoData.vue";
-	import utils from "@/common/plugins/common.utils.js";
+	import utils from "@/common/plugins/utils.js";
 	import defaultConfig from "@/common/config/index.js";
 	import { subjectList, expertList } from "@/common/api/subject.js";
 	
@@ -57,14 +58,17 @@
                 },
             };
         },
-		created() {
-			this.getSubjectList();
+		onLoad() {
+			// this.getSubjectList();
 			this.getExpertList();
 		},
         onReachBottom(e) {
             this.getMoreSubjectList();
         },
 		methods: {
+            toLogin() {
+                utils.href(defaultConfig.routePath.loginPermission, false);
+            },
 			getSubjectList() {
                 this.loadMoreOption.status = "more";
 				subjectList().then((res) => {
@@ -72,9 +76,9 @@
 				});
 			},
             getExpertList() {
-				expertList({ pageNum: this.pageOption.page, pageSize: this.pageOption.pageSize }).then((res) => {
-					console.log(res);
-				});
+				// expertList({ pageNum: this.pageOption.page, pageSize: this.pageOption.pageSize }).then((res) => {
+				// 	console.log(res);
+				// });
                 let tempArr = [];
                 for (let i = 0; i < 10; i++) {
                     tempArr.push({
@@ -106,10 +110,10 @@
                 }, 3000);
             },
 			toExpert(e) {
-				utils.href(defaultConfig.routePath.orderExpert + `?id=${this.subjectList[e.detail.index].value}`, false);
+				utils.href(defaultConfig.routePath.orderExpert + `?id=${this.subjectList[e.detail.index].value}`, true);
 			},
 			toOrderPay(type) {
-				utils.href(defaultConfig.routePath.orderPay + `?id=${type}`, false);
+				utils.href(defaultConfig.routePath.orderPay + `?id=${type}`, true);
 			}
 		}
     }

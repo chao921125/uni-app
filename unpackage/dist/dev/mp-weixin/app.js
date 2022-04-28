@@ -6,11 +6,11 @@ if (!Math) {
   "./pages/tabbar/home.js";
   "./pages/tabbar/order.js";
   "./pages/tabbar/user.js";
+  "./pages/permission/permission.js";
   "./pages/order/expert.js";
   "./pages/order/orderPay.js";
   "./pages/order/payResult.js";
-  "./pages/order/list.js";
-  "./pages/permission/permission.js";
+  "./pages/order/orderDetail.js";
 }
 const _sfc_main = {
   onLaunch: function() {
@@ -25,6 +25,9 @@ const _sfc_main = {
   onError: function() {
     console.log("App Error");
   },
+  onUniNViewMessage: function() {
+    console.log("App onUniNViewMessage");
+  },
   onUnhandledRejection: function() {
     console.log("App UnhandledRejection");
   },
@@ -38,7 +41,7 @@ const _sfc_main = {
     text: "text"
   }
 };
-var App = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["__file", "/Users/huangchao/Works/GitHub/uni-app/App.vue"]]);
+var App = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["__file", "/Users/huangchao/works/Study/uni-app/App.vue"]]);
 function createApp() {
   const app = common_vendor.createSSRApp(App);
   return { app };

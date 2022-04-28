@@ -1,5 +1,5 @@
 import defaultConfig from "@/common/config/index.js";
-import utils from "@/common/plugins/common.utils.js";
+import utils from "@/common/plugins/utils.js";
 
 let ajaxTimes = 1;
 let defaultHeader = {
@@ -49,8 +49,15 @@ export default {
 					if (loadding && !hideLoading) {
 						uni.hideLoading();
 					}
-					// if () {}
-					resolve(res.data);
+                    switch(res.code) {
+                        case 1001 : utils.href(defaultConfig.routePath.loginPermission, false); break;
+                        default : resolve(res.data); break;
+                    }
+					/* if (res.code === defaultConfig.httpCode.unLogin) {
+                        utils.href(defaultConfig.routePath.loginPermission, false);
+                    } else {
+                        resolve(res.data);
+                    } */
 				},
 				fail: (res) => {
                     uni.hideLoading();

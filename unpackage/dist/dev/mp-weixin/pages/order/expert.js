@@ -1,11 +1,11 @@
 "use strict";
 var common_vendor = require("../../common/vendor.js");
-var common_plugins_common_utils = require("../../common/plugins/common.utils.js");
+var common_plugins_utils = require("../../common/plugins/utils.js");
 var common_config_index = require("../../common/config/index.js");
 require("../../common/config/color.js");
 require("../../common/config/routers.js");
 require("../../common/config/images.js");
-require("../../common/config/http.config.js");
+require("../../common/config/request.js");
 require("../../common/config/emoji.js");
 const NoData = () => "../../components/no-data/NoData.js";
 const _sfc_main = {
@@ -76,7 +76,7 @@ const _sfc_main = {
       }, 3e3);
     },
     toOrderPay(type) {
-      common_plugins_common_utils.utils.href(common_config_index.defaultConfig.routePath.orderPay + `?id=${type}`, false);
+      common_plugins_utils.utils.href(common_config_index.defaultConfig.routePath.orderPay + `?id=${type}`, true);
     }
   }
 };
@@ -103,7 +103,7 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
         c: common_vendor.t(item.desc),
         d: index,
         e: common_vendor.o(($event) => $options.toOrderPay(item.name)),
-        f: "662bde2e-1-" + i0
+        f: "31bd2e8a-1-" + i0
       });
     }),
     c: $data.imgPath,
@@ -114,5 +114,5 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
     })
   });
 }
-var MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render], ["__file", "/Users/huangchao/Works/GitHub/uni-app/pages/order/expert.vue"]]);
+var MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render], ["__file", "/Users/huangchao/works/Study/uni-app/pages/order/expert.vue"]]);
 wx.createPage(MiniProgramPage);

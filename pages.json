@@ -1,10 +1,10 @@
 {
-	"pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
+	"pages": [ // pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
 		{
             "path" : "pages/tabbar/home",
             "style" : {
                 "navigationBarTitleText": "专家",
-                "enablePullDownRefresh": false
+                "enablePullDownRefresh": true
             }
             
         }, {
@@ -22,55 +22,69 @@
             }
             
         }, {
-            "path" : "pages/order/expert",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "专家选择",
-                "enablePullDownRefresh": false
-            }
-            
-        }, {
-            "path" : "pages/order/orderPay",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "下单支付",
-                "enablePullDownRefresh": false
-            }
-            
-        }, {
-            "path" : "pages/order/payResult",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "支付结果",
-                "enablePullDownRefresh": false
-            }
-            
-        }, {
-            "path" : "pages/order/list",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "咨询详情",
-                "enablePullDownRefresh": false
-            }
-            
-        }, {
             "path" : "pages/permission/permission",
-            "style" :                                                                                    
-            {
+            "style" : {
                 "navigationBarTitleText": "授权登录",
                 "enablePullDownRefresh": false
             }
             
         }
     ],
+    "subPackages": [{
+        "root": "pages/order",
+        "pages": [{
+            "path" : "expert",
+            "style" : {
+                "navigationBarTitleText": "专家选择",
+                "enablePullDownRefresh": false
+            }
+            
+        }, {
+            "path" : "orderPay",
+            "style" : {
+                "navigationBarTitleText": "下单支付",
+                "enablePullDownRefresh": false
+            }
+            
+        }, {
+            "path" : "payResult",
+            "style" : {
+                "navigationBarTitleText": "支付结果",
+                "enablePullDownRefresh": false
+            }
+            
+        }, {
+            "path" : "orderDetail",
+            "style" : {
+                "navigationBarTitleText": "咨询详情",
+                "enablePullDownRefresh": false
+            }
+            
+        }]
+    }],
+    "preloadRule": {
+        "pages/order/expert": {
+            "network": "all",
+            "packages": ["__APP__"]
+        }
+    },
     "tabBar": {
         "borderStyle": "black",
         "backgroundColor": "#FFFFFF",
         "color": "#8a8a8a",
         "selectedColor": "#0088ff",
+        
+        "height": "50px",
+        "fontSize": "12px",
+        "iconWidth": "24px",
+        "spacing": "5px",
+        
+        "position": "bottom",
+                
         "list": [{
         		"pagePath": "pages/tabbar/home",
         		"iconPath": "static/images/tabbar/expret.png",
+        		// "iconfont": "iconfont",
         		"selectedIconPath": "static/images/tabbar/expret_active.png",
         		"text": "专家"
         	},
@@ -103,10 +117,23 @@
         	}
         ]
     },
+    "easycom": {
+      "autoscan": true,
+      "custom": {
+        "^uni-(.*)": "@/uni_modules/uni-$1.vue" // 匹配components目录内的vue文件
+      }
+    },
 	"globalStyle": {
 		"navigationBarTextStyle": "black",
 		"navigationBarTitleText": "uni-app",
 		"navigationBarBackgroundColor": "#F8F8F8",
-		"backgroundColor": "#F8F8F8"
+		"backgroundColor": "#F8F8F8",
+        "backgroundTextStyle": "dark",
+        "enablePullDownRefresh": true,
+        "onReachBottomDistance": 50,
+        "pageOrientation": "portrait",
+        "usingComponents": {
+            "van-button": "/wxcomponents/vant/button/index"
+        }
 	}
 }
