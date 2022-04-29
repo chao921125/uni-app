@@ -5,8 +5,8 @@
 export default {
   // 异步操作
   setStorage(key, value) {
-    let dataValue = '';
-    if (typeof value === 'string') {
+    let dataValue = "";
+    if (typeof value === "string") {
       dataValue = value;
     } else {
       dataValue = JSON.stringify(value);
@@ -53,8 +53,8 @@ export default {
   },
   // 同步操作
   setStorageSync(key, value) {
-    let dataValue = '';
-    if (typeof value === 'string') {
+    let dataValue = "";
+    if (typeof value === "string") {
       dataValue = value;
     } else {
       dataValue = JSON.stringify(value);

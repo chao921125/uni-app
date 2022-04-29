@@ -1,34 +1,34 @@
 
 const dateUtils = {
 	UNITS: {
-		'年': 31557600000,
-		'月': 2629800000,
-		'天': 86400000,
-		'小时': 3600000,
-		'分钟': 60000,
-		'秒': 1000
+		"年": 31557600000,
+		"月": 2629800000,
+		"天": 86400000,
+		"小时": 3600000,
+		"分钟": 60000,
+		"秒": 1000
 	},
 	humanize: function(milliseconds) {
-		var humanize = '';
+		var humanize = "";
 		for (var key in this.UNITS) {
 			if (milliseconds >= this.UNITS[key]) {
-				humanize = Math.floor(milliseconds / this.UNITS[key]) + key + '前';
+				humanize = Math.floor(milliseconds / this.UNITS[key]) + key + "前";
 				break;
 			}
 		}
-		return humanize || '刚刚';
+		return humanize || "刚刚";
 	},
 	format: function(dateStr) {
 		var date = this.parse(dateStr)
 		var diff = Date.now() - date.getTime();
-		if (diff < this.UNITS['天']) {
+		if (diff < this.UNITS["天"]) {
 			return this.humanize(diff);
 		}
 		var _format = function(number) {
-			return (number < 10 ? ('0' + number) : number);
+			return (number < 10 ? ("0" + number) : number);
 		};
-		return date.getFullYear() + '/' + _format(date.getMonth() + 1) + '/' + _format(date.getDate()) + '-' +
-			_format(date.getHours()) + ':' + _format(date.getMinutes());
+		return date.getFullYear() + "/" + _format(date.getMonth() + 1) + "/" + _format(date.getDate()) + "-" +
+			_format(date.getHours()) + ":" + _format(date.getMinutes());
 	},
 	parse: function(str) { //将"yyyy-mm-dd HH:MM:ss"格式的字符串，转化为一个Date对象
 		var a = str.split(/[^0-9]/);
@@ -52,21 +52,21 @@ const utils = {
 	},
 	//格式化手机号码
 	formatNumber: function(num) {
-		return num.length === 11 ? num.replace(/^(\d{3})\d{4}(\d{4})$/, '$1****$2') : num;
+		return num.length === 11 ? num.replace(/^(\d{3})\d{4}(\d{4})$/, "$1****$2") : num;
 	},
 	//金额格式化
 	rmoney: function(money) {
-		return parseFloat(money).toFixed(2).toString().split('').reverse().join('').replace(/(\d{3})/g, '$1,').replace(
-			/\,$/, '').split('').reverse().join('');
+		return parseFloat(money).toFixed(2).toString().split("").reverse().join("").replace(/(\d{3})/g, "$1,").replace(
+			/\,$/, "").split("").reverse().join("");
 	},
 	//日期格式化
 	formatDate: function(formatStr, fdate) {
 		if (fdate) {
-			if (~fdate.indexOf('.')) {
-				fdate = fdate.substring(0, fdate.indexOf('.'));
+			if (~fdate.indexOf(".")) {
+				fdate = fdate.substring(0, fdate.indexOf("."));
 			}
-			fdate = fdate.toString().replace('T', ' ').replace(/\-/g, '/');
-			var fTime, fStr = 'ymdhis';
+			fdate = fdate.toString().replace("T", " ").replace(/\-/g, "/");
+			var fTime, fStr = "ymdhis";
 			if (!formatStr)
 				formatStr = "y-m-d h:i:s";
 			if (fdate)
@@ -78,11 +78,11 @@ const utils = {
 			var hours = fTime.getHours();
 			var minu = fTime.getMinutes();
 			var second = fTime.getSeconds();
-			month = month < 10 ? '0' + month : month;
-			day = day < 10 ? '0' + day : day;
-			hours = hours < 10 ? ('0' + hours) : hours;
-			minu = minu < 10 ? '0' + minu : minu;
-			second = second < 10 ? '0' + second : second;
+			month = month < 10 ? "0" + month : month;
+			day = day < 10 ? "0" + day : day;
+			hours = hours < 10 ? ("0" + hours) : hours;
+			minu = minu < 10 ? "0" + minu : minu;
+			second = second < 10 ? "0" + second : second;
 			var formatArr = [
 				fTime.getFullYear().toString(),
 				month.toString(),
@@ -100,7 +100,7 @@ const utils = {
 		}
 	},
     formatTime: function (time) {
-    	if (typeof time !== 'number' || time < 0) {
+    	if (typeof time !== "number" || time < 0) {
     		return time
     	}
     
@@ -112,11 +112,11 @@ const utils = {
     
     	return ([hour, minute, second]).map(function(n) {
     		n = n.toString()
-    		return n[1] ? n : '0' + n
-    	}).join(':')
+    		return n[1] ? n : "0" + n
+    	}).join(":")
     },
     formatLocation: function (longitude, latitude) {
-        if (typeof longitude === 'string' && typeof latitude === 'string') {
+        if (typeof longitude === "string" && typeof latitude === "string") {
             longitude = parseFloat(longitude)
             latitude = parseFloat(latitude)
         }
@@ -125,8 +125,8 @@ const utils = {
         latitude = latitude.toFixed(2)
 
         return {
-            longitude: longitude.toString().split('.'),
-            latitude: latitude.toString().split('.')
+            longitude: longitude.toString().split("."),
+            latitude: latitude.toString().split(".")
         }
     },
 	rgbToHex: function (r, g, b) {

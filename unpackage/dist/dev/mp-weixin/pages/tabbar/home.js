@@ -41,9 +41,6 @@ const _sfc_main = {
     this.getMoreSubjectList();
   },
   methods: {
-    toLogin() {
-      common_plugins_utils.utils.href(common_config_index.defaultConfig.routePath.loginPermission, false);
-    },
     getSubjectList() {
       this.loadMoreOption.status = "more";
       common_api_subject.subjectList().then((res) => {
@@ -124,10 +121,9 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
       square: false
     })
   }, {
-    e: common_vendor.o((...args) => $options.toLogin && $options.toLogin(...args)),
-    f: !$data.expertList || $data.expertList.length === 0
+    e: !$data.expertList || $data.expertList.length === 0
   }, !$data.expertList || $data.expertList.length === 0 ? {} : {
-    g: common_vendor.f($data.expertList, (item, index, i0) => {
+    f: common_vendor.f($data.expertList, (item, index, i0) => {
       return common_vendor.e($data.imgPath ? {
         a: item.avatar || $data.imgPath.UserAvatar
       } : {}, {
@@ -138,9 +134,9 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
         f: "3669fff0-4-" + i0
       });
     }),
-    h: $data.imgPath,
-    i: common_vendor.o($options.getMoreSubjectList),
-    j: common_vendor.p({
+    g: $data.imgPath,
+    h: common_vendor.o($options.getMoreSubjectList),
+    i: common_vendor.p({
       status: $data.loadMoreOption.status,
       contentText: $data.loadMoreOption.contentText
     })

@@ -21,16 +21,19 @@ var __spreadProps = (a, b) => __defProps(a, __getOwnPropDescs(b));
 var common_vendor = require("../../common/vendor.js");
 var common_config_index = require("../../common/config/index.js");
 var common_plugins_utils = require("../../common/plugins/utils.js");
+var common_api_user = require("../../common/api/user.js");
 require("../../common/config/routers.js");
 require("../../common/config/images.js");
 require("../../common/config/request.js");
 require("../../common/config/color.js");
 require("../../common/config/emoji.js");
+require("../../common/api/index.js");
 const _sfc_main = {
   data() {
     return {
       imgPath: common_config_index.defaultConfig.imgPath,
       hasUserInfo: false,
+      openId: "",
       userInfo: {},
       btnLoading: false
     };
@@ -140,8 +143,9 @@ const _sfc_main = {
             url,
             method: "GET",
             success: (result) => {
+              this.openId = result.data.openid;
               common_vendor.index.setStorageSync(common_config_index.defaultConfig.tokenKey, result.data.openid);
-              common_plugins_utils.utils.hrefTabbar(common_config_index.defaultConfig.routePath.tabbarHome, false);
+              this.loginUser();
             },
             fail: (err) => {
             }
@@ -150,6 +154,17 @@ const _sfc_main = {
         fail: () => {
         },
         complete: () => {
+        }
+      });
+    },
+    loginUser() {
+      common_api_user.login({
+        userNo: this.openId,
+        imgUrl: this.userInfo.avatarUrl,
+        userName: this.userInfo.nickName
+      }).then((res) => {
+        if (res) {
+          common_plugins_utils.utils.hrefTabbar(common_config_index.defaultConfig.routePath.tabbarHome, false);
         }
       });
     }

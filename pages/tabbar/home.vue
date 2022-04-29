@@ -10,7 +10,6 @@
 			</uni-grid-item>
         </uni-grid>
     </view>
-    <button @click="toLogin">to login</button>
     <view class="body-padding title-h2 re-margin-top-40">热门</view>
     <view v-if="!expertList || expertList.length === 0" class="re-flex-row-center">
         <NoData></NoData>
@@ -66,9 +65,6 @@
             this.getMoreSubjectList();
         },
 		methods: {
-            toLogin() {
-                utils.href(defaultConfig.routePath.loginPermission, false);
-            },
 			getSubjectList() {
                 this.loadMoreOption.status = "more";
 				subjectList().then((res) => {

@@ -36,12 +36,14 @@
 	import { mapState, mapMutations, mapActions } from 'vuex';
 	import defaultConfig from "@/common/config/index.js";
 	import utils from "@/common/plugins/utils.js";
+    import { login } from "@/common/api/user.js";
 
 	export default {
 		data() {
 			return {
                 imgPath: defaultConfig.imgPath,
 				hasUserInfo: false,
+                openId: "",
 				userInfo: {},
 				btnLoading: false
 			}
@@ -202,8 +204,9 @@
                           url: url, // 请求路径
                           method: 'GET', //请求方式
                           success: result => {
+                            this.openId = result.data.openid;
                             uni.setStorageSync(defaultConfig.tokenKey, result.data.openid);
-                            utils.hrefTabbar(defaultConfig.routePath.tabbarHome, false);
+                            this.loginUser();
                           },
                           fail: err => {} //失败
                         });
@@ -212,6 +215,17 @@
                     complete: () => {},
                 })
             },
+            loginUser() {
+                login({
+                    userNo: this.openId,
+                    imgUrl: this.userInfo.avatarUrl,
+                    userName: this.userInfo.nickName,
+                }).then((res) => {
+                    if (res) {
+                        utils.hrefTabbar(defaultConfig.routePath.tabbarHome, false);
+                    }
+                });
+            }
 		}
 	}
 </script>
