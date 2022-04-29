@@ -2,6 +2,7 @@
   "navigationBarTitleText": "咨询详情",
   "enablePullDownRefresh": false,
   "usingComponents": {
-    "message-input": "../components/order/MessageInput"
+    "message-input": "../components/order/MessageInput",
+    "uni-load-more": "../../uni_modules/uni-load-more/components/uni-load-more/uni-load-more"
   }
 }

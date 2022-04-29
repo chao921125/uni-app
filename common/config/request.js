@@ -7,7 +7,9 @@ export default {
 		}
 	},
 	httpCode: {
-		unLogin: 1001
+		unLogin: 1001,
+		error: 5000,
+		success: 9999
 	},
 	httpCodeStr: {}
 }

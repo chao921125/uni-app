@@ -15,16 +15,16 @@
         <NoData></NoData>
     </view>
     <view v-else>
-        <uni-card v-for="(item, index) in expertList" :key="index" @click="toOrderPay(item.name)">
-            <view class="re-flex-row-center-start home-expert">
+        <uni-card v-for="(item, index) in expertList" :key="index" @click="toOrderPay(item.proficNo)">
+            <view class="re-flex-row home-expert">
                 <view><cover-image class="avatar-circle" v-if="imgPath" :src="item.avatar || imgPath.UserAvatar"></cover-image></view>
                 <view class="expert-info">
-                    <view class="expert-name"><text class="expert-title title-sub-h1">专家：</text><text>{{item.name}}</text></view>
-                    <view class="expert-desc"><text class="expert-title title-sub-h1">简介：</text><text>{{item.desc}}</text></view>
+                    <view class="expert-name"><text class="title-sub-h1 expert-title">专家：</text><text>{{item.proficName}}</text></view>
+                    <view class="expert-desc"><text class="title-sub-h1 expert-title">简介：</text><text>{{item.desc}}</text></view>
                 </view>
             </view>
         </uni-card>
-        <uni-load-more :status="loadMoreOption.status" :contentText="loadMoreOption.contentText" @clickLoadMore="getMoreSubjectList"></uni-load-more>
+        <uni-load-more :status="loadMoreOption.status" :contentText="loadMoreOption.contentText" @clickLoadMore="getMoreList"></uni-load-more>
     </view>
 </template>
 
@@ -32,7 +32,7 @@
     import NoData from "@/components/no-data/NoData.vue";
 	import utils from "@/common/plugins/utils.js";
 	import defaultConfig from "@/common/config/index.js";
-	import { subjectList, expertList } from "@/common/api/subject.js";
+	import { subjectList, expertList } from "@/common/api/expert.js";
 	
     export default {
         components: {
@@ -57,59 +57,43 @@
                 },
             };
         },
-		onLoad() {
-			// this.getSubjectList();
+		onShow() {
+			this.subjectList = [];
+			this.expertList = [];
+			this.getSubjectList();
 			this.getExpertList();
 		},
         onReachBottom(e) {
-            this.getMoreSubjectList();
+            this.getMoreList();
         },
 		methods: {
 			getSubjectList() {
                 this.loadMoreOption.status = "more";
-				subjectList().then((res) => {
+				subjectList({ value: "" }).then((res) => {
 					this.subjectList = res.data;
 				});
 			},
             getExpertList() {
-				// expertList({ pageNum: this.pageOption.page, pageSize: this.pageOption.pageSize }).then((res) => {
-				// 	console.log(res);
-				// });
-                let tempArr = [];
-                for (let i = 0; i < 10; i++) {
-                    tempArr.push({
-                        avatar: "",
-                        name: "1" + i,
-                        desc: "i`m" + i,
-                    });
-                }
-                this.expertList = tempArr;
+				expertList({ pageNum: this.pageOption.page, pageSize: this.pageOption.pageSize }).then((res) => {
+					if (this.expertList.length > 0 &&  this.expertList.length < res.data.total) {
+						this.expertList = this.expertList.concat(res.data.rows);
+					} else if (this.expertList.length === 0) {
+						this.expertList = res.data.rows;
+					} else {
+						this.loadMoreOption.status = "no-more";
+					}
+				});
             },
-            getMoreSubjectList() {
+            getMoreList() {
                 this.pageOption.page++;
                 this.loadMoreOption.status = "loading";
-                console.log("1");
-                setTimeout(() => {
-                    if (this.pageOption.page < 3) {
-                        let tempArr = [];
-                        for (let i = 0; i < 10; i++) {
-                            tempArr.push({
-                                avatar: "",
-                                name: "1" + i,
-                                desc: "i`m" + i,
-                            });
-                        }
-                        
-                        this.expertList = this.expertList.concat(tempArr);
-                    }
-                    this.loadMoreOption.status = "no-more";
-                }, 3000);
+				this.getExpertList();
             },
 			toExpert(e) {
-				utils.href(defaultConfig.routePath.orderExpert + `?id=${this.subjectList[e.detail.index].value}`, true);
+				utils.href(defaultConfig.routePath.orderExpert + `?id=${this.subjectList[e.detail.index].value}`, false);
 			},
-			toOrderPay(type) {
-				utils.href(defaultConfig.routePath.orderPay + `?id=${type}`, true);
+			toOrderPay(id) {
+				utils.href(defaultConfig.routePath.orderPay + `?id=${id}`, true);
 			}
 		}
     }

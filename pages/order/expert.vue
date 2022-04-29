@@ -3,12 +3,12 @@
 	    <NoData></NoData>
 	</view>
 	<view v-else>
-	    <uni-card v-for="(item, index) in expertList" :key="index" @click="toOrderPay(item.name)">
-	        <view class="re-flex-row-center-start home-expert">
+	    <uni-card v-for="(item, index) in expertList" :key="index" @click="toOrderPay(item.proficNo)">
+	        <view class="re-flex-row home-expert">
 	            <view><cover-image class="avatar-circle" v-if="imgPath" :src="item.avatar || imgPath.UserAvatar"></cover-image></view>
 	            <view class="expert-info">
-	                <view class="expert-name"><text class="expert-title">专家：</text><text>{{item.name}}</text></view>
-	                <view class="expert-desc"><text class="expert-title">简介：</text><text>{{item.desc}}</text></view>
+	                <view class="expert-name"><text class="title-sub-h1 expert-title">专家：</text><text>{{item.name}}</text></view>
+	                <view class="expert-desc"><text class="title-sub-h1 expert-title">简介：</text><text>{{item.desc}}</text></view>
 	            </view>
 	        </view>
 	    </uni-card>
@@ -21,6 +21,8 @@
 	import { onLoad, onShow, } from "@dcloudio/uni-app";
 	import utils from "@/common/plugins/utils.js";
 	import defaultConfig from "@/common/config/index.js";
+	import { expertList } from "@/common/api/expert.js";
+	import { defineProps, defineEmits, ref } from "vue";
 	
 	export default {
         components: {
@@ -45,16 +47,13 @@
             };
 		},
 		setup() {
-			// const props = defineProps({ id: { type: String }, });
-			// onLoad 接受 A 页面传递的参数
+			const id = ref("");
 			onLoad((option) => {
-			  console.log("B 页面 onLoad:", option); //B 页面 onLoad: {id: '1', name: 'uniapp'}
+				id.value = option.id;
 			});
-			onShow(() => {
-			  console.log("B 页面 onShow");
-			});
+			return { id };
 		},
-		created() {
+		onLoad() {
 			this.getExpertList();
 		},
         onReachBottom(e) {
@@ -62,43 +61,36 @@
         },
 		methods: {
             getExpertList() {
-                let tempArr = [];
-                for (let i = 0; i < 10; i++) {
-                    tempArr.push({
-                        avatar: "",
-                        name: "1" + i,
-                        desc: "i`m" + i,
-                    });
-                }
-                this.expertList = tempArr;
+                expertList({ pageNum: this.pageOption.page, pageSize: this.pageOption.pageSize, field: this.id }).then((res) => {
+					if (this.expertList.length > 0 &&  this.expertList.length < res.data.total) {
+						this.expertList = this.expertList.concat(res.data.rows);
+					} else if (this.expertList.length === 0) {
+						this.expertList = res.data.rows;
+					} else {
+						this.loadMoreOption.status = "no-more";
+					}
+				});
             },
             getMoreSubjectList() {
                 this.pageOption.page++;
                 this.loadMoreOption.status = "loading";
-                console.log("1");
-                setTimeout(() => {
-                    if (this.pageOption.page < 3) {
-                        let tempArr = [];
-                        for (let i = 0; i < 10; i++) {
-                            tempArr.push({
-                                avatar: "",
-                                name: "1" + i,
-                                desc: "i`m" + i,
-                            });
-                        }
-                        
-                        this.expertList = this.expertList.concat(tempArr);
-                    }
-                    this.loadMoreOption.status = "no-more";
-                }, 3000);
+				this.getExpertList();
             },
-			toOrderPay(type) {
-				utils.href(defaultConfig.routePath.orderPay + `?id=${type}`, true);
+			toOrderPay(id) {
+				utils.href(defaultConfig.routePath.orderPay + `?id=${id}`, true);
 			}
 		}
 	}
 </script>
 
 <style lang="scss">
-
+.home-expert {
+    .expert-info {
+        padding-left: 20rpx;
+        .expert-title {
+            color: #000000;
+            font-weight: bold;
+        }
+    }
+}
 </style>

@@ -7,5 +7,9 @@ function subjectList(params) {
 function expertList(params) {
   return common_plugins_http.http.request(common_api_index.config.basePath + "/profic/list", "POST", params, false, false);
 }
+function expertDetail(params) {
+  return common_plugins_http.http.request(common_api_index.config.basePath + "/profic/list/nopage", "POST", params, false, false);
+}
+exports.expertDetail = expertDetail;
 exports.expertList = expertList;
 exports.subjectList = subjectList;

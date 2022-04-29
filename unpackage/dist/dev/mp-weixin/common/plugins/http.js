@@ -32,12 +32,16 @@ var http = {
         method,
         dataType: "json",
         success: (res) => {
+          console.log(url, params, res);
           if (loadding && !hideLoading) {
             common_vendor.index.hideLoading();
           }
           switch (res.code) {
-            case 1001:
+            case 1111:
               common_plugins_utils.utils.href(common_config_index.defaultConfig.routePath.loginPermission, false);
+              break;
+            case 5e3:
+              common_plugins_utils.utils.toast(res.msg);
               break;
             default:
               resolve(res.data);

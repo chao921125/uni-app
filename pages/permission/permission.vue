@@ -10,7 +10,7 @@
                         <image class="userinfo-avatar" :src="imgPath.UserAvatar"></image>
                     </view>
 					<view class="uni-hello-text uni-center">
-						<text>请点击下方按钮获取用户头像及昵称或手机号</text>
+						<text>请点击下方按钮授权并同意登录</text>
 					</view>
 				</block>
 				<block v-if="hasUserInfo === true">
@@ -22,10 +22,10 @@
 			</view>
 			<view class="uni-btn-v">
 				<!-- #ifdef APP-PLUS || MP-ALIPAY || MP-TOUTIAO -->
-				<button type="primary" :loading="btnLoading" @click="getUserInfo">获取用户信息</button>
+				<button type="primary" :loading="btnLoading" @click="getUserInfo">授权登录</button>
 				<!-- #endif -->
 				<!-- #ifdef MP-WEIXIN || MP-BAIDU || MP-QQ  || MP-JD -->
-				<button type="primary" open-type="getUserInfo" withCredentials="true" @getuserinfo="mpGetUserInfo">获取用户信息</button>
+				<button type="primary" open-type="getUserInfo" withCredentials="true" @getuserinfo="mpGetUserInfo">授权登录</button>
                 <!-- <button open-type="getPhoneNumber" @getphonenumber="onGetPhoneNumber">onGetPhoneNumber</button> -->
 				<!-- #endif -->
 			</view>

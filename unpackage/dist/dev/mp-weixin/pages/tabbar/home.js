@@ -1,7 +1,7 @@
 "use strict";
 var common_plugins_utils = require("../../common/plugins/utils.js");
 var common_config_index = require("../../common/config/index.js");
-var common_api_subject = require("../../common/api/subject.js");
+var common_api_expert = require("../../common/api/expert.js");
 var common_vendor = require("../../common/vendor.js");
 require("../../common/config/color.js");
 require("../../common/config/routers.js");
@@ -34,54 +34,43 @@ const _sfc_main = {
       }
     };
   },
-  onLoad() {
+  onShow() {
+    this.subjectList = [];
+    this.expertList = [];
+    this.getSubjectList();
     this.getExpertList();
   },
   onReachBottom(e) {
-    this.getMoreSubjectList();
+    this.getMoreList();
   },
   methods: {
     getSubjectList() {
       this.loadMoreOption.status = "more";
-      common_api_subject.subjectList().then((res) => {
+      common_api_expert.subjectList({ value: "" }).then((res) => {
         this.subjectList = res.data;
       });
     },
     getExpertList() {
-      let tempArr = [];
-      for (let i = 0; i < 10; i++) {
-        tempArr.push({
-          avatar: "",
-          name: "1" + i,
-          desc: "i`m" + i
-        });
-      }
-      this.expertList = tempArr;
+      common_api_expert.expertList({ pageNum: this.pageOption.page, pageSize: this.pageOption.pageSize }).then((res) => {
+        if (this.expertList.length > 0 && this.expertList.length < res.data.total) {
+          this.expertList = this.expertList.concat(res.data.rows);
+        } else if (this.expertList.length === 0) {
+          this.expertList = res.data.rows;
+        } else {
+          this.loadMoreOption.status = "no-more";
+        }
+      });
     },
-    getMoreSubjectList() {
+    getMoreList() {
       this.pageOption.page++;
       this.loadMoreOption.status = "loading";
-      console.log("1");
-      setTimeout(() => {
-        if (this.pageOption.page < 3) {
-          let tempArr = [];
-          for (let i = 0; i < 10; i++) {
-            tempArr.push({
-              avatar: "",
-              name: "1" + i,
-              desc: "i`m" + i
-            });
-          }
-          this.expertList = this.expertList.concat(tempArr);
-        }
-        this.loadMoreOption.status = "no-more";
-      }, 3e3);
+      this.getExpertList();
     },
     toExpert(e) {
-      common_plugins_utils.utils.href(common_config_index.defaultConfig.routePath.orderExpert + `?id=${this.subjectList[e.detail.index].value}`, true);
+      common_plugins_utils.utils.href(common_config_index.defaultConfig.routePath.orderExpert + `?id=${this.subjectList[e.detail.index].value}`, false);
     },
-    toOrderPay(type) {
-      common_plugins_utils.utils.href(common_config_index.defaultConfig.routePath.orderPay + `?id=${type}`, true);
+    toOrderPay(id) {
+      common_plugins_utils.utils.href(common_config_index.defaultConfig.routePath.orderPay + `?id=${id}`, true);
     }
   }
 };
@@ -108,7 +97,7 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
       return {
         a: common_vendor.t(item.name),
         b: index,
-        c: "3669fff0-2-" + i0 + ",3669fff0-1",
+        c: "7c16cbfc-2-" + i0 + ",7c16cbfc-1",
         d: common_vendor.p({
           index
         })
@@ -127,20 +116,20 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
       return common_vendor.e($data.imgPath ? {
         a: item.avatar || $data.imgPath.UserAvatar
       } : {}, {
-        b: common_vendor.t(item.name),
+        b: common_vendor.t(item.proficName),
         c: common_vendor.t(item.desc),
         d: index,
-        e: common_vendor.o(($event) => $options.toOrderPay(item.name)),
-        f: "3669fff0-4-" + i0
+        e: common_vendor.o(($event) => $options.toOrderPay(item.proficNo)),
+        f: "7c16cbfc-4-" + i0
       });
     }),
     g: $data.imgPath,
-    h: common_vendor.o($options.getMoreSubjectList),
+    h: common_vendor.o($options.getMoreList),
     i: common_vendor.p({
       status: $data.loadMoreOption.status,
       contentText: $data.loadMoreOption.contentText
     })
   });
 }
-var MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render], ["__file", "/Users/huangchao/works/Study/uni-app/pages/tabbar/home.vue"]]);
+var MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render], ["__file", "/Users/huangchao/Works/GitHub/uni-app/pages/tabbar/home.vue"]]);
 wx.createPage(MiniProgramPage);

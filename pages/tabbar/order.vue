@@ -1,20 +1,19 @@
 <template>
-    <view v-if="!expertList || expertList.length === 0" class="re-flex-row-center">
+    <view v-if="!orderList || orderList.length === 0" class="re-flex-row-center">
         <NoData></NoData>
     </view>
     <view v-else>
-        <uni-card v-for="(item, index) in expertList" :key="index" @click="toDetail(item.name)" class="home-expert">
+        <uni-card v-for="(item, index) in orderList" :key="index" @click="toDetail(item.proNo, item.orderNo)" class="home-expert">
             <view class="re-flex-row-center-start">
                 <view><cover-image class="avatar-circle" v-if="imgPath" :src="item.avatar || imgPath.UserAvatar"></cover-image></view>
                 <view class="expert-info">
-                    <view class="expert-name"><text class="expert-title title-sub-h1">专家：</text><text>{{item.name}}</text></view>
-                    <view class="expert-desc"><text class="expert-title title-sub-h1">简介：</text><text>{{item.desc}}</text></view>
+                    <view class="expert-name"><text class="expert-title title-sub-h1">专家：</text><text>{{item.profileName}}</text></view>
+                    <view class="expert-desc"><text class="expert-title title-sub-h1">价格：</text><text>{{item.price}}元</text></view>
                 </view>
             </view>
-            <view class="expert-desc"><text class="expert-title title-sub-h1">问题：</text><text>{{item.desc}}</text></view>
-            <view class="expert-desc"><text class="expert-title title-sub-h1">描述：</text><text>{{item.desc}}</text></view>
+            <view class="expert-desc"><text class="expert-title title-sub-h1">问题：</text><text>{{item.title}}</text></view>
         </uni-card>
-        <uni-load-more :status="loadMoreOption.status" :contentText="loadMoreOption.contentText" @clickLoadMore="getMoreSubjectList"></uni-load-more>
+        <uni-load-more :status="loadMoreOption.status" :contentText="loadMoreOption.contentText" @clickLoadMore="getMoreList"></uni-load-more>
     </view>
 </template>
 
@@ -22,6 +21,7 @@
     import NoData from "@/components/no-data/NoData.vue";
 	import utils from "@/common/plugins/utils.js";
 	import defaultConfig from "@/common/config/index.js";
+	import { orderList } from "@/common/api/order.js";
 	
     export default {
         components: {
@@ -30,7 +30,7 @@
         data() {
             return {
                 imgPath: defaultConfig.imgPath,
-                expertList: [],
+                orderList: [],
                 pageOption: {
                     page: 1,
                     pageSize: 10,
@@ -45,47 +45,33 @@
                 },
             };
         },
-		created() {
-			this.getExpertList();
+		onShow() {
+			this.orderList = [];
+			this.getOrderList();
 		},
         onReachBottom(e) {
-            this.getMoreSubjectList();
+            this.getMoreList();
         },
 		methods: {
-            getExpertList() {
-                let tempArr = [];
-                for (let i = 0; i < 10; i++) {
-                    tempArr.push({
-                        avatar: "",
-                        name: "1" + i,
-                        desc: "i`m" + i,
-                    });
-                }
-                this.expertList = tempArr;
+            getOrderList() {
+				if (!uni.getStorageSync(defaultConfig.tokenKey)) utils.href(defaultConfig.routePath.loginPermission, false);
+                orderList({ pageNum: this.pageOption.page, pageSize: this.pageOption.pageSize, fuserNo: uni.getStorageSync(defaultConfig.tokenKey) }).then((res) => {
+					if (this.orderList.length > 0 &&  this.orderList.length < res.data.total) {
+						this.orderList = this.orderList.concat(res.data.rows);
+					} else if (this.orderList.length === 0) {
+						this.orderList = res.data.rows;
+					} else {
+						this.loadMoreOption.status = "no-more";
+					}
+				});
             },
-            getMoreSubjectList() {
+            getMoreList() {
                 this.pageOption.page++;
                 this.loadMoreOption.status = "loading";
-                console.log("1");
-                setTimeout(() => {
-                    if (this.pageOption.page < 3) {
-                        let tempArr = [];
-                        for (let i = 0; i < 10; i++) {
-                            tempArr.push({
-                                avatar: "",
-                                name: "1" + i,
-                                desc: "i`m" + i,
-                            });
-                        }
-                        
-                        this.expertList = this.expertList.concat(tempArr);
-                    }
-                    this.loadMoreOption.status = "no-more";
-                }, 3000);
+				this.getExpertList();
             },
-			toDetail(id) {
-                console.log(id);
-				utils.href(defaultConfig.routePath.orderDetail + `?id=${id}`, true);
+			toDetail(expertId, orderId) {
+				utils.href(defaultConfig.routePath.orderDetail + `?expertId=${expertId}&orderId=${orderId}`, true);
 			}
 		}
     }

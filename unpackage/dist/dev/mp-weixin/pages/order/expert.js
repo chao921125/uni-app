@@ -2,11 +2,14 @@
 var common_vendor = require("../../common/vendor.js");
 var common_plugins_utils = require("../../common/plugins/utils.js");
 var common_config_index = require("../../common/config/index.js");
+var common_api_expert = require("../../common/api/expert.js");
 require("../../common/config/color.js");
 require("../../common/config/routers.js");
 require("../../common/config/images.js");
 require("../../common/config/request.js");
 require("../../common/config/emoji.js");
+require("../../common/api/index.js");
+require("../../common/plugins/http.js");
 const NoData = () => "../../components/no-data/NoData.js";
 const _sfc_main = {
   components: {
@@ -31,14 +34,13 @@ const _sfc_main = {
     };
   },
   setup() {
+    const id = common_vendor.ref("");
     common_vendor.onLoad((option) => {
-      console.log("B \u9875\u9762 onLoad:", option);
+      id.value = option.id;
     });
-    common_vendor.onShow(() => {
-      console.log("B \u9875\u9762 onShow");
-    });
+    return { id };
   },
-  created() {
+  onLoad() {
     this.getExpertList();
   },
   onReachBottom(e) {
@@ -46,37 +48,23 @@ const _sfc_main = {
   },
   methods: {
     getExpertList() {
-      let tempArr = [];
-      for (let i = 0; i < 10; i++) {
-        tempArr.push({
-          avatar: "",
-          name: "1" + i,
-          desc: "i`m" + i
-        });
-      }
-      this.expertList = tempArr;
+      common_api_expert.expertList({ pageNum: this.pageOption.page, pageSize: this.pageOption.pageSize, field: this.id }).then((res) => {
+        if (this.expertList.length > 0 && this.expertList.length < res.data.total) {
+          this.expertList = this.expertList.concat(res.data.rows);
+        } else if (this.expertList.length === 0) {
+          this.expertList = res.data.rows;
+        } else {
+          this.loadMoreOption.status = "no-more";
+        }
+      });
     },
     getMoreSubjectList() {
       this.pageOption.page++;
       this.loadMoreOption.status = "loading";
-      console.log("1");
-      setTimeout(() => {
-        if (this.pageOption.page < 3) {
-          let tempArr = [];
-          for (let i = 0; i < 10; i++) {
-            tempArr.push({
-              avatar: "",
-              name: "1" + i,
-              desc: "i`m" + i
-            });
-          }
-          this.expertList = this.expertList.concat(tempArr);
-        }
-        this.loadMoreOption.status = "no-more";
-      }, 3e3);
+      this.getExpertList();
     },
-    toOrderPay(type) {
-      common_plugins_utils.utils.href(common_config_index.defaultConfig.routePath.orderPay + `?id=${type}`, true);
+    toOrderPay(id) {
+      common_plugins_utils.utils.href(common_config_index.defaultConfig.routePath.orderPay + `?id=${id}`, true);
     }
   }
 };
@@ -102,8 +90,8 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
         b: common_vendor.t(item.name),
         c: common_vendor.t(item.desc),
         d: index,
-        e: common_vendor.o(($event) => $options.toOrderPay(item.name)),
-        f: "31bd2e8a-1-" + i0
+        e: common_vendor.o(($event) => $options.toOrderPay(item.proficNo)),
+        f: "662bde2e-1-" + i0
       });
     }),
     c: $data.imgPath,
@@ -114,5 +102,5 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
     })
   });
 }
-var MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render], ["__file", "/Users/huangchao/works/Study/uni-app/pages/order/expert.vue"]]);
+var MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render], ["__file", "/Users/huangchao/Works/GitHub/uni-app/pages/order/expert.vue"]]);
 wx.createPage(MiniProgramPage);

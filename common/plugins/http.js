@@ -46,11 +46,13 @@ export default {
 				method: method, //"GET","POST"
 				dataType: "json",
 				success: (res) => {
+					console.log(url, params, res);
 					if (loadding && !hideLoading) {
 						uni.hideLoading();
 					}
                     switch(res.code) {
-                        case 1001 : utils.href(defaultConfig.routePath.loginPermission, false); break;
+                        case 1111 : utils.href(defaultConfig.routePath.loginPermission, false); break;
+                        case 5000 : utils.toast(res.msg); break;
                         default : resolve(res.data); break;
                     }
 					/* if (res.code === defaultConfig.httpCode.unLogin) {

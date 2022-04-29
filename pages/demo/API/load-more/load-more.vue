@@ -32,7 +32,7 @@
     import NoData from "@/components/no-data/NoData.vue";
 	import utils from "@/common/plugins/utils.js";
 	import defaultConfig from "@/common/config/index.js";
-	import { subjectList } from "@/common/api/subject.js";
+	import { subjectList } from "@/common/api/expert.js";
 	
     export default {
         components: {

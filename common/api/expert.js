@@ -1,5 +1,5 @@
 /**
- * 题目相关
+ * 专家相关
  */
 import config from "@/common/api/index.js";
 import http from "@/common/plugins/http.js";
@@ -15,16 +15,23 @@ export function subjectList(params) {
 /**
  * 专家列表
  * @param {Object} params
- * {
- * 	pageSize: 10
- * 	pageNum: 1
- * 	field: 111
- * 	proficNo: P59168520220423
- * 	proficVx: 123321
- * 	proficName: 
- * 	proficTel: 
- * }
+ * pageSize: 10 分页条数
+ * pageNum: 1 当前页码
+ * field: 领域id
+ * proficNo: 专家编号
+ * proficVx: 专家vx
+ * proficName: 专家名称
+ * proficTel: 联系方式
  */
 export function expertList(params) {
 	return http.request(config.basePath + "/profic/list", "POST", params, false, false);
+}
+
+/**
+ * 专家
+ * @param {Object} params
+ * proficNo: 专家编号
+ */
+export function expertDetail(params) {
+	return http.request(config.basePath + "/profic/list/nopage", "POST", params, false, false);
 }

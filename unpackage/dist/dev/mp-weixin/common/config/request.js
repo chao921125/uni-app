@@ -6,7 +6,9 @@ var request = {
     }
   },
   httpCode: {
-    unLogin: 1001
+    unLogin: 1001,
+    error: 5e3,
+    success: 9999
   },
   httpCodeStr: {}
 };

@@ -1,5 +1,16 @@
 "use strict";
 var common_vendor = require("../../common/vendor.js");
+var common_plugins_utils = require("../../common/plugins/utils.js");
+var common_config_index = require("../../common/config/index.js");
+var common_api_order = require("../../common/api/order.js");
+var common_api_expert = require("../../common/api/expert.js");
+require("../../common/config/color.js");
+require("../../common/config/routers.js");
+require("../../common/config/images.js");
+require("../../common/config/request.js");
+require("../../common/config/emoji.js");
+require("../../common/api/index.js");
+require("../../common/plugins/http.js");
 const MessageInput = () => "../components/order/MessageInput.js";
 const _sfc_main = {
   components: {
@@ -7,101 +18,96 @@ const _sfc_main = {
   },
   data() {
     return {
-      commentData: {
-        "readNumer": 193,
-        "commentList": [
-          {
-            "id": 1,
-            "owner": false,
-            "hasLike": false,
-            "likeNum": 2,
-            "avatarUrl": "https://inews.gtimg.com/newsapp_ls/0/13797755537/0",
-            "nickName": "\u8D85\u957F\u6635\u79F0\u8D85\u957F...",
-            "content": "\u5566\u5566\u5566\u5566",
-            "parentId": null,
-            "createTime": "2021-07-02 16:32:07"
-          },
-          {
-            "id": 2,
-            "owner": false,
-            "hasLike": false,
-            "likeNum": 2,
-            "avatarUrl": "https://inews.gtimg.com/newsapp_ls/0/13797761970/0",
-            "nickName": "\u5BC2\u5BDE\u65E0\u654C",
-            "content": "\u6211\u662F\u8BC4\u8BBA\u7684\u8BC4\u8BBA",
-            "parentId": 1,
-            "createTime": "2021-07-02 17:05:50"
-          },
-          {
-            "id": 4,
-            "owner": true,
-            "hasLike": true,
-            "likeNum": 1,
-            "avatarUrl": "https://inews.gtimg.com/newsapp_ls/0/13797763270/0",
-            "nickName": "name111",
-            "content": "\u8BC4\u8BBA\u5566\u5566\u5566\u5566\u5566\u5566\u5566\u5566\u5566\u5566",
-            "parentId": null,
-            "createTime": "2021-07-13 09:37:50"
-          },
-          {
-            "id": 5,
-            "owner": false,
-            "hasLike": false,
-            "likeNum": 0,
-            "avatarUrl": "https://inews.gtimg.com/newsapp_ls/0/13797755537/0",
-            "nickName": "\u8D85\u957F\u6635\u79F0\u8D85\u957F...",
-            "content": "\u8D85\u957F\u8BC4\u8BBA\u8D85\u957F\u8BC4\u8BBA\u8D85\u957F\u8BC4\u8BBA\u8D85\u957F\u8BC4\u8BBA\u8D85\u957F\u8BC4\u8BBA\u8D85\u957F\u8BC4\u8BBA\u8D85\u957F\u8BC4\u8BBA\u8D85\u957F\u8BC4\u8BBA\u8D85\u957F\u8BC4\u8BBA\u8D85\u957F\u8BC4\u8BBA\u8D85\u957F\u8BC4\u8BBA\u8D85\u957F\u8BC4\u8BBA\u8D85\u957F\u8BC4\u8BBA\u8D85\u957F\u8BC4\u8BBA\u8D85\u957F\u8BC4\u8BBA\u8D85\u957F\u8BC4\u8BBA\u8D85\u957F\u8BC4\u8BBA\u8D85\u957F\u8BC4\u8BBA\u8D85\u957F\u8BC4\u8BBA\u8D85\u957F\u8BC4\u8BBA\u8D85\u957F\u8BC4\u8BBA\u8D85\u957F\u8BC4\u8BBA\u8D85\u957F\u8BC4\u8BBA\u8D85\u957F\u8BC4\u8BBA\u8D85\u957F\u8BC4\u8BBA\u8D85\u957F\u8BC4\u8BBA\u8D85\u957F\u8BC4\u8BBA\u8D85\u957F\u8BC4\u8BBA\u8D85\u957F\u8BC4\u8BBA\u8D85\u957F\u8BC4\u8BBA\u8D85\u957F\u8BC4\u8BBA\u8D85\u957F\u8BC4\u8BBA\u8D85\u957F\u8BC4\u8BBA\u8D85\u957F\u8BC4\u8BBA\u8D85\u957F\u8BC4\u8BBA\u8D85\u957F\u8BC4\u8BBA\u8D85\u957F\u8BC4\u8BBA\u8D85\u957F\u8BC4\u8BBA\u8D85\u957F\u8BC4\u8BBA\u8D85\u957F\u8BC4\u8BBA\u8D85\u957F\u8BC4\u8BBA\u8D85\u957F\u8BC4\u8BBA\u8D85\u957F\u8BC4\u8BBA\u8D85\u957F\u8BC4\u8BBA\u8D85\u957F\u8BC4\u8BBA\u8D85\u957F\u8BC4\u8BBA\u8D85\u957F\u8BC4\u8BBA\u8D85\u957F\u8BC4\u8BBA\u8D85\u957F\u8BC4\u8BBA\u8D85\u957F\u8BC4\u8BBA\u8D85\u957F\u8BC4\u8BBA\u8D85\u957F\u8BC4\u8BBA\u8D85\u957F\u8BC4\u8BBA\u8D85\u957F\u8BC4\u8BBA\u8D85\u957F\u8BC4\u8BBA\u8D85\u957F\u8BC4\u8BBA\u8D85\u957F\u8BC4\u8BBA\u8D85\u957F\u8BC4\u8BBA\u8D85\u957F\u8BC4\u8BBA\u8D85\u957F\u8BC4\u8BBA\u8D85\u957F\u8BC4\u8BBA\u8D85\u957F\u8BC4\u8BBA\u8D85\u957F\u8BC4\u8BBA\u8D85\u957F\u8BC4\u8BBA\u8D85\u957F\u8BC4\u8BBA\u8D85\u957F\u8BC4\u8BBA\u8D85\u957F\u8BC4\u8BBA\u8D85\u957F\u8BC4\u8BBA\u8D85\u957F\u8BC4\u8BBA\u8D85\u957F\u8BC4\u8BBA\u8D85\u957F\u8BC4\u8BBA\u8D85\u957F\u8BC4\u8BBA\u8D85\u957F\u8BC4\u8BBA\u8D85\u957F\u8BC4\u8BBA\u8D85\u957F\u8BC4\u8BBA\u8D85\u957F\u8BC4\u8BBA\u8D85\u957F\u8BC4\u8BBA\u8D85\u957F\u8BC4\u8BBA\u8D85\u957F\u8BC4\u8BBA\u8D85\u957F\u8BC4\u8BBA\u8D85\u957F\u8BC4\u8BBA\u8D85\u957F\u8BC4\u8BBA\u8D85\u957F\u8BC4\u8BBA\u8D85\u957F\u8BC4\u8BBA\u8D85\u957F\u8BC4\u8BBA\u8D85\u957F\u8BC4\u8BBA\u8D85\u957F\u8BC4\u8BBA\u8D85\u957F\u8BC4\u8BBA",
-            "parentId": null,
-            "createTime": "2021-07-13 16:04:35"
-          },
-          {
-            "id": 13,
-            "owner": false,
-            "hasLike": false,
-            "likeNum": 0,
-            "avatarUrl": "https://inews.gtimg.com/newsapp_ls/0/13797755537/0",
-            "nickName": "\u8D85\u957F\u6635\u79F0\u8D85\u957F...",
-            "content": "@\u5BC2\u5BDE\u65E0\u654C \u4F60\u6015\u4E0D\u662F\u4E2A\u5927\u806A\u660E",
-            "parentId": 1,
-            "createTime": "2021-07-14 11:01:23"
-          }
-        ]
+      timeObject: null,
+      orderObject: {},
+      orderContentList: [],
+      pageOption: {
+        page: 1,
+        pageSize: 10
+      },
+      loadMoreOption: {
+        status: "more",
+        contentText: {
+          contentdown: "\u4E0A\u62C9\u52A0\u8F7D\u66F4\u591A",
+          contentrefresh: "\u6B63\u5728\u52A0\u8F7D...",
+          contentnomore: "\u6CA1\u6709\u6570\u636E\u4E86"
+        }
       }
     };
   },
+  setup() {
+    const expertId = common_vendor.ref("");
+    const orderId = common_vendor.ref("");
+    common_vendor.onLoad((option) => {
+      expertId.value = option.expertId;
+      orderId.value = option.orderId;
+    });
+    return { expertId, orderId };
+  },
+  onLoad() {
+    this.orderContentList = [];
+    this.getOrder();
+  },
+  onHide() {
+    clearInterval(this.timeObject);
+  },
+  onReachBottom(e) {
+    this.getMoreList();
+  },
   methods: {
-    getTree(data) {
-      let result = [];
-      let map = {};
-      data.forEach((item) => {
-        map[item.id] = item;
+    getExpertDetail() {
+      if (!common_vendor.index.getStorageSync(common_config_index.defaultConfig.tokenKey))
+        common_plugins_utils.utils.href(common_config_index.defaultConfig.routePath.loginPermission, false);
+      common_api_expert.expertDetail({ proficNo: this.id }).then((res) => {
+        this.orderObject = res.data;
       });
-      data.forEach((item) => {
-        let parent = map[item.parentId];
-        if (parent) {
-          (parent.children || (parent.children = [])).push(item);
+    },
+    getOrder() {
+      if (!common_vendor.index.getStorageSync(common_config_index.defaultConfig.tokenKey))
+        common_plugins_utils.utils.href(common_config_index.defaultConfig.routePath.loginPermission, false);
+      common_api_order.orderDetail({ orderNo: this.orderId, fuserNo: common_vendor.index.getStorageSync(common_config_index.defaultConfig.tokenKey) }).then((res) => {
+        this.orderObject = res.data;
+      });
+    },
+    getOrderContentList() {
+      if (!common_vendor.index.getStorageSync(common_config_index.defaultConfig.tokenKey))
+        common_plugins_utils.utils.href(common_config_index.defaultConfig.routePath.loginPermission, false);
+      common_api_order.orderContentList({ pageNum: this.pageOption.page, pageSize: this.pageOption.pageSize, orderNo: this.orderId, fuserNo: common_vendor.index.getStorageSync(common_config_index.defaultConfig.tokenKey) }).then((res) => {
+        if (this.orderContentList.length > 0 && this.orderContentList.length < res.data.total) {
+          this.orderContentList = this.orderContentList.concat(res.data.rows);
+        } else if (this.orderContentList.length === 0) {
+          this.orderContentList = res.data.rows;
         } else {
-          result.push(item);
+          this.loadMoreOption.status = "no-more";
         }
       });
-      return result;
     },
-    add() {
-    },
-    del() {
-    },
-    like() {
-    },
-    focusOn() {
+    getMoreList() {
+      this.pageOption.page++;
+      this.loadMoreOption.status = "loading";
+      this.getOrderContentList();
     }
   }
 };
 if (!Array) {
+  const _easycom_uni_load_more2 = common_vendor.resolveComponent("uni-load-more");
   const _component_MessageInput = common_vendor.resolveComponent("MessageInput");
-  _component_MessageInput();
+  (_easycom_uni_load_more2 + _component_MessageInput)();
+}
+const _easycom_uni_load_more = () => "../../uni_modules/uni-load-more/components/uni-load-more/uni-load-more.js";
+if (!Math) {
+  _easycom_uni_load_more();
 }
 function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
-  return {};
+  return {
+    a: common_vendor.t($data.orderObject.title),
+    b: common_vendor.t($data.orderObject.text),
+    c: common_vendor.o($options.getMoreList),
+    d: common_vendor.p({
+      status: $data.loadMoreOption.status,
+      contentText: $data.loadMoreOption.contentText
+    })
+  };
 }
-var MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render], ["__file", "/Users/huangchao/works/Study/uni-app/pages/order/orderDetail.vue"]]);
+var MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render], ["__file", "/Users/huangchao/Works/GitHub/uni-app/pages/order/orderDetail.vue"]]);
 wx.createPage(MiniProgramPage);

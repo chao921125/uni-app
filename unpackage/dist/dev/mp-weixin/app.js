@@ -41,7 +41,7 @@ const _sfc_main = {
     text: "text"
   }
 };
-var App = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["__file", "/Users/huangchao/works/Study/uni-app/App.vue"]]);
+var App = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["__file", "/Users/huangchao/Works/GitHub/uni-app/App.vue"]]);
 function createApp() {
   const app = common_vendor.createSSRApp(App);
   return { app };

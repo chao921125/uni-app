@@ -64,5 +64,5 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
     i: common_vendor.s("width:" + $data.width + ";" + ($data.square ? "height:" + $data.width : ""))
   } : {});
 }
-var Component = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render], ["__scopeId", "data-v-7b4a3849"], ["__file", "/Users/huangchao/works/Study/uni-app/uni_modules/uni-grid/components/uni-grid-item/uni-grid-item.vue"]]);
+var Component = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render], ["__scopeId", "data-v-7b4a3849"], ["__file", "/Users/huangchao/Works/GitHub/uni-app/uni_modules/uni-grid/components/uni-grid-item/uni-grid-item.vue"]]);
 wx.createComponent(Component);

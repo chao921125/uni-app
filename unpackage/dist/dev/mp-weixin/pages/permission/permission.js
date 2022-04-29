@@ -28,6 +28,7 @@ require("../../common/config/request.js");
 require("../../common/config/color.js");
 require("../../common/config/emoji.js");
 require("../../common/api/index.js");
+require("../../common/plugins/http.js");
 const _sfc_main = {
   data() {
     return {
@@ -186,5 +187,5 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
     g: common_vendor.o((...args) => $options.mpGetUserInfo && $options.mpGetUserInfo(...args))
   });
 }
-var MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render], ["__file", "/Users/huangchao/works/Study/uni-app/pages/permission/permission.vue"]]);
+var MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render], ["__file", "/Users/huangchao/Works/GitHub/uni-app/pages/permission/permission.vue"]]);
 wx.createPage(MiniProgramPage);

@@ -1,13 +1,13 @@
 <template>
-	<view class="body-padding order-pay form-box">
+	<view class="body-padding order-pay">
         <view class="re-flex-row-between form-item">
             <view class="">
                 <text class="form-title">专家</text>
-                <text>XX</text>
+                <text>{{ expertObject.proficName }}</text>
             </view>
             <view class="">
                 <text class="form-title">价格</text>
-                <text>999</text>
+                <text>{{ expertObject.price }}</text>
                 <text>元</text>
             </view>
         </view>
@@ -25,9 +25,12 @@
 
 <script>
 	import BtnPay from "../components/order/BtnPay.vue";
+	import { ref } from "vue";
 	import { onLoad, onShow, } from "@dcloudio/uni-app";
 	import utils from "@/common/plugins/utils.js";
 	import defaultConfig from "@/common/config/index.js";
+	import { expertDetail } from "@/common/api/expert.js";
+	import { orderUser } from "@/common/api/order.js";
 	
 	export default {
 		components: {
@@ -35,6 +38,7 @@
 		},
 		data() {
 			return {
+				expertObject: {},
                 form: {
                     questionTitle: "",
                     questionDesc: "",
@@ -42,24 +46,41 @@
 			};
 		},
 		setup() {
-			// const props = defineProps({ id: { type: String }, });
-			// onLoad 接受 A 页面传递的参数
+			const id = ref("");
 			onLoad((option) => {
-			  console.log("B 页面 onLoad:", option); //B 页面 onLoad: {id: '1', name: 'uniapp'}
+				id.value = option.id;
 			});
-			onShow(() => {
-			  console.log("B 页面 onShow");
-			});
+			return { id };
+		},
+		onLoad() {
+			this.getExpertDetail();
 		},
 		methods: {
             setQuestionTitle()  {
-                console.log(this.form.questionTitle);
+                // console.log(this.form.questionTitle);
             },
             setQuestionDesc()  {
-                console.log(this.form.questionDesc);
+                // console.log(this.form.questionDesc);
             },
+			getExpertDetail() {
+				if (!uni.getStorageSync(defaultConfig.tokenKey)) utils.href(defaultConfig.routePath.loginPermission, false);
+				expertDetail({ proficNo: this.id }).then((res) => {
+					this.expertObject = res.data;
+				});
+			},
+			addOrder() {
+				if (!this.form.questionTitle && !this.form.questionDesc) utils.toast("请填写标题或描述");
+                orderUser({
+					fuserNo: uni.getStorageSync(defaultConfig.tokenKey),
+					proNo: this.expertObject.proficNo,
+					title: this.form.questionTitle,
+					text: this.form.questionDesc,
+				}).then((res) => {
+					utils.href(defaultConfig.routePath.orderPayResult, true);
+				});
+			},
 			toOrderPayResult() {
-				utils.href(defaultConfig.routePath.orderPayResult, true);
+				this.addOrder();
 			},
 			toBack() {
 				utils.hrefTabbar(defaultConfig.routePath.tabbarHome, false);
