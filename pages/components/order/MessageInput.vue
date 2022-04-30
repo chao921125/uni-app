@@ -29,6 +29,7 @@
     padding-bottom: env(safe-area-inset-bottom); 
 }
 .message-bottom {
+	background-color: #FFF;
     width: 100%;
     height: 120rpx;
     position: fixed;
