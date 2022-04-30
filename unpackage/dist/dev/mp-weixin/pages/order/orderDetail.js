@@ -64,6 +64,7 @@ const _sfc_main = {
       this.timeObject = setInterval(() => {
         this.timeLoading = true;
         if (!this.timeLoading) {
+          this.orderContentList = [];
           this.getOrderContentList();
         }
       }, 1e4);
@@ -104,6 +105,7 @@ const _sfc_main = {
     addContent(val) {
       if (!val)
         return false;
+      this.orderContentList = [];
       common_api_order.orderContentUser({ orderNo: this.orderId, fuserNo: common_vendor.index.getStorageSync(common_config_index.defaultConfig.tokenKey), content: val }).then((res) => {
         this.getOrderContentList();
       });

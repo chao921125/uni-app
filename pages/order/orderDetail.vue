@@ -90,6 +90,7 @@
 				this.timeObject = setInterval(() => {
 					this.timeLoading = true;
 					if (!this.timeLoading) {
+						this.orderContentList = [];
 						this.getOrderContentList();
 					}
 				}, 10000)
@@ -126,6 +127,7 @@
             },
 			addContent(val) {
 				if (!val) return false;
+				this.orderContentList = [];
 				orderContentUser({ orderNo: this.orderId, fuserNo: uni.getStorageSync(defaultConfig.tokenKey), content: val }).then((res) => {
 					this.getOrderContentList();
 				});
