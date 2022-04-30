@@ -36,12 +36,12 @@ var http = {
           if (loadding && !hideLoading) {
             common_vendor.index.hideLoading();
           }
-          switch (res.code) {
+          switch (res.data.code) {
             case 1111:
               common_plugins_utils.utils.href(common_config_index.defaultConfig.routePath.loginPermission, false);
               break;
             case 5e3:
-              common_plugins_utils.utils.toast(res.msg);
+              common_plugins_utils.utils.toast(res.data.msg);
               break;
             default:
               resolve(res.data);

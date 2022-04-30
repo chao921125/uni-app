@@ -11,19 +11,22 @@ require("../../common/config/request.js");
 require("../../common/config/emoji.js");
 require("../../common/api/index.js");
 require("../../common/plugins/http.js");
+const NoData = () => "../../components/no-data/NoData.js";
 const MessageInput = () => "../components/order/MessageInput.js";
 const _sfc_main = {
   components: {
+    NoData,
     MessageInput
   },
   data() {
     return {
       timeObject: null,
+      timeLoading: false,
       orderObject: {},
       orderContentList: [],
       pageOption: {
         page: 1,
-        pageSize: 10
+        pageSize: 100
       },
       loadMoreOption: {
         status: "more",
@@ -47,6 +50,8 @@ const _sfc_main = {
   onLoad() {
     this.orderContentList = [];
     this.getOrder();
+    this.getOrderContentList();
+    this.setIntervalContent();
   },
   onHide() {
     clearInterval(this.timeObject);
@@ -55,6 +60,14 @@ const _sfc_main = {
     this.getMoreList();
   },
   methods: {
+    setIntervalContent() {
+      this.timeObject = setInterval(() => {
+        this.timeLoading = true;
+        if (!this.timeLoading) {
+          this.getOrderContentList();
+        }
+      }, 1e4);
+    },
     getExpertDetail() {
       if (!common_vendor.index.getStorageSync(common_config_index.defaultConfig.tokenKey))
         common_plugins_utils.utils.href(common_config_index.defaultConfig.routePath.loginPermission, false);
@@ -73,6 +86,7 @@ const _sfc_main = {
       if (!common_vendor.index.getStorageSync(common_config_index.defaultConfig.tokenKey))
         common_plugins_utils.utils.href(common_config_index.defaultConfig.routePath.loginPermission, false);
       common_api_order.orderContentList({ pageNum: this.pageOption.page, pageSize: this.pageOption.pageSize, orderNo: this.orderId, fuserNo: common_vendor.index.getStorageSync(common_config_index.defaultConfig.tokenKey) }).then((res) => {
+        this.timeLoading = false;
         if (this.orderContentList.length > 0 && this.orderContentList.length < res.data.total) {
           this.orderContentList = this.orderContentList.concat(res.data.rows);
         } else if (this.orderContentList.length === 0) {
@@ -86,28 +100,53 @@ const _sfc_main = {
       this.pageOption.page++;
       this.loadMoreOption.status = "loading";
       this.getOrderContentList();
+    },
+    addContent(val) {
+      if (!val)
+        return false;
+      common_api_order.orderContentUser({ orderNo: this.orderId, fuserNo: common_vendor.index.getStorageSync(common_config_index.defaultConfig.tokenKey), content: val }).then((res) => {
+        this.getOrderContentList();
+      });
     }
   }
 };
 if (!Array) {
   const _easycom_uni_load_more2 = common_vendor.resolveComponent("uni-load-more");
+  const _component_NoData = common_vendor.resolveComponent("NoData");
   const _component_MessageInput = common_vendor.resolveComponent("MessageInput");
-  (_easycom_uni_load_more2 + _component_MessageInput)();
+  (_easycom_uni_load_more2 + _component_NoData + _component_MessageInput)();
 }
 const _easycom_uni_load_more = () => "../../uni_modules/uni-load-more/components/uni-load-more/uni-load-more.js";
 if (!Math) {
   _easycom_uni_load_more();
 }
 function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
-  return {
+  return common_vendor.e({
     a: common_vendor.t($data.orderObject.title),
     b: common_vendor.t($data.orderObject.text),
-    c: common_vendor.o($options.getMoreList),
-    d: common_vendor.p({
+    c: $data.orderContentList.length > 0
+  }, $data.orderContentList.length > 0 ? {
+    d: common_vendor.f($data.orderContentList, (item, index, i0) => {
+      return common_vendor.e({
+        a: item.type === "P"
+      }, item.type === "P" ? {
+        b: common_vendor.t(item.content),
+        c: index
+      } : {}, {
+        d: item.type === "U"
+      }, item.type === "U" ? {
+        e: common_vendor.t(item.content),
+        f: index
+      } : {});
+    }),
+    e: common_vendor.o($options.getMoreList),
+    f: common_vendor.p({
       status: $data.loadMoreOption.status,
       contentText: $data.loadMoreOption.contentText
     })
-  };
+  } : {}, {
+    g: common_vendor.o($options.addContent)
+  });
 }
 var MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render], ["__file", "/Users/huangchao/Works/GitHub/uni-app/pages/order/orderDetail.vue"]]);
 wx.createPage(MiniProgramPage);

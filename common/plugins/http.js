@@ -50,9 +50,9 @@ export default {
 					if (loadding && !hideLoading) {
 						uni.hideLoading();
 					}
-                    switch(res.code) {
+                    switch(res.data.code) {
                         case 1111 : utils.href(defaultConfig.routePath.loginPermission, false); break;
-                        case 5000 : utils.toast(res.msg); break;
+                        case 5000 : utils.toast(res.data.msg); break;
                         default : resolve(res.data); break;
                     }
 					/* if (res.code === defaultConfig.httpCode.unLogin) {

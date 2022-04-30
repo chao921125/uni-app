@@ -30,7 +30,7 @@ export function orderList(params) {
 /**
  * 订单详情
  * @param {Object} params
- * fuserNo: 订单编号
+ * fuserNo: 用户编号
  * orderNo: 订单编号
  */
 export function orderDetail(params) {
@@ -43,5 +43,16 @@ export function orderDetail(params) {
  * orderNo: 订单编号
  */
 export function orderContentList(params) {
-    return http.request(config.basePath + "/profic/order/contentList", "POST", params, false, false);
+    return http.request(config.basePath + "/profic/order/contentList", "POST", params, false, true);
+}
+
+/**
+ * 订单聊天
+ * @param {Object} params
+ * fuserNo: 用户编号
+ * orderNo: 订单编号
+ * content: 聊天内容
+ */
+export function orderContentUser(params) {
+    return http.request(config.basePath + "/profic/order/insertOrderContent", "POST", params, false, false);
 }

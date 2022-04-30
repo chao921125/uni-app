@@ -1,7 +1,7 @@
 <template>
     <view class="message-space"></view>
     <view class="message-bottom re-flex-row-between re-z-index-80">
-        <view class="message-left"><input class="message-input" placeholder="请输入内容"/></view>
+        <view class="message-left"><input class="message-input" placeholder="请输入内容" v-model="inputValue"/></view>
         <view class="message-right"><button type="primary" class="btn" @click="sendMessage">发送</button></view>
     </view>
 </template>
@@ -10,12 +10,13 @@
     export default {
         data() {
             return {
-                
+                inputValue: "",
             };
         },
         methods: {
             sendMessage() {
-                this.$emit("click", null);
+                this.$emit("click", this.inputValue);
+				this.inputValue = "";
             }
         }
     }

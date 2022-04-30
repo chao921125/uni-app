@@ -11,9 +11,13 @@ function orderDetail(params) {
   return common_plugins_http.http.request(common_api_index.config.basePath + "/profic/order/alone", "POST", params, false, false);
 }
 function orderContentList(params) {
-  return common_plugins_http.http.request(common_api_index.config.basePath + "/profic/order/contentList", "POST", params, false, false);
+  return common_plugins_http.http.request(common_api_index.config.basePath + "/profic/order/contentList", "POST", params, false, true);
+}
+function orderContentUser(params) {
+  return common_plugins_http.http.request(common_api_index.config.basePath + "/profic/order/insertOrderContent", "POST", params, false, false);
 }
 exports.orderContentList = orderContentList;
+exports.orderContentUser = orderContentUser;
 exports.orderDetail = orderDetail;
 exports.orderList = orderList;
 exports.orderUser = orderUser;
