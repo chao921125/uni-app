@@ -63,5 +63,6 @@
         "__APP__"
       ]
     }
-  }
+  },
+  "sitemapLocation": "sitemap.json"
 }
