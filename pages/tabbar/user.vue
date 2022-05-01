@@ -3,6 +3,11 @@
         <view class="user-avatar"><cover-image class="avatar-img" v-if="imgPath" :src="userInfo.avatarUrl || imgPath.UserAvatar"></cover-image></view>
         <view class="user-name">{{ userInfo.nickName }}</view>
     </view>
+	<uni-section title="设置" type="line">
+		<uni-list>
+			<uni-list-item title="性别" :rightText="userInfo.gender === 0 ? '男' : '女'" />
+		</uni-list>
+	</uni-section>
 </template>
 
 <script>

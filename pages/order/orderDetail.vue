@@ -57,9 +57,9 @@
                 loadMoreOption: {
                     status: "more",
                     contentText: {
-                        contentdown: "",
-                        contentrefresh: "",
-                        contentnomore: "",
+                        contentdown: " ",
+                        contentrefresh: " ",
+                        contentnomore: " ",
                     }
                 },
 			};

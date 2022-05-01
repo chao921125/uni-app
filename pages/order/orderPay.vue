@@ -69,7 +69,10 @@
 				});
 			},
 			addOrder() {
-				if (!this.form.questionTitle && !this.form.questionDesc) utils.toast("请填写标题或描述");
+				if (!this.form.questionTitle || !this.form.questionDesc) {
+					utils.toast("请填写标题或描述");
+					return false;
+				}
                 orderUser({
 					fuserNo: uni.getStorageSync(defaultConfig.tokenKey),
 					proNo: this.expertObject.proficNo,

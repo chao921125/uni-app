@@ -19,7 +19,10 @@
             <view class="re-flex-row home-expert">
                 <view><cover-image class="avatar-circle" v-if="imgPath" :src="item.avatar || imgPath.UserAvatar"></cover-image></view>
                 <view class="expert-info">
-                    <view class="expert-name"><text class="title-sub-h1 expert-title">专家：</text><text>{{item.proficName}}</text></view>
+                    <view class="expert-name re-flex-row-between">
+						<view><text class="title-sub-h1 expert-title">专家：</text><text>{{item.proficName}}</text></view>
+						<view><text class="title-sub-h1 expert-title">价格：</text><text>{{item.price}}元</text></view>
+					</view>
                     <view class="expert-desc"><text class="title-sub-h1 expert-title">简介：</text><text>{{item.desc}}</text></view>
                 </view>
             </view>
