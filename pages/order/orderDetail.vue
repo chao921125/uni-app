@@ -57,9 +57,9 @@
                 loadMoreOption: {
                     status: "more",
                     contentText: {
-                        contentdown: "上拉加载更多",
-                        contentrefresh: "正在加载...",
-                        contentnomore: "没有数据了",
+                        contentdown: "",
+                        contentrefresh: "",
+                        contentnomore: "",
                     }
                 },
 			};
@@ -73,7 +73,7 @@
 			});
 			return { expertId, orderId };
 		},
-		onLoad() {
+		onShow() {
 			this.orderContentList = [];
 			this.getOrder();
 			this.getOrderContentList();
@@ -88,7 +88,6 @@
 		methods: {
 			setIntervalContent() {
 				this.timeObject = setInterval(() => {
-					this.timeLoading = true;
 					if (!this.timeLoading) {
 						this.orderContentList = [];
 						this.getOrderContentList();
@@ -108,6 +107,7 @@
 				});
 			},
 			getOrderContentList() {
+				this.timeLoading = true;
 				if (!uni.getStorageSync(defaultConfig.tokenKey)) utils.href(defaultConfig.routePath.loginPermission, false);
 				orderContentList({ pageNum: this.pageOption.page, pageSize: this.pageOption.pageSize, orderNo: this.orderId, fuserNo: uni.getStorageSync(defaultConfig.tokenKey) }).then((res) => {
 					this.timeLoading = false;
