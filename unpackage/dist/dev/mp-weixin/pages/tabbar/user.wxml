@@ -1,1 +1,0 @@
-<view><view><cover-image wx:if="{{a}}" src="{{b}}"></cover-image></view><view>名字</view></view>

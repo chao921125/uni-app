@@ -1,5 +1,5 @@
 <template>
-    <view>
+    <view class="">
         <view><cover-image v-if="imgPath" :src="imgPath.UserAvatar"></cover-image></view>
         <view>名字</view>
     </view>
@@ -12,8 +12,12 @@
         data() {
             return {
                 imgPath: defaultConfig.imgPath,
+				userInfo: {},
             };
-        }
+        },
+		onLoad() {
+			this.userInfo = uni.getStorageSync(defaultConfig.userKey)
+		}
     }
 </script>
 

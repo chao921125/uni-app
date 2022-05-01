@@ -1,1 +1,0 @@
-<view class="message-space"></view><view class="message-bottom re-flex-row-between re-z-index-80"><view class="message-left"><input class="message-input" placeholder="请输入内容" value="{{a}}" bindinput="{{b}}"/></view><view class="message-right"><button type="primary" class="btn" bindtap="{{c}}">发送</button></view></view>

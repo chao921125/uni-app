@@ -12,11 +12,11 @@
     <view class="re-margin-top-30 line-default"></view>
     <view v-if="orderContentList.length > 0" class="body-padding">
 		<template v-for="(item, index) in orderContentList">
-			<view v-if="item.type === 'P'" :key="index" class="re-flex-row-start re-margin-top-30">
+			<view v-if="item.contentType === 'P'" :key="index" class="re-flex-row-start re-margin-top-30">
 			    <view class="title-sub-h1">专家</view>
 			    <view class="re-margin-left-20">{{ item.content }}</view>
 			</view>
-			<view  v-if="item.type === 'U'" :key="index" class="re-flex-row-end re-margin-top-30">
+			<view  v-if="item.contentType === 'U'" :key="index" class="re-flex-row-end re-margin-top-30">
 			    <view class="re-margin-right-20">{{ item.content }}</view>
 			    <view class="title-sub-h1">我</view>
 			</view>

@@ -1,7 +1,0 @@
-{
-  "navigationBarTitleText": "下单支付",
-  "enablePullDownRefresh": false,
-  "usingComponents": {
-    "btn-pay": "../components/order/BtnPay"
-  }
-}

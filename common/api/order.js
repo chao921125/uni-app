@@ -54,5 +54,5 @@ export function orderContentList(params) {
  * content: 聊天内容
  */
 export function orderContentUser(params) {
-    return http.request(config.basePath + "/profic/order/insertOrderContent", "POST", params, false, false);
+    return http.request(config.basePath + "/profic/order/insertOrderContent", "POST", params, false, true);
 }
