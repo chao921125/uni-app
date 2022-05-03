@@ -75,7 +75,7 @@
 			radioChange: function(evt) {
 				for (let i = 0; i < this.items.length; i++) {
 					if (this.items[i].value === evt.detail.value) {
-						this.current = i;
+						this.form.userSex = this.items[i].value;
 						break;
 					}
 				}
@@ -97,7 +97,7 @@
 					remark: this.form.remark,
 				}).then((res) => {
 					utils.toast("修改成功");
-					utils.hrefTabbar(defaultConfig.routePath.tabbarUser, false);
+					// utils.hrefTabbar(defaultConfig.routePath.tabbarUser, false);
 				})
 			}
 		}
