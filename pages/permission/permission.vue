@@ -220,6 +220,7 @@
                     userNo: this.openId,
                     imgUrl: this.userInfo.avatarUrl,
                     userName: this.userInfo.nickName,
+                    userSex: this.userInfo.gender,
                 }).then((res) => {
                     if (res) {
                         utils.hrefTabbar(defaultConfig.routePath.tabbarHome, false);

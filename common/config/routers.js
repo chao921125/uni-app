@@ -7,4 +7,5 @@ export default {
 	orderPayResult: "/pages/order/payResult",
 	orderDetail: "/pages/order/orderDetail",
 	loginPermission: "/pages/permission/permission",
+	userEdit: "/pages/user/user",
 }

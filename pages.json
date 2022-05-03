@@ -61,6 +61,17 @@
             }
             
         }]
+    }, {
+        "root": "pages/user",
+        "pages": [{
+            "path" : "user",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "信息修改",
+                "enablePullDownRefresh": false
+            }
+            
+        }]
     }],
     "preloadRule": {
         "pages/order/expert": {
