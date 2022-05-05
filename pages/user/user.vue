@@ -97,7 +97,7 @@
 					remark: this.form.remark,
 				}).then((res) => {
 					utils.toast("修改成功");
-					// utils.hrefTabbar(defaultConfig.routePath.tabbarUser, false);
+					utils.hrefTabbar(defaultConfig.routePath.tabbarUser, false);
 				})
 			}
 		}

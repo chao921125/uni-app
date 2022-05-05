@@ -1,6 +1,6 @@
 <template>
 	<view v-if="!expertList || expertList.length === 0" class="re-flex-row-center">
-	    <NoData></NoData>
+	    <NoData text="该领域下暂无专家"></NoData>
 	</view>
 	<view v-else>
 	    <uni-card v-for="(item, index) in expertList" :key="index" @click="toOrderPay(item.proficNo)">
@@ -15,7 +15,7 @@
 	            </view>
 	        </view>
 	    </uni-card>
-	    <uni-load-more :status="loadMoreOption.status" :contentText="loadMoreOption.contentText" @clickLoadMore="getMoreSubjectList"></uni-load-more>
+	    <uni-load-more v-if="loadMoreOption.isShow" :status="loadMoreOption.status" :contentText="loadMoreOption.contentText" @clickLoadMore="getMoreList"></uni-load-more>
 	</view>
 </template>
 
@@ -40,6 +40,7 @@
                     pageSize: 10,
                 },
                 loadMoreOption: {
+					isShow: true,
                     status: "more",
                     contentText: {
                         contentdown: "上拉加载更多",
@@ -60,11 +61,12 @@
 			this.getExpertList();
 		},
         onReachBottom(e) {
-            this.getMoreSubjectList();
+            this.getMoreList();
         },
 		methods: {
             getExpertList() {
                 expertList({ pageNum: this.pageOption.page, pageSize: this.pageOption.pageSize, field: this.id }).then((res) => {
+					this.loadMoreOption.isShow = this.expertList.length >= 10;
 					if (this.expertList.length > 0 &&  this.expertList.length < res.data.total) {
 						this.expertList = this.expertList.concat(res.data.rows);
 					} else if (this.expertList.length === 0) {
@@ -74,7 +76,7 @@
 					}
 				});
             },
-            getMoreSubjectList() {
+            getMoreList() {
                 this.pageOption.page++;
                 this.loadMoreOption.status = "loading";
 				this.getExpertList();

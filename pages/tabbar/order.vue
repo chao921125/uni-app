@@ -13,7 +13,7 @@
             </view>
             <view class="expert-desc"><text class="expert-title title-sub-h1">问题：</text><text>{{item.title}}</text></view>
         </uni-card>
-        <uni-load-more :status="loadMoreOption.status" :contentText="loadMoreOption.contentText" @clickLoadMore="getMoreList"></uni-load-more>
+        <uni-load-more v-if="loadMoreOption.isShow" :status="loadMoreOption.status" :contentText="loadMoreOption.contentText" @clickLoadMore="getMoreList"></uni-load-more>
     </view>
 </template>
 
@@ -36,6 +36,7 @@
                     pageSize: 10,
                 },
                 loadMoreOption: {
+					isShow: true,
                     status: "more",
                     contentText: {
                         contentdown: "上拉加载更多",
@@ -56,6 +57,7 @@
             getOrderList() {
 				if (!uni.getStorageSync(defaultConfig.tokenKey)) utils.href(defaultConfig.routePath.loginPermission, false);
                 orderList({ pageNum: this.pageOption.page, pageSize: this.pageOption.pageSize, fuserNo: uni.getStorageSync(defaultConfig.tokenKey) }).then((res) => {
+					this.loadMoreOption.isShow = this.orderList.length >= 10;
 					if (this.orderList.length > 0 &&  this.orderList.length < res.data.total) {
 						this.orderList = this.orderList.concat(res.data.rows);
 					} else if (this.orderList.length === 0) {

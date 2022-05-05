@@ -21,7 +21,7 @@
 			    <view class="title-sub-h1">我</view>
 			</view>
 		</template>
-		<uni-load-more :status="loadMoreOption.status" :contentText="loadMoreOption.contentText" @clickLoadMore="getMoreList"></uni-load-more>
+		<uni-load-more v-if="loadMoreOption.isShow" :status="loadMoreOption.status" :contentText="loadMoreOption.contentText" @clickLoadMore="getMoreList"></uni-load-more>
     </view>
 	<view v-else class="re-flex-row-center">
 	    <NoData></NoData>
@@ -55,6 +55,7 @@
                     pageSize: 100,
                 },
                 loadMoreOption: {
+					isShow: true,
                     status: "more",
                     contentText: {
                         contentdown: " ",
@@ -111,6 +112,7 @@
 				if (!uni.getStorageSync(defaultConfig.tokenKey)) utils.href(defaultConfig.routePath.loginPermission, false);
 				orderContentList({ pageNum: this.pageOption.page, pageSize: this.pageOption.pageSize, orderNo: this.orderId, fuserNo: uni.getStorageSync(defaultConfig.tokenKey) }).then((res) => {
 					this.timeLoading = false;
+					this.loadMoreOption.isShow = this.orderContentList.length >= 10;
 					if (this.orderContentList.length > 0 &&  this.orderContentList.length < res.data.total) {
 						this.orderContentList = this.orderContentList.concat(res.data.rows);
 					} else if (this.orderContentList.length === 0) {

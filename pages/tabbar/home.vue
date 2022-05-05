@@ -27,7 +27,7 @@
                 </view>
             </view>
         </uni-card>
-        <uni-load-more :status="loadMoreOption.status" :contentText="loadMoreOption.contentText" @clickLoadMore="getMoreList"></uni-load-more>
+        <uni-load-more v-if="loadMoreOption.isShow" :status="loadMoreOption.status" :contentText="loadMoreOption.contentText" @clickLoadMore="getMoreList"></uni-load-more>
     </view>
 </template>
 
@@ -51,6 +51,7 @@
                     pageSize: 10,
                 },
                 loadMoreOption: {
+					isShow: true,
                     status: "more",
                     contentText: {
                         contentdown: "上拉加载更多",
@@ -78,6 +79,7 @@
 			},
             getExpertList() {
 				expertList({ pageNum: this.pageOption.page, pageSize: this.pageOption.pageSize }).then((res) => {
+					this.loadMoreOption.isShow = this.expertList.length >= 10;
 					if (this.expertList.length > 0 &&  this.expertList.length < res.data.total) {
 						this.expertList = this.expertList.concat(res.data.rows);
 					} else if (this.expertList.length === 0) {
