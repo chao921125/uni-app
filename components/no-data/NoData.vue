@@ -9,6 +9,7 @@
 
 <script>
     import defaultConfig from "@/common/config/index.js";
+	import { ref } from "vue";
     export default {
 		props: {
 			text: {
@@ -16,11 +17,17 @@
 				default: "",
 			}
 		},
-        data() {
-            return {
-                imgPath: defaultConfig.imgPath
-            }
-        }
+		setup() {
+			const imgPath = ref(defaultConfig.imgPath);
+			return {
+				imgPath
+			};
+		},
+        // data() {
+        //     return {
+        //         imgPath: defaultConfig.imgPath
+        //     }
+        // }
     }
 </script>
 
