@@ -20,11 +20,11 @@
 </template>
 
 <script>
-    import NoData from "@/components/no-data/NoData.vue";
+    import NoData from "@/components/re-no-data/NoData.vue";
 	import { onLoad, onShow, } from "@dcloudio/uni-app";
 	import utils from "@/common/plugins/utils.js";
 	import defaultConfig from "@/common/config/index.js";
-	import { expertList } from "@/common/api/expert.js";
+	// import { expertList } from "@/common/api/expert.js";
 	import { defineProps, defineEmits, ref } from "vue";
 	
 	export default {
@@ -65,16 +65,16 @@
         },
 		methods: {
             getExpertList() {
-                expertList({ pageNum: this.pageOption.page, pageSize: this.pageOption.pageSize, field: this.id }).then((res) => {
-					this.loadMoreOption.isShow = this.expertList.length >= 10;
-					if (this.expertList.length > 0 &&  this.expertList.length < res.data.total) {
-						this.expertList = this.expertList.concat(res.data.rows);
-					} else if (this.expertList.length === 0) {
-						this.expertList = res.data.rows;
-					} else {
-						this.loadMoreOption.status = "no-more";
-					}
-				});
+    //             expertList({ pageNum: this.pageOption.page, pageSize: this.pageOption.pageSize, field: this.id }).then((res) => {
+				// 	this.loadMoreOption.isShow = this.expertList.length >= 10;
+				// 	if (this.expertList.length > 0 &&  this.expertList.length < res.data.total) {
+				// 		this.expertList = this.expertList.concat(res.data.rows);
+				// 	} else if (this.expertList.length === 0) {
+				// 		this.expertList = res.data.rows;
+				// 	} else {
+				// 		this.loadMoreOption.status = "no-more";
+				// 	}
+				// });
             },
             getMoreList() {
                 this.pageOption.page++;

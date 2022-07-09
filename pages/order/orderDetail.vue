@@ -30,14 +30,14 @@
 </template>
 
 <script>
-    import NoData from "@/components/no-data/NoData.vue";
+    import NoData from "@/components/re-no-data/NoData.vue";
     import MessageInput from "../components/order/MessageInput.vue";
 	import { ref } from "vue";
 	import { onLoad, onShow, } from "@dcloudio/uni-app";
 	import utils from "@/common/plugins/utils.js";
 	import defaultConfig from "@/common/config/index.js";
 	import { orderDetail, orderContentList, orderContentUser } from "@/common/api/order.js";
-	import { expertDetail } from "@/common/api/expert.js";
+	// import { expertDetail } from "@/common/api/expert.js";
 	
 	export default {
         components: {
@@ -97,9 +97,9 @@
 			},
 			getExpertDetail() {
 				if (!uni.getStorageSync(defaultConfig.tokenKey)) utils.href(defaultConfig.routePath.loginPermission, false);
-				expertDetail({ proficNo: this.id }).then((res) => {
-					this.orderObject = res.data;
-				});
+				// expertDetail({ proficNo: this.id }).then((res) => {
+				// 	this.orderObject = res.data;
+				// });
 			},
 			getOrder() {
 				if (!uni.getStorageSync(defaultConfig.tokenKey)) utils.href(defaultConfig.routePath.loginPermission, false);

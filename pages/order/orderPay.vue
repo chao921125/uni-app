@@ -29,7 +29,7 @@
 	import { onLoad, onShow, } from "@dcloudio/uni-app";
 	import utils from "@/common/plugins/utils.js";
 	import defaultConfig from "@/common/config/index.js";
-	import { expertDetail } from "@/common/api/expert.js";
+	// import { expertDetail } from "@/common/api/expert.js";
 	import { orderUser } from "@/common/api/order.js";
 	
 	export default {
@@ -64,9 +64,9 @@
             },
 			getExpertDetail() {
 				if (!uni.getStorageSync(defaultConfig.tokenKey)) utils.href(defaultConfig.routePath.loginPermission, false);
-				expertDetail({ proficNo: this.id }).then((res) => {
-					this.expertObject = res.data;
-				});
+				// expertDetail({ proficNo: this.id }).then((res) => {
+				// 	this.expertObject = res.data;
+				// });
 			},
 			addOrder() {
 				if (!this.form.questionTitle || !this.form.questionDesc) {

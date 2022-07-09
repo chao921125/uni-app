@@ -29,7 +29,7 @@
 </template>
 
 <script>
-    import NoData from "@/components/no-data/NoData.vue";
+    import NoData from "@/components/re-no-data/NoData.vue";
 	import utils from "@/common/plugins/utils.js";
 	import defaultConfig from "@/common/config/index.js";
 	import { subjectList } from "@/common/api/expert.js";
