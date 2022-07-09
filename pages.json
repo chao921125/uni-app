@@ -3,7 +3,7 @@
 		{
             "path" : "pages/tabbar/home",
             "style" : {
-                "navigationBarTitleText": "专家",
+                "navigationBarTitleText": "首页",
                 "enablePullDownRefresh": true
             }
             

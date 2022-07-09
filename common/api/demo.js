@@ -4,6 +4,12 @@
 import config from "@/common/api/index.js";
 import http from "@/common/plugins/http.js";
 
-export function test() {
-	return http.request(config.testPath + "/user/1", "GET", null, false, false);
+const demo = config.testPath + "/demo";
+
+export function testGet() {
+	return http.request(demo + "/demo", "GET", null, false, false);
+}
+
+export function testPost(params = {}) {
+	return http.request(demo + "/demo", "POST", params, false, false);
 }
