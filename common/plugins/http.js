@@ -1,5 +1,5 @@
 import defaultConfig from "@/common/config/index.js";
-import utils from "@/common/plugins/utils.js";
+import utils from "@/common/plugins/uniUtils.js";
 
 let ajaxTimes = 1;
 let defaultHeader = {
@@ -8,9 +8,11 @@ let defaultHeader = {
 	"Access": "application/json",
 	"Content-Type": "application/json;charset=utf-8",
 	"accept": "application/json",
+	"token": utils.getToken(),
 	"Authorization": utils.getToken()
 };
 let defaultHeaderFile = {
+	"token": utils.getToken(),
 	"Authorization": utils.getToken()
 };
 export default {
@@ -35,8 +37,9 @@ export default {
             utils.showLoading();
 		}
         if (isForm) {
-            Object.assign(defaultHeader, { "Content-Type": "application/x-www-form-urlencoded" })
+            Object.assign(defaultHeader, { "Content-Type": "application/x-www-form-urlencoded" });
         }
+		Object.assign(defaultHeader, { "token": utils.getToken(), "Authorization":  utils.getToken() });
 
 		return new Promise((resolve, reject) => {
 			uni.request({
@@ -46,13 +49,14 @@ export default {
 				method: method, //"GET","POST"
 				dataType: "json",
 				success: (res) => {
-					console.log(url, params, res);
+					uni.stopPullDownRefresh();
 					if (loadding && !hideLoading) {
 						uni.hideLoading();
 					}
                     switch(res.data.code) {
-                        case 1111 : utils.href(defaultConfig.routePath.loginPermission, false); break;
-                        case 5000 : utils.toast(res.data.msg); break;
+                        case 1111 : utils.removeUserInfo(); utils.gotoUrl(defaultConfig.routePath.login, false); break;
+                        case 301 : utils.toast(res.data.msg); break;
+                        case 500 : utils.toast(res.data.msg); break;
                         default : resolve(res.data); break;
                     }
 					/* if (res.code === defaultConfig.httpCode.unLogin) {
@@ -62,6 +66,7 @@ export default {
                     } */
 				},
 				fail: (res) => {
+					uni.stopPullDownRefresh();
                     uni.hideLoading();
 					utils.toast("网络不给力，请稍后再试~");
 					reject(res);
@@ -84,6 +89,7 @@ export default {
 	uploadFile: function(url, src) {
 		utils.showLoading()
 		return new Promise((resolve, reject) => {
+			Object.assign(defaultHeader, { "token": utils.getToken(), "Authorization":  utils.getToken() });
 			const uploadTask = uni.uploadFile({
 				url: defaultConfig.baseUrl + url,
 				filePath: src,
@@ -98,12 +104,12 @@ export default {
 						let fileObj = d.data;
 						resolve(fileObj)
 					} else {
-						that.toast(res.msg);
+						utils.toast(res.msg);
 					}
 				},
 				fail: function(res) {
 					reject(res)
-					that.toast(res.msg);
+					utils.toast(res.msg);
 				}
 			})
 		})

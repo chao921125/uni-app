@@ -3,14 +3,21 @@
 		{
             "path" : "pages/tabbar/home",
             "style" : {
-                "navigationBarTitleText": "首页",
+                "navigationBarTitleText": "山海艺术馆",
                 "enablePullDownRefresh": true
             }
             
         }, {
             "path" : "pages/tabbar/order",
             "style" : {
-                "navigationBarTitleText": "咨询",
+                "navigationBarTitleText": "全部订单",
+                "enablePullDownRefresh": true
+            }
+            
+        },  {
+            "path" : "pages/tabbar/distribute",
+            "style" : {
+                "navigationBarTitleText": "分销中心",
                 "enablePullDownRefresh": false
             }
             
@@ -21,42 +28,65 @@
                 "enablePullDownRefresh": false
             }
             
-        }, {
-            "path" : "pages/permission/permission",
+        }
+    ],
+    "subPackages": [{
+        "root": "pages/permission",
+        "pages": [{
+            "path" : "permission",
             "style" : {
                 "navigationBarTitleText": "授权登录",
                 "enablePullDownRefresh": false
             }
+        }, {
+            "path" : "login",
+            "style" : {
+                "navigationBarTitleText": "登录",
+                "enablePullDownRefresh": false
+            }
             
-        }
-    ],
-    "subPackages": [{
-        "root": "pages/order",
+        }, {
+            "path" : "register",
+            "style" : {
+                "navigationBarTitleText": "会员注册",
+                "enablePullDownRefresh": false
+            }
+            
+        }, {
+            "path" : "forgotpwd",
+            "style" : {
+                "navigationBarTitleText": "找回密码",
+                "enablePullDownRefresh": false
+            }
+            
+        }]
+    }, {
+        "root": "pages/shop",
         "pages": [{
-            "path" : "expert",
+            "path" : "list",
             "style" : {
-                "navigationBarTitleText": "专家选择",
+                "navigationBarTitleText": "商城",
+                "enablePullDownRefresh": true
+                // "navigationStyle": "custom"
+            }
+        }, {
+            "path" : "detail",
+            "style" : {
+                "navigationBarTitleText": "商品详情",
                 "enablePullDownRefresh": false
             }
             
         }, {
-            "path" : "orderPay",
+            "path" : "buy",
             "style" : {
-                "navigationBarTitleText": "下单支付",
+                "navigationBarTitleText": "购买",
                 "enablePullDownRefresh": false
             }
             
         }, {
-            "path" : "payResult",
+            "path" : "booking",
             "style" : {
-                "navigationBarTitleText": "支付结果",
-                "enablePullDownRefresh": false
-            }
-            
-        }, {
-            "path" : "orderDetail",
-            "style" : {
-                "navigationBarTitleText": "咨询详情",
+                "navigationBarTitleText": "预约",
                 "enablePullDownRefresh": false
             }
             
@@ -64,17 +94,73 @@
     }, {
         "root": "pages/user",
         "pages": [{
-            "path" : "user",
+            "path" : "edit",
             "style" :                                                                                    
             {
-                "navigationBarTitleText": "信息修改",
+                "navigationBarTitleText": "修改个人信息",
                 "enablePullDownRefresh": false
+            }
+            
+        }, {
+            "path" : "password",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "修改密码",
+                "enablePullDownRefresh": false
+            }
+            
+        }, {
+            "path" : "address",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "修改地址",
+                "enablePullDownRefresh": false
+            }
+            
+        }, {
+            "path" : "bank",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "修改绑定信息",
+                "enablePullDownRefresh": false
+            }
+            
+        }, {
+            "path" : "player",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "名人介绍",
+                "enablePullDownRefresh": false
+            }
+            
+        }, {
+            "path" : "recharge",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "提现明细",
+                "enablePullDownRefresh": true
+            }
+            
+        }, {
+            "path" : "fans",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "粉丝明细",
+                "enablePullDownRefresh": true
             }
             
         }]
     }],
     "preloadRule": {
-        "pages/order/expert": {
+        "pages/permission/login": {
+            "network": "all",
+            "packages": ["__APP__"]
+        },
+        "pages/shop/list": {
+            "network": "all",
+            "packages": ["__APP__"]
+        },
+        "pages/user/edit": {
             "network": "all",
             "packages": ["__APP__"]
         }
@@ -92,39 +178,31 @@
         
         "position": "bottom",
                 
-        "list": [{
+        "list": [
+			{
         		"pagePath": "pages/tabbar/home",
-        		"iconPath": "static/images/tabbar/expret.png",
+        		"iconPath": "static/images/tabbar/home.png",
         		// "iconfont": "iconfont",
-        		"selectedIconPath": "static/images/tabbar/expret_active.png",
-        		"text": "专家"
+        		"selectedIconPath": "static/images/tabbar/home_active.png",
+        		"text": "山海艺术馆"
         	},
         	{
         		"pagePath": "pages/tabbar/order",
-        		"iconPath": "static/images/tabbar/message.png",
-        		"selectedIconPath": "static/images/tabbar/message_active.png",
-        		"text": "咨询"
+        		"iconPath": "static/images/tabbar/order.png",
+        		"selectedIconPath": "static/images/tabbar/order_active.png",
+        		"text": "全部订单"
         	},
-        	//#ifdef MP-WEIXIN
-        	// {
-        	// 	"pagePath": "pages/tabbar/tabbar-3/tabbar-3",
-        	// 	"iconPath": "static/images/tabbar/add.png",
-        	// 	"selectedIconPath": "static/images/tabbar/addactive.png",
-        	// 	"text": "发布"
-        	// },
-        	//#endif
-        	//#ifndef MP-WEIXIN
-        	// {
-        	// 	"pagePath": "pages/tabbar/tabbar-3/tabbar-3",
-        	// 	"iconPath": "static/images/tabbar/add.png",
-        	// 	"selectedIconPath": "static/images/tabbar/addactive.png"
-        	// },
-        	//#endif
+        	{
+        		"pagePath": "pages/tabbar/distribute",
+        		"iconPath": "static/images/tabbar/distribute.png",
+        		"selectedIconPath": "static/images/tabbar/distribute_active.png",
+        		"text": "分销中心"
+        	},
         	{
         		"pagePath": "pages/tabbar/user",
         		"iconPath": "static/images/tabbar/user.png",
         		"selectedIconPath": "static/images/tabbar/user_active.png",
-        		"text": "我"
+        		"text": "个人中心"
         	}
         ]
     },
@@ -144,7 +222,6 @@
         "onReachBottomDistance": 50,
         "pageOrientation": "portrait",
         "usingComponents": {
-            "van-button": "/wxcomponents/vant/button/index"
         }
 	}
 }

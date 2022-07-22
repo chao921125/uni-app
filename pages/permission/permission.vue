@@ -35,7 +35,7 @@
 <script>
 	import { mapState, mapMutations, mapActions } from 'vuex';
 	import defaultConfig from "@/common/config/index.js";
-	import utils from "@/common/plugins/utils.js";
+	import utils from "@/common/plugins/uniUtils.js";
     import { login } from "@/common/api/user.js";
 
 	export default {

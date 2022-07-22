@@ -10,7 +10,7 @@
 			</uni-grid-item>
         </uni-grid>
     </view>
-    <view class="body-padding">热门</view>
+    <view class="body-contains">热门</view>
     <view v-if="!expertList || expertList.length === 0" class="re-flex-row-center">
         <NoData></NoData>
     </view>
@@ -29,8 +29,8 @@
 </template>
 
 <script>
-    import NoData from "@/components/re-no-data/NoData.vue";
-	import utils from "@/common/plugins/utils.js";
+    import NoData from "@/components/no-data/NoData.vue";
+	import utils from "@/common/plugins/uniUtils.js";
 	import defaultConfig from "@/common/config/index.js";
 	import { subjectList } from "@/common/api/expert.js";
 	

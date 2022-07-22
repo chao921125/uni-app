@@ -8,23 +8,73 @@ import http from "@/common/plugins/http.js";
 /**
  * 下单
  * @param {Object} params
- * fuserNo: 用户编号
- * proNo: 专家号
- * title: 咨询标题
- * text: 咨询内容
+ * requestNo: string 时间戳
+ * shopId: number
  */
-export function orderUser(params) {
-    return http.request(config.basePath + "/profic/user/order", "POST", params, false, false);
+export function orderCreate(params) {
+    return http.request(config.basePath + "/system/forder/front/makeOrder", "POST", params, false, false);
 }
 
 /**
  * 订单列表
  * @param {Object} params
- * fuserNo: 用户编号
- * orderNo: 订单编号
+ * status: string
  */
-export function orderList(params) {
-    return http.request(config.basePath + "/profic/order/list", "POST", params, false, false);
+export function orderSelectList(params) {
+    return http.request(config.basePath + "/system/forder/front/getOrderLists", "POST", params, false, false);
+}
+
+/**
+ * 收款订单列表
+ * @param {Object} params
+ * id: number 订单id
+ */
+export function orderSelectAmount(params) {
+    return http.request(config.basePath + "/system/forder/front/getSurePayOrderList", "POST", params, false, false);
+}
+
+/**
+ * 上架
+ * @param {Object} params
+ * id: number 订单id
+ */
+export function orderCreateShop(params) {
+    return http.request(config.basePath + "/system/forder/front/upShopApprove", "POST", params, false, false);
+}
+
+/**
+ * 确认付款
+ * @param {Object} params
+ * id: number 订单id
+ */
+export function orderUpdatePay(params) {
+    return http.request(config.basePath + "/system/forder/front/buyUserSurePay", "POST", params, false, false);
+}
+
+/**
+ * 确认收款
+ * @param {Object} params
+ * priceType: number 价格类型1:2000-3000  2：3001-8000 3 8000以上
+ */
+export function orderUpdateAmount(params) {
+    return http.request(config.basePath + "/system/forder/front/surePayOrder", "POST", params, false, false);
+}
+
+/**
+ * 预约列表
+ * @param {Object} params
+ */
+export function selectBookingList(params = {}) {
+    return http.request(config.basePath + "/system/appointment/front/getUserAppointList", "POST", params, false, false);
+}
+
+/**
+ * 预约
+ * @param {Object} params
+ * id: number 订单id
+ */
+export function createBooking(params) {
+    return http.request(config.basePath + "/system/appointment/front/saveUserAppoint", "POST", params, false, false);
 }
 
 /**

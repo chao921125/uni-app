@@ -14,11 +14,9 @@ app.$mount();
 // #ifdef VUE3
 import { createSSRApp } from "vue";
 // import http from "@/common/plugins/http.js";
-// import myComponent from "";
 
 export function createApp() {
   const app = createSSRApp(App);
-  // app.component("my-component", myComponent);
   
   // app.config.globalProperties.$http = () => http;
   

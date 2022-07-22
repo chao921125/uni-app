@@ -3,7 +3,7 @@
 </template>
 
 <script>
-    import area from "@/common/libs/area.js";
+    import area from "@/common/config/area.js";
 	import { ref, reactive, watchEffect, toRefs } from "vue";
 
 	

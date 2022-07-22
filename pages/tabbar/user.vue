@@ -1,25 +1,31 @@
 <template>
-    <view class="re-flex-row-center-start body-padding">
-        <view class="user-avatar re-flex">
-			<cover-image class="avatar-img" v-if="imgPath" :src="userInfo.imgUrl || imgPath.UserAvatar"></cover-image>
-			<uni-icons class="icon-edit" type="compose" size="20" @click="toUserEdit"></uni-icons>
+	<view class="user-info bg-color-default re-padding-top-40 re-padding-bottom-40" v-if="userInfo.artUser">
+		<view class="re-flex-row-center user-avatar">
+				<cover-image class="avatar-circle" v-if="imgPath.UserAvatar" :src="imgPath.UserAvatar"></cover-image>
+			<!-- <view class="re-flex-row">
+				<cover-image class="avatar-circle" v-if="imgPath.UserAvatar" :src="imgPath.UserAvatar"></cover-image>
+				<text>edit</text>
+			</view> -->
 		</view>
-        <view class="user-name">{{ userInfo.userName }}</view>
-    </view>
-	<uni-section title="设置" type="line">
+		<view class="re-flex-row-center re-margin-top-30">{{  userInfo.artUser.uname || "" }}</view>
+	</view>
+	<view class="body-contains re-margin-top-30" v-if="userInfo.artUser">
 		<uni-list>
-			<uni-list-item title="签名" :rightText="userInfo.remark" />
-			<uni-list-item title="手机号" :rightText="userInfo.userTel" />
-			<uni-list-item title="性别" :rightText="userInfo.userSex === '0' ? '男' : userInfo.userSex === '1' ? '女' : '保密'" />
+			<uni-list-item title="登录画室" :rightText="userInfo.artUser.deptName || ''" />
+			<uni-list-item showArrow clickable title="银行卡信息" @click="toUserBankEdit()" :rightText="userInfo.artBankcard.id ? '已填写' : '未填写'" />
+			<uni-list-item showArrow clickable title="地址管理" @click="toUserAddressEdit()" :rightText="userInfo.userAddress.id ? '已填写' : '未填写'" />
+			<!-- <uni-list-item showArrow clickable title="修改信息" @click="toUserEdit()" rightText="19900001111" /> -->
+			<uni-list-item showArrow clickable title="修改密码" @click="toUserPwdEdit()" rightText="******" />
 		</uni-list>
-	</uni-section>
+		<button class="btn-error re-margin-top-50" @click="logoutUser()">退出登录</button>
+	</view>
 </template>
 
 <script>
-	import utils from "@/common/plugins/utils.js";
+	import utils from "@/common/plugins/uniUtils.js";
     import defaultConfig from "@/common/config/index.js";
-	import { userInfo } from "@/common/api/user.js";
-    
+	import { selectUserInfo, logout } from "@/common/api/user.js";
+
     export default {
         data() {
             return {
@@ -32,28 +38,32 @@
 		},
 		methods: {
 			getUserInfo() {
-				if (!uni.getStorageSync(defaultConfig.tokenKey)) utils.href(defaultConfig.routePath.loginPermission, false);
-				userInfo({ userNo: uni.getStorageSync(defaultConfig.tokenKey) }).then((res) => {
-					this.userInfo =  res.data;
+				selectUserInfo({}).then((res) => {
+					this.userInfo = res.data;
 				});
 			},
+			logoutUser() {
+				logout({}).then((res) => {
+					utils.removeUserInfo();
+					utils.gotoUrlCloseAll(defaultConfig.routePath.login, false);
+				});
+			},
+			toUserBankEdit() {
+				utils.gotoUrl(defaultConfig.routePath.userBank, true);
+			},
+			toUserAddressEdit() {
+				utils.gotoUrl(defaultConfig.routePath.userAddress, true);
+			},
+			toUserPwdEdit() {
+				utils.gotoUrl(defaultConfig.routePath.userPassword, true);
+			},
 			toUserEdit() {
-				utils.href(defaultConfig.routePath.userEdit, false);
+				utils.gotoUrl(defaultConfig.routePath.userEdit, true);
 			}
 		}
     }
 </script>
 
 <style lang="scss">
-	.user-avatar {
-		align-items: flex-end;
-		padding-top: 50rpx;
-		.icon-edit {
-			margin-left: 20rpx;
-		}
-	}
-	.user-name {
-		padding-top: 50rpx;
-		margin-left: 20rpx;
-	}
+
 </style>

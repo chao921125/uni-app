@@ -1,7 +1,6 @@
-/**
- * 此处的色值是为了动态配置需要，一般情况下使用不到。
- */
+// 部分js使用的颜色
 export default {
+	textLink: "#5677fc",
     colorPrimary: "#5677fc",
     backgroundPrimary: "#5677fc",
     textPrimary: "#5677fc",

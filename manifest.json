@@ -57,7 +57,7 @@
     "quickapp" : {},
     /* 小程序特有相关 */
     "mp-weixin" : {
-        "appid" : "wxa52bb659b38d1ae2",
+        "appid" : "wx147d738da232e000",
         "setting" : {
             "urlCheck" : false,
             "postcss" : true,
@@ -77,6 +77,27 @@
     },
     "uniStatistics" : {
         "enable" : false
+    },
+    /* 小程序特有相关 */
+    "h5" : {
+        "devServer" : {
+            "https" : false,
+            "port" : 8888,
+            "disableHostCheck" : true,
+            "proxy" : {
+                "/arts" : {
+                    "target" : "https://project6.online",
+                    // "target": "https://project6.online/arts",
+                    "changeOrigin" : true,
+                    "pathRewrite" : {
+                        "^/" : "/"
+                    }
+                }
+            }
+        },
+        "router" : {
+            "mode" : "history"
+        }
     },
     "vueVersion" : "3"
 }

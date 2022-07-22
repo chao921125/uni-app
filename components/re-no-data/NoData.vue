@@ -9,25 +9,18 @@
 
 <script>
     import defaultConfig from "@/common/config/index.js";
-	import { ref } from "vue";
     export default {
 		props: {
 			text: {
 				type: String,
-				default: "",
+				default: "暂无数据",
 			}
 		},
-		setup() {
-			const imgPath = ref(defaultConfig.imgPath);
-			return {
-				imgPath
-			};
-		},
-        // data() {
-        //     return {
-        //         imgPath: defaultConfig.imgPath
-        //     }
-        // }
+        data() {
+            return {
+                imgPath: defaultConfig.imgPath
+            }
+        }
     }
 </script>
 

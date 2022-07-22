@@ -24,7 +24,7 @@ $prefix: re;
 	}
 }
 
-@for $i from 1 through 50 {
+@for $i from 1 through 100 {
     .#{$prefix}-padding-#{$i}{
     	padding: #{$i}rpx;
     }
@@ -107,6 +107,26 @@ $prefix: re;
 .#{$prefix}-flex-column-reverse {
 	@extend .#{$prefix}-flex;
 	flex-direction: column-reverse;
+}
+.#{$prefix}-flex-column-center {
+	@extend .#{$prefix}-flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+}
+
+%grid {
+	display: grid;
+	display: -ms-grid;
+	display: -moz-grid;
+}
+.#{$prefix}-grid {
+	@extend %grid;
+	grid-template-columns: repeat(auto-fit, 240px);
+	/*grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));*/
+	/*grid-template-rows: repeat(auto-fit, minmax(240px, 240px));*/
+	grid-gap: 1.2rem;
+	/*gap: 1.2rem;*/
 }
 
 %text-center {
