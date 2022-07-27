@@ -2,7 +2,7 @@ export default {
 	// #ifndef H5
 	getBaseUrl: function() {
 		if (process.env.NODE_ENV === "development") {
-			return "https://project6.online/arts"; // qe & 本地环境
+			return "http://127.0.0.1:8080/arts"; // qe & 本地环境
 		} else {
 			return "https://project6.online/arts"; // 生产环境
 		}

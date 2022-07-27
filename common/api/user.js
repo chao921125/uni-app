@@ -206,3 +206,11 @@ export function createRecharge(params = {}) {
 export function selectDistribute(params = {}) {
     return http.request(config.basePath + "/system/artsuser/front/getUserAmount", "POST", params, false, false);
 }
+
+/**
+ * 查询佣金信息
+ * @param {Object} params
+ */
+export function selectPlayer(params = {}) {
+    return http.request(config.basePath + "/system/artsuser/front/getHomePerson", "POST", params, false, false);
+}

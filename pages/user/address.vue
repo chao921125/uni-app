@@ -14,9 +14,9 @@
 				<uni-easyinput v-model="formData.receiveDetail" maxlength="50" placeholder="请输入详细地址" />
 			</uni-forms-item>
 		</uni-forms>
-		<button v-if="formData.id" class="btn-success re-margin-top-50" @click="editAddress()">修改</button>
-		<button v-if="formData.id" class="btn-error re-margin-top-50" @click="removeAddress()">删除</button>
-		<button v-else class="btn-success re-margin-top-50" @click="addAddress()">新增</button>
+		<button v-if="formData.id" type="primary" class="re-margin-top-50" @click="editAddress()">修改</button>
+		<button v-if="formData.id" class="btn-success re-margin-top-50" @click="removeAddress()">删除</button>
+		<button v-else type="primary" class="re-margin-top-50" @click="addAddress()">新增</button>
 	</view>
 </template>
 <script>
@@ -150,12 +150,14 @@
 				});
 			},
 			getArea(value) {
-				this.formData.receiveProviceCode = value.province;
-				this.formData.receiveProviceName = value.provinceName;
-				this.formData.receiveCityCode = value.city;
-				this.formData.receiveCityName = value.cityName;
-				this.formData.recieveAreaCode = value.area;
-				this.formData.recieveAreaName = value.areaName;
+				if (value.area && value.city && value.province) {
+					this.formData.receiveProviceCode = value.province;
+					this.formData.receiveProviceName = value.provinceName;
+					this.formData.receiveCityCode = value.city;
+					this.formData.receiveCityName = value.cityName;
+					this.formData.recieveAreaCode = value.area;
+					this.formData.recieveAreaName = value.areaName;
+				}
 			},
 			addAddress() {
 				this.$refs.refForm.validate().then(() => {

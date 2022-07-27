@@ -19,17 +19,17 @@
 	</view>
 	
 	<view v-if="orderList.length <= 0">
-		<NoData></NoData>
+		<!-- <NoData></NoData> -->
 	</view>
 	<view v-else class="order-list">
 		<view v-for="(item, index) in orderList" class="order-item re-margin-bottom-30" :key="index">
 			<view class="re-flex-row-between">
-				<view class="item-text">单号：{{item.artOrder.orderNumber}}<text v-if="item.artOrder.orderNumber" class="text-link" @click="copyUser(item.artOrder.orderNumber)">复制</text></view>
+				<view class="item-text">单号：{{item.artOrder.orderNumber}}</view>
 				<view class="item-status">
 					<text v-if="item.artOrder.status==='2'" class="text-high">待付款</text>
 					<text v-if="item.artOrder.status==='4'" class="text-high">上架申请中</text>
 					<text v-if="item.artOrder.status==='5'" class="text-high">上架确认</text>
-					<text v-if="item.artOrder.status==='6'" class="text-high">上架中</text>
+					<text v-if="item.artOrder.status==='6'" class="text-high">已上架</text>
 					<text v-if="item.artOrder.status==='7'" class="text-high">已关闭</text>
 					<text v-if="item.artOrder.status==='8'" class="btn-text-mini text-link" @click="openModalPutShop(item.artOrder.id, item.artShop.secondSalePrice, item.artShop.secondFee)">上架</text>
 					<text v-if="item.artOrder.status==='9'" class="text-high">已售出</text>

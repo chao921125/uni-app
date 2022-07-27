@@ -15,7 +15,7 @@
 				<uni-easyinput type="password" v-model="formData.rePassword" maxlength="50" placeholder="请再次输入新密码" />
 			</uni-forms-item>
 		</uni-forms>
-		<button class="btn-success btn-register" @click="submit()">确认</button>
+		<button type="primary" class="btn-register" @click="submit()">确认</button>
 	</view>
 </template>
 <script>

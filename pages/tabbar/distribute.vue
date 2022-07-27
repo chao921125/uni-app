@@ -1,5 +1,5 @@
 <template>
-	<view class="user-info bg-color-default re-padding-top-40 re-padding-bottom-40">
+	<view class="user-info bg-color-dis re-padding-top-40 re-padding-bottom-40">
 		<view class="re-flex-row-center-start user-avatar re-padding-left-20 re-padding-right-20">
 			<cover-image class="re-margin-right-20 avatar-circle" v-if="imgPath.UserAvatar" :src="imgPath.UserAvatar"></cover-image>
 			<view class="" v-if="userInfo.artUser">
@@ -19,31 +19,39 @@
 			</uni-list-item>
 		</uni-list>
 	</view>
-	<view class="body-contains re-margin-top-30" v-if="userInfo.artUser">
-		<view class="re-flex-row-between">
-			<view>我的佣金</view>
-			<view><button size="mini" type="primary" @click="openModalRecharge">提现</button></view>
-		</view>
-		<view class="re-flex-row-between re-margin-top-30">
-			<view class="width-half re-flex-row-center text-bold text-error">{{distributeInfo.useableAmout || 0}}</view>
-			<view class="width-half re-flex-row-center text-bold text-error">{{distributeInfo.txAmount || 0}}</view>
-		</view>
-		<view class="re-flex-row-between">
-			<view class="width-half re-flex-row-center">可提现佣金（元）</view>
-			<view class="width-half re-flex-row-center">已提现佣金（元）</view>
-		</view>
-		<view class="re-flex-row-between re-margin-top-30">
-			<view class="width-half re-flex-row-center text-bold text-black">{{distributeInfo.tuiGuangYongJin || 0}}</view>
-			<view class="width-half re-flex-row-center text-bold text-black">{{distributeInfo.tuiGuangDingDan || 0}}</view>
-		</view>
-		<view class="re-flex-row-between">
-			<view class="width-half re-flex-row-center">推广佣金（元）</view>
-			<view class="width-half re-flex-row-center">推广订单（笔）</view>
-		</view>
-		<view class="re-flex-row-between re-margin-top-30">
-			<view class="width-half re-flex-row-center text-bold text-link" @click="toRecharge">提现明细</view>
-			<view class="width-half re-flex-row-center text-bold text-link" @click="toFans">我的粉丝</view>
-		</view>
+	<view class="re-margin-top-30" v-if="userInfo.artUser">
+		<uni-card title="" extra="">
+			<view class="re-flex-row-between">
+				<view>我的佣金</view>
+				<view><button size="mini" type="primary" @click="openModalRecharge">提现</button></view>
+			</view>
+		</uni-card>
+		<uni-card title="" extra="">
+			<view class="re-flex-row-between re-margin-top-30">
+				<view class="width-half re-flex-row-center text-bold text-error">{{distributeInfo.useableAmout || 0}}</view>
+				<view class="width-half re-flex-row-center text-bold text-error">{{distributeInfo.txAmount || 0}}</view>
+			</view>
+			<view class="re-flex-row-between">
+				<view class="width-half re-flex-row-center">可提现佣金（元）</view>
+				<view class="width-half re-flex-row-center">已提现佣金（元）</view>
+			</view>
+		</uni-card>
+		<uni-card title="" extra="">
+			<view class="re-flex-row-between re-margin-top-30">
+				<view class="width-half re-flex-row-center text-bold text-black">{{distributeInfo.tuiGuangYongJin || 0}}</view>
+				<view class="width-half re-flex-row-center text-bold text-black">{{distributeInfo.tuiGuangDingDan || 0}}</view>
+			</view>
+			<view class="re-flex-row-between">
+				<view class="width-half re-flex-row-center">推广佣金（元）</view>
+				<view class="width-half re-flex-row-center">推广订单（笔）</view>
+			</view>
+		</uni-card>
+		<uni-card title="" extra="">
+			<view class="re-flex-row-between re-margin-top-30">
+				<view class="width-half re-flex-row-center text-bold text-link" @click="toRecharge">提现明细</view>
+				<view class="width-half re-flex-row-center text-bold text-link" @click="toFans">我的粉丝</view>
+			</view>
+		</uni-card>
 	</view>
 	
 	<uni-popup ref="modalRecharge" type="center" :is-mask-click="false">

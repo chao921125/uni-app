@@ -2,7 +2,7 @@
 	<view class="body-contains">
 		<uni-forms ref="refForm" :modelValue="formData" :rules="rules" validate-trigger="bind" label-width="90" :border="true">
 			<uni-forms-item label="银行卡号" required name="bankCode">
-				<uni-easyinput v-model="formData.bankCode" maxlength="18" placeholder="请输入银行卡号" />
+				<uni-easyinput v-model="formData.bankCode" maxlength="22" placeholder="请输入银行卡号" />
 			</uni-forms-item>
 			<uni-forms-item label="持卡人" required name="bankCardName">
 				<uni-easyinput v-model="formData.bankCardName" maxlength="20" placeholder="请输入持卡人姓名" />
@@ -14,9 +14,9 @@
 				<uni-easyinput v-model="formData.bankCardTel" maxlength="11" placeholder="请输入持卡人手机号" />
 			</uni-forms-item>
 		</uni-forms>
-		<button v-if="formData.id" class="btn-success re-margin-top-50" @click="editBank()">修改</button>
-		<button v-if="formData.id" class="btn-error re-margin-top-50" @click="removeBank()">删除</button>
-		<button v-else class="btn-success re-margin-top-50" @click="addBank()">新增</button>
+		<button v-if="formData.id" type="primary" class="re-margin-top-50" @click="editBank()">修改</button>
+		<button v-if="formData.id" class="btn-success re-margin-top-50" @click="removeBank()">删除</button>
+		<button v-else type="primary" class="re-margin-top-50" @click="addBank()">新增</button>
 	</view>
 </template>
 <script>
@@ -58,7 +58,7 @@
 						rules: [
 							{ required: true, errorMessage: '必填，不能为空', },
 							{ validateFunction: (rule, value, data, callback) => {
-								if (formValid.checkBankno(value)) {
+								if (formValid.isNumber(value)) {
 									return true;
 								} else {
 									callback("卡号错误");

@@ -14,11 +14,17 @@
 			</uni-grid-item>
 		</uni-grid>
 		<view v-else>
-			<NoData :text="暂无艺术品"></NoData>
+			<!-- <NoData :text="暂无艺术品"></NoData> -->
 		</view>
 	</view>
-	<view v-else class="shop-end re-flex-row-center">
-		<text class="tips-text">未在营业时间</text>
+	<view v-else>
+		<view class="re-flex-row-between">
+			<text class="text-time"> </text>
+			<text class="text-time re-padding-20">{{ dateFormat(date) }}</text>
+		</view>
+		<view class="shop-end re-flex-row-center">
+			<text class="tips-text">未在营业时间</text>
+		</view>
 	</view>
 </template>
 
@@ -52,8 +58,15 @@
                 },
 				// 下拉加载更多 end
 				isStart: true,
-				shopList: []
+				shopList: [],
+				date: new Date().toISOString(),
 			};
+		},
+		onLoad() {
+			let _this = this;
+			setInterval(function() {
+			_this.date = Date.parse(new Date());
+			}, 1000);
 		},
 		onShow() {
 			this.shopList = [];
@@ -90,14 +103,27 @@
 			toPlayerDetail(e) {
 				uni.setStorageSync("shopInfo", this.shopList[e.detail.index]);
 				utils.gotoUrl(defaultConfig.routePath.shopDetail + `?id=${this.shopList[e.detail.index].id}`, true);
-			}
+			},
+			dateFormat(time) {
+				let date = new Date(time);
+				let year = date.getFullYear();
+				// 在日期格式中，月份是从0开始的，因此要加0，使用三元表达式在小于10的前面加0，以达到格式统一  如 09:11:05
+				let month = date.getMonth() + 1 < 10 ? "0" + (date.getMonth() + 1) : date.getMonth() + 1;
+				let day = date.getDate() < 10 ? "0" + date.getDate() : date.getDate();
+				let hours = date.getHours() < 10 ? "0" + date.getHours() : date.getHours();
+				let minutes = date.getMinutes() < 10 ? "0" + date.getMinutes() : date.getMinutes();
+				let seconds = date.getSeconds() < 10 ? "0" + date.getSeconds() : date.getSeconds();
+				// 拼接
+				return hours + ":" + minutes + ":" + seconds;
+				// return year + "-" + month + "-" + day;
+			},
 		}
 	}
 </script>
 
 <style lang="scss">
 	.shop-end {
-		height: 100vh;
+		height: 80vh;
 		.tips-text {
 			color: #FF0000;
 		}

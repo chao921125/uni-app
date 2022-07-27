@@ -17,7 +17,7 @@
 			<!-- <uni-list-item showArrow clickable title="修改信息" @click="toUserEdit()" rightText="19900001111" /> -->
 			<uni-list-item showArrow clickable title="修改密码" @click="toUserPwdEdit()" rightText="******" />
 		</uni-list>
-		<button class="btn-error re-margin-top-50" @click="logoutUser()">退出登录</button>
+		<button class="btn-success re-margin-top-50" @click="logoutUser()">退出登录</button>
 	</view>
 </template>
 
