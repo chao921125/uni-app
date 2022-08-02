@@ -54,37 +54,6 @@
             
         }]
     }, {
-        "root": "pages/shop",
-        "pages": [{
-            "path" : "list",
-            "style" : {
-                "navigationBarTitleText": "商城",
-                "enablePullDownRefresh": true
-                // "navigationStyle": "custom"
-            }
-        }, {
-            "path" : "detail",
-            "style" : {
-                "navigationBarTitleText": "商品详情",
-                "enablePullDownRefresh": false
-            }
-            
-        }, {
-            "path" : "buy",
-            "style" : {
-                "navigationBarTitleText": "购买",
-                "enablePullDownRefresh": false
-            }
-            
-        }, {
-            "path" : "booking",
-            "style" : {
-                "navigationBarTitleText": "预约",
-                "enablePullDownRefresh": false
-            }
-            
-        }]
-    }, {
         "root": "pages/user",
         "pages": [{
             "path" : "edit",
@@ -149,10 +118,6 @@
             "network": "all",
             "packages": ["__APP__"]
         },
-        "pages/shop/list": {
-            "network": "all",
-            "packages": ["__APP__"]
-        },
         "pages/user/edit": {
             "network": "all",
             "packages": ["__APP__"]
@@ -177,25 +142,19 @@
         		"iconPath": "static/images/tabbar/home.png",
         		// "iconfont": "iconfont",
         		"selectedIconPath": "static/images/tabbar/home_active.png",
-        		"text": "山海艺术馆"
+        		"text": "首页"
         	},
         	{
         		"pagePath": "pages/tabbar/order",
         		"iconPath": "static/images/tabbar/order.png",
         		"selectedIconPath": "static/images/tabbar/order_active.png",
-        		"text": "全部订单"
-        	},
-        	{
-        		"pagePath": "pages/tabbar/distribute",
-        		"iconPath": "static/images/tabbar/distribute.png",
-        		"selectedIconPath": "static/images/tabbar/distribute_active.png",
-        		"text": "分销中心"
+        		"text": "订单"
         	},
         	{
         		"pagePath": "pages/tabbar/user",
         		"iconPath": "static/images/tabbar/user.png",
         		"selectedIconPath": "static/images/tabbar/user_active.png",
-        		"text": "个人中心"
+        		"text": "我"
         	}
         ]
     },
