@@ -2,18 +2,18 @@ export default {
 	// #ifndef H5
 	getBaseUrl: function() {
 		if (process.env.NODE_ENV === "development") {
-			return "http://127.0.0.1:8080/arts"; // qe & 本地环境
+			return "http://127.0.0.1:8080/"; // qe & 本地环境
 		} else {
-			return "https://project6.online/arts"; // 生产环境
+			return "https://ip"; // 生产环境
 		}
 	},
 	// #endif
 	// #ifdef H5
 	getBaseUrl: function() {
 		if (process.env.NODE_ENV === "development") {
-			return "/arts"; // qe & 本地环境
+			return "/"; // qe & 本地环境
 		} else {
-			return "/arts"; // 生产环境
+			return "/"; // 生产环境
 		}
 	},
 	// #endif

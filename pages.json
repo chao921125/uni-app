@@ -3,28 +3,21 @@
 		{
             "path" : "pages/tabbar/home",
             "style" : {
-                "navigationBarTitleText": "山海艺术馆",
+                "navigationBarTitleText": "首页",
                 "enablePullDownRefresh": true
             }
             
         }, {
             "path" : "pages/tabbar/order",
             "style" : {
-                "navigationBarTitleText": "全部订单",
+                "navigationBarTitleText": "订单",
                 "enablePullDownRefresh": true
-            }
-            
-        },  {
-            "path" : "pages/tabbar/distribute",
-            "style" : {
-                "navigationBarTitleText": "分销中心",
-                "enablePullDownRefresh": false
             }
             
         }, {
             "path" : "pages/tabbar/user",
             "style" : {
-                "navigationBarTitleText": "个人中心",
+                "navigationBarTitleText": "我",
                 "enablePullDownRefresh": false
             }
             
