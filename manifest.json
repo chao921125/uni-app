@@ -64,7 +64,12 @@
             "minified" : true,
             "es6" : true
         },
-        "usingComponents" : true
+        "usingComponents" : true,
+        "permission" : {
+            "scope.userLocation" : {
+                "desc" : "地图导航"
+            }
+        }
     },
     "mp-alipay" : {
         "usingComponents" : true
@@ -96,6 +101,11 @@
         },
         "router" : {
             "mode" : "history"
+        },
+        "optimization" : {
+            "treeShaking" : {
+                "enable" : true
+            }
         }
     },
     "vueVersion" : "3"
