@@ -24,8 +24,7 @@
 	import AreaOne from "@/components/re-area/AreaOne.vue";
 	import utils from "@/common/plugins/uniUtils.js";
 	import defaultConfig from "@/common/config/index.js";
-	import { selectUserInfo, createAddress, updateAddress, deleteAddress } from "@/common/api/user.js";
-	import formValid from "@/common/utils/formValid.js";
+	import validate from "@/common/utils/validate.js";
 	
 	export default {
 		components: {

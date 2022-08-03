@@ -130,7 +130,6 @@
 <script>
 	import defaultConfig from "@/common/config/index.js";
 	import NoData from "@/components/re-no-data/NoData.vue";
-	import { orderSelectList, orderSelectAmount, orderCreateShop, orderUpdateAmount, orderUpdatePay } from "@/common/api/order.js";
 	
 	export default {
 		components: {

@@ -24,7 +24,7 @@
 	import utils from "@/common/plugins/uniUtils.js";
 	import { login } from "@/common/api/user.js";
 	import defaultConfig from "@/common/config/index.js";
-	import md5 from "@/common/utils/encrypt-md5.js";
+	import md5 from "@/common/plugins/encrypt-md5.js";
 
 	export default {
 		data() {

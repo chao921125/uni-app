@@ -24,7 +24,6 @@
 
 <script>
 	import NoData from "@/components/re-no-data/NoData.vue";
-	import { selectRecharge } from "@/common/api/user.js";
 	
 	export default {
 		components: {

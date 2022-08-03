@@ -23,8 +23,7 @@
 	import { ref } from "vue";
 	import utils from "@/common/plugins/uniUtils.js";
 	import defaultConfig from "@/common/config/index.js";
-	import { selectUserInfo, createBank, updateBank, deleteBank } from "@/common/api/user.js";
-	import formValid from "@/common/utils/formValid.js";
+	import validate from "@/common/utils/validate.js";
 	
 	export default {
 		data() {
@@ -58,7 +57,7 @@
 						rules: [
 							{ required: true, errorMessage: '必填，不能为空', },
 							{ validateFunction: (rule, value, data, callback) => {
-								if (formValid.isNumber(value)) {
+								if (validate.isNumber(value)) {
 									return true;
 								} else {
 									callback("卡号错误");

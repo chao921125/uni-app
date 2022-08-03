@@ -20,7 +20,6 @@
 
 <script>
 	import NoData from "@/components/re-no-data/NoData.vue";
-	import { selectFans } from "@/common/api/user.js";
 	
 	export default {
 		components: {

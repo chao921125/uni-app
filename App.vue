@@ -11,7 +11,7 @@
 	import utils from "@/common/plugins/uniUtils.js";
 	export default {
 		onLaunch: function() {
-			console.log('App Launch')
+			utils.setToken("123");
 			if (utils.getToken()) {
 				let routes = getCurrentPages();
 				if (routes.length) {
@@ -25,25 +25,19 @@
 			}
 		},
 		onShow: function() {
-			console.log('App Show')
 		},
 		onHide: function() {
-			console.log('App Hide')
 		},
 		onError: function(e) {
 			console.log('App Error', e)
 		},
 		onUniNViewMessage: function() {
-			console.log('App onUniNViewMessage')
 		},
 		onUnhandledRejection: function() {
-			console.log('App UnhandledRejection')
 		},
 		onPageNotFound: function() {
-			console.log('App PageNotFound')
 		},
 		onThemeChange: function() {
-			console.log('App ThemeChange')
 		},
 		// getApp().globalData.testText = 'test'
 		globalData: {  

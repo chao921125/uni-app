@@ -33,7 +33,6 @@
 <script>
 	import defaultConfig from "@/common/config/index.js";
 	import utils from "@/common/plugins/uniUtils.js";
-	import { selectPlayer } from "@/common/api/user.js";
 	import requestConfig from "@/common/config/request.js";
 	
     export default {
