@@ -8,7 +8,7 @@
     // onPageNotFound	页面不存在监听函数
     // onThemeChange	监听系统主题变化
 	import defaultConfig from "@/common/config/index.js";
-	import utils from "@/common/plugins/uniUtils.js";
+	import utils from "@/common/plugins/uni-methods.js";
 	export default {
 		onLaunch: function() {
 			utils.setToken("123");

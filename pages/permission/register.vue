@@ -30,7 +30,7 @@
 <script>
 	import { ref } from "vue";
 	import SendPhone from "@/components/re-countdown/SendPhone.vue";
-	import utils from "@/common/plugins/uniUtils.js";
+	import utils from "@/common/plugins/uni-methods.js";
 	import defaultConfig from "@/common/config/index.js";
 	import { register, getPhoneCode } from "@/common/api/user.js";
 	import md5 from "@/common/plugins/encrypt-md5.js";

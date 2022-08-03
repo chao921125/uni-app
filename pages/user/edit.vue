@@ -30,7 +30,7 @@
 </template>
 
 <script>
-	import utils from "@/common/plugins/uniUtils.js";
+	import utils from "@/common/plugins/uni-methods.js";
     import defaultConfig from "@/common/config/index.js";
 	import { selectUserInfo, userEdit } from "@/common/api/user.js";
 	

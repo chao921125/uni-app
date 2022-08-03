@@ -22,7 +22,7 @@
 <script>
     import NoData from "@/components/no-data/NoData.vue";
 	import { onLoad, onShow, } from "@dcloudio/uni-app";
-	import utils from "@/common/plugins/uniUtils.js";
+	import utils from "@/common/plugins/uni-methods.js";
 	import defaultConfig from "@/common/config/index.js";
 	import { expertList } from "@/common/api/expert.js";
 	import { defineProps, defineEmits, ref, reactive } from "vue";

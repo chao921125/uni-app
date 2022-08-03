@@ -1,5 +1,5 @@
 import defaultConfig from "@/common/config/index.js";
-import utils from "@/common/plugins/uniUtils.js";
+import utils from "@/common/plugins/uni-methods.js";
 
 let ajaxTimes = 1;
 let defaultHeader = {

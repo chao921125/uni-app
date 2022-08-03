@@ -32,7 +32,7 @@
 
 <script>
 	import defaultConfig from "@/common/config/index.js";
-	import utils from "@/common/plugins/uniUtils.js";
+	import utils from "@/common/plugins/uni-methods.js";
 	import requestConfig from "@/common/config/request.js";
 	
     export default {

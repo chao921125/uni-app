@@ -21,7 +21,7 @@
 </template>
 <script>
 	import { ref, reactive } from "vue";
-	import utils from "@/common/plugins/uniUtils.js";
+	import utils from "@/common/plugins/uni-methods.js";
 	import { login } from "@/common/api/user.js";
 	import defaultConfig from "@/common/config/index.js";
 	import md5 from "@/common/plugins/encrypt-md5.js";

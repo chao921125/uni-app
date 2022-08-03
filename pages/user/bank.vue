@@ -21,7 +21,7 @@
 </template>
 <script>
 	import { ref } from "vue";
-	import utils from "@/common/plugins/uniUtils.js";
+	import utils from "@/common/plugins/uni-methods.js";
 	import defaultConfig from "@/common/config/index.js";
 	import validate from "@/common/utils/validate.js";
 	

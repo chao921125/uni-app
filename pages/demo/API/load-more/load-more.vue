@@ -30,7 +30,7 @@
 
 <script>
     import NoData from "@/components/no-data/NoData.vue";
-	import utils from "@/common/plugins/uniUtils.js";
+	import utils from "@/common/plugins/uni-methods.js";
 	import defaultConfig from "@/common/config/index.js";
 	import { subjectList } from "@/common/api/expert.js";
 	
