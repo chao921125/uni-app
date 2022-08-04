@@ -1,7 +1,4 @@
-@ -1,12 +1,2 @@
-# 封装一些方法和工具类，不要想着有多高大上，就是一个搬运工<!-- O.O -->
-
-HTTP Request && API
+# HTTP Request && API
 
 Store
 
@@ -11,3 +8,6 @@ Store
 # components 根目录下这个目录存放的是公共的组件，和uni-modules类似，但是需要自行引用
 
  + env(safe-area-inset-bottom)
+
+## 适配暗黑模式，还未测试
+https://developers.weixin.qq.com/miniprogram/dev/framework/ability/darkmode.html
