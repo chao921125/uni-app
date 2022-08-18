@@ -9,6 +9,7 @@
     // onThemeChange	监听系统主题变化
 	import defaultConfig from "@/common/config/index.js";
 	import utils from "@/common/plugins/uni-methods.js";
+	import request from "@/common/config/request.js";
 	export default {
 		onLaunch: function() {
 			utils.setToken("123");
@@ -23,6 +24,17 @@
 			} else {
 				utils.gotoUrl(defaultConfig.routePath.login, false);
 			}
+			setTimeout(() => {
+				const url = request.getBaseUrl();
+				const fonts = [""];
+				for (let o of fonts) {
+					const fontUrl = url + "/" + o;
+					uni.loadFontFace({
+						family: `${o}`,
+						source: `url("${fontUrl}")`
+					})
+				}
+			}, 3000);
 		},
 		onShow: function() {
 		},
