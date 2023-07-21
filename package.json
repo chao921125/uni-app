@@ -1,24 +1,24 @@
 {
-	"id": "hello-uniapp",
-	"name": "hello-uniapp",
-	"displayName": "hello-uniapp",
+	"id": "uni-app",
+	"name": "uni-app",
+	"displayName": "uni-app",
 	"version": "3.3.7",
 	"description": "uni-app",
 	"scripts": {
 		"test": "echo \"Error: no test specified\" && exit 1"
 	},
-	"repository": "https://github.com/dcloudio/hello-uniapp.git",
+	"repository": "https://github.com/chao921125/uni-app.git",
 	"keywords": [
-        "hello-uniapp",
+        "uni-app",
         "uni-app",
         "uni-ui"
     ],
 	"author": "",
 	"license": "MIT",
 	"bugs": {
-		"url": "https://github.com/dcloudio/hello-uniapp/issues"
+		"url": "https://github.com/chao921125/uni-app/issues"
 	},
-	"homepage": "https://github.com/dcloudio/hello-uniapp#readme",
+	"homepage": "https://github.com/chao921125/uni-app#readme",
 	"dependencies": {},
 	"dcloudext": {
 		"category": [
