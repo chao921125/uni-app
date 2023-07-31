@@ -1,4 +1,3 @@
-
 // TODO 暂时不需要 class ，需要用户使用变量实现 ，如果使用类名其实并不推荐
 // @mixin get-styles($k,$c) {
 // 	@if $k == size or $k == weight{
@@ -7,7 +6,7 @@
 // 		#{$k}:#{$c}
 // 	}
 // }
-$uni-ui-color:(
+$uni-ui-color: (
 	// 主色
 	primary: $uni-primary,
 	primary-disable: $uni-primary-disable,
@@ -38,11 +37,11 @@ $uni-ui-color:(
 	border-3: $uni-border-3,
 	border-4: $uni-border-4,
 	// 黑色
-	black:$uni-black,
+	black: $uni-black,
 	// 白色
-	white:$uni-white,
+	white: $uni-white,
 	// 透明
-	transparent:$uni-transparent
+	transparent: $uni-transparent
 ) !default;
 @each $key, $child in $uni-ui-color {
 	.uni-#{"" + $key} {
@@ -62,5 +61,5 @@ $uni-ui-color:(
 	box-shadow: $uni-shadow-lg;
 }
 .uni-mask {
-	background-color:$uni-mask;
+	background-color: $uni-mask;
 }

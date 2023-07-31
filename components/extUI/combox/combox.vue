@@ -7,7 +7,7 @@
 			<view class="example-body">
 				<uni-combox :candidates="candidates" placeholder="请选择所在城市" v-model="city"></uni-combox>
 				<view class="result-box">
-					<text>所选城市为：{{city}}</text>
+					<text>所选城市为：{{ city }}</text>
 				</view>
 			</view>
 		</uni-section>
@@ -31,20 +31,18 @@
 		components: {},
 		data() {
 			return {
-				candidates: ['北京', '南京', '东京', '武汉', '天津', '上海', '海口'],
-				city: ''
-			}
+				candidates: ["北京", "南京", "东京", "武汉", "天津", "上海", "海口"],
+				city: "",
+			};
 		},
-		methods: {
-
-		}
-	}
+		methods: {},
+	};
 </script>
 
 <style lang="scss">
 	.example-body {
 		padding: 12px;
-		background-color: #FFFFFF;
+		background-color: #ffffff;
 	}
 
 	.result-box {

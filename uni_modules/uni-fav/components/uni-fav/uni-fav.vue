@@ -1,21 +1,30 @@
 <template>
-	<view :class="[circle === true || circle === 'true' ? 'uni-fav--circle' : '']" :style="[{ backgroundColor: checked ? bgColorChecked : bgColor }]"
-	 @click="onClick" class="uni-fav">
+	<view
+		:class="[circle === true || circle === 'true' ? 'uni-fav--circle' : '']"
+		:style="[{ backgroundColor: checked ? bgColorChecked : bgColor }]"
+		@click="onClick"
+		class="uni-fav"
+	>
 		<!-- #ifdef MP-ALIPAY -->
 		<view class="uni-fav-star" v-if="!checked && (star === true || star === 'true')">
-			<uni-icons :color="fgColor" :style="{color: checked ? fgColorChecked : fgColor}" size="14" type="star-filled" />
+			<uni-icons :color="fgColor" :style="{ color: checked ? fgColorChecked : fgColor }" size="14" type="star-filled" />
 		</view>
 		<!-- #endif -->
 		<!-- #ifndef MP-ALIPAY -->
-		<uni-icons :color="fgColor" :style="{color: checked ? fgColorChecked : fgColor}" class="uni-fav-star" size="14" type="star-filled"
-		 v-if="!checked && (star === true || star === 'true')" />
+		<uni-icons
+			:color="fgColor"
+			:style="{ color: checked ? fgColorChecked : fgColor }"
+			class="uni-fav-star"
+			size="14"
+			type="star-filled"
+			v-if="!checked && (star === true || star === 'true')"
+		/>
 		<!-- #endif -->
-		<text :style="{color: checked ? fgColorChecked : fgColor}" class="uni-fav-text">{{ checked ? contentFav : contentDefault }}</text>
+		<text :style="{ color: checked ? fgColorChecked : fgColor }" class="uni-fav-text">{{ checked ? contentFav : contentDefault }}</text>
 	</view>
 </template>
 
 <script>
-
 	/**
 	 * Fav 收藏按钮
 	 * @description 用于收藏功能，可点击切换选中、不选中的状态
@@ -33,65 +42,63 @@
 	 * @example <uni-fav :checked="true"/>
 	 */
 
-	import {
-		initVueI18n
-	} from '@dcloudio/uni-i18n'
-	import messages from './i18n/index.js'
-	const {	t	} = initVueI18n(messages)
+	import { initVueI18n } from "@dcloudio/uni-i18n";
+	import messages from "./i18n/index.js";
+	const { t } = initVueI18n(messages);
 
 	export default {
 		name: "UniFav",
 		// TODO 兼容 vue3，需要注册事件
-		emits: ['click'],
+		emits: ["click"],
 		props: {
 			star: {
 				type: [Boolean, String],
-				default: true
+				default: true,
 			},
 			bgColor: {
 				type: String,
-				default: "#eeeeee"
+				default: "#eeeeee",
 			},
 			fgColor: {
 				type: String,
-				default: "#666666"
+				default: "#666666",
 			},
 			bgColorChecked: {
 				type: String,
-				default: "#007aff"
+				default: "#007aff",
 			},
 			fgColorChecked: {
 				type: String,
-				default: "#FFFFFF"
+				default: "#FFFFFF",
 			},
 			circle: {
 				type: [Boolean, String],
-				default: false
+				default: false,
 			},
 			checked: {
 				type: Boolean,
-				default: false
+				default: false,
 			},
 			contentText: {
 				type: Object,
-				default () {
+				default() {
 					return {
 						contentDefault: "",
-						contentFav: ""
+						contentFav: "",
 					};
-				}
+				},
 			},
-			stat:{
+			stat: {
 				type: Boolean,
-				default: false
-			}
+				default: false,
+			},
 		},
 		computed: {
 			contentDefault() {
-				return this.contentText.contentDefault || t("uni-fav.collect")
+				return this.contentText.contentDefault || t("uni-fav.collect");
 			},
 			contentFav() {
-				return this.contentText.contentFav || t("uni-fav.collected")
+				return this.contentText.contentFav || t("uni-fav.collected");
 			},
 		},
 		watch: {
@@ -103,17 +110,17 @@
 						uni.report("取消收藏", "取消收藏");
 					}
 				}
-			}
+			},
 		},
 		methods: {
 			onClick() {
 				this.$emit("click");
-			}
-		}
+			},
+		},
 	};
 </script>
 
-<style lang="scss" >
+<style lang="scss">
 	$fav-height: 25px;
 
 	.uni-fav {

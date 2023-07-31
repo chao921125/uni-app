@@ -6,8 +6,7 @@
 
 		<uni-section title="实心标签" type="line">
 			<view class="uni-padding-wrap uni-common-mt">
-				<uni-segmented-control :current="current" :values="items" :style-type="styleType"
-					:active-color="activeColor" @clickItem="onClickItem" />
+				<uni-segmented-control :current="current" :values="items" :style-type="styleType" :active-color="activeColor" @clickItem="onClickItem" />
 			</view>
 			<view class="content">
 				<view v-if="current === 0"><text class="content-text">选项卡1的内容</text></view>
@@ -54,43 +53,44 @@
 		components: {},
 		data() {
 			return {
-				items: ['选项卡1', '选项卡2', '选项卡3'],
-				styles: [{
-						value: 'button',
-						text: '按钮',
-						checked: true
+				items: ["选项卡1", "选项卡2", "选项卡3"],
+				styles: [
+					{
+						value: "button",
+						text: "按钮",
+						checked: true,
 					},
 					{
-						value: 'text',
-						text: '文字'
-					}
+						value: "text",
+						text: "文字",
+					},
 				],
-				colors: ['#007aff', '#4cd964', '#dd524d'],
+				colors: ["#007aff", "#4cd964", "#dd524d"],
 				current: 0,
 				colorIndex: 0,
-				activeColor: '#007aff',
-				styleType: 'button'
-			}
+				activeColor: "#007aff",
+				styleType: "button",
+			};
 		},
 		methods: {
 			onClickItem(e) {
 				if (this.current !== e.currentIndex) {
-					this.current = e.currentIndex
+					this.current = e.currentIndex;
 				}
 			},
 			styleChange(e) {
 				if (this.styleType !== e.detail.value) {
-					this.styleType = e.detail.value
+					this.styleType = e.detail.value;
 				}
 			},
 			colorChange(e) {
 				if (this.styleType !== e.detail.value) {
 					console.log(e.detail.value);
-					this.activeColor = e.detail.value
+					this.activeColor = e.detail.value;
 				}
-			}
-		}
-	}
+			},
+		},
+	};
 </script>
 
 <style lang="scss">
@@ -141,9 +141,8 @@
 		/* #endif */
 		flex: 1;
 		flex-direction: row;
-		background-color: #FFFFFF;
+		background-color: #ffffff;
 	}
-
 
 	.uni-list-item__container {
 		padding: 12px 15px;

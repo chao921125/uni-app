@@ -10,13 +10,11 @@
 			getMessage(e) {
 				uni.showModal({
 					content: JSON.stringify(e.detail),
-					showCancel: false
-				})
-			}
-		}
-	}
+					showCancel: false,
+				});
+			},
+		},
+	};
 </script>
 
-<style>
-
-</style>
+<style></style>

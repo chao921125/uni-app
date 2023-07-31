@@ -1,21 +1,35 @@
 <template>
 	<view class="qiun-columns">
-		<view class="qiun-padding" style="font-size: 32rpx;">
-			<text>{{tips}}</text>
+		<view class="qiun-padding" style="font-size: 32rpx">
+			<text>{{ tips }}</text>
 		</view>
 		<view class="qiun-padding">
 			<view class="qiun-tip" @tap="changeData()">更新柱状图数据</view>
 		</view>
-		<view class="qiun-title-bar" style="background-color: #E5FDC3;">
+		<view class="qiun-title-bar" style="background-color: #e5fdc3">
 			<view class="qiun-title-dot-light">柱状图</view>
 		</view>
-		<view class="qiun-charts" style="background-color: #E5FDC3;">
+		<view class="qiun-charts" style="background-color: #e5fdc3">
 			<!--#ifdef MP-ALIPAY -->
-			<canvas canvas-id="canvasColumn" id="canvasColumn" class="charts" style="background-color: #E5FDC3;" :width="cWidth*pixelRatio"
-			 :height="cHeight*pixelRatio" :style="{'width':cWidth+'px','height':cHeight+'px'}" @touchstart="touchIt($event,'canvasColumn')"></canvas>
+			<canvas
+				canvas-id="canvasColumn"
+				id="canvasColumn"
+				class="charts"
+				style="background-color: #e5fdc3"
+				:width="cWidth * pixelRatio"
+				:height="cHeight * pixelRatio"
+				:style="{ width: cWidth + 'px', height: cHeight + 'px' }"
+				@touchstart="touchIt($event, 'canvasColumn')"
+			></canvas>
 			<!--#endif-->
 			<!--#ifndef MP-ALIPAY -->
-			<canvas canvas-id="canvasColumn" id="canvasColumn" class="charts" style="background-color: #E5FDC3;" @touchstart="touchIt($event,'canvasColumn')"></canvas>
+			<canvas
+				canvas-id="canvasColumn"
+				id="canvasColumn"
+				class="charts"
+				style="background-color: #e5fdc3"
+				@touchstart="touchIt($event, 'canvasColumn')"
+			></canvas>
 			<!--#endif-->
 		</view>
 		<view class="qiun-bg-white qiun-title-bar qiun-common-mt">
@@ -23,11 +37,18 @@
 		</view>
 		<view class="qiun-charts">
 			<!--#ifdef MP-ALIPAY -->
-			<canvas canvas-id="canvasColumnMeter" id="canvasColumnMeter" class="charts" :width="cWidth*pixelRatio" :height="cHeight*pixelRatio"
-			 :style="{'width':cWidth+'px','height':cHeight+'px'}" @touchstart="touchIt($event,'canvasColumnMeter')"></canvas>
+			<canvas
+				canvas-id="canvasColumnMeter"
+				id="canvasColumnMeter"
+				class="charts"
+				:width="cWidth * pixelRatio"
+				:height="cHeight * pixelRatio"
+				:style="{ width: cWidth + 'px', height: cHeight + 'px' }"
+				@touchstart="touchIt($event, 'canvasColumnMeter')"
+			></canvas>
 			<!--#endif-->
 			<!--#ifndef MP-ALIPAY -->
-			<canvas canvas-id="canvasColumnMeter" id="canvasColumnMeter" class="charts" @touchstart="touchIt($event,'canvasColumnMeter')"></canvas>
+			<canvas canvas-id="canvasColumnMeter" id="canvasColumnMeter" class="charts" @touchstart="touchIt($event, 'canvasColumnMeter')"></canvas>
 			<!--#endif-->
 		</view>
 		<view class="qiun-bg-white qiun-title-bar qiun-common-mt">
@@ -35,13 +56,29 @@
 		</view>
 		<view class="qiun-charts">
 			<!--#ifdef MP-ALIPAY -->
-			<canvas canvas-id="canvasMix" id="canvasMix" class="charts" :width="cWidth*pixelRatio" :height="cHeight*pixelRatio"
-			 :style="{'width':cWidth+'px','height':cHeight+'px'}" disable-scroll=true @touchstart="touchMix" @touchmove="moveMix"
-			 @touchend="touchEndMix"></canvas>
+			<canvas
+				canvas-id="canvasMix"
+				id="canvasMix"
+				class="charts"
+				:width="cWidth * pixelRatio"
+				:height="cHeight * pixelRatio"
+				:style="{ width: cWidth + 'px', height: cHeight + 'px' }"
+				disable-scroll="true"
+				@touchstart="touchMix"
+				@touchmove="moveMix"
+				@touchend="touchEndMix"
+			></canvas>
 			<!--#endif-->
 			<!--#ifndef MP-ALIPAY -->
-			<canvas canvas-id="canvasMix" id="canvasMix" class="charts" disable-scroll=true @touchstart="touchMix" @touchmove="moveMix"
-			 @touchend="touchEndMix"></canvas>
+			<canvas
+				canvas-id="canvasMix"
+				id="canvasMix"
+				class="charts"
+				disable-scroll="true"
+				@touchstart="touchMix"
+				@touchmove="moveMix"
+				@touchend="touchEndMix"
+			></canvas>
 			<!--#endif-->
 		</view>
 		<view class="qiun-bg-white qiun-title-bar qiun-common-mt qiun-rows">
@@ -49,14 +86,30 @@
 		</view>
 		<view class="qiun-charts">
 			<!--#ifdef MP-ALIPAY -->
-			<canvas canvas-id="canvasCandle" id="canvasCandle" class="charts" :width="cWidth*pixelRatio" :height="cHeight*pixelRatio"
-			 :style="{'width':cWidth+'px','height':cHeight+'px'}" disable-scroll=true @touchstart="touchCandle" @touchmove="moveCandle"
-			 @touchend="touchEndCandle"></canvas>
+			<canvas
+				canvas-id="canvasCandle"
+				id="canvasCandle"
+				class="charts"
+				:width="cWidth * pixelRatio"
+				:height="cHeight * pixelRatio"
+				:style="{ width: cWidth + 'px', height: cHeight + 'px' }"
+				disable-scroll="true"
+				@touchstart="touchCandle"
+				@touchmove="moveCandle"
+				@touchend="touchEndCandle"
+			></canvas>
 			<!-- 使用图表拖拽功能时，建议给canvas增加disable-scroll=true属性，在拖拽时禁止屏幕滚动 -->
 			<!--#endif-->
 			<!--#ifndef MP-ALIPAY -->
-			<canvas canvas-id="canvasCandle" id="canvasCandle" class="charts" disable-scroll=true @touchstart="touchCandle"
-			 @touchmove="moveCandle" @touchend="touchEndCandle"></canvas>
+			<canvas
+				canvas-id="canvasCandle"
+				id="canvasCandle"
+				class="charts"
+				disable-scroll="true"
+				@touchstart="touchCandle"
+				@touchmove="moveCandle"
+				@touchend="touchEndCandle"
+			></canvas>
 			<!-- 使用图表拖拽功能时，建议给canvas增加disable-scroll=true属性，在拖拽时禁止屏幕滚动 -->
 			<!--#endif-->
 		</view>
@@ -68,8 +121,14 @@
 		</view>
 		<view class="qiun-charts">
 			<!--#ifdef MP-ALIPAY -->
-			<canvas canvas-id="canvasGauge" id="canvasGauge" class="charts" :width="cWidth*pixelRatio" :height="cHeight*pixelRatio"
-			 :style="{'width':cWidth+'px','height':cHeight+'px'}"></canvas>
+			<canvas
+				canvas-id="canvasGauge"
+				id="canvasGauge"
+				class="charts"
+				:width="cWidth * pixelRatio"
+				:height="cHeight * pixelRatio"
+				:style="{ width: cWidth + 'px', height: cHeight + 'px' }"
+			></canvas>
 			<!--#endif-->
 			<!--#ifndef MP-ALIPAY -->
 			<canvas canvas-id="canvasGauge" id="canvasGauge" class="charts"></canvas>
@@ -80,14 +139,47 @@
 		</view>
 		<view class="qiun-charts3">
 			<!--#ifdef MP-ALIPAY -->
-			<canvas canvas-id="canvasArcbar1" id="canvasArcbar1" class="charts3" :style="{'width':cWidth3*pixelRatio+'px','height':cHeight3*pixelRatio+'px', 'transform': 'scale('+(1/pixelRatio)+')','margin-left':-cWidth3*(pixelRatio-1)/2+'px','margin-top':-cHeight3*(pixelRatio-1)/2+'px'}"></canvas>
-			<canvas canvas-id="canvasArcbar2" id="canvasArcbar2" class="charts3" :style="{'width':cWidth3*pixelRatio+'px','height':cHeight3*pixelRatio+'px', 'transform': 'scale('+(1/pixelRatio)+')','margin-left':cWidth3-cWidth3*(pixelRatio-1)/2+'px','margin-top':-cHeight3*(pixelRatio-1)/2+'px'}"></canvas>
-			<canvas canvas-id="canvasArcbar3" id="canvasArcbar3" class="charts3" :style="{'width':cWidth3*pixelRatio+'px','height':cHeight3*pixelRatio+'px', 'transform': 'scale('+(1/pixelRatio)+')','margin-left':cWidth3*2-cWidth3*(pixelRatio-1)/2+'px','margin-top':-cHeight3*(pixelRatio-1)/2+'px'}"></canvas>
+			<canvas
+				canvas-id="canvasArcbar1"
+				id="canvasArcbar1"
+				class="charts3"
+				:style="{
+					width: cWidth3 * pixelRatio + 'px',
+					height: cHeight3 * pixelRatio + 'px',
+					transform: 'scale(' + 1 / pixelRatio + ')',
+					'margin-left': (-cWidth3 * (pixelRatio - 1)) / 2 + 'px',
+					'margin-top': (-cHeight3 * (pixelRatio - 1)) / 2 + 'px',
+				}"
+			></canvas>
+			<canvas
+				canvas-id="canvasArcbar2"
+				id="canvasArcbar2"
+				class="charts3"
+				:style="{
+					width: cWidth3 * pixelRatio + 'px',
+					height: cHeight3 * pixelRatio + 'px',
+					transform: 'scale(' + 1 / pixelRatio + ')',
+					'margin-left': cWidth3 - (cWidth3 * (pixelRatio - 1)) / 2 + 'px',
+					'margin-top': (-cHeight3 * (pixelRatio - 1)) / 2 + 'px',
+				}"
+			></canvas>
+			<canvas
+				canvas-id="canvasArcbar3"
+				id="canvasArcbar3"
+				class="charts3"
+				:style="{
+					width: cWidth3 * pixelRatio + 'px',
+					height: cHeight3 * pixelRatio + 'px',
+					transform: 'scale(' + 1 / pixelRatio + ')',
+					'margin-left': cWidth3 * 2 - (cWidth3 * (pixelRatio - 1)) / 2 + 'px',
+					'margin-top': (-cHeight3 * (pixelRatio - 1)) / 2 + 'px',
+				}"
+			></canvas>
 			<!--#endif-->
 			<!--#ifndef MP-ALIPAY -->
 			<canvas canvas-id="canvasArcbar1" id="canvasArcbar1" class="charts3"></canvas>
-			<canvas canvas-id="canvasArcbar2" id="canvasArcbar2" class="charts3" style="margin-left: 250rpx;"></canvas>
-			<canvas canvas-id="canvasArcbar3" id="canvasArcbar3" class="charts3" style="margin-left: 500rpx;"></canvas>
+			<canvas canvas-id="canvasArcbar2" id="canvasArcbar2" class="charts3" style="margin-left: 250rpx"></canvas>
+			<canvas canvas-id="canvasArcbar3" id="canvasArcbar3" class="charts3" style="margin-left: 500rpx"></canvas>
 			<!--#endif-->
 		</view>
 		<view class="qiun-bg-white qiun-title-bar qiun-common-mt">
@@ -95,11 +187,18 @@
 		</view>
 		<view class="qiun-charts">
 			<!--#ifdef MP-ALIPAY -->
-			<canvas canvas-id="canvasFunnel" id="canvasFunnel" class="charts" :width="cWidth*pixelRatio" :height="cHeight*pixelRatio"
-			 :style="{'width':cWidth+'px','height':cHeight+'px'}" @touchstart="touchPie($event,'canvasFunnel')"></canvas>
+			<canvas
+				canvas-id="canvasFunnel"
+				id="canvasFunnel"
+				class="charts"
+				:width="cWidth * pixelRatio"
+				:height="cHeight * pixelRatio"
+				:style="{ width: cWidth + 'px', height: cHeight + 'px' }"
+				@touchstart="touchPie($event, 'canvasFunnel')"
+			></canvas>
 			<!--#endif-->
 			<!--#ifndef MP-ALIPAY -->
-			<canvas canvas-id="canvasFunnel" id="canvasFunnel" class="charts" @touchstart="touchPie($event,'canvasFunnel')"></canvas>
+			<canvas canvas-id="canvasFunnel" id="canvasFunnel" class="charts" @touchstart="touchPie($event, 'canvasFunnel')"></canvas>
 			<!--#endif-->
 		</view>
 		<view class="qiun-bg-white qiun-title-bar qiun-common-mt">
@@ -108,14 +207,30 @@
 		</view>
 		<view class="qiun-charts">
 			<!--#ifdef MP-ALIPAY -->
-			<canvas canvas-id="canvasLineA" id="canvasLineA" class="charts" :width="cWidth*pixelRatio" :height="cHeight*pixelRatio"
-			 :style="{'width':cWidth+'px','height':cHeight+'px'}" disable-scroll=true @touchstart="touchLineA" @touchmove="moveLineA"
-			 @touchend="touchEndLineA"></canvas>
+			<canvas
+				canvas-id="canvasLineA"
+				id="canvasLineA"
+				class="charts"
+				:width="cWidth * pixelRatio"
+				:height="cHeight * pixelRatio"
+				:style="{ width: cWidth + 'px', height: cHeight + 'px' }"
+				disable-scroll="true"
+				@touchstart="touchLineA"
+				@touchmove="moveLineA"
+				@touchend="touchEndLineA"
+			></canvas>
 			<!-- 使用图表拖拽功能时，建议给canvas增加disable-scroll=true属性，在拖拽时禁止屏幕滚动 -->
 			<!--#endif-->
 			<!--#ifndef MP-ALIPAY -->
-			<canvas canvas-id="canvasLineA" id="canvasLineA" class="charts" disable-scroll=true @touchstart="touchLineA"
-			 @touchmove="moveLineA" @touchend="touchEndLineA"></canvas>
+			<canvas
+				canvas-id="canvasLineA"
+				id="canvasLineA"
+				class="charts"
+				disable-scroll="true"
+				@touchstart="touchLineA"
+				@touchmove="moveLineA"
+				@touchend="touchEndLineA"
+			></canvas>
 			<!-- 使用图表拖拽功能时，建议给canvas增加disable-scroll=true属性，在拖拽时禁止屏幕滚动 -->
 			<!--#endif-->
 		</view>
@@ -124,11 +239,22 @@
 		</view>
 		<view class="qiun-charts-rotate">
 			<!--#ifdef MP-ALIPAY -->
-			<canvas canvas-id="canvasLineB" id="canvasLineB" class="charts-rotate" :style="{'width':cWidth2*pixelRatio+'px','height':cHeight2*pixelRatio+'px', 'transform': 'scale('+(1/pixelRatio)+')','margin-left':-cWidth2*(pixelRatio-1)/2+'px','margin-top':-cHeight2*(pixelRatio-1)/2+'px'}"
-			 @touchstart="touchIt($event,'canvasLineB')"></canvas>
+			<canvas
+				canvas-id="canvasLineB"
+				id="canvasLineB"
+				class="charts-rotate"
+				:style="{
+					width: cWidth2 * pixelRatio + 'px',
+					height: cHeight2 * pixelRatio + 'px',
+					transform: 'scale(' + 1 / pixelRatio + ')',
+					'margin-left': (-cWidth2 * (pixelRatio - 1)) / 2 + 'px',
+					'margin-top': (-cHeight2 * (pixelRatio - 1)) / 2 + 'px',
+				}"
+				@touchstart="touchIt($event, 'canvasLineB')"
+			></canvas>
 			<!--#endif-->
 			<!--#ifndef MP-ALIPAY -->
-			<canvas canvas-id="canvasLineB" id="canvasLineB" class="charts-rotate" @touchstart="touchIt($event,'canvasLineB')"></canvas>
+			<canvas canvas-id="canvasLineB" id="canvasLineB" class="charts-rotate" @touchstart="touchIt($event, 'canvasLineB')"></canvas>
 			<!--#endif-->
 		</view>
 		<view class="qiun-bg-white qiun-title-bar qiun-common-mt">
@@ -136,11 +262,18 @@
 		</view>
 		<view class="qiun-charts">
 			<!--#ifdef MP-ALIPAY -->
-			<canvas canvas-id="canvasArea" id="canvasArea" class="charts" :width="cWidth*pixelRatio" :height="cHeight*pixelRatio"
-			 :style="{'width':cWidth+'px','height':cHeight+'px'}" @touchstart="touchIt($event,'canvasArea')"></canvas>
+			<canvas
+				canvas-id="canvasArea"
+				id="canvasArea"
+				class="charts"
+				:width="cWidth * pixelRatio"
+				:height="cHeight * pixelRatio"
+				:style="{ width: cWidth + 'px', height: cHeight + 'px' }"
+				@touchstart="touchIt($event, 'canvasArea')"
+			></canvas>
 			<!--#endif-->
 			<!--#ifndef MP-ALIPAY -->
-			<canvas canvas-id="canvasArea" id="canvasArea" class="charts" @touchstart="touchIt($event,'canvasArea')"></canvas>
+			<canvas canvas-id="canvasArea" id="canvasArea" class="charts" @touchstart="touchIt($event, 'canvasArea')"></canvas>
 			<!--#endif-->
 		</view>
 		<view class="qiun-bg-white qiun-title-bar qiun-common-mt">
@@ -148,11 +281,18 @@
 		</view>
 		<view class="qiun-charts">
 			<!--#ifdef MP-ALIPAY -->
-			<canvas canvas-id="canvasPie" id="canvasPie" class="charts" :width="cWidth*pixelRatio" :height="cHeight*pixelRatio"
-			 :style="{'width':cWidth+'px','height':cHeight+'px'}" @touchstart="touchPie($event,'canvasPie')"></canvas>
+			<canvas
+				canvas-id="canvasPie"
+				id="canvasPie"
+				class="charts"
+				:width="cWidth * pixelRatio"
+				:height="cHeight * pixelRatio"
+				:style="{ width: cWidth + 'px', height: cHeight + 'px' }"
+				@touchstart="touchPie($event, 'canvasPie')"
+			></canvas>
 			<!--#endif-->
 			<!--#ifndef MP-ALIPAY -->
-			<canvas canvas-id="canvasPie" id="canvasPie" class="charts" @touchstart="touchPie($event,'canvasPie')"></canvas>
+			<canvas canvas-id="canvasPie" id="canvasPie" class="charts" @touchstart="touchPie($event, 'canvasPie')"></canvas>
 			<!--#endif-->
 		</view>
 		<view class="qiun-bg-white qiun-title-bar qiun-common-mt">
@@ -160,11 +300,18 @@
 		</view>
 		<view class="qiun-charts">
 			<!--#ifdef MP-ALIPAY -->
-			<canvas canvas-id="canvasRing" id="canvasRing" class="charts" :width="cWidth*pixelRatio" :height="cHeight*pixelRatio"
-			 :style="{'width':cWidth+'px','height':cHeight+'px'}" @touchstart="touchPie($event,'canvasRing')"></canvas>
+			<canvas
+				canvas-id="canvasRing"
+				id="canvasRing"
+				class="charts"
+				:width="cWidth * pixelRatio"
+				:height="cHeight * pixelRatio"
+				:style="{ width: cWidth + 'px', height: cHeight + 'px' }"
+				@touchstart="touchPie($event, 'canvasRing')"
+			></canvas>
 			<!--#endif-->
 			<!--#ifndef MP-ALIPAY -->
-			<canvas canvas-id="canvasRing" id="canvasRing" class="charts" @touchstart="touchPie($event,'canvasRing')"></canvas>
+			<canvas canvas-id="canvasRing" id="canvasRing" class="charts" @touchstart="touchPie($event, 'canvasRing')"></canvas>
 			<!--#endif-->
 		</view>
 		<view class="qiun-bg-white qiun-title-bar qiun-common-mt">
@@ -172,50 +319,57 @@
 		</view>
 		<view class="qiun-charts">
 			<!--#ifdef MP-ALIPAY -->
-			<canvas canvas-id="canvasRadar" id="canvasRadar" class="charts" :width="cWidth*pixelRatio" :height="cHeight*pixelRatio"
-			 :style="{'width':cWidth+'px','height':cHeight+'px'}" @touchstart="touchPie($event,'canvasRadar')"></canvas>
+			<canvas
+				canvas-id="canvasRadar"
+				id="canvasRadar"
+				class="charts"
+				:width="cWidth * pixelRatio"
+				:height="cHeight * pixelRatio"
+				:style="{ width: cWidth + 'px', height: cHeight + 'px' }"
+				@touchstart="touchPie($event, 'canvasRadar')"
+			></canvas>
 			<!--#endif-->
 			<!--#ifndef MP-ALIPAY -->
-			<canvas canvas-id="canvasRadar" id="canvasRadar" class="charts" @touchstart="touchPie($event,'canvasRadar')"></canvas>
+			<canvas canvas-id="canvasRadar" id="canvasRadar" class="charts" @touchstart="touchPie($event, 'canvasRadar')"></canvas>
 			<!--#endif-->
 		</view>
 	</view>
 </template>
 
 <script>
-	import uCharts from '../../../components/u-charts/u-charts.js';
+	import uCharts from "../../../components/u-charts/u-charts.js";
 	var _self;
 	var canvasObj = {};
 
 	export default {
 		data() {
 			return {
-				cWidth: '',
-				cHeight: '',
-				cWidth2: '', //横屏图表
-				cHeight2: '', //横屏图表
-				cWidth3: '', //圆弧进度图
-				cHeight3: '', //圆弧进度图
-				arcbarWidth: '', //圆弧进度图，进度条宽度,此设置可使各端宽度一致
-				gaugeWidth: '', //仪表盘宽度,此设置可使各端宽度一致
-				tips: '',
+				cWidth: "",
+				cHeight: "",
+				cWidth2: "", //横屏图表
+				cHeight2: "", //横屏图表
+				cWidth3: "", //圆弧进度图
+				cHeight3: "", //圆弧进度图
+				arcbarWidth: "", //圆弧进度图，进度条宽度,此设置可使各端宽度一致
+				gaugeWidth: "", //仪表盘宽度,此设置可使各端宽度一致
+				tips: "",
 				pixelRatio: 1,
-				serverData: '',
+				serverData: "",
 				itemCount: 30, //x轴单屏数据密度
-				sliderMax: 50
-			}
+				sliderMax: 50,
+			};
 		},
 		onLoad() {
 			_self = this;
 			//#ifdef MP-ALIPAY
 			uni.getSystemInfo({
-				success: function(res) {
+				success: function (res) {
 					if (res.pixelRatio > 1) {
 						//正常这里给2就行，如果pixelRatio=3性能会降低一点
 						//_self.pixelRatio =res.pixelRatio;
 						_self.pixelRatio = 2;
 					}
-				}
+				},
 			});
 			//#endif
 			this.cWidth = uni.upx2px(750);
@@ -235,12 +389,12 @@
 		methods: {
 			getServerData() {
 				uni.showLoading({
-					title: "正在加载数据..."
-				})
+					title: "正在加载数据...",
+				});
 				uni.request({
-					url: 'https://unidemo.dcloud.net.cn/hello-uniapp-ucharts-data.json',
+					url: "https://unidemo.dcloud.net.cn/hello-uniapp-ucharts-data.json",
 					data: {},
-					success: function(res) {
+					success: function (res) {
 						_self.fillData(res.data);
 					},
 					fail: () => {
@@ -248,7 +402,7 @@
 					},
 					complete() {
 						uni.hideLoading();
-					}
+					},
 				});
 			},
 			fillData(data) {
@@ -257,57 +411,57 @@
 				this.sliderMax = data.Candle.categories.length;
 				let Column = {
 					categories: [],
-					series: []
+					series: [],
 				};
 				let ColumnMeter = {
 					categories: [],
-					series: []
+					series: [],
 				};
 				let LineA = {
 					categories: [],
-					series: []
+					series: [],
 				};
 				let LineB = {
 					categories: [],
-					series: []
+					series: [],
 				};
 				let Area = {
 					categories: [],
-					series: []
+					series: [],
 				};
 				let Pie = {
-					series: []
+					series: [],
 				};
 				let Ring = {
-					series: []
+					series: [],
 				};
 				let Funnel = {
-					series: []
+					series: [],
 				};
 				let Radar = {
 					categories: [],
-					series: []
+					series: [],
 				};
 				let Arcbar1 = {
-					series: []
+					series: [],
 				};
 				let Arcbar2 = {
-					series: []
+					series: [],
 				};
 				let Arcbar3 = {
-					series: []
+					series: [],
 				};
 				let Gauge = {
 					categories: [],
-					series: []
+					series: [],
 				};
 				let Candle = {
 					categories: [],
-					series: []
+					series: [],
 				};
 				let Mix = {
 					categories: [],
-					series: []
+					series: [],
 				};
 				//这里我后台返回的是数组，所以用等于，如果您后台返回的是单条数据，需要push进去
 				Column.categories = data.Column.categories;
@@ -328,7 +482,7 @@
 				//自定义文案示例，需设置format字段
 				for (let i = 0; i < Ring.series.length; i++) {
 					Ring.series[i].format = () => {
-						return Ring.series[i].name + Ring.series[i].data
+						return Ring.series[i].name + Ring.series[i].data;
 					};
 				}
 				Radar.categories = data.Radar.categories;
@@ -362,7 +516,7 @@
 				canvasObj[canvasId] = new uCharts({
 					$this: _self,
 					canvasId: canvasId,
-					type: 'column',
+					type: "column",
 					padding: [15, 15, 0, 15],
 					legend: {
 						show: true,
@@ -371,7 +525,7 @@
 						margin: 0,
 					},
 					fontSize: 11,
-					background: '#FFFFFF',
+					background: "#FFFFFF",
 					pixelRatio: _self.pixelRatio,
 					animation: false,
 					categories: chartData.categories,
@@ -381,25 +535,25 @@
 					},
 					yAxis: {
 						format: (val) => {
-							return val.toFixed(0) + '元'
-						}
+							return val.toFixed(0) + "元";
+						},
 					},
 					dataLabel: true,
 					width: _self.cWidth * _self.pixelRatio,
 					height: _self.cHeight * _self.pixelRatio,
 					extra: {
 						column: {
-							type: 'group',
-							width: _self.cWidth * _self.pixelRatio * 0.45 / chartData.categories.length
-						}
-					}
+							type: "group",
+							width: (_self.cWidth * _self.pixelRatio * 0.45) / chartData.categories.length,
+						},
+					},
 				});
 			},
 			showColumnMeter(canvasId, chartData) {
 				canvasObj[canvasId] = new uCharts({
 					$this: _self,
 					canvasId: canvasId,
-					type: 'column',
+					type: "column",
 					padding: [15, 15, 0, 15],
 					legend: {
 						show: true,
@@ -408,7 +562,7 @@
 						margin: 0,
 					},
 					fontSize: 11,
-					background: '#FFFFFF',
+					background: "#FFFFFF",
 					pixelRatio: _self.pixelRatio,
 					animation: false,
 					categories: chartData.categories,
@@ -424,22 +578,21 @@
 					height: _self.cHeight * _self.pixelRatio,
 					extra: {
 						column: {
-							type: 'meter',
-							width: _self.cWidth * _self.pixelRatio * 0.45 / chartData.categories.length,
+							type: "meter",
+							width: (_self.cWidth * _self.pixelRatio * 0.45) / chartData.categories.length,
 							meter: {
 								border: 4,
-								fillColor: '#E5FDC3'
-							}
-						}
-					}
+								fillColor: "#E5FDC3",
+							},
+						},
+					},
 				});
-
 			},
 			showLineA(canvasId, chartData) {
 				canvasObj[canvasId] = new uCharts({
 					$this: _self,
 					canvasId: canvasId,
-					type: 'line',
+					type: "line",
 					fontSize: 11,
 					padding: [15, 15, 0, 15],
 					legend: {
@@ -450,7 +603,7 @@
 					},
 					dataLabel: false,
 					dataPointShape: false,
-					background: '#FFFFFF',
+					background: "#FFFFFF",
 					pixelRatio: _self.pixelRatio,
 					categories: chartData.categories,
 					series: chartData.series,
@@ -458,39 +611,38 @@
 					enableScroll: true, //开启图表拖拽功能
 					xAxis: {
 						disableGrid: false,
-						type: 'grid',
-						gridType: 'dash',
+						type: "grid",
+						gridType: "dash",
 						itemCount: 4,
 						scrollShow: true,
-						scrollAlign: 'left',
+						scrollAlign: "left",
 						//scrollBackgroundColor:'#F7F7FF',//可不填写，配合enableScroll图表拖拽功能使用，X轴滚动条背景颜色,默认为 #EFEBEF
 						//scrollColor:'#DEE7F7',//可不填写，配合enableScroll图表拖拽功能使用，X轴滚动条颜色,默认为 #A6A6A6
 					},
 					yAxis: {
 						//disabled:true
-						gridType: 'dash',
+						gridType: "dash",
 						splitNumber: 8,
 						min: 10,
 						max: 180,
 						format: (val) => {
-							return val.toFixed(0) + '元'
-						} //如不写此方法，Y轴刻度默认保留两位小数
+							return val.toFixed(0) + "元";
+						}, //如不写此方法，Y轴刻度默认保留两位小数
 					},
 					width: _self.cWidth * _self.pixelRatio,
 					height: _self.cHeight * _self.pixelRatio,
 					dataLabel: true,
 					dataPointShape: true,
 					extra: {
-						lineStyle: 'straight'
+						lineStyle: "straight",
 					},
 				});
-
 			},
 			showLineB(canvasId, chartData) {
 				canvasObj[canvasId] = new uCharts({
 					$this: _self,
 					canvasId: canvasId,
-					type: 'line',
+					type: "line",
 					fontSize: 11,
 					padding: [15, 15, 0, 15],
 					legend: {
@@ -499,7 +651,7 @@
 						lineHeight: 11,
 						margin: 5,
 					},
-					background: '#FFFFFF',
+					background: "#FFFFFF",
 					pixelRatio: _self.pixelRatio,
 					rotate: true, //开启图表横屏
 					// #ifdef MP-ALIPAY
@@ -519,7 +671,7 @@
 					dataLabel: true,
 					dataPointShape: true,
 					extra: {
-						lineStyle: 'curve'
+						lineStyle: "curve",
 					},
 				});
 			},
@@ -527,13 +679,13 @@
 				canvasObj[canvasId] = new uCharts({
 					$this: _self,
 					canvasId: canvasId,
-					type: 'area',
+					type: "area",
 					fontSize: 11,
 					padding: [0, 15, 10, 15],
 					legend: {
 						show: true,
-						position: 'top',
-						float: 'center',
+						position: "top",
+						float: "center",
 						itemGap: 30,
 						padding: 5,
 						lineHeight: 18,
@@ -541,21 +693,21 @@
 					},
 					dataLabel: false,
 					dataPointShape: true,
-					background: '#FFFFFF',
+					background: "#FFFFFF",
 					pixelRatio: _self.pixelRatio,
 					categories: chartData.categories,
 					series: chartData.series,
 					animation: false,
 					xAxis: {
-						type: 'grid',
-						gridColor: '#CCCCCC',
-						gridType: 'dash',
+						type: "grid",
+						gridColor: "#CCCCCC",
+						gridType: "dash",
 						dashLength: 8,
-						boundaryGap: 'justify' //两端不留白配置
+						boundaryGap: "justify", //两端不留白配置
 					},
 					yAxis: {
-						gridType: 'dash',
-						gridColor: '#CCCCCC',
+						gridType: "dash",
+						gridColor: "#CCCCCC",
 						dashLength: 8,
 						splitNumber: 5,
 					},
@@ -563,19 +715,19 @@
 					height: _self.cHeight * _self.pixelRatio,
 					extra: {
 						area: {
-							type: 'curve',
+							type: "curve",
 							opacity: 0.2,
 							addLine: true,
-							width: 2
-						}
-					}
+							width: 2,
+						},
+					},
 				});
 			},
 			showPie(canvasId, chartData) {
 				canvasObj[canvasId] = new uCharts({
 					$this: _self,
 					canvasId: canvasId,
-					type: 'pie',
+					type: "pie",
 					fontSize: 11,
 					padding: [15, 15, 0, 15],
 					legend: {
@@ -584,7 +736,7 @@
 						lineHeight: 11,
 						margin: 0,
 					},
-					background: '#FFFFFF',
+					background: "#FFFFFF",
 					pixelRatio: _self.pixelRatio,
 					series: chartData.series,
 					animation: false,
@@ -593,8 +745,8 @@
 					dataLabel: true,
 					extra: {
 						pie: {
-							lableWidth: 15
-						}
+							lableWidth: 15,
+						},
 					},
 				});
 			},
@@ -602,39 +754,39 @@
 				canvasObj[canvasId] = new uCharts({
 					$this: _self,
 					canvasId: canvasId,
-					type: 'ring',
+					type: "ring",
 					fontSize: 11,
 					padding: [5, 5, 5, 5],
 					legend: {
 						show: true,
-						position: 'right',
-						float: 'center',
+						position: "right",
+						float: "center",
 						itemGap: 10,
 						padding: 5,
 						lineHeight: 26,
 						margin: 5,
 						//backgroundColor:'rgba(41,198,90,0.2)',
 						//borderColor :'rgba(41,198,90,0.5)',
-						borderWidth: 1
+						borderWidth: 1,
 					},
 					title: {
-						name: '70%',
-						color: '#7cb5ec',
+						name: "70%",
+						color: "#7cb5ec",
 						fontSize: 25 * _self.pixelRatio,
 					},
 					subtitle: {
-						name: '收益率',
-						color: '#666666',
+						name: "收益率",
+						color: "#666666",
 						fontSize: 15 * _self.pixelRatio,
 					},
 					extra: {
 						pie: {
 							lableWidth: 15,
 							ringWidth: 40 * _self.pixelRatio, //圆环的宽度
-							offsetAngle: 0 //圆环的角度
-						}
+							offsetAngle: 0, //圆环的角度
+						},
 					},
-					background: '#FFFFFF',
+					background: "#FFFFFF",
 					pixelRatio: _self.pixelRatio,
 					series: chartData.series,
 					animation: false,
@@ -643,13 +795,12 @@
 					disablePieStroke: true,
 					dataLabel: true,
 				});
-
 			},
 			showFunnel(canvasId, chartData) {
 				canvasObj[canvasId] = new uCharts({
 					$this: _self,
 					canvasId: canvasId,
-					type: 'funnel',
+					type: "funnel",
 					fontSize: 11,
 					padding: [15, 15, 0, 15],
 					legend: {
@@ -658,7 +809,7 @@
 						lineHeight: 11,
 						margin: 0,
 					},
-					background: '#FFFFFF',
+					background: "#FFFFFF",
 					pixelRatio: _self.pixelRatio,
 					series: chartData.series,
 					animation: false,
@@ -669,8 +820,8 @@
 						funnel: {
 							border: true,
 							borderWidth: 2,
-							borderColor: '#FFFFFF'
-						}
+							borderColor: "#FFFFFF",
+						},
 					},
 				});
 			},
@@ -678,7 +829,7 @@
 				canvasObj[canvasId] = new uCharts({
 					$this: _self,
 					canvasId: canvasId,
-					type: 'radar',
+					type: "radar",
 					fontSize: 11,
 					padding: [15, 15, 0, 15],
 					legend: {
@@ -687,7 +838,7 @@
 						lineHeight: 11,
 						margin: 0,
 					},
-					background: '#FFFFFF',
+					background: "#FFFFFF",
 					pixelRatio: _self.pixelRatio,
 					animation: false,
 					dataLabel: true,
@@ -697,34 +848,34 @@
 					height: _self.cHeight * _self.pixelRatio,
 					extra: {
 						radar: {
-							max: 200 //雷达数值的最大值
-						}
-					}
+							max: 200, //雷达数值的最大值
+						},
+					},
 				});
 			},
 			showArcbar(canvasId, chartData) {
 				new uCharts({
 					$this: _self,
 					canvasId: canvasId,
-					type: 'arcbar',
+					type: "arcbar",
 					fontSize: 11,
 					title: {
-						name: Math.round(chartData.series[0].data * 100) + '%',
+						name: Math.round(chartData.series[0].data * 100) + "%",
 						color: chartData.series[0].color,
-						fontSize: 25 * _self.pixelRatio
+						fontSize: 25 * _self.pixelRatio,
 					},
 					subtitle: {
 						name: chartData.series[0].name,
-						color: '#666666',
-						fontSize: 15 * _self.pixelRatio
+						color: "#666666",
+						fontSize: 15 * _self.pixelRatio,
 					},
 					extra: {
 						arcbar: {
-							type: 'default',
+							type: "default",
 							width: _self.arcbarWidth * _self.pixelRatio, //圆弧的宽度
-						}
+						},
 					},
-					background: '#FFFFFF',
+					background: "#FFFFFF",
 					pixelRatio: _self.pixelRatio,
 					series: chartData.series,
 					animation: false,
@@ -732,34 +883,33 @@
 					height: _self.cHeight3 * _self.pixelRatio,
 					dataLabel: true,
 				});
-
 			},
 			showArcbar2(canvasId, chartData) {
 				new uCharts({
 					$this: _self,
 					canvasId: canvasId,
-					type: 'arcbar',
+					type: "arcbar",
 					fontSize: 11,
 					title: {
-						name: Math.round(chartData.series[0].data * 100) + '%',
+						name: Math.round(chartData.series[0].data * 100) + "%",
 						color: chartData.series[0].color,
-						fontSize: 25 * _self.pixelRatio
+						fontSize: 25 * _self.pixelRatio,
 					},
 					subtitle: {
 						name: chartData.series[0].name,
-						color: '#666666',
-						fontSize: 15 * _self.pixelRatio
+						color: "#666666",
+						fontSize: 15 * _self.pixelRatio,
 					},
 					extra: {
 						arcbar: {
-							type: 'default',
+							type: "default",
 							width: _self.arcbarWidth * _self.pixelRatio, //圆弧的宽度
-							backgroundColor: '#ffe3e8',
+							backgroundColor: "#ffe3e8",
 							startAngle: 1.25,
-							endAngle: 0.75
-						}
+							endAngle: 0.75,
+						},
 					},
-					background: '#FFFFFF',
+					background: "#FFFFFF",
 					pixelRatio: _self.pixelRatio,
 					series: chartData.series,
 					animation: false,
@@ -767,32 +917,31 @@
 					height: _self.cHeight3 * _self.pixelRatio,
 					dataLabel: true,
 				});
-
 			},
 			showArcbar3(canvasId, chartData) {
 				new uCharts({
 					$this: _self,
 					canvasId: canvasId,
-					type: 'arcbar',
+					type: "arcbar",
 					fontSize: 11,
 					title: {
-						name: Math.round(chartData.series[0].data * 100) + '%',
+						name: Math.round(chartData.series[0].data * 100) + "%",
 						color: chartData.series[0].color,
-						fontSize: 25 * _self.pixelRatio
+						fontSize: 25 * _self.pixelRatio,
 					},
 					subtitle: {
 						name: chartData.series[0].name,
-						color: '#666666',
-						fontSize: 15 * _self.pixelRatio
+						color: "#666666",
+						fontSize: 15 * _self.pixelRatio,
 					},
 					extra: {
 						arcbar: {
-							type: 'circle', //整圆类型进度条图
+							type: "circle", //整圆类型进度条图
 							width: _self.arcbarWidth * _self.pixelRatio, //圆弧的宽度
-							startAngle: 0.5 //整圆类型只需配置起始角度即可
-						}
+							startAngle: 0.5, //整圆类型只需配置起始角度即可
+						},
 					},
-					background: '#FFFFFF',
+					background: "#FFFFFF",
 					pixelRatio: _self.pixelRatio,
 					series: chartData.series,
 					animation: false,
@@ -800,29 +949,28 @@
 					height: _self.cHeight3 * _self.pixelRatio,
 					dataLabel: true,
 				});
-
 			},
 			showGauge(canvasId, chartData) {
 				canvasObj[canvasId] = new uCharts({
 					$this: _self,
 					canvasId: canvasId,
-					type: 'gauge',
+					type: "gauge",
 					fontSize: 11,
 					title: {
-						name: Math.round(chartData.series[0].data * 100) + '%',
+						name: Math.round(chartData.series[0].data * 100) + "%",
 						color: chartData.categories[1].color,
 						fontSize: 25 * _self.pixelRatio,
 						offsetY: 50 * _self.pixelRatio, //新增参数，自定义调整Y轴文案距离
 					},
 					subtitle: {
 						name: chartData.series[0].name,
-						color: '#666666',
+						color: "#666666",
 						fontSize: 15 * _self.pixelRatio,
 						offsetY: -50 * _self.pixelRatio, //新增参数，自定义调整Y轴文案距离
 					},
 					extra: {
 						gauge: {
-							type: 'default',
+							type: "default",
 							width: _self.gaugeWidth * _self.pixelRatio, //仪表盘背景的宽度
 							startAngle: 0.75,
 							endAngle: 0.25,
@@ -832,17 +980,17 @@
 								fixRadius: 0,
 								splitNumber: 10,
 								width: _self.gaugeWidth * _self.pixelRatio, //仪表盘背景的宽度
-								color: '#FFFFFF',
+								color: "#FFFFFF",
 								childNumber: 5,
 								childWidth: _self.gaugeWidth * 0.4 * _self.pixelRatio, //仪表盘背景的宽度
 							},
 							pointer: {
 								width: _self.gaugeWidth * 0.8 * _self.pixelRatio, //指针宽度
-								color: 'auto'
-							}
-						}
+								color: "auto",
+							},
+						},
 					},
-					background: '#FFFFFF',
+					background: "#FFFFFF",
 					pixelRatio: _self.pixelRatio,
 					categories: chartData.categories,
 					series: chartData.series,
@@ -853,10 +1001,12 @@
 				});
 			},
 			changeGaugeData() {
-				let series = [{
-					name: "完成率",
-					data: Math.random()
-				}]; //这里是随机数据，生产环境请从服务器获取，注意series数据类型为数组
+				let series = [
+					{
+						name: "完成率",
+						data: Math.random(),
+					},
+				]; //这里是随机数据，生产环境请从服务器获取，注意series数据类型为数组
 				//这里我借用之前的categories数据，判断一下新数据的title.color，没有写死在程序里，以便于自定义
 				let newTitleColor;
 				for (let i = 0; i < _self.serverData.Gauge.categories.length; i++) {
@@ -866,28 +1016,28 @@
 					}
 				}
 
-				canvasObj['canvasGauge'].updateData({
+				canvasObj["canvasGauge"].updateData({
 					series: series, //这里给了新数值
 					categories: _self.serverData.Gauge.categories,
 					title: {
-						name: Math.round(series[0].data * 100) + '%',
+						name: Math.round(series[0].data * 100) + "%",
 						color: newTitleColor,
 						fontSize: 25 * _self.pixelRatio,
 						offsetY: 50 * _self.pixelRatio, //新增参数，自定义调整Y轴文案距离
 					},
 					subtitle: {
-						name: '更新数据',
-						color: '#666666',
+						name: "更新数据",
+						color: "#666666",
 						fontSize: 15 * _self.pixelRatio,
 						offsetY: -50 * _self.pixelRatio, //新增参数，自定义调整Y轴文案距离
-					}
+					},
 				});
 			},
 			showCandle(canvasId, chartData) {
 				canvasObj[canvasId] = new uCharts({
 					$this: _self,
 					canvasId: canvasId,
-					type: 'candle',
+					type: "candle",
 					fontSize: 11,
 					padding: [15, 15, 0, 15],
 					legend: {
@@ -896,7 +1046,7 @@
 						lineHeight: 11,
 						margin: 8,
 					},
-					background: '#FFFFFF',
+					background: "#FFFFFF",
 					pixelRatio: _self.pixelRatio,
 					enableMarkLine: true,
 					/***需要开启标记线***/
@@ -911,17 +1061,17 @@
 						//gridType:'dash',
 						itemCount: _self.itemCount, //可不填写，配合enableScroll图表拖拽功能使用，x轴单屏显示数据的数量，默认为5个
 						scrollShow: true, //新增是否显示滚动条，默认false
-						scrollAlign: 'right',
+						scrollAlign: "right",
 						//scrollBackgroundColor:'#F7F7FF',//可不填写，配合enableScroll图表拖拽功能使用，X轴滚动条背景颜色,默认为 #EFEBEF
 						//scrollColor:'#DEE7F7',//可不填写，配合enableScroll图表拖拽功能使用，X轴滚动条颜色,默认为 #A6A6A6
 					},
 					yAxis: {
 						//disabled:true
-						gridType: 'dash',
+						gridType: "dash",
 						splitNumber: 5,
 						format: (val) => {
-							return val.toFixed(0)
-						}
+							return val.toFixed(0);
+						},
 					},
 					width: _self.cWidth * _self.pixelRatio,
 					height: _self.cHeight * _self.pixelRatio,
@@ -930,90 +1080,93 @@
 					extra: {
 						candle: {
 							color: {
-								upLine: '#f04864',
-								upFill: '#f04864',
-								downLine: '#2fc25b',
-								downFill: '#2fc25b'
+								upLine: "#f04864",
+								upFill: "#f04864",
+								downLine: "#2fc25b",
+								downFill: "#2fc25b",
 							},
 							average: {
 								show: true,
-								name: ['MA5', 'MA10', 'MA30'],
+								name: ["MA5", "MA10", "MA30"],
 								day: [5, 10, 20],
-								color: ['#1890ff', '#2fc25b', '#facc14']
-							}
+								color: ["#1890ff", "#2fc25b", "#facc14"],
+							},
 						},
 						tooltip: {
-							bgColor: '#000000',
+							bgColor: "#000000",
 							bgOpacity: 0.7,
-							gridType: 'dash',
+							gridType: "dash",
 							dashLength: 5,
-							gridColor: '#1890ff',
-							fontColor: '#FFFFFF',
+							gridColor: "#1890ff",
+							fontColor: "#FFFFFF",
 							horizentalLine: true,
 							xAxisLabel: true,
 							yAxisLabel: true,
-							labelBgColor: '#DFE8FF',
+							labelBgColor: "#DFE8FF",
 							labelBgOpacity: 0.95,
-							labelAlign: 'left',
-							labelFontColor: '#666666'
+							labelAlign: "left",
+							labelFontColor: "#666666",
 						},
 						markLine: {
-							type: 'dash',
+							type: "dash",
 							dashLength: 5,
-							data: [{
-								value: 2150,
-								lineColor: '#f04864',
-								showLabel: true
-							}, {
-								value: 2350,
-								lineColor: '#f04864',
-								showLabel: true
-							}]
-						}
-					}
+							data: [
+								{
+									value: 2150,
+									lineColor: "#f04864",
+									showLabel: true,
+								},
+								{
+									value: 2350,
+									lineColor: "#f04864",
+									showLabel: true,
+								},
+							],
+						},
+					},
 				});
 			},
 			touchCandle(e) {
-				canvasObj['canvasCandle'].scrollStart(e);
+				canvasObj["canvasCandle"].scrollStart(e);
 			},
 			moveCandle(e) {
-				canvasObj['canvasCandle'].scroll(e);
+				canvasObj["canvasCandle"].scroll(e);
 			},
 			touchEndCandle(e) {
-				canvasObj['canvasCandle'].scrollEnd(e);
+				canvasObj["canvasCandle"].scrollEnd(e);
 				//下面是toolTip事件，如果滚动后不需要显示，可不填写
-				canvasObj['canvasCandle'].showToolTip(e, {
-					format: function(item, category) {
-						return category + ' ' + item.name + ':' + item.data
-					}
+				canvasObj["canvasCandle"].showToolTip(e, {
+					format: function (item, category) {
+						return category + " " + item.name + ":" + item.data;
+					},
 				});
 			},
 			changeData() {
-				canvasObj['canvasColumn'].updateData({
+				canvasObj["canvasColumn"].updateData({
 					series: _self.serverData.ColumnB.series,
-					categories: _self.serverData.ColumnB.categories
+					categories: _self.serverData.ColumnB.categories,
 				});
 			},
 			touchLineA(e) {
-				canvasObj['canvasLineA'].scrollStart(e);
+				canvasObj["canvasLineA"].scrollStart(e);
 			},
 			moveLineA(e) {
-				canvasObj['canvasLineA'].scroll(e);
+				canvasObj["canvasLineA"].scroll(e);
 			},
 			touchEndLineA(e) {
-				canvasObj['canvasLineA'].scrollEnd(e);
+				canvasObj["canvasLineA"].scrollEnd(e);
 				//下面是toolTip事件，如果滚动后不需要显示，可不填写
-				canvasObj['canvasLineA'].showToolTip(e, {
-					format: function(item, category) {
-						return category + ' ' + item.name + ':' + item.data
-					}
+				canvasObj["canvasLineA"].showToolTip(e, {
+					format: function (item, category) {
+						return category + " " + item.name + ":" + item.data;
+					},
 				});
 			},
 			showMix(canvasId, chartData) {
 				canvasObj[canvasId] = new uCharts({
 					$this: _self,
 					canvasId: canvasId,
-					type: 'mix',
+					type: "mix",
 					fontSize: 11,
 					padding: [15, 15, 0, 15],
 					legend: {
@@ -1022,7 +1175,7 @@
 						lineHeight: 11,
 						margin: 6,
 					},
-					background: '#FFFFFF',
+					background: "#FFFFFF",
 					pixelRatio: _self.pixelRatio,
 					categories: chartData.categories,
 					series: chartData.series,
@@ -1030,21 +1183,21 @@
 					enableScroll: true, //开启图表拖拽功能
 					xAxis: {
 						disableGrid: false,
-						type: 'grid',
-						gridType: 'dash',
+						type: "grid",
+						gridType: "dash",
 						itemCount: 4,
 						scrollShow: true,
-						scrollAlign: 'left',
+						scrollAlign: "left",
 					},
 					yAxis: {
-						gridType: 'dash',
+						gridType: "dash",
 						dashLength: 4,
 						splitNumber: 5,
 						min: 10,
 						max: 180,
 						format: (val) => {
-							return val.toFixed(0)
-						}
+							return val.toFixed(0);
+						},
 					},
 					width: _self.cWidth * _self.pixelRatio,
 					height: _self.cHeight * _self.pixelRatio,
@@ -1052,65 +1205,65 @@
 					dataPointShape: true,
 					extra: {
 						column: {
-							width: 20 * _self.pixelRatio
+							width: 20 * _self.pixelRatio,
 						},
 						tooltip: {
-							bgColor: '#000000',
+							bgColor: "#000000",
 							bgOpacity: 0.7,
-							gridType: 'dash',
+							gridType: "dash",
 							dashLength: 8,
-							gridColor: '#1890ff',
-							fontColor: '#FFFFFF',
+							gridColor: "#1890ff",
+							fontColor: "#FFFFFF",
 							horizentalLine: true,
 							xAxisLabel: true,
 							yAxisLabel: true,
-							labelBgColor: '#DFE8FF',
+							labelBgColor: "#DFE8FF",
 							labelBgOpacity: 0.95,
-							labelAlign: 'left',
-							labelFontColor: '#666666'
-						}
+							labelAlign: "left",
+							labelFontColor: "#666666",
+						},
 					},
 				});
 			},
 			touchMix(e) {
-				canvasObj['canvasMix'].scrollStart(e);
+				canvasObj["canvasMix"].scrollStart(e);
 			},
 			moveMix(e) {
-				canvasObj['canvasMix'].scroll(e);
+				canvasObj["canvasMix"].scroll(e);
 			},
 			touchEndMix(e) {
-				canvasObj['canvasMix'].scrollEnd(e);
-				canvasObj['canvasMix'].touchLegend(e);
+				canvasObj["canvasMix"].scrollEnd(e);
+				canvasObj["canvasMix"].touchLegend(e);
 				//下面是toolTip事件，如果滚动后不需要显示，可不填写
-				canvasObj['canvasMix'].showToolTip(e, {
-					format: function(item, category) {
-						return category + ' ' + item.name + ':' + item.data
-					}
+				canvasObj["canvasMix"].showToolTip(e, {
+					format: function (item, category) {
+						return category + " " + item.name + ":" + item.data;
+					},
 				});
 			},
 			touchIt(e, id) {
 				canvasObj[id].touchLegend(e, {
-					animation: false
+					animation: false,
 				});
 				canvasObj[id].showToolTip(e, {
-					format: function(item, category) {
-						if (typeof item.data === 'object') {
-							return category + ' ' + item.name + ':' + item.data.value
+					format: function (item, category) {
+						if (typeof item.data === "object") {
+							return category + " " + item.name + ":" + item.data.value;
 						} else {
-							return category + ' ' + item.name + ':' + item.data
+							return category + " " + item.name + ":" + item.data;
 						}
-					}
+					},
 				});
 			},
 			touchPie(e, id) {
 				canvasObj[id].showToolTip(e, {
-					format: function(item) {
-						return item.name + ':' + item.data
-					}
+					format: function (item) {
+						return item.name + ":" + item.data;
+					},
 				});
 			},
-		}
-	}
+		},
+	};
 </script>
 
 <style>
@@ -1146,7 +1299,7 @@
 	}
 
 	.qiun-bg-white {
-		background: #FFFFFF;
+		background: #ffffff;
 	}
 
 	.qiun-title-bar {
@@ -1159,7 +1312,7 @@
 		border-left: 10rpx solid #0ea391;
 		padding-left: 10rpx;
 		font-size: 32rpx;
-		color: #000000
+		color: #000000;
 	}
 
 	/* 通用样式 */
@@ -1167,28 +1320,28 @@
 		/* width: 750rpx; */
 		/* width:100%; */
 		height: 500rpx;
-		background-color: #FFFFFF;
+		background-color: #ffffff;
 	}
 
 	.charts {
 		/* width: 750rpx; */
-		width:100%;
+		width: 100%;
 		height: 500rpx;
-		background-color: #FFFFFF;
+		background-color: #ffffff;
 	}
 
 	/* 横屏样式 */
 	.qiun-charts-rotate {
 		width: 700rpx;
 		height: 1100rpx;
-		background-color: #FFFFFF;
+		background-color: #ffffff;
 		padding: 25rpx;
 	}
 
 	.charts-rotate {
 		width: 700rpx;
 		height: 1100rpx;
-		background-color: #FFFFFF;
+		background-color: #ffffff;
 	}
 
 	/* 圆弧进度样式 */
@@ -1196,7 +1349,7 @@
 		/* width: 750rpx;
 		width:100%; */
 		height: 250rpx;
-		background-color: #FFFFFF;
+		background-color: #ffffff;
 		position: relative;
 	}
 
@@ -1204,7 +1357,7 @@
 		position: absolute;
 		width: 250rpx;
 		height: 250rpx;
-		background-color: #FFFFFF;
+		background-color: #ffffff;
 	}
 
 	.qiun-tip {
@@ -1221,6 +1374,6 @@
 		justify-content: center;
 		text-align: center;
 		border: 1px solid #dc7004;
-		color: #FFFFFF;
+		color: #ffffff;
 	}
 </style>

@@ -1,0 +1,17 @@
+com.android.simple.simpleDemo-jetified-glide-4.9.0-0 /Users/huangchao/.gradle/caches/transforms-3/1d26a2845c0b204fbca7b9d4fec7ed7c/transformed/jetified-glide-4.9.0/res
+com.android.simple.simpleDemo-jetified-drawee-2.5.0-1 /Users/huangchao/.gradle/caches/transforms-3/23899406b797376ee6d12942c8fe571d/transformed/jetified-drawee-2.5.0/res
+com.android.simple.simpleDemo-appcompat-1.1.0-2 /Users/huangchao/.gradle/caches/transforms-3/2a9b92c877402764a3e7913ce70ca90a/transformed/appcompat-1.1.0/res
+com.android.simple.simpleDemo-jetified-lib.5plus.base-release-3 /Users/huangchao/.gradle/caches/transforms-3/48934177f4fa8128ff7e786cff245daa/transformed/jetified-lib.5plus.base-release/res
+com.android.simple.simpleDemo-jetified-appcompat-resources-1.1.0-4 /Users/huangchao/.gradle/caches/transforms-3/49094f682278828ec20833e67162cc88/transformed/jetified-appcompat-resources-1.1.0/res
+com.android.simple.simpleDemo-jetified-android-gif-drawable-release@1.2.23-5 /Users/huangchao/.gradle/caches/transforms-3/4ff58228d152e21084156bd2ee1c9c7a/transformed/jetified-android-gif-drawable-release@1.2.23/res
+com.android.simple.simpleDemo-jetified-uniapp-v8-release-6 /Users/huangchao/.gradle/caches/transforms-3/5a1d8ec08bf2c920514289e3e01aa8cd/transformed/jetified-uniapp-v8-release/res
+com.android.simple.simpleDemo-core-1.1.0-7 /Users/huangchao/.gradle/caches/transforms-3/9cf963599b82f1e0a12b112ef00e0003/transformed/core-1.1.0/res
+com.android.simple.simpleDemo-recyclerview-1.1.0-8 /Users/huangchao/.gradle/caches/transforms-3/9d6a9b815b8b84389603054e5ae705fd/transformed/recyclerview-1.1.0/res
+com.android.simple.simpleDemo-pngs-9 /Users/huangchao/works/Study/uni-app/BuildAndroid/HBuilder-Integrate-AS/simpleDemo/build/generated/res/pngs/debug
+com.android.simple.simpleDemo-resValues-10 /Users/huangchao/works/Study/uni-app/BuildAndroid/HBuilder-Integrate-AS/simpleDemo/build/generated/res/resValues/debug
+com.android.simple.simpleDemo-rs-11 /Users/huangchao/works/Study/uni-app/BuildAndroid/HBuilder-Integrate-AS/simpleDemo/build/generated/res/rs/debug
+com.android.simple.simpleDemo-mergeDebugResources-12 /Users/huangchao/works/Study/uni-app/BuildAndroid/HBuilder-Integrate-AS/simpleDemo/build/intermediates/incremental/debug/mergeDebugResources/merged.dir
+com.android.simple.simpleDemo-mergeDebugResources-13 /Users/huangchao/works/Study/uni-app/BuildAndroid/HBuilder-Integrate-AS/simpleDemo/build/intermediates/incremental/debug/mergeDebugResources/stripped.dir
+com.android.simple.simpleDemo-merged_res-14 /Users/huangchao/works/Study/uni-app/BuildAndroid/HBuilder-Integrate-AS/simpleDemo/build/intermediates/merged_res/debug
+com.android.simple.simpleDemo-debug-15 /Users/huangchao/works/Study/uni-app/BuildAndroid/HBuilder-Integrate-AS/simpleDemo/src/debug/res
+com.android.simple.simpleDemo-main-16 /Users/huangchao/works/Study/uni-app/BuildAndroid/HBuilder-Integrate-AS/simpleDemo/src/main/res

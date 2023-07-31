@@ -7,7 +7,7 @@
 		<uni-section title="按钮形状" sub-title="添加类名 .uni-btn-radius 可以使用圆角按钮" type="line">
 			<view class="uni-ma-5 uni-pb-5">
 				<button class="uni-btn">默认按钮</button>
-				<button class="uni-btn uni-btn-radius " hover-class="hover-class">圆角</button>
+				<button class="uni-btn uni-btn-radius" hover-class="hover-class">圆角</button>
 			</view>
 		</uni-section>
 		<uni-section title="按钮形状(size=mini)" sub-title="添加类名 .uni-btn-radius 可以使用圆角按钮" type="line">
@@ -47,7 +47,6 @@
 				<button class="uni-btn" plain type="info">info</button>
 			</view>
 		</uni-section>
-
 
 		<uni-section title="镂空按钮(size=mini)" sub-title="添加类名 .uni-btn-plain 使用镂空按钮" type="line">
 			<view class="uni-ma-5 uni-pb-5">
@@ -92,11 +91,11 @@
 <script>
 	export default {
 		data() {
-			return {}
+			return {};
 		},
 		onLoad() {},
-		methods: {}
-	}
+		methods: {},
+	};
 </script>
 <style lang="scss">
 	.hover-class-test {

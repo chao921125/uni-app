@@ -23,71 +23,77 @@
 	export default {
 		data() {
 			return {
-				title: 'createAnimation',
-				animationData: ''
-			}
+				title: "createAnimation",
+				animationData: "",
+			};
 		},
-		onUnload(){
-			this.animationData = ''
+		onUnload() {
+			this.animationData = "";
 		},
 		onLoad() {
-			this.animation = uni.createAnimation()
+			this.animation = uni.createAnimation();
 		},
 		methods: {
 			rotate: function () {
-				this.animation.rotate(Math.random() * 720 - 360).step()
-				this.animationData = this.animation.export()
+				this.animation.rotate(Math.random() * 720 - 360).step();
+				this.animationData = this.animation.export();
 			},
 			scale: function () {
-				this.animation.scale(Math.random() * 2).step()
-				this.animationData = this.animation.export()
+				this.animation.scale(Math.random() * 2).step();
+				this.animationData = this.animation.export();
 			},
 			translate: function () {
-				this.animation.translate(Math.random() * 100 - 50, Math.random() * 100 - 50).step()
-				this.animationData = this.animation.export()
+				this.animation.translate(Math.random() * 100 - 50, Math.random() * 100 - 50).step();
+				this.animationData = this.animation.export();
 			},
 			skew: function () {
-				this.animation.skew(Math.random() * 90, Math.random() * 90).step()
-				this.animationData = this.animation.export()
+				this.animation.skew(Math.random() * 90, Math.random() * 90).step();
+				this.animationData = this.animation.export();
 			},
 			rotateAndScale: function () {
-				this.animation.rotate(Math.random() * 720 - 360)
+				this.animation
+					.rotate(Math.random() * 720 - 360)
 					.scale(Math.random() * 2)
-					.step()
-				this.animationData = this.animation.export()
+					.step();
+				this.animationData = this.animation.export();
 			},
 			rotateThenScale: function () {
-				this.animation.rotate(Math.random() * 720 - 360).step()
-					.scale(Math.random() * 2).step()
-				this.animationData = this.animation.export()
+				this.animation
+					.rotate(Math.random() * 720 - 360)
+					.step()
+					.scale(Math.random() * 2)
+					.step();
+				this.animationData = this.animation.export();
 			},
 			all: function () {
-				this.animation.rotate(Math.random() * 720 - 360)
+				this.animation
+					.rotate(Math.random() * 720 - 360)
 					.scale(Math.random() * 2)
 					.translate(Math.random() * 100 - 50, Math.random() * 100 - 50)
 					.skew(Math.random() * 90, Math.random() * 90)
-					.step()
-				this.animationData = this.animation.export()
+					.step();
+				this.animationData = this.animation.export();
 			},
 			allInQueue: function () {
-				this.animation.rotate(Math.random() * 720 - 360).step()
-					.scale(Math.random() * 2).step()
-					.translate(Math.random() * 100 - 50, Math.random() * 100 - 50).step()
-					.skew(Math.random() * 90, Math.random() * 90).step()
-				this.animationData = this.animation.export()
+				this.animation
+					.rotate(Math.random() * 720 - 360)
+					.step()
+					.scale(Math.random() * 2)
+					.step()
+					.translate(Math.random() * 100 - 50, Math.random() * 100 - 50)
+					.step()
+					.skew(Math.random() * 90, Math.random() * 90)
+					.step();
+				this.animationData = this.animation.export();
 			},
 			reset: function () {
-				this.animation.rotate(0, 0)
-					.scale(1)
-					.translate(0, 0)
-					.skew(0, 0)
-					.step({
-						duration: 0
-					})
-				this.animationData = this.animation.export()
-			}
-		}
-	}
+				this.animation.rotate(0, 0).scale(1).translate(0, 0).skew(0, 0).step({
+					duration: 0,
+				});
+				this.animationData = this.animation.export();
+			},
+		},
+	};
 </script>
 
 <style>
@@ -104,11 +110,11 @@
 	.animation-element {
 		width: 200rpx;
 		height: 200rpx;
-		background-color: #1AAD19;
+		background-color: #1aad19;
 	}
 
 	.animation-buttons {
-		padding:30rpx 0;
+		padding: 30rpx 0;
 		width: 100%;
 		/* height: 360rpx; */
 	}

@@ -1,7 +1,7 @@
 /* #ifndef APP-NVUE */
 
-$-color-white:#fff;
-$-color-black:#000;
+$-color-white: #fff;
+$-color-black: #000;
 @mixin base-style($color) {
 	color: #fff;
 	background-color: $color;
@@ -18,85 +18,82 @@ $-color-black:#000;
 	&[loading] {
 		@include base-style($color);
 		&::before {
-			margin-right:5px;
+			margin-right: 5px;
 		}
 	}
 	&[disabled] {
-	  &,
+		&,
 		&[loading],
-	  &:not([hover-class]):active {
-	    color: $-color-white;
-			border-color: mix(darken($color,10%), $-color-white);
-	    background-color: mix($color, $-color-white);
-	  }
+		&:not([hover-class]):active {
+			color: $-color-white;
+			border-color: mix(darken($color, 10%), $-color-white);
+			background-color: mix($color, $-color-white);
+		}
 	}
-
 }
 @mixin base-plain-style($color) {
-	color:$color;
+	color: $color;
 	background-color: mix($-color-white, $color, 90%);
 	border-color: mix($-color-white, $color, 70%);
 	&:not([hover-class]):active {
-	  background: mix($-color-white, $color, 80%);
-	  color: $color;
-	  outline: none;
+		background: mix($-color-white, $color, 80%);
+		color: $color;
+		outline: none;
 		border-color: mix($-color-white, $color, 50%);
 	}
 }
-@mixin is-plain($color){
+@mixin is-plain($color) {
 	&[plain] {
 		@include base-plain-style($color);
 		&[loading] {
 			@include base-plain-style($color);
 			&::before {
-				margin-right:5px;
+				margin-right: 5px;
 			}
 		}
 		&[disabled] {
-		  &,
-		  &:active {
-		    color: mix($-color-white, $color, 40%);
-		    background-color: mix($-color-white, $color, 90%);
+			&,
+			&:active {
+				color: mix($-color-white, $color, 40%);
+				background-color: mix($-color-white, $color, 90%);
 				border-color: mix($-color-white, $color, 80%);
-		  }
+			}
 		}
 	}
 }
 
-
 .uni-btn {
 	margin: 5px;
 	color: #393939;
-	border:1px solid #ccc;
+	border: 1px solid #ccc;
 	font-size: 16px;
 	font-weight: 200;
-	background-color: #F9F9F9;
+	background-color: #f9f9f9;
 	// TODO 暂时处理边框隐藏一边的问题
 	overflow: visible;
-	&::after{
+	&::after {
 		border: none;
 	}
 
-	&:not([type]),&[type=default] {
+	&:not([type]),
+	&[type="default"] {
 		color: #999;
 		&[loading] {
 			background: none;
 			&::before {
-				margin-right:5px;
+				margin-right: 5px;
 			}
 		}
 
-
-
-		&[disabled]{
+		&[disabled] {
 			color: mix($-color-white, #999, 60%);
-		  &,
+			&,
 			&[loading],
-		  &:active {
+			&:active {
 				color: mix($-color-white, #999, 60%);
-		    background-color: mix($-color-white,$-color-black , 98%);
-				border-color: mix($-color-white,  #999, 85%);
-		  }
+				background-color: mix($-color-white, $-color-black, 98%);
+				border-color: mix($-color-white, #999, 85%);
+			}
 		}
 
 		&[plain] {
@@ -105,33 +102,31 @@ $-color-black:#000;
 			border-color: $uni-border-1;
 			&:not([hover-class]):active {
 				background: none;
-			  color: mix($-color-white, $-color-black, 80%);
+				color: mix($-color-white, $-color-black, 80%);
 				border-color: mix($-color-white, $-color-black, 90%);
-			  outline: none;
+				outline: none;
 			}
-			&[disabled]{
-			  &,
+			&[disabled] {
+				&,
 				&[loading],
-			  &:active {
-			    background: none;
+				&:active {
+					background: none;
 					color: mix($-color-white, #999, 60%);
-					border-color: mix($-color-white,  #999, 85%);
-			  }
+					border-color: mix($-color-white, #999, 85%);
+				}
 			}
 		}
 	}
 
 	&:not([hover-class]):active {
-	  color: mix($-color-white, $-color-black, 50%);
+		color: mix($-color-white, $-color-black, 50%);
 	}
 
-	&[size=mini] {
+	&[size="mini"] {
 		font-size: 16px;
 		font-weight: 200;
 		border-radius: 8px;
 	}
-
-
 
 	&.uni-btn-small {
 		font-size: 14px;
@@ -143,25 +138,25 @@ $-color-black:#000;
 	&.uni-btn-radius {
 		border-radius: 999px;
 	}
-	&[type=primary] {
+	&[type="primary"] {
 		@include is-color($uni-primary);
-		@include is-plain($uni-primary)
+		@include is-plain($uni-primary);
 	}
-	&[type=success] {
+	&[type="success"] {
 		@include is-color($uni-success);
-		@include is-plain($uni-success)
+		@include is-plain($uni-success);
 	}
-	&[type=error] {
+	&[type="error"] {
 		@include is-color($uni-error);
-		@include is-plain($uni-error)
+		@include is-plain($uni-error);
 	}
-	&[type=warning] {
+	&[type="warning"] {
 		@include is-color($uni-warning);
-		@include is-plain($uni-warning)
+		@include is-plain($uni-warning);
 	}
-	&[type=info] {
+	&[type="info"] {
 		@include is-color($uni-info);
-		@include is-plain($uni-info)
+		@include is-plain($uni-info);
 	}
 }
 /* #endif */

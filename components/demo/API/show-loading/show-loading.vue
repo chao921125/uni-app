@@ -15,35 +15,32 @@
 	export default {
 		data() {
 			return {
-				title: 'loading'
-			}
+				title: "loading",
+			};
 		},
 		methods: {
-			showLoading: function() {
+			showLoading: function () {
 				uni.showLoading({
-					title: 'loading'
+					title: "loading",
 				});
 
 				// #ifdef MP-ALIPAY
 				this._showTimer && clearTimeout(this._showTimer);
 				this._showTimer = setTimeout(() => {
 					this.hideLoading();
-				}, 3000)
+				}, 3000);
 				// #endif
 			},
-			hideLoading: function() {
+			hideLoading: function () {
 				uni.hideLoading();
-			}
-		}
+			},
+		},
 		// #ifdef MP-ALIPAY
-		,
 		onUnload() {
 			this._showTimer && clearTimeout(this._showTimer);
-		}
+		},
 		// #endif
-	}
+	};
 </script>
 
-<style>
-
-</style>
+<style></style>

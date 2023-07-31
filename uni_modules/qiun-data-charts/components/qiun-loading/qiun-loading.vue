@@ -1,10 +1,10 @@
 <template>
 	<view>
-	 <Loading1 v-if="loadingType==1"/>
-	 <Loading2 v-if="loadingType==2"/>
-	 <Loading3 v-if="loadingType==3"/>
-	 <Loading4 v-if="loadingType==4"/>
-	 <Loading5 v-if="loadingType==5"/>
+		<Loading1 v-if="loadingType == 1" />
+		<Loading2 v-if="loadingType == 2" />
+		<Loading3 v-if="loadingType == 3" />
+		<Loading4 v-if="loadingType == 4" />
+		<Loading5 v-if="loadingType == 5" />
 	</view>
 </template>
 
@@ -15,22 +15,18 @@
 	import Loading4 from "./loading4.vue";
 	import Loading5 from "./loading5.vue";
 	export default {
-		components:{Loading1,Loading2,Loading3,Loading4,Loading5},
-		name: 'qiun-loading',
+		components: { Loading1, Loading2, Loading3, Loading4, Loading5 },
+		name: "qiun-loading",
 		props: {
 			loadingType: {
 				type: Number,
-				default: 2
+				default: 2,
 			},
 		},
 		data() {
-			return {
-				
-			};
+			return {};
 		},
-	}
+	};
 </script>
 
-<style>
-
-</style>
+<style></style>

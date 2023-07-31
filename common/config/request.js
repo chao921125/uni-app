@@ -1,6 +1,6 @@
 export default {
 	// #ifndef H5
-	getBaseUrl: function() {
+	getBaseUrl: function () {
 		if (process.env.NODE_ENV === "development") {
 			return "http://127.0.0.1:8080/"; // qe & 本地环境
 		} else {
@@ -9,7 +9,7 @@ export default {
 	},
 	// #endif
 	// #ifdef H5
-	getBaseUrl: function() {
+	getBaseUrl: function () {
 		if (process.env.NODE_ENV === "development") {
 			return "/"; // qe & 本地环境
 		} else {
@@ -20,7 +20,7 @@ export default {
 	httpCode: {
 		unLogin: 1001,
 		error: 5000,
-		success: 9999
+		success: 9999,
 	},
-	httpCodeStr: {}
-}
+	httpCodeStr: {},
+};

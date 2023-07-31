@@ -17,70 +17,70 @@
 	export default {
 		data() {
 			return {
-				title: 'uploadFile',
-				imageSrc: ''
-			}
+				title: "uploadFile",
+				imageSrc: "",
+			};
 		},
 		onUnload() {
-			this.imageSrc = '';
+			this.imageSrc = "";
 		},
 		methods: {
-			chooseImage: function() {
+			chooseImage: function () {
 				uni.chooseImage({
 					count: 1,
-					sizeType: ['compressed'],
-					sourceType: ['album'],
+					sizeType: ["compressed"],
+					sourceType: ["album"],
 					success: (res) => {
-						console.log('chooseImage success, temp path is', res.tempFilePaths[0])
-						var imageSrc = res.tempFilePaths[0]
+						console.log("chooseImage success, temp path is", res.tempFilePaths[0]);
+						var imageSrc = res.tempFilePaths[0];
 						uni.uploadFile({
-							url: 'https://unidemo.dcloud.net.cn/upload',
+							url: "https://unidemo.dcloud.net.cn/upload",
 							filePath: imageSrc,
-							fileType: 'image',
-							name: 'data',
+							fileType: "image",
+							name: "data",
 							success: (res) => {
-								console.log('uploadImage success, res is:', res)
+								console.log("uploadImage success, res is:", res);
 								uni.showToast({
-									title: '上传成功',
-									icon: 'success',
-									duration: 1000
-								})
-								this.imageSrc = imageSrc
+									title: "上传成功",
+									icon: "success",
+									duration: 1000,
+								});
+								this.imageSrc = imageSrc;
 							},
 							fail: (err) => {
-								console.log('uploadImage fail', err);
+								console.log("uploadImage fail", err);
 								uni.showModal({
 									content: err.errMsg,
-									showCancel: false
+									showCancel: false,
 								});
-							}
+							},
 						});
 					},
 					fail: (err) => {
-						console.log('chooseImage fail', err)
+						console.log("chooseImage fail", err);
 						// #ifdef MP
 						uni.getSetting({
 							success: (res) => {
-								let authStatus = res.authSetting['scope.album'];
+								let authStatus = res.authSetting["scope.album"];
 								if (!authStatus) {
 									uni.showModal({
-										title: '授权失败',
-										content: 'Hello uni-app需要从您的相册获取图片，请在设置界面打开相关权限',
+										title: "授权失败",
+										content: "Hello uni-app需要从您的相册获取图片，请在设置界面打开相关权限",
 										success: (res) => {
 											if (res.confirm) {
-												uni.openSetting()
+												uni.openSetting();
 											}
-										}
-									})
+										},
+									});
 								}
-							}
-						})
+							},
+						});
 						// #endif
-					}
-				})
-			}
-		}
-	}
+					},
+				});
+			},
+		},
+	};
 </script>
 
 <style>
@@ -89,7 +89,7 @@
 	}
 
 	.demo {
-		background: #FFF;
+		background: #fff;
 		padding: 50rpx;
 	}
 </style>

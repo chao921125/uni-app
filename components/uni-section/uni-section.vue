@@ -2,24 +2,23 @@
 	<view class="uni-section">
 		<view class="uni-section-header" nvue>
 			<view v-if="type" class="uni-section__head">
-				<view :class="type" class="uni-section__head-tag"/>
+				<view :class="type" class="uni-section__head-tag" />
 			</view>
 			<view class="uni-section__content">
-				<text :class="{'distraction':!subTitle}" :style="{color:color}" class="uni-section__content-title">{{ title }}</text>
+				<text :class="{ distraction: !subTitle }" :style="{ color: color }" class="uni-section__content-title">{{ title }}</text>
 				<text v-if="subTitle" class="uni-section__content-sub">{{ subTitle }}</text>
 			</view>
 			<view>
 				<slot name="right"></slot>
 			</view>
 		</view>
-		<view :class="{'is--hidden':overflow}" :style="{padding: padding ? '10px' : ''}">
-			<slot/>
+		<view :class="{ 'is--hidden': overflow }" :style="{ padding: padding ? '10px' : '' }">
+			<slot />
 		</view>
 	</view>
 </template>
 
 <script>
-
 	/**
 	 * Section 标题栏
 	 * @description 标题栏
@@ -31,52 +30,52 @@
 	 */
 
 	export default {
-		name: 'UniSection',
-		emits:['click'],
+		name: "UniSection",
+		emits: ["click"],
 		props: {
 			type: {
 				type: String,
-				default: ''
+				default: "",
 			},
 			title: {
 				type: String,
-				default: ''
+				default: "",
 			},
-			color:{
+			color: {
 				type: String,
-				default: '#333'
+				default: "#333",
 			},
 			subTitle: {
 				type: String,
-				default: ''
+				default: "",
 			},
 			padding: {
 				type: Boolean,
-				default: false
+				default: false,
 			},
-			overflow :{
+			overflow: {
 				type: Boolean,
-				default: false
-			}
+				default: false,
+			},
 		},
 		data() {
-			return {}
+			return {};
 		},
 		watch: {
 			title(newVal) {
-				if (uni.report && newVal !== '') {
-					uni.report('title', newVal)
+				if (uni.report && newVal !== "") {
+					uni.report("title", newVal);
 				}
-			}
+			},
 		},
 		methods: {
 			onClick() {
-				this.$emit('click')
-			}
-		}
-	}
+				this.$emit("click");
+			},
+		},
+	};
 </script>
-<style lang="scss" >
+<style lang="scss">
 	$uni-primary: #2979ff !default;
 
 	.uni-section {

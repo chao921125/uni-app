@@ -27,13 +27,13 @@
 	export default {
 		data() {
 			return {
-				title: 'saveFile',
-				tempFilePath: '',
-				savedFilePath: ''
-			}
+				title: "saveFile",
+				tempFilePath: "",
+				savedFilePath: "",
+			};
 		},
 		onLoad() {
-			this.savedFilePath = uni.getStorageSync('savedFilePath');
+			this.savedFilePath = uni.getStorageSync("savedFilePath");
 		},
 		methods: {
 			chooseImage() {
@@ -46,22 +46,22 @@
 						// #ifdef MP
 						uni.getSetting({
 							success: (res) => {
-								let authStatus = res.authSetting['scope.album'] && res.authSetting['scope.camera'];
+								let authStatus = res.authSetting["scope.album"] && res.authSetting["scope.camera"];
 								if (!authStatus) {
 									uni.showModal({
-										title: '授权失败',
-										content: 'Hello uni-app需要从您的相机或相册获取图片，请在设置界面打开相关权限',
+										title: "授权失败",
+										content: "Hello uni-app需要从您的相机或相册获取图片，请在设置界面打开相关权限",
 										success: (res) => {
 											if (res.confirm) {
-												uni.openSetting()
+												uni.openSetting();
 											}
-										}
-									})
+										},
+									});
 								}
-							}
-						})
+							},
+						});
 						// #endif
-					}
+					},
 				});
 			},
 			saveFile() {
@@ -70,50 +70,50 @@
 						tempFilePath: this.tempFilePath,
 						success: (res) => {
 							this.savedFilePath = res.savedFilePath;
-							uni.setStorageSync('savedFilePath', res.savedFilePath);
+							uni.setStorageSync("savedFilePath", res.savedFilePath);
 							uni.showModal({
-								title: '保存成功',
-								content: '下次进入页面时，此文件仍可用',
-								showCancel: false
+								title: "保存成功",
+								content: "下次进入页面时，此文件仍可用",
+								showCancel: false,
 							});
 						},
 						fail: (res) => {
 							uni.showModal({
-								title: '保存失败',
-								content: '失败原因: ' + JSON.stringify(res),
-								showCancel: false
+								title: "保存失败",
+								content: "失败原因: " + JSON.stringify(res),
+								showCancel: false,
 							});
-						}
-					})
+						},
+					});
 				} else {
 					uni.showModal({
-						content: '请选择文件',
-						showCancel: false
+						content: "请选择文件",
+						showCancel: false,
 					});
 				}
 			},
 			clear() {
-				uni.setStorageSync('savedFilePath', '');
-				this.tempFilePath = '';
-				this.savedFilePath = '';
+				uni.setStorageSync("savedFilePath", "");
+				this.tempFilePath = "";
+				this.savedFilePath = "";
 			},
 			// #ifndef MP-ALIPAY || MP-TOUTIAO
 			openDocument() {
 				uni.downloadFile({
-					url: 'https://vkceyugu.cdn.bspapp.com/VKCEYUGU-dc-site/b3f1d0b0-5168-11eb-bd01-97bc1429a9ff.pdf',
+					url: "https://vkceyugu.cdn.bspapp.com/VKCEYUGU-dc-site/b3f1d0b0-5168-11eb-bd01-97bc1429a9ff.pdf",
 					success: (res) => {
 						uni.openDocument({
 							filePath: res.tempFilePath,
 							success: () => {
-								console.log('打开文档成功');
-							}
+								console.log("打开文档成功");
+							},
 						});
-					}
+					},
 				});
 			},
 			// #endif
-		}
-	}
+		},
+	};
 </script>
 
 <style>

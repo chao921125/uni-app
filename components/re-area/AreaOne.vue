@@ -3,15 +3,14 @@
 </template>
 
 <script>
-    import area from "@/common/libs/area.js";
+	import area from "@/common/libs/area.js";
 	import { ref, reactive, watchEffect, toRefs } from "vue";
 
-	
 	export default {
 		props: {
 			areaDefaultSelect: {
 				type: Number,
-				default: 0
+				default: 0,
 			},
 		},
 		setup(props, context) {
@@ -25,11 +24,11 @@
 				areaName: "",
 			});
 			const areaSelect = ref(props.areaDefaultSelect);
-			
+
 			watchEffect(() => {
 				areaSelect.value = props.areaDefaultSelect || 0;
 			});
-			
+
 			function onchange(e) {
 				let returnObj = {};
 				Object.assign(returnObj, {
@@ -54,11 +53,10 @@
 				areaObject,
 				areaSelect,
 				onchange,
-				onnodeclick
-			}
+				onnodeclick,
+			};
 		},
-	}
+	};
 </script>
 
-<style>
-</style>
+<style></style>

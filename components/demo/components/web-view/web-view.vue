@@ -8,8 +8,8 @@
 	export default {
 		data() {
 			return {
-				url: 'https://uniapp.dcloud.io/static/web-view.html'
-			}
+				url: "https://uniapp.dcloud.io/static/web-view.html",
+			};
 		},
 		onLoad(options) {
 			if (options && options.url) {
@@ -20,13 +20,11 @@
 			getMessage(event) {
 				uni.showModal({
 					content: JSON.stringify(event.detail),
-					showCancel: false
+					showCancel: false,
 				});
-			}
-		}
-	}
+			},
+		},
+	};
 </script>
 
-<style>
-
-</style>
+<style></style>

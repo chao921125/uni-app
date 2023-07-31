@@ -3,22 +3,14 @@
 		<page-head :title="title"></page-head>
 		<view class="uni-card">
 			<view class="uni-list">
-				<view class="uni-list-cell-divider">
-					右侧带箭头
-				</view>
+				<view class="uni-list-cell-divider"> 右侧带箭头 </view>
 				<view class="uni-list-cell" hover-class="uni-list-cell-hover">
-					<view class="uni-list-cell-navigate uni-navigate-right">
-						Item1
-					</view>
+					<view class="uni-list-cell-navigate uni-navigate-right"> Item1 </view>
 				</view>
 				<view class="uni-list-cell uni-list-cell-last" hover-class="uni-list-cell-hover">
-					<view class="uni-list-cell-navigate uni-navigate-right">
-						Item2
-					</view>
+					<view class="uni-list-cell-navigate uni-navigate-right"> Item2 </view>
 				</view>
-				<view class="uni-list-cell-divider">
-					右侧带数字角标
-				</view>
+				<view class="uni-list-cell-divider"> 右侧带数字角标 </view>
 				<view class="uni-list-cell" hover-class="uni-list-cell-hover">
 					<view class="uni-list-cell-navigate">
 						Item2
@@ -31,9 +23,7 @@
 						<uni-badge text="123" type="success"></uni-badge>
 					</view>
 				</view>
-				<view class="uni-list-cell-divider">
-					右侧带数字角标+箭头
-				</view>
+				<view class="uni-list-cell-divider"> 右侧带数字角标+箭头 </view>
 				<view class="uni-list-cell" hover-class="uni-list-cell-hover">
 					<view class="uni-list-cell-navigate uni-navigate-right uni-navigate-badge">
 						Item1
@@ -56,14 +46,13 @@
 	export default {
 		data() {
 			return {
-				title: 'list-with-badges'
-			}
+				title: "list-with-badges",
+			};
 		},
 		components: {
-			uniBadge
-		}
-	}
+			uniBadge,
+		},
+	};
 </script>
 
-<style>
-</style>
+<style></style>

@@ -14,46 +14,46 @@
 	</view>
 </template>
 <script>
-export default {
-	data() {
-		return {
-			title: 'vibrateLong/vibrateShort'
-		};
-	},
-	onLoad() {},
-	methods: {
-		longshock() {
-			uni.vibrateLong({
-				success: function() {
-					console.log('success');
-				}
-			});
+	export default {
+		data() {
+			return {
+				title: "vibrateLong/vibrateShort",
+			};
 		},
-		shortshock() {
-			uni.vibrateShort({
-				success: function() {
-					console.log('success');
-				}
-			});
-		}
-	}
-};
+		onLoad() {},
+		methods: {
+			longshock() {
+				uni.vibrateLong({
+					success: function () {
+						console.log("success");
+					},
+				});
+			},
+			shortshock() {
+				uni.vibrateShort({
+					success: function () {
+						console.log("success");
+					},
+				});
+			},
+		},
+	};
 </script>
 
 <style>
-.uni-padding-wrap {
-	margin-top: 50rpx 0;
-}
-.uni-button {
-	margin: 30rpx 0;
-}
-.uni-tips {
-	color: #666;
-	font-size: 30rpx;
-}
-.uni-tips-text {
-	margin-top: 15rpx;
-	line-height: 1.2;
-	font-size: 24rpx;
-}
+	.uni-padding-wrap {
+		margin-top: 50rpx 0;
+	}
+	.uni-button {
+		margin: 30rpx 0;
+	}
+	.uni-tips {
+		color: #666;
+		font-size: 30rpx;
+	}
+	.uni-tips-text {
+		margin-top: 15rpx;
+		line-height: 1.2;
+		font-size: 24rpx;
+	}
 </style>

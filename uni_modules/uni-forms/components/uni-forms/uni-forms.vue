@@ -7,35 +7,25 @@
 </template>
 
 <script>
-	import Validator from './validate.js';
-	import {
-		deepCopy,
-		getValue,
-		isRequiredField,
-		setDataValue,
-		getDataValue,
-		realName,
-		isRealName,
-		rawData,
-		isEqual
-	} from './utils.js'
+	import Validator from "./validate.js";
+	import { deepCopy, getValue, isRequiredField, setDataValue, getDataValue, realName, isRealName, rawData, isEqual } from "./utils.js";
 
 	// #ifndef VUE3
 	// 后续会慢慢废弃这个方法
-	import Vue from 'vue';
-	Vue.prototype.binddata = function(name, value, formName) {
+	import Vue from "vue";
+	Vue.prototype.binddata = function (name, value, formName) {
 		if (formName) {
 			this.$refs[formName].setValue(name, value);
 		} else {
 			let formVm;
 			for (let i in this.$refs) {
 				const vm = this.$refs[i];
-				if (vm && vm.$options && vm.$options.name === 'uniForms') {
+				if (vm && vm.$options && vm.$options.name === "uniForms") {
 					formVm = vm;
 					break;
 				}
 			}
-			if (!formVm) return console.error('当前 uni-froms 组件缺少 ref 属性');
+			if (!formVm) return console.error("当前 uni-froms 组件缺少 ref 属性");
 			formVm.setValue(name, value);
 		}
 	};
@@ -65,132 +55,132 @@
 	 * @event {Function} validate	校验结果发生变化触发
 	 */
 	export default {
-		name: 'uniForms',
-		emits: ['validate', 'submit'],
+		name: "uniForms",
+		emits: ["validate", "submit"],
 		options: {
-			virtualHost: true
+			virtualHost: true,
 		},
 		props: {
 			// 即将弃用
 			value: {
 				type: Object,
-				default () {
+				default() {
 					return null;
-				}
+				},
 			},
 			// vue3 替换 value 属性
 			modelValue: {
 				type: Object,
-				default () {
+				default() {
 					return null;
-				}
+				},
 			},
 			// 1.4.0 开始将不支持 v-model ，且废弃 value 和 modelValue
 			model: {
 				type: Object,
-				default () {
+				default() {
 					return null;
-				}
+				},
 			},
 			// 表单校验规则
 			rules: {
 				type: Object,
-				default () {
+				default() {
 					return {};
-				}
+				},
 			},
 			//校验错误信息提示方式 默认 undertext 取值 [undertext|toast|modal]
 			errShowType: {
 				type: String,
-				default: 'undertext'
+				default: "undertext",
 			},
 			// 校验触发器方式 默认 bind 取值 [bind|submit]
 			validateTrigger: {
 				type: String,
-				default: 'submit'
+				default: "submit",
 			},
 			// label 位置，默认 left 取值  top/left
 			labelPosition: {
 				type: String,
-				default: 'left'
+				default: "left",
 			},
 			// label 宽度
 			labelWidth: {
 				type: [String, Number],
-				default: ''
+				default: "",
 			},
 			// label 居中方式，默认 left 取值 left/center/right
 			labelAlign: {
 				type: String,
-				default: 'left'
+				default: "left",
 			},
 			border: {
 				type: Boolean,
-				default: false
-			}
+				default: false,
+			},
 		},
 		provide() {
 			return {
-				uniForm: this
-			}
+				uniForm: this,
+			};
 		},
 		data() {
 			return {
 				// 表单本地值的记录，不应该与传如的值进行关联
 				formData: {},
-				formRules: {}
+				formRules: {},
 			};
 		},
 		computed: {
 			// 计算数据源变化的
 			localData() {
-				const localVal = this.model || this.modelValue || this.value
+				const localVal = this.model || this.modelValue || this.value;
 				if (localVal) {
-					return deepCopy(localVal)
+					return deepCopy(localVal);
 				}
-				return {}
-			}
+				return {};
+			},
 		},
 		watch: {
 			// 监听数据变化 ,暂时不使用，需要单独赋值
 			// localData: {},
 			// 监听规则变化
 			rules: {
-				handler: function(val, oldVal) {
-					this.setRules(val)
+				handler: function (val, oldVal) {
+					this.setRules(val);
 				},
 				deep: true,
-				immediate: true
-			}
+				immediate: true,
+			},
 		},
 		created() {
 			// #ifdef VUE3
-			let getbinddata = getApp().$vm.$.appContext.config.globalProperties.binddata
+			let getbinddata = getApp().$vm.$.appContext.config.globalProperties.binddata;
 			if (!getbinddata) {
-				getApp().$vm.$.appContext.config.globalProperties.binddata = function(name, value, formName) {
+				getApp().$vm.$.appContext.config.globalProperties.binddata = function (name, value, formName) {
 					if (formName) {
 						this.$refs[formName].setValue(name, value);
 					} else {
 						let formVm;
 						for (let i in this.$refs) {
 							const vm = this.$refs[i];
-							if (vm && vm.$options && vm.$options.name === 'uniForms') {
+							if (vm && vm.$options && vm.$options.name === "uniForms") {
 								formVm = vm;
 								break;
 							}
 						}
-						if (!formVm) return console.error('当前 uni-froms 组件缺少 ref 属性');
+						if (!formVm) return console.error("当前 uni-froms 组件缺少 ref 属性");
 						formVm.setValue(name, value);
 					}
-				}
+				};
 			}
 			// #endif
 
 			// 子组件实例数组
-			this.childrens = []
+			this.childrens = [];
 			// TODO 兼容旧版 uni-data-picker ,新版本中无效，只是避免报错
-			this.inputChildrens = []
-			this.setRules(this.rules)
+			this.inputChildrens = [];
+			this.setRules(this.rules);
 		},
 		methods: {
 			/**
@@ -200,7 +190,7 @@
 			 */
 			setRules(rules) {
 				// TODO 有可能子组件合并规则的时机比这个要早，所以需要合并对象 ，而不是直接赋值，可能会被覆盖
-				this.formRules = Object.assign({}, this.formRules, rules)
+				this.formRules = Object.assign({}, this.formRules, rules);
 				// 初始化校验函数
 				this.validator = new Validator(rules);
 			},
@@ -212,9 +202,9 @@
 			 * @param {Object} value
 			 */
 			setValue(key, value) {
-				let example = this.childrens.find(child => child.name === key);
+				let example = this.childrens.find((child) => child.name === key);
 				if (!example) return null;
-				this.formData[key] = getValue(key, value, (this.formRules[key] && this.formRules[key].rules) || [])
+				this.formData[key] = getValue(key, value, (this.formRules[key] && this.formRules[key].rules) || []);
 				return example.onFieldChange(this.formData[key]);
 			},
 
@@ -238,11 +228,11 @@
 			validateField(props = [], callback) {
 				props = [].concat(props);
 				let invalidFields = {};
-				this.childrens.forEach(item => {
-					const name = realName(item.name)
+				this.childrens.forEach((item) => {
+					const name = realName(item.name);
 					if (props.indexOf(name) !== -1) {
 						invalidFields = Object.assign({}, invalidFields, {
-							[name]: this.formData[name]
+							[name]: this.formData[name],
 						});
 					}
 				});
@@ -256,13 +246,13 @@
 			 */
 			clearValidate(props = []) {
 				props = [].concat(props);
-				this.childrens.forEach(item => {
+				this.childrens.forEach((item) => {
 					if (props.length === 0) {
-						item.errMsg = '';
+						item.errMsg = "";
 					} else {
-						const name = realName(item.name)
+						const name = realName(item.name);
 						if (props.indexOf(name) !== -1) {
-							item.errMsg = '';
+							item.errMsg = "";
 						}
 					}
 				});
@@ -277,7 +267,7 @@
 			 */
 			submit(keepitem, callback, type) {
 				for (let i in this.dataValue) {
-					const itemData = this.childrens.find(v => v.name === i);
+					const itemData = this.childrens.find((v) => v.name === i);
 					if (itemData) {
 						if (this.formData[i] === undefined) {
 							this.formData[i] = this._getValue(i, this.dataValue[i]);
@@ -286,35 +276,35 @@
 				}
 
 				if (!type) {
-					console.warn('submit 方法即将废弃，请使用validate方法代替！');
+					console.warn("submit 方法即将废弃，请使用validate方法代替！");
 				}
 
-				return this.checkAll(this.formData, keepitem, callback, 'submit');
+				return this.checkAll(this.formData, keepitem, callback, "submit");
 			},
 
 			// 校验所有
 			async checkAll(invalidFields, keepitem, callback, type) {
 				// 不存在校验规则 ，则停止校验流程
-				if (!this.validator) return
-				let childrens = []
+				if (!this.validator) return;
+				let childrens = [];
 				// 处理参与校验的item实例
 				for (let i in invalidFields) {
-					const item = this.childrens.find(v => realName(v.name) === i)
+					const item = this.childrens.find((v) => realName(v.name) === i);
 					if (item) {
-						childrens.push(item)
+						childrens.push(item);
 					}
 				}
 
 				// 如果validate第一个参数是funciont ,那就走回调
-				if (!callback && typeof keepitem === 'function') {
+				if (!callback && typeof keepitem === "function") {
 					callback = keepitem;
 				}
 
 				let promise;
 				// 如果不存在回调，那么使用 Promise 方式返回
-				if (!callback && typeof callback !== 'function' && Promise) {
+				if (!callback && typeof callback !== "function" && Promise) {
 					promise = new Promise((resolve, reject) => {
-						callback = function(valid, invalidFields) {
+						callback = function (valid, invalidFields) {
 							!valid ? resolve(invalidFields) : reject(valid);
 						};
 					});
@@ -322,56 +312,54 @@
 
 				let results = [];
 				// 避免引用错乱 ，建议拷贝对象处理
-				let tempFormData = JSON.parse(JSON.stringify(invalidFields))
+				let tempFormData = JSON.parse(JSON.stringify(invalidFields));
 				// 所有子组件参与校验,使用 for 可以使用  awiat
 				for (let i in childrens) {
-					const child = childrens[i]
+					const child = childrens[i];
 					let name = realName(child.name);
 					const result = await child.onFieldChange(tempFormData[name]);
 					if (result) {
 						results.push(result);
 						// toast ,modal 只需要执行第一次就可以
-						if (this.errShowType === 'toast' || this.errShowType === 'modal') break;
+						if (this.errShowType === "toast" || this.errShowType === "modal") break;
 					}
 				}
-
 
 				if (Array.isArray(results)) {
 					if (results.length === 0) results = null;
 				}
 				if (Array.isArray(keepitem)) {
-					keepitem.forEach(v => {
+					keepitem.forEach((v) => {
 						let vName = realName(v);
-						let value = getDataValue(v, this.localData)
+						let value = getDataValue(v, this.localData);
 						if (value !== undefined) {
-							tempFormData[vName] = value
+							tempFormData[vName] = value;
 						}
 					});
 				}
 
 				// TODO submit 即将废弃
-				if (type === 'submit') {
-					this.$emit('submit', {
+				if (type === "submit") {
+					this.$emit("submit", {
 						detail: {
 							value: tempFormData,
-							errors: results
-						}
+							errors: results,
+						},
 					});
 				} else {
-					this.$emit('validate', results);
+					this.$emit("validate", results);
 				}
 
 				// const resetFormData = rawData(tempFormData, this.localData, this.name)
-				let resetFormData = {}
-				resetFormData = rawData(tempFormData, this.name)
-				callback && typeof callback === 'function' && callback(results, resetFormData);
+				let resetFormData = {};
+				resetFormData = rawData(tempFormData, this.name);
+				callback && typeof callback === "function" && callback(results, resetFormData);
 
 				if (promise && callback) {
 					return promise;
 				} else {
 					return null;
 				}
-
 			},
 
 			/**
@@ -379,7 +367,7 @@
 			 * @param {Object} result
 			 */
 			validateCheck(result) {
-				this.$emit('validate', result);
+				this.$emit("validate", result);
 			},
 			_getValue: getValue,
 			_isRequiredField: isRequiredField,
@@ -387,11 +375,12 @@
 			_getDataValue: getDataValue,
 			_realName: realName,
 			_isRealName: isRealName,
-			_isEqual: isEqual
-		}
+			_isEqual: isEqual,
+		},
 	};
 </script>
 
 <style lang="scss">
-	.uni-forms {}
+	.uni-forms {
+	}
 </style>

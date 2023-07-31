@@ -19,8 +19,9 @@
 					<text class="example-info">当前页：{{ current }}，数据总量：{{ total }}条，每页数据：{{ pageSize }}</text>
 				</view>
 				<view class="btn-flex">
-					<button class="button word-btn" hover-class="word-btn--hover" :hover-start-time="20"
-						:hover-stay-time="70" @click="add"><text class="word-btn-white">增加10条数据</text></button>
+					<button class="button word-btn" hover-class="word-btn--hover" :hover-start-time="20" :hover-stay-time="70" @click="add"
+						><text class="word-btn-white">增加10条数据</text></button
+					>
 					<button class="button" type="default" @click="reset">重置数据</button>
 				</view>
 			</view>
@@ -35,28 +36,28 @@
 			return {
 				current: 3,
 				total: 10,
-				pageSize: 10
-			}
+				pageSize: 10,
+			};
 		},
 		mounted() {
 			setTimeout(() => {
-				this.current = 5
-			}, 3000)
+				this.current = 5;
+			}, 3000);
 		},
 		methods: {
 			add() {
-				this.total += 10
+				this.total += 10;
 			},
 			reset() {
-				this.total = 0
-				this.current = 1
+				this.total = 0;
+				this.current = 1;
 			},
 			change(e) {
-				console.log(e)
-				this.current = e.current
-			}
-		}
-	}
+				console.log(e);
+				this.current = e.current;
+			},
+		},
+	};
 </script>
 
 <style lang="scss">

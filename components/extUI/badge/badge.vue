@@ -24,8 +24,7 @@
 
 		<uni-section title="自定义样式" type="line" padding>
 			<view class="example-body">
-				<uni-badge class="uni-badge-left-margin" text="2" type="primary"
-					:customStyle="{background: '#4335d6'}" />
+				<uni-badge class="uni-badge-left-margin" text="2" type="primary" :customStyle="{ background: '#4335d6' }" />
 				<uni-badge class="uni-badge-left-margin" text="2" type="primary" :customStyle="customStyle" />
 			</view>
 		</uni-section>
@@ -56,20 +55,20 @@
 			return {
 				value: 0,
 				customStyle: {
-					backgroundColor: '#62ed0d',
-					color: '#fff'
-				}
+					backgroundColor: "#62ed0d",
+					color: "#fff",
+				},
 			};
 		},
 		mounted() {
 			const timer = setInterval(() => {
 				if (this.value >= 199) {
-					clearInterval(timer)
-					return
+					clearInterval(timer);
+					return;
 				}
-				this.value++
-			}, 100)
-		}
+				this.value++;
+			}, 100);
+		},
 	};
 </script>
 
@@ -100,7 +99,7 @@
 		justify-content: center;
 		align-items: center;
 		text-align: center;
-		background-color: #DCDFE6;
+		background-color: #dcdfe6;
 		color: #fff;
 		font-size: 12px;
 	}

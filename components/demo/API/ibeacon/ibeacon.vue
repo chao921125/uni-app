@@ -25,15 +25,15 @@
 	</view>
 </template>
 <script>
-	const DEVICE_UUID_WEICHAT = 'FDA50693-A4E2-4FB1-AFCF-C6EB07647825';
+	const DEVICE_UUID_WEICHAT = "FDA50693-A4E2-4FB1-AFCF-C6EB07647825";
 	export default {
 		data() {
 			return {
-				title: 'iBeacon',
+				title: "iBeacon",
 				isOpen: false,
 				isStarted: false,
 				deviceList: [],
-				isPageOpened: false
+				isPageOpened: false,
 			};
 		},
 		onLoad() {
@@ -49,17 +49,17 @@
 			openBluetoothAdapter() {
 				uni.openBluetoothAdapter({
 					success: (res) => {
-						console.log('初始化蓝牙成功:' + res.errMsg);
+						console.log("初始化蓝牙成功:" + res.errMsg);
 						console.log(res);
 						this.isOpen = true;
 						this.deviceList = [];
 					},
 					fail: (err) => {
-						console.log('初始化蓝牙失败，错误码：' + (err.errCode || err.errMsg));
+						console.log("初始化蓝牙失败，错误码：" + (err.errCode || err.errMsg));
 						if (err.errCode !== 0) {
 							initTypes(err.errCode, err.errMsg);
 						}
-					}
+					},
 				});
 			},
 			closeBluetoothAdapter(OBJECT) {
@@ -67,12 +67,12 @@
 				wx.closeBluetoothAdapter({
 					success: (res) => {
 						this.isOpen = false;
-						console.log('断开蓝牙模块成功');
-					}
+						console.log("断开蓝牙模块成功");
+					},
 				});
 			},
 			onBeaconUpdate() {
-				uni.onBeaconUpdate(res => {
+				uni.onBeaconUpdate((res) => {
 					if (!this.isPageOpened || !this.isOpen || !this.isStarted) {
 						return;
 					}
@@ -96,18 +96,18 @@
 					},
 					fail: (err) => {
 						console.error(err);
-					}
+					},
 				});
 			},
 			stopBeaconDiscovery(types) {
-				if(this.isStarted) {
+				if (this.isStarted) {
 					uni.stopBeaconDiscovery({
 						success: (res) => {
 							this.isStarted = false;
 						},
 						fail: (err) => {
 							console.error(err);
-						}
+						},
 					});
 				}
 			},
@@ -120,11 +120,11 @@
 						}
 					},
 					fail: (err) => {
-						console.log('获取设备服务失败，错误码：' + err.errCode);
+						console.log("获取设备服务失败，错误码：" + err.errCode);
 						if (errCode.errCode !== 0) {
 							initTypes(errCode.errCode);
 						}
-					}
+					},
 				});
 			},
 			getUUIDList() {
@@ -133,7 +133,7 @@
 				if (!sysInfo) {
 					return [];
 				}
-				let isIOS = sysInfo.platform ? (sysInfo.platform.toLowerCase() === "ios") : false;
+				let isIOS = sysInfo.platform ? sysInfo.platform.toLowerCase() === "ios" : false;
 				if (isIOS) {
 					return [DEVICE_UUID_WEICHAT];
 				}
@@ -143,11 +143,11 @@
 				// #ifndef APP-PLUS
 				return [DEVICE_UUID_WEICHAT];
 				// #endif
-			}
+			},
 		},
 		onUnload() {
 			this.isPageOpened = false;
-		}
+		},
 	};
 
 	/**
@@ -156,34 +156,34 @@
 	function initTypes(code, errMsg) {
 		switch (code) {
 			case 10000:
-				toast('未初始化蓝牙适配器');
+				toast("未初始化蓝牙适配器");
 				break;
 			case 10001:
-				toast('未检测到蓝牙，请打开蓝牙重试！');
+				toast("未检测到蓝牙，请打开蓝牙重试！");
 				break;
 			case 10002:
-				toast('没有找到指定设备');
+				toast("没有找到指定设备");
 				break;
 			case 10003:
-				toast('连接失败');
+				toast("连接失败");
 				break;
 			case 10004:
-				toast('没有找到指定服务');
+				toast("没有找到指定服务");
 				break;
 			case 10005:
-				toast('没有找到指定特征值');
+				toast("没有找到指定特征值");
 				break;
 			case 10006:
-				toast('当前连接已断开');
+				toast("当前连接已断开");
 				break;
 			case 10007:
-				toast('当前特征值不支持此操作');
+				toast("当前特征值不支持此操作");
 				break;
 			case 10008:
-				toast('其余所有系统上报的异常');
+				toast("其余所有系统上报的异常");
 				break;
 			case 10009:
-				toast('Android 系统特有，系统版本低于 4.3 不支持 BLE');
+				toast("Android 系统特有，系统版本低于 4.3 不支持 BLE");
 				break;
 			default:
 				toast(errMsg);
@@ -195,9 +195,9 @@
 	 */
 	function toast(content, showCancel = false) {
 		uni.showModal({
-			title: '提示',
+			title: "提示",
 			content,
-			showCancel
+			showCancel,
 		});
 	}
 </script>

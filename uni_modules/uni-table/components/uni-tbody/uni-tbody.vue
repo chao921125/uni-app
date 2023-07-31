@@ -10,20 +10,17 @@
 </template>
 
 <script>
-export default {
-	name: 'uniBody',
-	options: {
-		virtualHost: true
-	},
-	data() {
-		return {
-			
-		}
-	},
-	created() {},
-	methods: {}
-}
+	export default {
+		name: "uniBody",
+		options: {
+			virtualHost: true,
+		},
+		data() {
+			return {};
+		},
+		created() {},
+		methods: {},
+	};
 </script>
 
-<style>
-</style>
+<style></style>

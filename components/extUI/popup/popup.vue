@@ -15,28 +15,19 @@
 
 		<uni-section title="提示消息" type="line">
 			<view class="example-body box">
-				<button class="button popup-success" @click="messageToggle('success')"><text
-						class="button-text success-text">成功</text></button>
-				<button class="button popup-error" @click="messageToggle('error')"><text
-						class="button-text error-text">失败</text></button>
-				<button class="button popup-warn" @click="messageToggle('warn')"><text
-						class="button-text warn-text">警告</text></button>
-				<button class="button popup-info" @click="messageToggle('info')"><text
-						class="button-text info-text">信息</text></button>
+				<button class="button popup-success" @click="messageToggle('success')"><text class="button-text success-text">成功</text></button>
+				<button class="button popup-error" @click="messageToggle('error')"><text class="button-text error-text">失败</text></button>
+				<button class="button popup-warn" @click="messageToggle('warn')"><text class="button-text warn-text">警告</text></button>
+				<button class="button popup-info" @click="messageToggle('info')"><text class="button-text info-text">信息</text></button>
 			</view>
 		</uni-section>
 
-
 		<uni-section title="对话框示例" type="line" class="hideOnPc">
 			<view class="example-body box">
-				<button class="button popup-success" @click="dialogToggle('success')"><text
-						class="button-text success-text">成功</text></button>
-				<button class="button popup-error" @click="dialogToggle('error')"><text
-						class="button-text error-text">失败</text></button>
-				<button class="button popup-warn" @click="dialogToggle('warn')"><text
-						class="button-text warn-text">警告</text></button>
-				<button class="button popup-info" @click="dialogToggle('info')"><text
-						class="button-text info-text">信息</text></button>
+				<button class="button popup-success" @click="dialogToggle('success')"><text class="button-text success-text">成功</text></button>
+				<button class="button popup-error" @click="dialogToggle('error')"><text class="button-text error-text">失败</text></button>
+				<button class="button popup-warn" @click="dialogToggle('warn')"><text class="button-text warn-text">警告</text></button>
+				<button class="button popup-info" @click="dialogToggle('info')"><text class="button-text info-text">信息</text></button>
 			</view>
 		</uni-section>
 
@@ -44,9 +35,7 @@
 			<view class="dialog-box">
 				<text class="dialog-text">输入内容：{{ value }}</text>
 			</view>
-			<button class="button" type="primary" @click="inputDialogToggle"><text
-					class="button-text">输入对话框</text></button>
-
+			<button class="button" type="primary" @click="inputDialogToggle"><text class="button-text">输入对话框</text></button>
 		</uni-section>
 		<uni-section title="底部分享示例" type="line" padding>
 			<button class="button" type="primary" @click="shareToggle"><text class="button-text">分享模版示例</text></button>
@@ -54,8 +43,7 @@
 		<view>
 			<!-- 普通弹窗 -->
 			<uni-popup ref="popup" background-color="#fff" @change="change">
-				<view class="popup-content" :class="{ 'popup-height': type === 'left' || type === 'right' }"><text
-						class="text">popup 内容</text></view>
+				<view class="popup-content" :class="{ 'popup-height': type === 'left' || type === 'right' }"><text class="text">popup 内容</text></view>
 			</uni-popup>
 		</view>
 
@@ -69,16 +57,29 @@
 		<view>
 			<!-- 提示窗示例 -->
 			<uni-popup ref="alertDialog" type="dialog">
-				<uni-popup-dialog :type="msgType" cancelText="关闭" confirmText="同意" title="通知" content="欢迎使用 uni-popup!" @confirm="dialogConfirm"
-					@close="dialogClose"></uni-popup-dialog>
+				<uni-popup-dialog
+					:type="msgType"
+					cancelText="关闭"
+					confirmText="同意"
+					title="通知"
+					content="欢迎使用 uni-popup!"
+					@confirm="dialogConfirm"
+					@close="dialogClose"
+				></uni-popup-dialog>
 			</uni-popup>
 		</view>
 
 		<view>
 			<!-- 输入框示例 -->
 			<uni-popup ref="inputDialog" type="dialog">
-				<uni-popup-dialog ref="inputClose"  mode="input" title="输入内容" value="对话框预置提示内容!"
-					placeholder="请输入内容" @confirm="dialogInputConfirm"></uni-popup-dialog>
+				<uni-popup-dialog
+					ref="inputClose"
+					mode="input"
+					title="输入内容"
+					value="对话框预置提示内容!"
+					placeholder="请输入内容"
+					@confirm="dialogInputConfirm"
+				></uni-popup-dialog>
 			</uni-popup>
 		</view>
 
@@ -95,60 +96,60 @@
 	export default {
 		data() {
 			return {
-				type: 'center',
-				msgType: 'success',
-				messageText: '这是一条成功提示',
-				value: ''
-			}
+				type: "center",
+				msgType: "success",
+				messageText: "这是一条成功提示",
+				value: "",
+			};
 		},
 		onReady() {},
 		methods: {
 			change(e) {
-				console.log('当前模式：' + e.type + ',状态：' + e.show);
+				console.log("当前模式：" + e.type + ",状态：" + e.show);
 			},
 			toggle(type) {
-				this.type = type
+				this.type = type;
 				// open 方法传入参数 等同在 uni-popup 组件上绑定 type属性
-				this.$refs.popup.open(type)
+				this.$refs.popup.open(type);
 			},
 			messageToggle(type) {
-				this.msgType = type
-				this.messageText = `这是一条${type}消息提示`
-				this.$refs.message.open()
+				this.msgType = type;
+				this.messageText = `这是一条${type}消息提示`;
+				this.$refs.message.open();
 			},
 			dialogToggle(type) {
-				this.msgType = type
-				this.$refs.alertDialog.open()
+				this.msgType = type;
+				this.$refs.alertDialog.open();
 			},
 			dialogConfirm() {
-				console.log('点击确认')
-				this.messageText = `点击确认了 ${this.msgType} 窗口`
-				this.$refs.message.open()
+				console.log("点击确认");
+				this.messageText = `点击确认了 ${this.msgType} 窗口`;
+				this.$refs.message.open();
 			},
 			inputDialogToggle() {
-				this.$refs.inputDialog.open()
+				this.$refs.inputDialog.open();
 			},
 			dialogClose() {
-				console.log('点击关闭')
+				console.log("点击关闭");
 			},
 			dialogInputConfirm(val) {
 				uni.showLoading({
-					title: '3秒后会关闭'
-				})
+					title: "3秒后会关闭",
+				});
 
 				setTimeout(() => {
-					uni.hideLoading()
-					console.log(val)
-					this.value = val
+					uni.hideLoading();
+					console.log(val);
+					this.value = val;
 					// 关闭窗口后，恢复默认内容
-					this.$refs.inputDialog.close()
-				}, 3000)
+					this.$refs.inputDialog.close();
+				}, 3000);
 			},
 			shareToggle() {
-				this.$refs.share.open()
-			}
-		}
-	}
+				this.$refs.share.open();
+			},
+		},
+	};
 </script>
 <style lang="scss">
 	@mixin flex {

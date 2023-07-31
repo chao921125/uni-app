@@ -12,7 +12,7 @@
 		<uni-section title="纵向排列" type="line" padding>
 			<uni-steps :options="list2" active-color="#007AFF" :active="active" direction="column" />
 		</uni-section>
-		<button type="primary" size="mini" style="margin: 30px 10px; width: 100px;" @click="change">改变状态</button>
+		<button type="primary" size="mini" style="margin: 30px 10px; width: 100px" @click="change">改变状态</button>
 	</view>
 </template>
 
@@ -22,40 +22,50 @@
 		data() {
 			return {
 				active: 1,
-				list1: [{
-					title: '事件一'
-				}, {
-					title: '事件二'
-				}, {
-					title: '事件三'
-				}, {
-					title: '事件四'
-				}],
-				list2: [{
-					title: '买家下单',
-					desc: '2018-11-11'
-				}, {
-					title: '卖家发货',
-					desc: '2018-11-12'
-				}, {
-					title: '买家签收',
-					desc: '2018-11-13'
-				}, {
-					title: '交易完成',
-					desc: '2018-11-14'
-				}]
-			}
+				list1: [
+					{
+						title: "事件一",
+					},
+					{
+						title: "事件二",
+					},
+					{
+						title: "事件三",
+					},
+					{
+						title: "事件四",
+					},
+				],
+				list2: [
+					{
+						title: "买家下单",
+						desc: "2018-11-11",
+					},
+					{
+						title: "卖家发货",
+						desc: "2018-11-12",
+					},
+					{
+						title: "买家签收",
+						desc: "2018-11-13",
+					},
+					{
+						title: "交易完成",
+						desc: "2018-11-14",
+					},
+				],
+			};
 		},
 		methods: {
 			change() {
 				if (this.active < this.list1.length - 1) {
-					this.active += 1
+					this.active += 1;
 				} else {
-					this.active = 0
+					this.active = 0;
 				}
-			}
-		}
-	}
+			},
+		},
+	};
 </script>
 
 <style lang="scss">
@@ -68,7 +78,7 @@
 		justify-content: center;
 		height: 92rpx;
 		margin: 30rpx;
-		background-color: #007AFF;
+		background-color: #007aff;
 	}
 
 	.example-body {
