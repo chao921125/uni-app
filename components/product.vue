@@ -1,20 +1,20 @@
 <template>
 	<view class="product">
 		<image class="product-image" :src="image ? image : 'https://via.placeholder.com/150x200'"></image>
-		<view class="product-title">{{title}}</view>
+		<view class="product-title">{{ title }}</view>
 		<view class="product-price">
-			<text class="product-price-favour">￥{{originalPrice}}</text>
-			<text class="product-price-original">￥{{favourPrice}}</text>
-			<text class="product-tip">{{tip}}</text>
+			<text class="product-price-favour">￥{{ originalPrice }}</text>
+			<text class="product-price-original">￥{{ favourPrice }}</text>
+			<text class="product-tip">{{ tip }}</text>
 		</view>
 	</view>
 </template>
 
 <script>
 	export default {
-		name: 'product',
-		props: ['image', 'title', 'originalPrice', 'favourPrice', 'tip']
-	}
+		name: "product",
+		props: ["image", "title", "originalPrice", "favourPrice", "tip"],
+	};
 </script>
 
 <style>
@@ -46,7 +46,7 @@
 	}
 
 	.product-price-original {
-		color: #E80080;
+		color: #e80080;
 	}
 
 	.product-price-favour {
@@ -58,8 +58,8 @@
 	.product-tip {
 		position: absolute;
 		right: 10rpx;
-		background-color: #FF3333;
-		color: #FFFFFF;
+		background-color: #ff3333;
+		color: #ffffff;
 		padding: 0 10rpx;
 		border-radius: 5rpx;
 	}

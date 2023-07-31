@@ -14,18 +14,27 @@
 			<uni-notice-bar show-icon text="uni-app发布，开发一次、7端覆盖！" />
 		</uni-section>
 		<uni-section title="文字滚动" subTitle="使用 scrollable 属性使通告滚动,此时 single 属性将失效,始终单行显示" type="line">
-			<uni-notice-bar show-icon scrollable
-				text="uni-app 版正式发布，开发一次，同时发布iOS、Android、H5、微信小程序、支付宝小程序、百度小程序、头条小程序等7大平台。" />
+			<uni-notice-bar
+				show-icon
+				scrollable
+				text="uni-app 版正式发布，开发一次，同时发布iOS、Android、H5、微信小程序、支付宝小程序、百度小程序、头条小程序等7大平台。"
+			/>
 		</uni-section>
-		<uni-section title="查看更多" subTitle="使用 show-get-more 显示更多,此时 single 属性将失效,始终单行显示,如不配置 more-text 属性 ,将显示箭头图标"
-			type="line">
+		<uni-section
+			title="查看更多"
+			subTitle="使用 show-get-more 显示更多,此时 single 属性将失效,始终单行显示,如不配置 more-text 属性 ,将显示箭头图标"
+			type="line"
+		>
 			<uni-notice-bar show-get-more show-icon text="年末大礼：uni-app1.4 新增百度、支付宝小程序。插件市场重磅上线！" @getmore="getMore" />
-			<uni-notice-bar show-get-more show-icon more-text="查看更多" text="年末大礼：uni-app1.4 新增百度、支付宝小程序。插件市场重磅上线！"
-				@getmore="getMore" />
+			<uni-notice-bar show-get-more show-icon more-text="查看更多" text="年末大礼：uni-app1.4 新增百度、支付宝小程序。插件市场重磅上线！" @getmore="getMore" />
 		</uni-section>
 		<uni-section title="修改颜色" type="line">
-			<uni-notice-bar single color="#2979FF" background-color="#EAF2FF"
-				text="uni-app 1.6版正式发布，开发一次，同时发布iOS、Android、H5、微信小程序、支付宝小程序、百度小程序、头条小程序等7大平台。" />
+			<uni-notice-bar
+				single
+				color="#2979FF"
+				background-color="#EAF2FF"
+				text="uni-app 1.6版正式发布，开发一次，同时发布iOS、Android、H5、微信小程序、支付宝小程序、百度小程序、头条小程序等7大平台。"
+			/>
 		</uni-section>
 		<uni-section title="关闭按钮" subTitle="使用 show-close 属性,可关闭通知" type="line">
 			<uni-notice-bar show-close single text="HBuilderX 1.0正式发布！uni-app实现里程碑突破实现里程碑突破！" />
@@ -37,18 +46,18 @@
 	export default {
 		components: {},
 		data() {
-			return {}
+			return {};
 		},
 		created() {},
 		methods: {
 			getMore() {
 				uni.showToast({
-					title: '点击查看更多',
-					icon: 'none'
-				})
-			}
-		}
-	}
+					title: "点击查看更多",
+					icon: "none",
+				});
+			},
+		},
+	};
 </script>
 
 <style lang="scss">

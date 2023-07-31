@@ -1,36 +1,55 @@
 <template>
-	<view class="uni-data-checklist" :style="{'margin-top':isTop+'px'}">
+	<view class="uni-data-checklist" :style="{ 'margin-top': isTop + 'px' }">
 		<template v-if="!isLocal">
 			<view class="uni-data-loading">
 				<uni-load-more v-if="!mixinDatacomErrorMessage" status="loading" iconType="snow" :iconSize="18" :content-text="contentText"></uni-load-more>
-				<text v-else>{{mixinDatacomErrorMessage}}</text>
+				<text v-else>{{ mixinDatacomErrorMessage }}</text>
 			</view>
 		</template>
 		<template v-else>
-			<checkbox-group v-if="multiple" class="checklist-group" :class="{'is-list':mode==='list' || wrap}" @change="chagne">
-				<label class="checklist-box" :class="['is--'+mode,item.selected?'is-checked':'',(disabled || !!item.disabled)?'is-disable':'',index!==0&&mode==='list'?'is-list-border':'']"
-				 :style="item.styleBackgroud" v-for="(item,index) in dataList" :key="index">
-					<checkbox class="hidden" hidden :disabled="disabled || !!item.disabled" :value="item[map.value]+''" :checked="item.selected" />
-					<view v-if="(mode !=='tag' && mode !== 'list') || ( mode === 'list' && icon === 'left')" class="checkbox__inner"  :style="item.styleIcon">
+			<checkbox-group v-if="multiple" class="checklist-group" :class="{ 'is-list': mode === 'list' || wrap }" @change="chagne">
+				<label
+					class="checklist-box"
+					:class="[
+						'is--' + mode,
+						item.selected ? 'is-checked' : '',
+						disabled || !!item.disabled ? 'is-disable' : '',
+						index !== 0 && mode === 'list' ? 'is-list-border' : '',
+					]"
+					:style="item.styleBackgroud"
+					v-for="(item, index) in dataList"
+					:key="index"
+				>
+					<checkbox class="hidden" hidden :disabled="disabled || !!item.disabled" :value="item[map.value] + ''" :checked="item.selected" />
+					<view v-if="(mode !== 'tag' && mode !== 'list') || (mode === 'list' && icon === 'left')" class="checkbox__inner" :style="item.styleIcon">
 						<view class="checkbox__inner-icon"></view>
 					</view>
-					<view class="checklist-content" :class="{'list-content':mode === 'list' && icon ==='left'}">
-						<text class="checklist-text" :style="item.styleIconText">{{item[map.text]}}</text>
+					<view class="checklist-content" :class="{ 'list-content': mode === 'list' && icon === 'left' }">
+						<text class="checklist-text" :style="item.styleIconText">{{ item[map.text] }}</text>
 						<view v-if="mode === 'list' && icon === 'right'" class="checkobx__list" :style="item.styleBackgroud"></view>
 					</view>
 				</label>
 			</checkbox-group>
-			<radio-group v-else class="checklist-group" :class="{'is-list':mode==='list','is-wrap':wrap}" @change="chagne">
+			<radio-group v-else class="checklist-group" :class="{ 'is-list': mode === 'list', 'is-wrap': wrap }" @change="chagne">
 				<!-- -->
-				<label class="checklist-box" :class="['is--'+mode,item.selected?'is-checked':'',(disabled || !!item.disabled)?'is-disable':'',index!==0&&mode==='list'?'is-list-border':'']"
-				 :style="item.styleBackgroud" v-for="(item,index) in dataList" :key="index">
-					<radio class="hidden" hidden :disabled="disabled || item.disabled" :value="item[map.value]+''" :checked="item.selected" />
-					<view v-if="(mode !=='tag' && mode !== 'list') || ( mode === 'list' && icon === 'left')" class="radio__inner"
-					 :style="item.styleBackgroud">
+				<label
+					class="checklist-box"
+					:class="[
+						'is--' + mode,
+						item.selected ? 'is-checked' : '',
+						disabled || !!item.disabled ? 'is-disable' : '',
+						index !== 0 && mode === 'list' ? 'is-list-border' : '',
+					]"
+					:style="item.styleBackgroud"
+					v-for="(item, index) in dataList"
+					:key="index"
+				>
+					<radio class="hidden" hidden :disabled="disabled || item.disabled" :value="item[map.value] + ''" :checked="item.selected" />
+					<view v-if="(mode !== 'tag' && mode !== 'list') || (mode === 'list' && icon === 'left')" class="radio__inner" :style="item.styleBackgroud">
 						<view class="radio__inner-icon" :style="item.styleIcon"></view>
 					</view>
-					<view class="checklist-content" :class="{'list-content':mode === 'list' && icon ==='left'}">
-						<text class="checklist-text" :style="item.styleIconText">{{item[map.text]}}</text>
+					<view class="checklist-content" :class="{ 'list-content': mode === 'list' && icon === 'left' }">
+						<text class="checklist-text" :style="item.styleIconText">{{ item[map.text] }}</text>
 						<view v-if="mode === 'list' && icon === 'right'" :style="item.styleRightIcon" class="checkobx__list"></view>
 					</view>
 				</label>
@@ -66,94 +85,94 @@
 	 */
 
 	export default {
-		name: 'uniDataChecklist',
+		name: "uniDataChecklist",
 		mixins: [uniCloud.mixinDatacom || {}],
-		emits:['input','update:modelValue','change'],
+		emits: ["input", "update:modelValue", "change"],
 		props: {
 			mode: {
 				type: String,
-				default: 'default'
+				default: "default",
 			},
 
 			multiple: {
 				type: Boolean,
-				default: false
+				default: false,
 			},
 			value: {
 				type: [Array, String, Number],
-				default () {
-					return ''
-				}
+				default() {
+					return "";
+				},
 			},
 			// TODO vue3
 			modelValue: {
 				type: [Array, String, Number],
 				default() {
-					return '';
-				}
+					return "";
+				},
 			},
 			localdata: {
 				type: Array,
-				default () {
-					return []
-				}
+				default() {
+					return [];
+				},
 			},
 			min: {
 				type: [Number, String],
-				default: ''
+				default: "",
 			},
 			max: {
 				type: [Number, String],
-				default: ''
+				default: "",
 			},
 			wrap: {
 				type: Boolean,
-				default: false
+				default: false,
 			},
 			icon: {
 				type: String,
-				default: 'left'
+				default: "left",
 			},
 			selectedColor: {
 				type: String,
-				default: ''
+				default: "",
 			},
 			selectedTextColor: {
 				type: String,
-				default: ''
+				default: "",
 			},
-			emptyText:{
+			emptyText: {
 				type: String,
-				default: '暂无数据'
+				default: "暂无数据",
 			},
-			disabled:{
+			disabled: {
 				type: Boolean,
-				default: false
+				default: false,
 			},
-			map:{
+			map: {
 				type: Object,
-				default(){
+				default() {
 					return {
-						text:'text',
-						value:'value'
-					}
-				}
-			}
+						text: "text",
+						value: "value",
+					};
+				},
+			},
 		},
 		watch: {
 			localdata: {
 				handler(newVal) {
-					this.range = newVal
-					this.dataList = this.getDataList(this.getSelectedValue(newVal))
+					this.range = newVal;
+					this.dataList = this.getDataList(this.getSelectedValue(newVal));
 				},
-				deep: true
+				deep: true,
 			},
 			mixinDatacomResData(newVal) {
-				this.range = newVal
-				this.dataList = this.getDataList(this.getSelectedValue(newVal))
+				this.range = newVal;
+				this.dataList = this.getDataList(this.getSelectedValue(newVal));
 			},
 			value(newVal) {
-				this.dataList = this.getDataList(newVal)
+				this.dataList = this.getDataList(newVal);
 				// fix by mehaotian is_reset 在 uni-forms 中定义
 				// if(!this.is_reset){
 				// 	this.is_reset = false
@@ -166,31 +185,31 @@
 				// 	this.is_reset = false
 				// 	this.formItem && this.formItem.setValue(newVal)
 				// }
-			}
+			},
 		},
 		data() {
 			return {
 				dataList: [],
 				range: [],
 				contentText: {
-					contentdown: '查看更多',
-					contentrefresh: '加载中',
-					contentnomore: '没有更多'
+					contentdown: "查看更多",
+					contentrefresh: "加载中",
+					contentnomore: "没有更多",
 				},
-				isLocal:true,
+				isLocal: true,
 				styles: {
-					selectedColor: '#2979ff',
-					selectedTextColor: '#666',
+					selectedColor: "#2979ff",
+					selectedTextColor: "#666",
 				},
-				isTop:0
+				isTop: 0,
 			};
 		},
-		computed:{
-			dataValue(){
-				if(this.value === '')return this.modelValue
-				if(this.modelValue === '') return this.value
-				return this.value
-			}
+		computed: {
+			dataValue() {
+				if (this.value === "") return this.modelValue;
+				if (this.modelValue === "") return this.value;
+				return this.value;
+			},
 		},
 		created() {
 			// this.form = this.getForm('uniForms')
@@ -211,83 +230,84 @@
 			// }
 
 			if (this.localdata && this.localdata.length !== 0) {
-				this.isLocal = true
-				this.range = this.localdata
-				this.dataList = this.getDataList(this.getSelectedValue(this.range))
+				this.isLocal = true;
+				this.range = this.localdata;
+				this.dataList = this.getDataList(this.getSelectedValue(this.range));
 			} else {
 				if (this.collection) {
-					this.isLocal = false
-					this.loadData()
+					this.isLocal = false;
+					this.loadData();
 				}
 			}
 		},
 		methods: {
 			loadData() {
-				this.mixinDatacomGet().then(res=>{
-					this.mixinDatacomResData = res.result.data
-					if(this.mixinDatacomResData.length === 0){
-						this.isLocal = false
-						this.mixinDatacomErrorMessage = this.emptyText
-					}else{
-						this.isLocal = true
-					}
-				}).catch(err=>{
-					this.mixinDatacomErrorMessage = err.message
-				})
+				this.mixinDatacomGet()
+					.then((res) => {
+						this.mixinDatacomResData = res.result.data;
+						if (this.mixinDatacomResData.length === 0) {
+							this.isLocal = false;
+							this.mixinDatacomErrorMessage = this.emptyText;
+						} else {
+							this.isLocal = true;
+						}
+					})
+					.catch((err) => {
+						this.mixinDatacomErrorMessage = err.message;
+					});
 			},
 			/**
 			 * 获取父元素实例
 			 */
-			getForm(name = 'uniForms') {
+			getForm(name = "uniForms") {
 				let parent = this.$parent;
 				let parentName = parent.$options.name;
 				while (parentName !== name) {
 					parent = parent.$parent;
-					if (!parent) return false
+					if (!parent) return false;
 					parentName = parent.$options.name;
 				}
 				return parent;
 			},
 			chagne(e) {
-				const values = e.detail.value
+				const values = e.detail.value;
 
 				let detail = {
 					value: [],
-					data: []
-				}
+					data: [],
+				};
 
 				if (this.multiple) {
-					this.range.forEach(item => {
-
-						if (values.includes(item[this.map.value] + '')) {
-							detail.value.push(item[this.map.value])
-							detail.data.push(item)
+					this.range.forEach((item) => {
+						if (values.includes(item[this.map.value] + "")) {
+							detail.value.push(item[this.map.value]);
+							detail.data.push(item);
 						}
-					})
+					});
 				} else {
-					const range = this.range.find(item => (item[this.map.value] + '') === values)
+					const range = this.range.find((item) => item[this.map.value] + "" === values);
 					if (range) {
 						detail = {
 							value: range[this.map.value],
-							data: range
-						}
+							data: range,
+						};
 					}
 				}
 				// this.formItem && this.formItem.setValue(detail.value)
 				// TODO 兼容 vue2
-				this.$emit('input', detail.value);
+				this.$emit("input", detail.value);
 				// // TOTO 兼容 vue3
-				this.$emit('update:modelValue', detail.value);
-				this.$emit('change', {
-					detail
-				})
+				this.$emit("update:modelValue", detail.value);
+				this.$emit("change", {
+					detail,
+				});
 				if (this.multiple) {
 					// 如果 v-model 没有绑定 ，则走内部逻辑
 					// if (this.value.length === 0) {
-					this.dataList = this.getDataList(detail.value, true)
+					this.dataList = this.getDataList(detail.value, true);
 					// }
 				} else {
-					this.dataList = this.getDataList(detail.value)
+					this.dataList = this.getDataList(detail.value);
 				}
 			},
 
@@ -297,58 +317,58 @@
 			 */
 			getDataList(value) {
 				// 解除引用关系，破坏原引用关系，避免污染源数据
-				let dataList = JSON.parse(JSON.stringify(this.range))
-				let list = []
+				let dataList = JSON.parse(JSON.stringify(this.range));
+				let list = [];
 				if (this.multiple) {
 					if (!Array.isArray(value)) {
-						value = []
+						value = [];
 					}
 				}
 				dataList.forEach((item, index) => {
-					item.disabled = item.disable || item.disabled || false
+					item.disabled = item.disable || item.disabled || false;
 					if (this.multiple) {
 						if (value.length > 0) {
-							let have = value.find(val => val === item[this.map.value])
-							item.selected = have !== undefined
+							let have = value.find((val) => val === item[this.map.value]);
+							item.selected = have !== undefined;
 						} else {
-							item.selected = false
+							item.selected = false;
 						}
 					} else {
-						item.selected = value === item[this.map.value]
+						item.selected = value === item[this.map.value];
 					}
 
-					list.push(item)
-				})
-				return this.setRange(list)
+					list.push(item);
+				});
+				return this.setRange(list);
 			},
 			/**
 			 * 处理最大最小值
 			 * @param {Object} list
 			 */
 			setRange(list) {
-				let selectList = list.filter(item => item.selected)
-				let min = Number(this.min) || 0
-				let max = Number(this.max) || ''
+				let selectList = list.filter((item) => item.selected);
+				let min = Number(this.min) || 0;
+				let max = Number(this.max) || "";
 				list.forEach((item, index) => {
 					if (this.multiple) {
 						if (selectList.length <= min) {
-							let have = selectList.find(val => val[this.map.value] === item[this.map.value])
+							let have = selectList.find((val) => val[this.map.value] === item[this.map.value]);
 							if (have !== undefined) {
-								item.disabled = true
+								item.disabled = true;
 							}
 						}
 
-						if (selectList.length >= max && max !== '') {
-							let have = selectList.find(val => val[this.map.value] === item[this.map.value])
+						if (selectList.length >= max && max !== "") {
+							let have = selectList.find((val) => val[this.map.value] === item[this.map.value]);
 							if (have === undefined) {
-								item.disabled = true
+								item.disabled = true;
 							}
 						}
 					}
-					this.setStyles(item, index)
-					list[index] = item
-				})
-				return list
+					this.setStyles(item, index);
+					list[index] = item;
+				});
+				return list;
 			},
 			/**
 			 * 设置 class
@@ -357,10 +377,10 @@
 			 */
 			setStyles(item, index) {
 				//  设置自定义样式
-				item.styleBackgroud = this.setStyleBackgroud(item)
-				item.styleIcon = this.setStyleIcon(item)
-				item.styleIconText = this.setStyleIconText(item)
-				item.styleRightIcon = this.setStyleRightIcon(item)
+				item.styleBackgroud = this.setStyleBackgroud(item);
+				item.styleIcon = this.setStyleIcon(item);
+				item.styleIconText = this.setStyleIconText(item);
+				item.styleRightIcon = this.setStyleRightIcon(item);
 			},
 
 			/**
@@ -368,89 +388,89 @@
 			 * @param {Object} range
 			 */
 			getSelectedValue(range) {
-				if (!this.multiple) return this.dataValue
-				let selectedArr = []
+				if (!this.multiple) return this.dataValue;
+				let selectedArr = [];
 				range.forEach((item) => {
 					if (item.selected) {
-						selectedArr.push(item[this.map.value])
+						selectedArr.push(item[this.map.value]);
 					}
-				})
-				return this.dataValue.length > 0 ? this.dataValue : selectedArr
+				});
+				return this.dataValue.length > 0 ? this.dataValue : selectedArr;
 			},
 
 			/**
 			 * 设置背景样式
 			 */
 			setStyleBackgroud(item) {
-				let styles = {}
-				let selectedColor = this.selectedColor?this.selectedColor:'#2979ff'
-				if (this.mode !== 'list') {
-					styles['border-color'] = item.selected?selectedColor:'#DCDFE6'
+				let styles = {};
+				let selectedColor = this.selectedColor ? this.selectedColor : "#2979ff";
+				if (this.mode !== "list") {
+					styles["border-color"] = item.selected ? selectedColor : "#DCDFE6";
 				}
-				if (this.mode === 'tag') {
-					styles['background-color'] = item.selected? selectedColor:'#f5f5f5'
+				if (this.mode === "tag") {
+					styles["background-color"] = item.selected ? selectedColor : "#f5f5f5";
 				}
-				let classles = ''
+				let classles = "";
 				for (let i in styles) {
-					classles += `${i}:${styles[i]};`
+					classles += `${i}:${styles[i]};`;
 				}
-				return classles
+				return classles;
 			},
 			setStyleIcon(item) {
-				let styles = {}
-				let classles = ''
-				let selectedColor = this.selectedColor?this.selectedColor:'#2979ff'
-				styles['background-color'] = item.selected?selectedColor:'#fff'
-				styles['border-color'] = item.selected?selectedColor:'#DCDFE6'
+				let styles = {};
+				let classles = "";
+				let selectedColor = this.selectedColor ? this.selectedColor : "#2979ff";
+				styles["background-color"] = item.selected ? selectedColor : "#fff";
+				styles["border-color"] = item.selected ? selectedColor : "#DCDFE6";
 
-				if(!item.selected && item.disabled){
-					styles['background-color'] = '#F2F6FC'
-					styles['border-color'] = item.selected?selectedColor:'#DCDFE6'
+				if (!item.selected && item.disabled) {
+					styles["background-color"] = "#F2F6FC";
+					styles["border-color"] = item.selected ? selectedColor : "#DCDFE6";
 				}
 
 				for (let i in styles) {
-					classles += `${i}:${styles[i]};`
+					classles += `${i}:${styles[i]};`;
 				}
-				return classles
+				return classles;
 			},
 			setStyleIconText(item) {
-				let styles = {}
-				let classles = ''
-				let selectedColor = this.selectedColor?this.selectedColor:'#2979ff'
-				if (this.mode === 'tag') {
-					styles.color = item.selected?(this.selectedTextColor?this.selectedTextColor:'#fff'):'#666'
+				let styles = {};
+				let classles = "";
+				let selectedColor = this.selectedColor ? this.selectedColor : "#2979ff";
+				if (this.mode === "tag") {
+					styles.color = item.selected ? (this.selectedTextColor ? this.selectedTextColor : "#fff") : "#666";
 				} else {
-					styles.color = item.selected?(this.selectedTextColor?this.selectedTextColor:selectedColor):'#666'
+					styles.color = item.selected ? (this.selectedTextColor ? this.selectedTextColor : selectedColor) : "#666";
 				}
-				if(!item.selected && item.disabled){
-					styles.color = '#999'
+				if (!item.selected && item.disabled) {
+					styles.color = "#999";
 				}
 
 				for (let i in styles) {
-					classles += `${i}:${styles[i]};`
+					classles += `${i}:${styles[i]};`;
 				}
-				return classles
+				return classles;
 			},
 			setStyleRightIcon(item) {
-				let styles = {}
-				let classles = ''
-				if (this.mode === 'list') {
-					styles['border-color'] = item.selected?this.styles.selectedColor:'#DCDFE6'
+				let styles = {};
+				let classles = "";
+				if (this.mode === "list") {
+					styles["border-color"] = item.selected ? this.styles.selectedColor : "#DCDFE6";
 				}
 				for (let i in styles) {
-					classles += `${i}:${styles[i]};`
+					classles += `${i}:${styles[i]};`;
 				}
 
-				return classles
-			}
-		}
-	}
+				return classles;
+			},
+		},
+	};
 </script>
 
 <style lang="scss">
 	$checked-color: #2979ff;
-	$border-color: #DCDFE6;
-	$disable:0.4;
+	$border-color: #dcdfe6;
+	$disable: 0.4;
 
 	@mixin flex {
 		/* #ifndef APP-NVUE */
@@ -513,7 +533,7 @@
 						border-right-width: 1px;
 						border-right-color: #007aff;
 						border-right-style: solid;
-						border-bottom-width:1px;
+						border-bottom-width: 1px;
 						border-bottom-color: #007aff;
 						border-bottom-style: solid;
 						height: 12px;
@@ -552,7 +572,7 @@
 						border-right-width: 1px;
 						border-right-color: #fff;
 						border-right-style: solid;
-						border-bottom-width:1px ;
+						border-bottom-width: 1px;
 						border-bottom-color: #fff;
 						border-bottom-style: solid;
 						opacity: 0;
@@ -588,14 +608,13 @@
 
 				// 默认样式
 				&.is--default {
-
 					// 禁用
 					&.is-disable {
 						/* #ifdef H5 */
 						cursor: not-allowed;
 						/* #endif */
 						.checkbox__inner {
-							background-color: #F2F6FC;
+							background-color: #f2f6fc;
 							border-color: $border-color;
 							/* #ifdef H5 */
 							cursor: not-allowed;
@@ -603,7 +622,7 @@
 						}
 
 						.radio__inner {
-							background-color: #F2F6FC;
+							background-color: #f2f6fc;
 							border-color: $border-color;
 						}
 						.checklist-text {
@@ -664,14 +683,14 @@
 						border: 1px #eee solid;
 						opacity: $disable;
 						.checkbox__inner {
-							background-color: #F2F6FC;
+							background-color: #f2f6fc;
 							border-color: $border-color;
 							/* #ifdef H5 */
 							cursor: not-allowed;
 							/* #endif */
 						}
 						.radio__inner {
-							background-color: #F2F6FC;
+							background-color: #f2f6fc;
 							border-color: $border-color;
 							/* #ifdef H5 */
 							cursor: not-allowed;
@@ -762,7 +781,7 @@
 						cursor: not-allowed;
 						/* #endif */
 						.checkbox__inner {
-							background-color: #F2F6FC;
+							background-color: #f2f6fc;
 							border-color: $border-color;
 							/* #ifdef H5 */
 							cursor: not-allowed;

@@ -18,13 +18,12 @@
 	</view>
 </template>
 <script>
-
 	export default {
 		data() {
 			return {
-				title: 'onAccelerometerChange',
-				value: ''
-			}
+				title: "onAccelerometerChange",
+				value: "",
+			};
 		},
 		onUnload() {
 			uni.stopAccelerometer();
@@ -33,30 +32,29 @@
 			//#ifdef APP-PLUS
 			shake() {
 				uni.navigateTo({
-					url: '/platforms/app-plus/shake/shake'
-				})
+					url: "/platforms/app-plus/shake/shake",
+				});
 			},
 			//#endif
 			watchAcce() {
 				uni.onAccelerometerChange((res) => {
-					this.value = "监听设备的加速度变化:\n" + "X轴：" + res.x.toFixed(2) + "\nY轴：" + res.y.toFixed(2) +
-						"\nZ轴：" + res.z.toFixed(2);
-				})
+					this.value = "监听设备的加速度变化:\n" + "X轴：" + res.x.toFixed(2) + "\nY轴：" + res.y.toFixed(2) + "\nZ轴：" + res.z.toFixed(2);
+				});
 			},
 			stopAcce() {
-				uni.stopAccelerometer()
-			}
-		}
-	}
+				uni.stopAccelerometer();
+			},
+		},
+	};
 </script>
 
 <style>
 	.shake {
-		background-color: #FFCC33;
+		background-color: #ffcc33;
 		color: #ffffff;
 		margin-bottom: 50rpx;
 	}
-	.uni-textarea .acc-show{
+	.uni-textarea .acc-show {
 		height: 240rpx;
 	}
 </style>

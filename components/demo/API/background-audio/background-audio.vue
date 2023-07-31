@@ -3,7 +3,7 @@
 		<page-head :title="title"></page-head>
 		<view class="uni-padding-wrap">
 			<view class="uni-center">
-				<text class="time-big">{{formatedPlayTime}}</text>
+				<text class="time-big">{{ formatedPlayTime }}</text>
 			</view>
 			<view class="uni-common-mt">
 				<slider class="slider" min="0" max="21" step="1" :value="playTime" @change="seek"></slider>
@@ -34,19 +34,18 @@
 	</view>
 </template>
 <script>
-
-	import * as util from '../../../common/util.js';
+	import * as util from "../../../common/util.js";
 
 	export default {
 		data() {
 			return {
-				title: 'backgroundAudio',
+				title: "backgroundAudio",
 				bgAudioMannager: null,
-				dataUrl: 'https://vkceyugu.cdn.bspapp.com/VKCEYUGU-hello-uniapp/2cc220e0-c27a-11ea-9dfb-6da8e309e0d8.mp3',
+				dataUrl: "https://vkceyugu.cdn.bspapp.com/VKCEYUGU-hello-uniapp/2cc220e0-c27a-11ea-9dfb-6da8e309e0d8.mp3",
 				playing: false,
 				playTime: 0,
-				formatedPlayTime: '00:00:00'
-			}
+				formatedPlayTime: "00:00:00",
+			};
 		},
 		onLoad: function () {
 			this.playing = this.$backgroundAudioData.playing;
@@ -54,37 +53,37 @@
 			this.formatedPlayTime = this.$backgroundAudioData.formatedPlayTime;
 
 			let bgAudioMannager = uni.getBackgroundAudioManager();
-			if(!bgAudioMannager.title){
-				bgAudioMannager.title = '致爱丽丝';
+			if (!bgAudioMannager.title) {
+				bgAudioMannager.title = "致爱丽丝";
 			}
-			if(!bgAudioMannager.singer) {
-				bgAudioMannager.singer = '暂无';
+			if (!bgAudioMannager.singer) {
+				bgAudioMannager.singer = "暂无";
 			}
-			if(!bgAudioMannager.coverImgUrl){
-				bgAudioMannager.coverImgUrl = 'https://vkceyugu.cdn.bspapp.com/VKCEYUGU-dc-site/c517b410-5184-11eb-b997-9918a5dda011.jpeg';
+			if (!bgAudioMannager.coverImgUrl) {
+				bgAudioMannager.coverImgUrl = "https://vkceyugu.cdn.bspapp.com/VKCEYUGU-dc-site/c517b410-5184-11eb-b997-9918a5dda011.jpeg";
 			}
 
 			bgAudioMannager.onPlay(() => {
 				console.log("开始播放");
 				this.$backgroundAudioData.playing = this.playing = true;
-			})
+			});
 			bgAudioMannager.onPause(() => {
 				console.log("暂停播放");
 				this.$backgroundAudioData.playing = this.playing = false;
-			})
+			});
 			bgAudioMannager.onEnded(() => {
 				this.playing = false;
 				this.$backgroundAudioData.playing = false;
 				this.$backgroundAudioData.playTime = this.playTime = 0;
 				this.$backgroundAudioData.formatedPlayTime = this.formatedPlayTime = util.formatTime(0);
-			})
+			});
 
 			bgAudioMannager.onTimeUpdate((e) => {
 				if (Math.floor(bgAudioMannager.currentTime) > Math.floor(this.playTime)) {
 					this.$backgroundAudioData.formatedPlayTime = this.formatedPlayTime = util.formatTime(Math.floor(bgAudioMannager.currentTime));
 				}
 				this.$backgroundAudioData.playTime = this.playTime = bgAudioMannager.currentTime;
-			})
+			});
 
 			this.bgAudioMannager = bgAudioMannager;
 		},
@@ -109,9 +108,9 @@
 				this.$backgroundAudioData.playing = this.playing = false;
 				this.$backgroundAudioData.playTime = this.playTime = 0;
 				this.$backgroundAudioData.formatedPlayTime = this.formatedPlayTime = util.formatTime(0);
-			}
-		}
-	}
+			},
+		},
+	};
 </script>
 
 <style>
@@ -138,12 +137,12 @@
 	}
 
 	.slider {
-		width:630rpx;
+		width: 630rpx;
 	}
 
 	.play-time {
 		font-size: 28rpx;
-		width:100%;
+		width: 100%;
 		padding: 20rpx 0;
 		display: flex;
 		justify-content: space-between;

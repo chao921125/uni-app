@@ -9,8 +9,8 @@
 			</view>
 			<view class="uni-title">不同颜色和尺寸的switch</view>
 			<view>
-				<switch checked color="#FFCC33" style="transform:scale(0.7)"/>
-				<switch color="#FFCC33" style="transform:scale(0.7)"/>
+				<switch checked color="#FFCC33" style="transform: scale(0.7)" />
+				<switch color="#FFCC33" style="transform: scale(0.7)" />
 			</view>
 
 			<view class="uni-title">推荐展示样式</view>
@@ -31,17 +31,16 @@
 	export default {
 		data() {
 			return {
-				title: 'switch 开关'
-			}
+				title: "switch 开关",
+			};
 		},
 		methods: {
 			switch1Change: function (e) {
-				console.log('switch1 发生 change 事件，携带值为', e.detail.value)
+				console.log("switch1 发生 change 事件，携带值为", e.detail.value);
 			},
 			switch2Change: function (e) {
-				console.log('switch2 发生 change 事件，携带值为', e.detail.value)
-			}
-		}
-	}
+				console.log("switch2 发生 change 事件，携带值为", e.detail.value);
+			},
+		},
+	};
 </script>
-

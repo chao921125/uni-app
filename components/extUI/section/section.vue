@@ -50,19 +50,14 @@
 		data() {
 			return {
 				appear: false,
-			}
+			};
 		},
-		onReady() {
-
-		},
-		methods: {
-
-		}
-	}
+		onReady() {},
+		methods: {},
+	};
 </script>
 
 <style lang="scss">
-
 	.uni-wrap {
 		flex-direction: column;
 		/* #ifdef H5 */

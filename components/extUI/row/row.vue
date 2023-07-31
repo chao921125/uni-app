@@ -76,7 +76,6 @@
 			</view>
 		</uni-section>
 
-
 		<uni-section title="混合布局" subTitle="通过基础的 1/24 分栏任意扩展组合形成较为复杂的混合布局" type="line">
 			<view class="example-body">
 				<uni-row class="demo-uni-row" :gutter="gutter" :width="nvueWidth">
@@ -107,7 +106,6 @@
 				</uni-row>
 			</view>
 		</uni-section>
-
 
 		<uni-section title="分栏偏移" subTitle="支持偏移指定的栏数" type="line">
 			<view class="example-body">
@@ -146,7 +144,6 @@
 			</view>
 		</uni-section>
 
-
 		<!-- #ifndef APP-NVUE -->
 		<uni-section title="响应式布局" subTitle="共五个响应尺寸：xs、sm、md、lg 和 xl" type="line">
 			<view class="example-body">
@@ -176,10 +173,10 @@
 		data() {
 			return {
 				gutter: 0,
-				nvueWidth: 730
-			}
-		}
-	}
+				nvueWidth: 730,
+			};
+		},
+	};
 </script>
 
 <style lang="scss">

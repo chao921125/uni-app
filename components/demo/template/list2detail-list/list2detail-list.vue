@@ -19,7 +19,7 @@
 					</view>
 				</view>
 				<!-- #ifdef APP-PLUS -->
-				<view class="ad-view" v-if="(index > 0 && (index+1) % 10 == 0)">
+				<view class="ad-view" v-if="index > 0 && (index + 1) % 10 == 0">
 					<ad :adpid="adpid" @error="aderror"></ad>
 				</view>
 				<!-- #endif -->
@@ -30,22 +30,22 @@
 </template>
 
 <script>
-	import { dateUtils } from  '../../../common/util.js';
+	import { dateUtils } from "../../../common/util.js";
 
 	export default {
 		data() {
 			return {
 				banner: {},
 				listData: [],
-				last_id: '',
+				last_id: "",
 				reload: false,
-				status: 'more',
-				adpid: '',
+				status: "more",
+				adpid: "",
 				contentText: {
-					contentdown: '上拉加载更多',
-					contentrefresh: '加载中',
-					contentnomore: '没有更多'
-				}
+					contentdown: "上拉加载更多",
+					contentrefresh: "加载中",
+					contentnomore: "没有更多",
+				},
 			};
 		},
 		onLoad() {
@@ -55,48 +55,48 @@
 		},
 		onPullDownRefresh() {
 			this.reload = true;
-			this.last_id = '';
+			this.last_id = "";
 			this.getBanner();
 			this.getList();
 		},
 		onReachBottom() {
-			this.status = 'more';
+			this.status = "more";
 			this.getList();
 		},
 		methods: {
 			getBanner() {
 				let data = {
-					column: 'id,post_id,title,author_name,cover,published_at' //需要的字段名
+					column: "id,post_id,title,author_name,cover,published_at", //需要的字段名
 				};
 				uni.request({
-					url: 'https://unidemo.dcloud.net.cn/api/banner/36kr',
+					url: "https://unidemo.dcloud.net.cn/api/banner/36kr",
 					data: data,
-					success: data => {
+					success: (data) => {
 						uni.stopPullDownRefresh();
 						if (data.statusCode == 200) {
 							this.banner = data.data;
 						}
 					},
 					fail: (data, code) => {
-						console.log('fail' + JSON.stringify(data));
-					}
+						console.log("fail" + JSON.stringify(data));
+					},
 				});
 			},
 			getList() {
 				var data = {
-					column: 'id,post_id,title,author_name,cover,published_at' //需要的字段名
+					column: "id,post_id,title,author_name,cover,published_at", //需要的字段名
 				};
 				if (this.last_id) {
 					//说明已有数据，目前处于上拉加载
-					this.status = 'loading';
+					this.status = "loading";
 					data.minId = this.last_id;
-					data.time = new Date().getTime() + '';
+					data.time = new Date().getTime() + "";
 					data.pageSize = 10;
 				}
 				uni.request({
-					url: 'https://unidemo.dcloud.net.cn/api/news',
+					url: "https://unidemo.dcloud.net.cn/api/news",
 					data: data,
-					success: data => {
+					success: (data) => {
 						if (data.statusCode == 200) {
 							let list = this.setTime(data.data);
 							this.listData = this.reload ? list : this.listData.concat(list);
@@ -105,11 +105,11 @@
 						}
 					},
 					fail: (data, code) => {
-						console.log('fail' + JSON.stringify(data));
-					}
+						console.log("fail" + JSON.stringify(data));
+					},
 				});
 			},
-			goDetail: function(e) {
+			goDetail: function (e) {
 				// 				if (!/前|刚刚/.test(e.published_at)) {
 				// 					e.published_at = dateUtils.format(e.published_at);
 				// 				}
@@ -119,30 +119,30 @@
 					id: e.id,
 					post_id: e.post_id,
 					published_at: e.published_at,
-					title: e.title
+					title: e.title,
 				};
 				uni.navigateTo({
-					url: '../list2detail-detail/list2detail-detail?detailDate=' + encodeURIComponent(JSON.stringify(detail))
+					url: "../list2detail-detail/list2detail-detail?detailDate=" + encodeURIComponent(JSON.stringify(detail)),
 				});
 			},
-			setTime: function(items) {
+			setTime: function (items) {
 				var newItems = [];
-				items.forEach(e => {
+				items.forEach((e) => {
 					newItems.push({
 						author_name: e.author_name,
 						cover: e.cover,
 						id: e.id,
 						post_id: e.post_id,
 						published_at: dateUtils.format(e.published_at),
-						title: e.title
+						title: e.title,
 					});
 				});
 				return newItems;
 			},
 			aderror(e) {
 				console.log("aderror: " + JSON.stringify(e.detail));
-			}
-		}
+			},
+		},
 	};
 </script>
 

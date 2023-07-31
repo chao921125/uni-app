@@ -2,14 +2,12 @@
 	<view>
 		<page-head :title="title"></page-head>
 		<view class="uni-padding-wrap">
-			<view class="uni-hello-text uni-center" style="padding-bottom:50rpx;">
-				旋转手机即可获取方位信息
-			</view>
+			<view class="uni-hello-text uni-center" style="padding-bottom: 50rpx"> 旋转手机即可获取方位信息 </view>
 			<view class="direction">
 				<view class="bg-compass-line"></view>
-				<image class="bg-compass" src="../../../static/compass.png" :style="'transform: rotate('+direction+'deg)'"></image>
+				<image class="bg-compass" src="../../../static/compass.png" :style="'transform: rotate(' + direction + 'deg)'"></image>
 				<view class="direction-value">
-					<text>{{direction}}</text>
+					<text>{{ direction }}</text>
 					<text class="direction-degree">o</text>
 				</view>
 			</view>
@@ -20,14 +18,14 @@
 	export default {
 		data() {
 			return {
-				title: 'onCompassChange',
-				direction: 0
-			}
+				title: "onCompassChange",
+				direction: 0,
+			};
 		},
 		onReady: function () {
 			uni.onCompassChange((res) => {
-				this.direction = parseInt(res.direction)
-			})
+				this.direction = parseInt(res.direction);
+			});
 		},
 		onUnload() {
 			// #ifndef MP-ALIPAY
@@ -38,8 +36,8 @@
 			// #ifdef MP-ALIPAY
 			uni.offCompassChange();
 			// #endif
-		}
-	}
+		},
+	};
 </script>
 
 <style>
@@ -51,7 +49,7 @@
 		height: 540rpx;
 		align-items: center;
 		justify-content: center;
-		margin:0 auto;
+		margin: 0 auto;
 	}
 
 	.direction-value {
@@ -75,7 +73,7 @@
 		left: 0;
 		width: 540rpx;
 		height: 540rpx;
-		transition: .1s;
+		transition: 0.1s;
 	}
 
 	.bg-compass-line {
@@ -84,7 +82,7 @@
 		top: -10rpx;
 		width: 6rpx;
 		height: 56rpx;
-		background-color: #1AAD19;
+		background-color: #1aad19;
 		border-radius: 999rpx;
 		z-index: 1;
 	}

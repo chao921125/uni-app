@@ -21,8 +21,8 @@
 	export default {
 		data() {
 			return {
-				title: 'toast'
-			}
+				title: "toast",
+			};
 		},
 		// #ifdef MP-ALIPAY
 		onUnload() {
@@ -32,48 +32,47 @@
 		methods: {
 			toast1Tap: function () {
 				uni.showToast({
-					title: "默认"
-				})
+					title: "默认",
+				});
 			},
 			toast2Tap: function () {
 				uni.showToast({
 					title: "duration 3000",
-					duration: 3000
-				})
+					duration: 3000,
+				});
 			},
 			toast3Tap: function () {
 				uni.showToast({
 					title: "loading",
 					icon: "loading",
-					duration: 5000
-				})
+					duration: 5000,
+				});
 				// #ifdef MP-ALIPAY
 				this._showTimer = setTimeout(() => {
 					// icon 是 loading 时，showToast 实际执行的是 showLoading
-					my.hideLoading()
+					my.hideLoading();
 					// 执行完所有代码再清除定时器
 					clearTimeout(this._showTimer);
-				}, 3000)
+				}, 3000);
 				// #endif
-
 			},
 			toast4Tap: function () {
 				uni.showToast({
 					title: "logo",
-					image: "../../../static/uni.png"
-				})
+					image: "../../../static/uni.png",
+				});
 			},
 			// #ifdef APP-PLUS
 			toast5Tap: function () {
 				uni.showToast({
 					title: "显示一段轻提示",
-					position:'bottom'
-				})
+					position: "bottom",
+				});
 			},
 			// #endif
 			hideToast: function () {
-				uni.hideToast()
-			}
-		}
-	}
+				uni.hideToast();
+			},
+		},
+	};
 </script>

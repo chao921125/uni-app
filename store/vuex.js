@@ -14,7 +14,7 @@ const store = createStore({
 		version: "1.1.1",
 		//当前是否有网络连接
 		networkConnected: true,
-		isOnline: true
+		isOnline: true,
 	},
 	mutations: {
 		login(state, payload) {
@@ -36,7 +36,7 @@ const store = createStore({
 		},
 		setOnline(state, payload) {
 			state.isOnline = state.isOnline;
-		}
+		},
 	},
 	getters: {
 		// currentColor(state) {
@@ -44,10 +44,7 @@ const store = createStore({
 		// }
 	},
 	actions: {
-		getOnlineStatus: async function({
-			commit,
-			state
-		}) {
+		getOnlineStatus: async function ({ commit, state }) {
 			return await new Promise((resolve, reject) => {
 				// #ifndef MP-WEIXIN
 				resolve(true);
@@ -56,26 +53,29 @@ const store = createStore({
 				if (state.isOnline) {
 					resolve(state.isOnline);
 				} else {
-					fetch.request("/Home/GetStatus", "GET", {}, false, true, true).then((res) => {
-						if (res.code == 100 && res.data == 1) {
-							commit("setOnline", {
-								isOnline: true
-							});
-							resolve(true)
-						} else {
-							commit("setOnline", {
-								isOnline: false
-							});
-							resolve(false);
-						}
-					}).catch((res) => {
-						reject(false);
-					})
+					fetch
+						.request("/Home/GetStatus", "GET", {}, false, true, true)
+						.then((res) => {
+							if (res.code == 100 && res.data == 1) {
+								commit("setOnline", {
+									isOnline: true,
+								});
+								resolve(true);
+							} else {
+								commit("setOnline", {
+									isOnline: false,
+								});
+								resolve(false);
+							}
+						})
+						.catch((res) => {
+							reject(false);
+						});
 				}
 				// #endif
-			})
-		}
-	}
-})
+			});
+		},
+	},
+});
 
 export default store;

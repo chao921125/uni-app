@@ -14,7 +14,6 @@
 			</view>
 		</uni-section>
 
-
 		<!-- #ifdef H5 || MP-WEIXIN -->
 		<uni-section title="选择任意文件" type="line">
 			<view class="example-body">
@@ -26,20 +25,16 @@
 		<uni-section title="自定义图片大小" type="line">
 			<view class="example-body custom-image-box">
 				<text class="text">选择头像</text>
-				<uni-file-picker limit="1" :del-icon="false" disable-preview :imageStyles="imageStyles"
-					file-mediatype="image">选择</uni-file-picker>
+				<uni-file-picker limit="1" :del-icon="false" disable-preview :imageStyles="imageStyles" file-mediatype="image">选择</uni-file-picker>
 			</view>
 		</uni-section>
 
 		<uni-section title="自定义图片大小" type="line">
-			<view class="example-body ">
-				<uni-file-picker readonly :value="fileLists" :imageStyles="imageStyles" file-mediatype="image">
-				</uni-file-picker>
-				<uni-file-picker readonly :value="fileLists" :listStyles="listStyles" file-mediatype="all">
-				</uni-file-picker>
+			<view class="example-body">
+				<uni-file-picker readonly :value="fileLists" :imageStyles="imageStyles" file-mediatype="image"> </uni-file-picker>
+				<uni-file-picker readonly :value="fileLists" :listStyles="listStyles" file-mediatype="all"> </uni-file-picker>
 			</view>
 		</uni-section>
-
 	</view>
 </template>
 
@@ -51,8 +46,8 @@
 					width: 64,
 					height: 64,
 					border: {
-						radius: '50%'
-					}
+						radius: "50%",
+					},
 				},
 				listStyles: {
 					// 是否显示边框
@@ -62,30 +57,32 @@
 					// 线条样式
 					borderStyle: {
 						width: 1,
-						color: 'blue',
-						style: 'dashed',
-						radius: 2
-					}
+						color: "blue",
+						style: "dashed",
+						radius: 2,
+					},
 				},
-				fileLists: [{
-					url: 'https://vkceyugu.cdn.bspapp.com/VKCEYUGU-dc-site/b7c7f970-517d-11eb-97b7-0dc4655d6e68.jpg',
-					extname: 'png',
-					name: 'shuijiao.png'
-				}, {
-					url: 'https://vkceyugu.cdn.bspapp.com/VKCEYUGU-dc-site/b7c7f970-517d-11eb-97b7-0dc4655d6e68.jpg',
-					extname: 'png',
-					name: 'uniapp-logo.png'
-				}, {
-					url: 'https://vkceyugu.cdn.bspapp.com/VKCEYUGU-dc-site/b7c7f970-517d-11eb-97b7-0dc4655d6e68.jpg',
-					extname: 'png',
-					name: 'shuijiao.png'
-				}]
-			}
+				fileLists: [
+					{
+						url: "https://vkceyugu.cdn.bspapp.com/VKCEYUGU-dc-site/b7c7f970-517d-11eb-97b7-0dc4655d6e68.jpg",
+						extname: "png",
+						name: "shuijiao.png",
+					},
+					{
+						url: "https://vkceyugu.cdn.bspapp.com/VKCEYUGU-dc-site/b7c7f970-517d-11eb-97b7-0dc4655d6e68.jpg",
+						extname: "png",
+						name: "uniapp-logo.png",
+					},
+					{
+						url: "https://vkceyugu.cdn.bspapp.com/VKCEYUGU-dc-site/b7c7f970-517d-11eb-97b7-0dc4655d6e68.jpg",
+						extname: "png",
+						name: "shuijiao.png",
+					},
+				],
+			};
 		},
-		methods: {
-
-		}
-	}
+		methods: {},
+	};
 </script>
 
 <style lang="scss">

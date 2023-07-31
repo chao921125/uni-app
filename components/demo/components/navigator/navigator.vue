@@ -17,17 +17,17 @@
 	</view>
 </template>
 <script>
-	import { mapState } from 'vuex'
+	import { mapState } from "vuex";
 	export default {
 		data() {
 			return {
-				title: 'navigator'
-			}
+				title: "navigator",
+			};
 		},
 		computed: {
 			...mapState({
-				hasLeftWin: state => !state.noMatchLeftWindow
-			})
+				hasLeftWin: (state) => !state.noMatchLeftWindow,
+			}),
 		},
-	}
+	};
 </script>

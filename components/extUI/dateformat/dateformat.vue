@@ -11,15 +11,15 @@
 		</uni-section>
 		<uni-section title="设置阈值" subTitle="阈值用于控制什么时候显示刚刚|马上，什么时候显示xx分钟前|xx分钟后" type="line" padding>
 			<view class="example-body">
-				<uni-dateformat :date="now - 30000" :threshold="[0,3600000]"></uni-dateformat>
-				<uni-dateformat :date="now - 30000" :threshold="[0,0]"></uni-dateformat>
+				<uni-dateformat :date="now - 30000" :threshold="[0, 3600000]"></uni-dateformat>
+				<uni-dateformat :date="now - 30000" :threshold="[0, 0]"></uni-dateformat>
 			</view>
 		</uni-section>
 		<uni-section title="使用英文" type="line" padding>
 			<view class="example-body">
-				<uni-dateformat :date="now - 1200000" :threshold="[60000,3600000]" locale="en"></uni-dateformat>
-				<uni-dateformat :date="now - 30000" :threshold="[60000,3600000]" locale="en"></uni-dateformat>
-				<uni-dateformat :date="now - 80000" :threshold="[60000,3600000]" locale="en"></uni-dateformat>
+				<uni-dateformat :date="now - 1200000" :threshold="[60000, 3600000]" locale="en"></uni-dateformat>
+				<uni-dateformat :date="now - 30000" :threshold="[60000, 3600000]" locale="en"></uni-dateformat>
+				<uni-dateformat :date="now - 80000" :threshold="[60000, 3600000]" locale="en"></uni-dateformat>
 			</view>
 		</uni-section>
 	</view>
@@ -29,13 +29,11 @@
 	export default {
 		data() {
 			return {
-				now: Date.now()
-			}
+				now: Date.now(),
+			};
 		},
-		methods: {
-
-		}
-	}
+		methods: {},
+	};
 </script>
 
 <style lang="scss">

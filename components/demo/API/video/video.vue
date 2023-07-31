@@ -9,7 +9,7 @@
 					</view>
 					<view class="uni-list-cell-right">
 						<picker :range="sourceType" @change="sourceTypeChange" :value="sourceTypeIndex">
-							<view class="uni-input">{{sourceType[sourceTypeIndex]}}</view>
+							<view class="uni-input">{{ sourceType[sourceTypeIndex] }}</view>
 						</picker>
 					</view>
 				</view>
@@ -21,7 +21,7 @@
 		<view class="uni-list">
 			<radio-group @change="radioChange">
 				<label class="uni-list-cell uni-list-cell-pd" v-for="(item, index) in cameraList" :key="item.value">
-					<radio :value="item.value" :checked="index === cameraIndex">{{item.name}}</radio>
+					<radio :value="item.value" :checked="index === cameraIndex">{{ item.name }}</radio>
 				</label>
 			</radio-group>
 		</view>
@@ -35,35 +35,30 @@
 	</view>
 </template>
 <script>
-	var sourceType = [
-		['camera'],
-		['album'],
-		['camera', 'album']
-	]
+	var sourceType = [["camera"], ["album"], ["camera", "album"]];
 	export default {
 		data() {
 			return {
-				title: 'chooseVideo',
+				title: "chooseVideo",
 				sourceTypeIndex: 2,
-				sourceType: ['拍摄', '相册', '拍摄或相册'],
-				src: '',
-				cameraList: [{
-						value: 'back',
-						name: '后置摄像头',
-						checked: 'true'
+				sourceType: ["拍摄", "相册", "拍摄或相册"],
+				src: "",
+				cameraList: [
+					{
+						value: "back",
+						name: "后置摄像头",
+						checked: "true",
 					},
 					{
-						value: 'front',
-						name: '前置摄像头'
+						value: "front",
+						name: "前置摄像头",
 					},
 				],
-				cameraIndex: 0
-			}
+				cameraIndex: 0,
+			};
 		},
 		onUnload() {
-			this.src = '',
-				this.sourceTypeIndex = 2,
-				this.sourceType = ['拍摄', '相册', '拍摄或相册'];
+			(this.src = ""), (this.sourceTypeIndex = 2), (this.sourceType = ["拍摄", "相册", "拍摄或相册"]);
 		},
 		methods: {
 			radioChange(evt) {
@@ -74,15 +69,15 @@
 					}
 				}
 			},
-			sourceTypeChange: function(e) {
-				this.sourceTypeIndex = parseInt(e.detail.value)
+			sourceTypeChange: function (e) {
+				this.sourceTypeIndex = parseInt(e.detail.value);
 			},
-			chooseVideo: function() {
+			chooseVideo: function () {
 				uni.chooseVideo({
 					camera: this.cameraList[this.cameraIndex].value,
 					sourceType: sourceType[this.sourceTypeIndex],
 					success: (res) => {
-						this.src = res.tempFilePath
+						this.src = res.tempFilePath;
 					},
 					fail: (err) => {
 						// #ifdef MP
@@ -91,36 +86,36 @@
 								let authStatus = false;
 								switch (this.sourceTypeIndex) {
 									case 0:
-										authStatus = res.authSetting['scope.camera'];
+										authStatus = res.authSetting["scope.camera"];
 										break;
 									case 1:
-										authStatus = res.authSetting['scope.album'];
+										authStatus = res.authSetting["scope.album"];
 										break;
 									case 2:
-										authStatus = res.authSetting['scope.album'] && res.authSetting['scope.camera'];
+										authStatus = res.authSetting["scope.album"] && res.authSetting["scope.camera"];
 										break;
 									default:
 										break;
 								}
 								if (!authStatus) {
 									uni.showModal({
-										title: '授权失败',
-										content: 'Hello uni-app需要从您的相机或相册获取视频，请在设置界面打开相关权限',
+										title: "授权失败",
+										content: "Hello uni-app需要从您的相机或相册获取视频，请在设置界面打开相关权限",
 										success: (res) => {
 											if (res.confirm) {
-												uni.openSetting()
+												uni.openSetting();
 											}
-										}
-									})
+										},
+									});
 								}
-							}
-						})
+							},
+						});
 						// #endif
-					}
-				})
-			}
-		}
-	}
+					},
+				});
+			},
+		},
+	};
 </script>
 
 <style>

@@ -1,16 +1,17 @@
 <template>
 	<view class="uni-calendar" @mouseleave="leaveCale">
-		<view v-if="!insert&&show" class="uni-calendar__mask" :class="{'uni-calendar--mask-show':aniMaskShow}"
-			@click="clean"></view>
-		<view v-if="insert || show" class="uni-calendar__content"
-			:class="{'uni-calendar--fixed':!insert,'uni-calendar--ani-show':aniMaskShow, 'uni-calendar__content-mobile': aniMaskShow}">
-			<view class="uni-calendar__header" :class="{'uni-calendar__header-mobile' :!insert}">
+		<view v-if="!insert && show" class="uni-calendar__mask" :class="{ 'uni-calendar--mask-show': aniMaskShow }" @click="clean"></view>
+		<view
+			v-if="insert || show"
+			class="uni-calendar__content"
+			:class="{ 'uni-calendar--fixed': !insert, 'uni-calendar--ani-show': aniMaskShow, 'uni-calendar__content-mobile': aniMaskShow }"
+		>
+			<view class="uni-calendar__header" :class="{ 'uni-calendar__header-mobile': !insert }">
 				<view v-if="left" class="uni-calendar__header-btn-box" @click.stop="pre">
 					<view class="uni-calendar__header-btn uni-calendar--left"></view>
 				</view>
 				<picker mode="date" :value="date" fields="month" @change="bindDateChange">
-					<text
-						class="uni-calendar__header-text">{{ (nowDate.year||'') + yearText + ( nowDate.month||'') + monthText}}</text>
+					<text class="uni-calendar__header-text">{{ (nowDate.year || "") + yearText + (nowDate.month || "") + monthText }}</text>
 				</picker>
 				<view v-if="right" class="uni-calendar__header-btn-box" @click.stop="next">
 					<view class="uni-calendar__header-btn uni-calendar--right"></view>
@@ -24,61 +25,88 @@
 			</view>
 			<view class="uni-calendar__box">
 				<view v-if="showMonth" class="uni-calendar__box-bg">
-					<text class="uni-calendar__box-bg-text">{{nowDate.month}}</text>
+					<text class="uni-calendar__box-bg-text">{{ nowDate.month }}</text>
 				</view>
-				<view class="uni-calendar__weeks" style="padding-bottom: 7px;">
+				<view class="uni-calendar__weeks" style="padding-bottom: 7px">
 					<view class="uni-calendar__weeks-day">
-						<text class="uni-calendar__weeks-day-text">{{SUNText}}</text>
+						<text class="uni-calendar__weeks-day-text">{{ SUNText }}</text>
 					</view>
 					<view class="uni-calendar__weeks-day">
-						<text class="uni-calendar__weeks-day-text">{{MONText}}</text>
+						<text class="uni-calendar__weeks-day-text">{{ MONText }}</text>
 					</view>
 					<view class="uni-calendar__weeks-day">
-						<text class="uni-calendar__weeks-day-text">{{TUEText}}</text>
+						<text class="uni-calendar__weeks-day-text">{{ TUEText }}</text>
 					</view>
 					<view class="uni-calendar__weeks-day">
-						<text class="uni-calendar__weeks-day-text">{{WEDText}}</text>
+						<text class="uni-calendar__weeks-day-text">{{ WEDText }}</text>
 					</view>
 					<view class="uni-calendar__weeks-day">
-						<text class="uni-calendar__weeks-day-text">{{THUText}}</text>
+						<text class="uni-calendar__weeks-day-text">{{ THUText }}</text>
 					</view>
 					<view class="uni-calendar__weeks-day">
-						<text class="uni-calendar__weeks-day-text">{{FRIText}}</text>
+						<text class="uni-calendar__weeks-day-text">{{ FRIText }}</text>
 					</view>
 					<view class="uni-calendar__weeks-day">
-						<text class="uni-calendar__weeks-day-text">{{SATText}}</text>
+						<text class="uni-calendar__weeks-day-text">{{ SATText }}</text>
 					</view>
 				</view>
-				<view class="uni-calendar__weeks" v-for="(item,weekIndex) in weeks" :key="weekIndex">
-					<view class="uni-calendar__weeks-item" v-for="(weeks,weeksIndex) in item" :key="weeksIndex">
-						<calendar-item class="uni-calendar-item--hook" :weeks="weeks" :calendar="calendar"
-							:selected="selected" :lunar="lunar" :checkHover="range" @change="choiceDate"
-							@handleMouse="handleMouse">
+				<view class="uni-calendar__weeks" v-for="(item, weekIndex) in weeks" :key="weekIndex">
+					<view class="uni-calendar__weeks-item" v-for="(weeks, weeksIndex) in item" :key="weeksIndex">
+						<calendar-item
+							class="uni-calendar-item--hook"
+							:weeks="weeks"
+							:calendar="calendar"
+							:selected="selected"
+							:lunar="lunar"
+							:checkHover="range"
+							@change="choiceDate"
+							@handleMouse="handleMouse"
+						>
 						</calendar-item>
 					</view>
 				</view>
 			</view>
-			<view v-if="!insert && !range && typeHasTime" class="uni-date-changed uni-calendar--fixed-top"
-				style="padding: 0 80px;">
-				<view class="uni-date-changed--time-date">{{tempSingleDate ? tempSingleDate : selectDateText}}</view>
-				<time-picker type="time" :start="reactStartTime" :end="reactEndTime" v-model="time"
-					:disabled="!tempSingleDate" :border="false" :hide-second="hideSecond" class="time-picker-style">
+			<view v-if="!insert && !range && typeHasTime" class="uni-date-changed uni-calendar--fixed-top" style="padding: 0 80px">
+				<view class="uni-date-changed--time-date">{{ tempSingleDate ? tempSingleDate : selectDateText }}</view>
+				<time-picker
+					type="time"
+					:start="reactStartTime"
+					:end="reactEndTime"
+					v-model="time"
+					:disabled="!tempSingleDate"
+					:border="false"
+					:hide-second="hideSecond"
+					class="time-picker-style"
+				>
 				</time-picker>
 			</view>
 
 			<view v-if="!insert && range && typeHasTime" class="uni-date-changed uni-calendar--fixed-top">
 				<view class="uni-date-changed--time-start">
-					<view class="uni-date-changed--time-date">{{tempRange.before ? tempRange.before : startDateText}}
-					</view>
-					<time-picker type="time" :start="reactStartTime" v-model="timeRange.startTime" :border="false"
-						:hide-second="hideSecond" :disabled="!tempRange.before" class="time-picker-style">
+					<view class="uni-date-changed--time-date">{{ tempRange.before ? tempRange.before : startDateText }} </view>
+					<time-picker
+						type="time"
+						:start="reactStartTime"
+						v-model="timeRange.startTime"
+						:border="false"
+						:hide-second="hideSecond"
+						:disabled="!tempRange.before"
+						class="time-picker-style"
+					>
 					</time-picker>
 				</view>
-				<uni-icons type="arrowthinright" color="#999" style="line-height: 50px;"></uni-icons>
+				<uni-icons type="arrowthinright" color="#999" style="line-height: 50px"></uni-icons>
 				<view class="uni-date-changed--time-end">
-					<view class="uni-date-changed--time-date">{{tempRange.after ? tempRange.after : endDateText}}</view>
-					<time-picker type="time" :end="reactEndTime" v-model="timeRange.endTime" :border="false"
-						:hide-second="hideSecond" :disabled="!tempRange.after" class="time-picker-style">
+					<view class="uni-date-changed--time-date">{{ tempRange.after ? tempRange.after : endDateText }}</view>
+					<time-picker
+						type="time"
+						:end="reactEndTime"
+						v-model="timeRange.endTime"
+						:border="false"
+						:hide-second="hideSecond"
+						:disabled="!tempRange.after"
+						class="time-picker-style"
+					>
 					</time-picker>
 				</view>
 			</view>
@@ -86,23 +114,19 @@
 				<!-- <view class="uni-calendar__header-btn-box">
 					<text class="uni-calendar__button-text uni-calendar--fixed-width">{{okText}}</text>
 				</view> -->
-				<view class="uni-datetime-picker--btn" @click="confirm">{{confirmText}}</view>
+				<view class="uni-datetime-picker--btn" @click="confirm">{{ confirmText }}</view>
 			</view>
 		</view>
 	</view>
 </template>
 
 <script>
-	import Calendar from './util.js';
-	import calendarItem from './calendar-item.vue'
-	import timePicker from './time-picker.vue'
-	import {
-		initVueI18n
-	} from '@dcloudio/uni-i18n'
-	import messages from './i18n/index.js'
-	const {
-		t
-	} = initVueI18n(messages)
+	import Calendar from "./util.js";
+	import calendarItem from "./calendar-item.vue";
+	import timePicker from "./time-picker.vue";
+	import { initVueI18n } from "@dcloudio/uni-i18n";
+	import messages from "./i18n/index.js";
+	const { t } = initVueI18n(messages);
 	/**
 	 * Calendar 日历
 	 * @description 日历组件可以查看日期，选择任意范围内的日期，打点操作。常用场景如：酒店日期预订、火车机票选择购买日期、上下班打卡等
@@ -126,241 +150,236 @@
 	export default {
 		components: {
 			calendarItem,
-			timePicker
+			timePicker,
 		},
 		props: {
 			date: {
 				type: String,
-				default: ''
+				default: "",
 			},
 			defTime: {
 				type: [String, Object],
-				default: ''
+				default: "",
 			},
 			selectableTimes: {
 				type: [Object],
-				default () {
-					return {}
-				}
+				default() {
+					return {};
+				},
 			},
 			selected: {
 				type: Array,
-				default () {
-					return []
-				}
+				default() {
+					return [];
+				},
 			},
 			lunar: {
 				type: Boolean,
-				default: false
+				default: false,
 			},
 			startDate: {
 				type: String,
-				default: ''
+				default: "",
 			},
 			endDate: {
 				type: String,
-				default: ''
+				default: "",
 			},
 			range: {
 				type: Boolean,
-				default: false
+				default: false,
 			},
 			typeHasTime: {
 				type: Boolean,
-				default: false
+				default: false,
 			},
 			insert: {
 				type: Boolean,
-				default: true
+				default: true,
 			},
 			showMonth: {
 				type: Boolean,
-				default: true
+				default: true,
 			},
 			clearDate: {
 				type: Boolean,
-				default: true
+				default: true,
 			},
 			left: {
 				type: Boolean,
-				default: true
+				default: true,
 			},
 			right: {
 				type: Boolean,
-				default: true
+				default: true,
 			},
 			checkHover: {
 				type: Boolean,
-				default: true
+				default: true,
 			},
 			hideSecond: {
 				type: [Boolean],
-				default: false
+				default: false,
 			},
 			pleStatus: {
 				type: Object,
-				default () {
+				default() {
 					return {
-						before: '',
-						after: '',
+						before: "",
+						after: "",
 						data: [],
-						fulldate: ''
-					}
-				}
-			}
+						fulldate: "",
+					};
+				},
+			},
 		},
 		data() {
 			return {
 				show: false,
 				weeks: [],
 				calendar: {},
-				nowDate: '',
+				nowDate: "",
 				aniMaskShow: false,
 				firstEnter: true,
-				time: '',
+				time: "",
 				timeRange: {
-					startTime: '',
-					endTime: ''
+					startTime: "",
+					endTime: "",
 				},
-				tempSingleDate: '',
+				tempSingleDate: "",
 				tempRange: {
-					before: '',
-					after: ''
-				}
-			}
+					before: "",
+					after: "",
+				},
+			};
 		},
 		watch: {
 			date: {
 				immediate: true,
 				handler(newVal, oldVal) {
 					if (!this.range) {
-						this.tempSingleDate = newVal
+						this.tempSingleDate = newVal;
 						setTimeout(() => {
-							this.init(newVal)
-						}, 100)
+							this.init(newVal);
+						}, 100);
 					}
-				}
+				},
 			},
 			defTime: {
 				immediate: true,
 				handler(newVal, oldVal) {
 					if (!this.range) {
-						this.time = newVal
+						this.time = newVal;
 					} else {
 						// console.log('-----', newVal);
-						this.timeRange.startTime = newVal.start
-						this.timeRange.endTime = newVal.end
+						this.timeRange.startTime = newVal.start;
+						this.timeRange.endTime = newVal.end;
 					}
-				}
+				},
 			},
 			startDate(val) {
-				this.cale.resetSatrtDate(val)
-				this.cale.setDate(this.nowDate.fullDate)
-				this.weeks = this.cale.weeks
+				this.cale.resetSatrtDate(val);
+				this.cale.setDate(this.nowDate.fullDate);
+				this.weeks = this.cale.weeks;
 			},
 			endDate(val) {
-				this.cale.resetEndDate(val)
-				this.cale.setDate(this.nowDate.fullDate)
-				this.weeks = this.cale.weeks
+				this.cale.resetEndDate(val);
+				this.cale.setDate(this.nowDate.fullDate);
+				this.weeks = this.cale.weeks;
 			},
 			selected(newVal) {
-				this.cale.setSelectInfo(this.nowDate.fullDate, newVal)
-				this.weeks = this.cale.weeks
+				this.cale.setSelectInfo(this.nowDate.fullDate, newVal);
+				this.weeks = this.cale.weeks;
 			},
 			pleStatus: {
 				immediate: true,
 				handler(newVal, oldVal) {
-					const {
-						before,
-						after,
-						fulldate,
-						which
-					} = newVal
-					this.tempRange.before = before
-					this.tempRange.after = after
+					const { before, after, fulldate, which } = newVal;
+					this.tempRange.before = before;
+					this.tempRange.after = after;
 					setTimeout(() => {
 						if (fulldate) {
-							this.cale.setHoverMultiple(fulldate)
+							this.cale.setHoverMultiple(fulldate);
 							if (before && after) {
-								this.cale.lastHover = true
-								if (this.rangeWithinMonth(after, before)) return
-								this.setDate(before)
+								this.cale.lastHover = true;
+								if (this.rangeWithinMonth(after, before)) return;
+								this.setDate(before);
 							} else {
-								this.cale.setMultiple(fulldate)
-								this.setDate(this.nowDate.fullDate)
-								this.calendar.fullDate = ''
-								this.cale.lastHover = false
+								this.cale.setMultiple(fulldate);
+								this.setDate(this.nowDate.fullDate);
+								this.calendar.fullDate = "";
+								this.cale.lastHover = false;
 							}
 						} else {
-							this.cale.setDefaultMultiple(before, after)
-							if (which === 'left') {
-								this.setDate(before)
-								this.weeks = this.cale.weeks
+							this.cale.setDefaultMultiple(before, after);
+							if (which === "left") {
+								this.setDate(before);
+								this.weeks = this.cale.weeks;
 							} else {
-								this.setDate(after)
-								this.weeks = this.cale.weeks
+								this.setDate(after);
+								this.weeks = this.cale.weeks;
 							}
-							this.cale.lastHover = true
+							this.cale.lastHover = true;
 						}
-					}, 16)
-				}
-			}
+					}, 16);
+				},
+			},
 		},
 		computed: {
 			reactStartTime() {
-				const activeDate = this.range ? this.tempRange.before : this.calendar.fullDate
-				const res = activeDate === this.startDate ? this.selectableTimes.start : ''
-				return res
+				const activeDate = this.range ? this.tempRange.before : this.calendar.fullDate;
+				const res = activeDate === this.startDate ? this.selectableTimes.start : "";
+				return res;
 			},
 			reactEndTime() {
-				const activeDate = this.range ? this.tempRange.after : this.calendar.fullDate
-				const res = activeDate === this.endDate ? this.selectableTimes.end : ''
-				return res
+				const activeDate = this.range ? this.tempRange.after : this.calendar.fullDate;
+				const res = activeDate === this.endDate ? this.selectableTimes.end : "";
+				return res;
 			},
 			/**
 			 * for i18n
 			 */
 			selectDateText() {
-				return t("uni-datetime-picker.selectDate")
+				return t("uni-datetime-picker.selectDate");
 			},
 			startDateText() {
-				return this.startPlaceholder || t("uni-datetime-picker.startDate")
+				return this.startPlaceholder || t("uni-datetime-picker.startDate");
 			},
 			endDateText() {
-				return this.endPlaceholder || t("uni-datetime-picker.endDate")
+				return this.endPlaceholder || t("uni-datetime-picker.endDate");
 			},
 			okText() {
-				return t("uni-datetime-picker.ok")
+				return t("uni-datetime-picker.ok");
 			},
 			yearText() {
-				return t("uni-datetime-picker.year")
+				return t("uni-datetime-picker.year");
 			},
 			monthText() {
-				return t("uni-datetime-picker.month")
+				return t("uni-datetime-picker.month");
 			},
 			MONText() {
-				return t("uni-calender.MON")
+				return t("uni-calender.MON");
 			},
 			TUEText() {
-				return t("uni-calender.TUE")
+				return t("uni-calender.TUE");
 			},
 			WEDText() {
-				return t("uni-calender.WED")
+				return t("uni-calender.WED");
 			},
 			THUText() {
-				return t("uni-calender.THU")
+				return t("uni-calender.THU");
 			},
 			FRIText() {
-				return t("uni-calender.FRI")
+				return t("uni-calender.FRI");
 			},
 			SATText() {
-				return t("uni-calender.SAT")
+				return t("uni-calender.SAT");
 			},
 			SUNText() {
-				return t("uni-calender.SUN")
+				return t("uni-calender.SUN");
 			},
 			confirmText() {
-				return t("uni-calender.confirm")
+				return t("uni-calender.confirm");
 			},
 		},
 		created() {
@@ -372,75 +391,72 @@
 				endDate: this.endDate,
 				range: this.range,
 				// multipleStatus: this.pleStatus
-			})
+			});
 			// 选中某一天
 			// this.cale.setDate(this.date)
-			this.init(this.date)
+			this.init(this.date);
 			// this.setDay
 		},
 		methods: {
 			leaveCale() {
-				this.firstEnter = true
+				this.firstEnter = true;
 			},
 			handleMouse(weeks) {
-				if (weeks.disable) return
-				if (this.cale.lastHover) return
-				let {
-					before,
-					after
-				} = this.cale.multipleStatus
-				if (!before) return
-				this.calendar = weeks
+				if (weeks.disable) return;
+				if (this.cale.lastHover) return;
+				let { before, after } = this.cale.multipleStatus;
+				if (!before) return;
+				this.calendar = weeks;
 				// 设置范围选
-				this.cale.setHoverMultiple(this.calendar.fullDate)
-				this.weeks = this.cale.weeks
+				this.cale.setHoverMultiple(this.calendar.fullDate);
+				this.weeks = this.cale.weeks;
 				// hover时，进入一个日历，更新另一个
 				if (this.firstEnter) {
-					this.$emit('firstEnterCale', this.cale.multipleStatus)
-					this.firstEnter = false
+					this.$emit("firstEnterCale", this.cale.multipleStatus);
+					this.firstEnter = false;
 				}
 			},
 			rangeWithinMonth(A, B) {
-				const [yearA, monthA] = A.split('-')
-				const [yearB, monthB] = B.split('-')
-				return yearA === yearB && monthA === monthB
+				const [yearA, monthA] = A.split("-");
+				const [yearB, monthB] = B.split("-");
+				return yearA === yearB && monthA === monthB;
 			},
 
 			// 取消穿透
 			clean() {
-				this.close()
+				this.close();
 			},
 
 			clearCalender() {
 				if (this.range) {
-					this.timeRange.startTime = ''
-					this.timeRange.endTime = ''
-					this.tempRange.before = ''
-					this.tempRange.after = ''
-					this.cale.multipleStatus.before = ''
-					this.cale.multipleStatus.after = ''
-					this.cale.multipleStatus.data = []
-					this.cale.lastHover = false
+					this.timeRange.startTime = "";
+					this.timeRange.endTime = "";
+					this.tempRange.before = "";
+					this.tempRange.after = "";
+					this.cale.multipleStatus.before = "";
+					this.cale.multipleStatus.after = "";
+					this.cale.multipleStatus.data = [];
+					this.cale.lastHover = false;
 				} else {
-					this.time = ''
-					this.tempSingleDate = ''
+					this.time = "";
+					this.tempSingleDate = "";
 				}
-				this.calendar.fullDate = ''
-				this.setDate()
+				this.calendar.fullDate = "";
+				this.setDate();
 			},
 
 			bindDateChange(e) {
-				const value = e.detail.value + '-1'
-				this.init(value)
+				const value = e.detail.value + "-1";
+				this.init(value);
 			},
 			/**
 			 * 初始化日期显示
 			 * @param {Object} date
 			 */
 			init(date) {
-				this.cale.setDate(date)
-				this.weeks = this.cale.weeks
-				this.nowDate = this.calendar = this.cale.getInfo(date)
+				this.cale.setDate(date);
+				this.weeks = this.cale.weeks;
+				this.nowDate = this.calendar = this.cale.getInfo(date);
 			},
 			// choiceDate(weeks) {
 			// 	if (weeks.disable) return
@@ -459,69 +475,59 @@
 			open() {
 				// 弹窗模式并且清理数据
 				if (this.clearDate && !this.insert) {
-					this.cale.cleanMultipleStatus()
+					this.cale.cleanMultipleStatus();
 					// this.cale.setDate(this.date)
-					this.init(this.date)
+					this.init(this.date);
 				}
-				this.show = true
+				this.show = true;
 				this.$nextTick(() => {
 					setTimeout(() => {
-						this.aniMaskShow = true
-					}, 50)
-				})
+						this.aniMaskShow = true;
+					}, 50);
+				});
 			},
 			/**
 			 * 关闭日历弹窗
 			 */
 			close() {
-				this.aniMaskShow = false
+				this.aniMaskShow = false;
 				this.$nextTick(() => {
 					setTimeout(() => {
-						this.show = false
-						this.$emit('close')
-					}, 300)
-				})
+						this.show = false;
+						this.$emit("close");
+					}, 300);
+				});
 			},
 			/**
 			 * 确认按钮
 			 */
 			confirm() {
-				this.setEmit('confirm')
-				this.close()
+				this.setEmit("confirm");
+				this.close();
 			},
 			/**
 			 * 变化触发
 			 */
 			change() {
-				if (!this.insert) return
-				this.setEmit('change')
+				if (!this.insert) return;
+				this.setEmit("change");
 			},
 			/**
 			 * 选择月份触发
 			 */
 			monthSwitch() {
-				let {
+				let { year, month } = this.nowDate;
+				this.$emit("monthSwitch", {
 					year,
-					month
-				} = this.nowDate
-				this.$emit('monthSwitch', {
-					year,
-					month: Number(month)
-				})
+					month: Number(month),
+				});
 			},
 			/**
 			 * 派发事件
 			 * @param {Object} name
 			 */
 			setEmit(name) {
-				let {
-					year,
-					month,
-					date,
-					fullDate,
-					lunar,
-					extraInfo
-				} = this.calendar
+				let { year, month, date, fullDate, lunar, extraInfo } = this.calendar;
 				this.$emit(name, {
 					range: this.cale.multipleStatus,
 					year,
@@ -531,79 +537,78 @@
 					timeRange: this.timeRange,
 					fulldate: fullDate,
 					lunar,
-					extraInfo: extraInfo || {}
-				})
+					extraInfo: extraInfo || {},
+				});
 			},
 			/**
 			 * 选择天触发
 			 * @param {Object} weeks
 			 */
 			choiceDate(weeks) {
-				if (weeks.disable) return
-				this.calendar = weeks
-				this.calendar.userChecked = true
+				if (weeks.disable) return;
+				this.calendar = weeks;
+				this.calendar.userChecked = true;
 				// 设置多选
-				this.cale.setMultiple(this.calendar.fullDate, true)
-				this.weeks = this.cale.weeks
-				this.tempSingleDate = this.calendar.fullDate
-				this.tempRange.before = this.cale.multipleStatus.before
-				this.tempRange.after = this.cale.multipleStatus.after
-				this.change()
+				this.cale.setMultiple(this.calendar.fullDate, true);
+				this.weeks = this.cale.weeks;
+				this.tempSingleDate = this.calendar.fullDate;
+				this.tempRange.before = this.cale.multipleStatus.before;
+				this.tempRange.after = this.cale.multipleStatus.after;
+				this.change();
 			},
 			/**
 			 * 回到今天
 			 */
 			backtoday() {
-				let date = this.cale.getDate(new Date()).fullDate
+				let date = this.cale.getDate(new Date()).fullDate;
 				// this.cale.setDate(date)
-				this.init(date)
-				this.change()
+				this.init(date);
+				this.change();
 			},
 			/**
 			 * 比较时间大小
 			 */
 			dateCompare(startDate, endDate) {
 				// 计算截止时间
-				startDate = new Date(startDate.replace('-', '/').replace('-', '/'))
+				startDate = new Date(startDate.replace("-", "/").replace("-", "/"));
 				// 计算详细项的截止时间
-				endDate = new Date(endDate.replace('-', '/').replace('-', '/'))
+				endDate = new Date(endDate.replace("-", "/").replace("-", "/"));
 				if (startDate <= endDate) {
-					return true
+					return true;
 				} else {
-					return false
+					return false;
 				}
 			},
 			/**
 			 * 上个月
 			 */
 			pre() {
-				const preDate = this.cale.getDate(this.nowDate.fullDate, -1, 'month').fullDate
-				this.setDate(preDate)
-				this.monthSwitch()
-
+				const preDate = this.cale.getDate(this.nowDate.fullDate, -1, "month").fullDate;
+				this.setDate(preDate);
+				this.monthSwitch();
 			},
 			/**
 			 * 下个月
 			 */
 			next() {
-				const nextDate = this.cale.getDate(this.nowDate.fullDate, +1, 'month').fullDate
-				this.setDate(nextDate)
-				this.monthSwitch()
+				const nextDate = this.cale.getDate(this.nowDate.fullDate, +1, "month").fullDate;
+				this.setDate(nextDate);
+				this.monthSwitch();
 			},
 			/**
 			 * 设置日期
 			 * @param {Object} date
 			 */
 			setDate(date) {
-				this.cale.setDate(date)
-				this.weeks = this.cale.weeks
-				this.nowDate = this.cale.getInfo(date)
-			}
-		}
-	}
+				this.cale.setDate(date);
+				this.weeks = this.cale.weeks;
+				this.nowDate = this.cale.getInfo(date);
+			},
+		},
+	};
 </script>
 
-<style lang="scss" >
+<style lang="scss">
 	.uni-calendar {
 		/* #ifndef APP-NVUE */
 		display: flex;
@@ -627,7 +632,7 @@
 	}
 
 	.uni-calendar--mask-show {
-		opacity: 1
+		opacity: 1;
 	}
 
 	.uni-calendar--fixed {
@@ -750,7 +755,6 @@
 		transform: rotate(135deg);
 	}
 
-
 	.uni-calendar__weeks {
 		position: relative;
 		/* #ifndef APP-NVUE */
@@ -772,14 +776,14 @@
 		justify-content: center;
 		align-items: center;
 		height: 40px;
-		border-bottom-color: #F5F5F5;
+		border-bottom-color: #f5f5f5;
 		border-bottom-style: solid;
 		border-bottom-width: 1px;
 	}
 
 	.uni-calendar__weeks-day-text {
 		font-size: 12px;
-		color: #B2B2B2;
+		color: #b2b2b2;
 	}
 
 	.uni-calendar__box {
@@ -817,8 +821,7 @@
 		// line-height: 50px;
 		text-align: center;
 		color: #333;
-		border-top-color: #DCDCDC;
-		;
+		border-top-color: #dcdcdc;
 		border-top-style: solid;
 		border-top-width: 1px;
 		flex: 1;
@@ -855,7 +858,7 @@
 		display: flex;
 		/* #endif */
 		justify-content: center;
-		align-items: center
+		align-items: center;
 	}
 
 	.mr-10 {

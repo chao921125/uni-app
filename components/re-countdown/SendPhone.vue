@@ -1,5 +1,5 @@
 <template>
-	<view class="countdown text-success" :class="{'is-disabled': isClick}" @click="getCode">{{ codeText }}</view>
+	<view class="countdown text-success" :class="{ 'is-disabled': isClick }" @click="getCode">{{ codeText }}</view>
 </template>
 
 <script>
@@ -14,18 +14,19 @@
 			},
 			defaultText: {
 				type: String,
-				default: "发送验证码"
+				default: "发送验证码",
 			},
 			defaultTextTips: {
 				type: String,
-				default: "s"
+				default: "s",
 			},
 			defaultTime: {
 				type: Number,
-				default: 120
-			}
+				default: 120,
+			},
 		},
-		setup(props, context) { // setup(props, {emit})
+		setup(props, context) {
+			// setup(props, {emit})
 			const clickBtn = ref(props.defaultClick);
 			// 展示文案
 			const codeText = ref(props.defaultText);
@@ -35,12 +36,12 @@
 			const isClick = ref(false);
 			// 倒计时对象
 			const timeObj = ref(null);
-			
+
 			// 奇葩玩意，父组件变更，子组件监听不到。
 			watchEffect(() => {
 				clickBtn.value = props.defaultClick;
 			});
-			
+
 			function getCode() {
 				if (isClick.value) return false;
 				context.emit("click", true);
@@ -62,7 +63,7 @@
 			return {
 				codeText,
 				isClick,
-				getCode
+				getCode,
 			};
 		},
 	};
@@ -75,6 +76,6 @@
 		text-align: center;
 	}
 	.is-disabled {
-		color: #CCC;
+		color: #ccc;
 	}
 </style>

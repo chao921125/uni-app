@@ -4,23 +4,15 @@
 		<view class="uni-padding-wrap">
 			<view class="uni-title">默认样式</view>
 			<view>
-				<label class="radio" style="margin-right: 30rpx;">
-					<radio value="r1" checked="true" />选中
-				</label>
-				<label class="radio">
-					<radio value="r2" />未选中
-				</label>
+				<label class="radio" style="margin-right: 30rpx"> <radio value="r1" checked="true" />选中 </label>
+				<label class="radio"> <radio value="r2" />未选中 </label>
 			</view>
 		</view>
 		<view class="uni-padding-wrap">
 			<view class="uni-title">不同颜色和尺寸的radio</view>
 			<view>
-				<label class="radio" style="margin-right: 30rpx;">
-					<radio value="r1" checked="true" color="#FFCC33" style="transform:scale(0.7)"/>选中
-				</label>
-				<label class="radio">
-					<radio value="r2" color="#FFCC33" style="transform:scale(0.7)"/>未选中
-				</label>
+				<label class="radio" style="margin-right: 30rpx"> <radio value="r1" checked="true" color="#FFCC33" style="transform: scale(0.7)" />选中 </label>
+				<label class="radio"> <radio value="r2" color="#FFCC33" style="transform: scale(0.7)" />未选中 </label>
 			</view>
 		</view>
 		<view class="uni-title uni-common-mt uni-common-pl">推荐展示样式</view>
@@ -30,7 +22,7 @@
 					<view>
 						<radio :value="item.value" :checked="index === current" />
 					</view>
-					<view>{{item.name}}</view>
+					<view>{{ item.name }}</view>
 				</label>
 			</radio-group>
 		</view>
@@ -40,35 +32,36 @@
 	export default {
 		data() {
 			return {
-				title: 'radio 单选框',
-				items: [{
-						value: 'USA',
-						name: '美国'
+				title: "radio 单选框",
+				items: [
+					{
+						value: "USA",
+						name: "美国",
 					},
 					{
-						value: 'CHN',
-						name: '中国',
-						checked: 'true'
+						value: "CHN",
+						name: "中国",
+						checked: "true",
 					},
 					{
-						value: 'BRA',
-						name: '巴西'
+						value: "BRA",
+						name: "巴西",
 					},
 					{
-						value: 'JPN',
-						name: '日本'
+						value: "JPN",
+						name: "日本",
 					},
 					{
-						value: 'ENG',
-						name: '英国'
+						value: "ENG",
+						name: "英国",
 					},
 					{
-						value: 'FRA',
-						name: '法国'
+						value: "FRA",
+						name: "法国",
 					},
 				],
-				current: 0
-			}
+				current: 0,
+			};
 		},
 		methods: {
 			radioChange(evt) {
@@ -78,13 +71,13 @@
 						break;
 					}
 				}
-			}
-		}
-	}
+			},
+		},
+	};
 </script>
 
 <style>
 	.uni-list-cell {
-		justify-content: flex-start
+		justify-content: flex-start;
 	}
 </style>

@@ -7,8 +7,8 @@
 	export default {
 		data() {
 			return {
-				title: '新建的页面'
-			}
-		}
-	}
+				title: "新建的页面",
+			};
+		},
+	};
 </script>

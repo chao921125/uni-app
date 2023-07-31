@@ -29,12 +29,12 @@
 		<view class="uni-padding-wrap">
 			<view class="uni-common-mt">
 				<text>幻灯片切换时长(ms)</text>
-				<text class="info">{{duration}}</text>
+				<text class="info">{{ duration }}</text>
 			</view>
 			<slider @change="durationChange" :value="duration" min="500" max="2000" />
 			<view class="uni-common-mt">
 				<text>自动播放间隔时长(ms)</text>
-				<text class="info">{{interval}}</text>
+				<text class="info">{{ interval }}</text>
 			</view>
 			<slider @change="intervalChange" :value="interval" min="2000" max="10000" />
 		</view>
@@ -44,34 +44,34 @@
 	export default {
 		data() {
 			return {
-				background: ['color1', 'color2', 'color3'],
+				background: ["color1", "color2", "color3"],
 				indicatorDots: true,
 				autoplay: true,
 				interval: 2000,
-				duration: 500
-			}
+				duration: 500,
+			};
 		},
 		methods: {
 			changeIndicatorDots(e) {
-				this.indicatorDots = !this.indicatorDots
+				this.indicatorDots = !this.indicatorDots;
 			},
 			changeAutoplay(e) {
-				this.autoplay = !this.autoplay
+				this.autoplay = !this.autoplay;
 			},
 			intervalChange(e) {
-				this.interval = e.detail.value
+				this.interval = e.detail.value;
 			},
 			durationChange(e) {
-				this.duration = e.detail.value
-			}
-		}
-	}
+				this.duration = e.detail.value;
+			},
+		},
+	};
 </script>
 
 <style>
 	.uni-margin-wrap {
-		width:690rpx;
-		width: 100%;;
+		width: 690rpx;
+		width: 100%;
 	}
 	.swiper {
 		height: 300rpx;
@@ -88,18 +88,18 @@
 		margin-bottom: 0;
 	}
 
-	.uni-common-mt{
-		margin-top:60rpx;
-		position:relative;
+	.uni-common-mt {
+		margin-top: 60rpx;
+		position: relative;
 	}
 
 	.info {
 		position: absolute;
-		right:20rpx;
+		right: 20rpx;
 	}
 
-    .uni-padding-wrap {
-        width:550rpx;
-        padding:0 100rpx;
-    }
+	.uni-padding-wrap {
+		width: 550rpx;
+		padding: 0 100rpx;
+	}
 </style>

@@ -1,12 +1,17 @@
 <template>
 	<view class="container">
 		<view class="page-body uni-content-info">
-			<view class='cropper-content'>
-				<view v-if="isShowImg" class="uni-corpper" :style="'width:'+cropperInitW+'px;height:'+cropperInitH+'px;background:#000'">
-					<view class="uni-corpper-content" :style="'width:'+cropperW+'px;height:'+cropperH+'px;left:'+cropperL+'px;top:'+cropperT+'px'">
-						<image :src="imageSrc" :style="'width:'+cropperW+'px;height:'+cropperH+'px'"></image>
-						<view class="uni-corpper-crop-box" @touchstart.stop="contentStartMove" @touchmove.stop="contentMoveing" @touchend.stop="contentTouchEnd"
-						    :style="'left:'+cutL+'px;top:'+cutT+'px;right:'+cutR+'px;bottom:'+cutB+'px'">
+			<view class="cropper-content">
+				<view v-if="isShowImg" class="uni-corpper" :style="'width:' + cropperInitW + 'px;height:' + cropperInitH + 'px;background:#000'">
+					<view class="uni-corpper-content" :style="'width:' + cropperW + 'px;height:' + cropperH + 'px;left:' + cropperL + 'px;top:' + cropperT + 'px'">
+						<image :src="imageSrc" :style="'width:' + cropperW + 'px;height:' + cropperH + 'px'"></image>
+						<view
+							class="uni-corpper-crop-box"
+							@touchstart.stop="contentStartMove"
+							@touchmove.stop="contentMoveing"
+							@touchend.stop="contentTouchEnd"
+							:style="'left:' + cutL + 'px;top:' + cutT + 'px;right:' + cutR + 'px;bottom:' + cutB + 'px'"
+						>
 							<view class="uni-cropper-view-box">
 								<view class="uni-cropper-dashed-h"></view>
 								<view class="uni-cropper-dashed-v"></view>
@@ -18,7 +23,13 @@
 								<view class="uni-cropper-point point-tr" data-drag="topTight"></view>
 								<view class="uni-cropper-point point-r" data-drag="right" @touchstart.stop="dragStart" @touchmove.stop="dragMove"></view>
 								<view class="uni-cropper-point point-rb" data-drag="rightBottom" @touchstart.stop="dragStart" @touchmove.stop="dragMove"></view>
-								<view class="uni-cropper-point point-b" data-drag="bottom" @touchstart.stop="dragStart" @touchmove.stop="dragMove" @touchend.stop="dragEnd"></view>
+								<view
+									class="uni-cropper-point point-b"
+									data-drag="bottom"
+									@touchstart.stop="dragStart"
+									@touchmove.stop="dragMove"
+									@touchend.stop="dragEnd"
+								></view>
 								<view class="uni-cropper-point point-bl" data-drag="bottomLeft"></view>
 								<view class="uni-cropper-point point-l" data-drag="left" @touchstart.stop="dragStart" @touchmove.stop="dragMove"></view>
 								<view class="uni-cropper-point point-lt" data-drag="leftTop"></view>
@@ -27,11 +38,14 @@
 					</view>
 				</view>
 			</view>
-			<view class='cropper-config'>
-				<button type="primary reverse" @click="getImage" style='margin-top: 30rpx;'> 选择图片 </button>
-				<button type="warn" @click="getImageInfo" style='margin-top: 30rpx;'> 点击生成图片 </button>
+			<view class="cropper-config">
+				<button type="primary reverse" @click="getImage" style="margin-top: 30rpx"> 选择图片 </button>
+				<button type="warn" @click="getImageInfo" style="margin-top: 30rpx"> 点击生成图片 </button>
 			</view>
-			<canvas canvas-id="myCanvas" :style="'position:absolute;border: 1px solid red; width:'+imageW+'px;height:'+imageH+'px;top:-9999px;left:-9999px;'"></canvas>
+			<canvas
+				canvas-id="myCanvas"
+				:style="'position:absolute;border: 1px solid red; width:' + imageW + 'px;height:' + imageH + 'px;top:-9999px;left:-9999px;'"
+			></canvas>
 		</view>
 		<page-foot :name="name"></page-foot>
 	</view>
@@ -39,9 +53,9 @@
 
 <script>
 	let sysInfo = uni.getSystemInfoSync();
-	let SCREEN_WIDTH = sysInfo.screenWidth
+	let SCREEN_WIDTH = sysInfo.screenWidth;
 	let PAGE_X, // 手按下的x位置
-		PAGE_Y, // 手按下y的位置 
+		PAGE_Y, // 手按下y的位置
 		PR = sysInfo.pixelRatio, // dpi
 		T_PAGE_X, // 手移动的时候x的位置
 		T_PAGE_Y, // 手移动的时候Y的位置
@@ -56,7 +70,7 @@
 		IMG_REAL_H, // 图片实际的高度
 		DRAFG_MOVE_RATIO = 1, //移动时候的比例,
 		INIT_DRAG_POSITION = 100, // 初始化屏幕宽度和裁剪区域的宽度之差，用于设置初始化裁剪的宽度
-		DRAW_IMAGE_W = sysInfo.screenWidth // 设置生成的图片宽度
+		DRAW_IMAGE_W = sysInfo.screenWidth; // 设置生成的图片宽度
 
 	export default {
 		/**
@@ -64,8 +78,8 @@
 		 */
 		data() {
 			return {
-				name:'杨大宝',
-				imageSrc: 'https://vkceyugu.cdn.bspapp.com/VKCEYUGU-dc-site/b31d90c0-5168-11eb-bdc1-8bd33eb6adaa.jpg',
+				name: "杨大宝",
+				imageSrc: "https://vkceyugu.cdn.bspapp.com/VKCEYUGU-dc-site/b31d90c0-5168-11eb-bdc1-8bd33eb6adaa.jpg",
 				isShowImg: false,
 				// 初始化的宽高
 				cropperInitW: SCREEN_WIDTH,
@@ -89,10 +103,10 @@
 				cutL: 0,
 				cutT: 0,
 				cutB: SCREEN_WIDTH,
-				cutR: '100%',
+				cutR: "100%",
 				qualityWidth: DRAW_IMAGE_W,
-				innerAspectRadio: DRAFG_MOVE_RATIO
-			}
+				innerAspectRadio: DRAFG_MOVE_RATIO,
+			};
 		},
 		/**
 		 * 生命周期函数--监听页面加载
@@ -103,48 +117,45 @@
 		 * 生命周期函数--监听页面初次渲染完成
 		 */
 		onReady: function () {
-
 			this.loadImage();
-
 		},
 		methods: {
 			setData: function (obj) {
 				let that = this;
 				Object.keys(obj).forEach(function (key) {
-					that.$set(that.$data, key, obj[key])
-
+					that.$set(that.$data, key, obj[key]);
 				});
 			},
 			getImage: function () {
-				var _this = this
+				var _this = this;
 				uni.chooseImage({
 					success: function (res) {
 						_this.setData({
 							imageSrc: res.tempFilePaths[0],
-						})
+						});
 						_this.loadImage();
 					},
-				})
+				});
 			},
 			loadImage: function () {
-				var _this = this
+				var _this = this;
 				uni.showLoading({
-					title: '图片加载中...',
-				})
+					title: "图片加载中...",
+				});
 
 				uni.getImageInfo({
 					src: _this.imageSrc,
 					success: function success(res) {
-						IMG_RATIO = res.width / res.height
+						IMG_RATIO = res.width / res.height;
 						if (IMG_RATIO >= 1) {
-							IMG_REAL_W = SCREEN_WIDTH
-							IMG_REAL_H = SCREEN_WIDTH / IMG_RATIO
+							IMG_REAL_W = SCREEN_WIDTH;
+							IMG_REAL_H = SCREEN_WIDTH / IMG_RATIO;
 						} else {
-							IMG_REAL_W = SCREEN_WIDTH * IMG_RATIO
-							IMG_REAL_H = SCREEN_WIDTH
+							IMG_REAL_W = SCREEN_WIDTH * IMG_RATIO;
+							IMG_REAL_H = SCREEN_WIDTH;
 						}
-						let minRange = IMG_REAL_W > IMG_REAL_H ? IMG_REAL_W : IMG_REAL_H
-						INIT_DRAG_POSITION = minRange > INIT_DRAG_POSITION ? INIT_DRAG_POSITION : minRange
+						let minRange = IMG_REAL_W > IMG_REAL_H ? IMG_REAL_W : IMG_REAL_H;
+						INIT_DRAG_POSITION = minRange > INIT_DRAG_POSITION ? INIT_DRAG_POSITION : minRange;
 						// 根据图片的宽高显示不同的效果   保证图片可以正常显示
 						if (IMG_RATIO >= 1) {
 							let cutT = Math.ceil((SCREEN_WIDTH / IMG_RATIO - (SCREEN_WIDTH / IMG_RATIO - INIT_DRAG_POSITION)) / 2);
@@ -166,10 +177,10 @@
 								imageH: IMG_REAL_H,
 								scaleP: IMG_REAL_W / SCREEN_WIDTH,
 								qualityWidth: DRAW_IMAGE_W,
-								innerAspectRadio: IMG_RATIO
-							})
+								innerAspectRadio: IMG_RATIO,
+							});
 						} else {
-							let cutL = Math.ceil((SCREEN_WIDTH * IMG_RATIO - (SCREEN_WIDTH * IMG_RATIO)) / 2);
+							let cutL = Math.ceil((SCREEN_WIDTH * IMG_RATIO - SCREEN_WIDTH * IMG_RATIO) / 2);
 							let cutR = cutL;
 							let cutT = Math.ceil((SCREEN_WIDTH - INIT_DRAG_POSITION) / 2);
 							let cutB = cutT;
@@ -189,62 +200,60 @@
 								imageH: IMG_REAL_H,
 								scaleP: IMG_REAL_W / SCREEN_WIDTH,
 								qualityWidth: DRAW_IMAGE_W,
-								innerAspectRadio: IMG_RATIO
-							})
+								innerAspectRadio: IMG_RATIO,
+							});
 						}
 						_this.setData({
-							isShowImg: true
-						})
-						uni.hideLoading()
-					}
-				})
+							isShowImg: true,
+						});
+						uni.hideLoading();
+					},
+				});
 			},
 			// 拖动时候触发的touchStart事件
 			contentStartMove(e) {
-				PAGE_X = e.touches[0].pageX
-				PAGE_Y = e.touches[0].pageY
+				PAGE_X = e.touches[0].pageX;
+				PAGE_Y = e.touches[0].pageY;
 			},
 
 			// 拖动时候触发的touchMove事件
 			contentMoveing(e) {
-				var _this = this
-				var dragLengthX = (PAGE_X - e.touches[0].pageX) * DRAFG_MOVE_RATIO
-				var dragLengthY = (PAGE_Y - e.touches[0].pageY) * DRAFG_MOVE_RATIO
+				var _this = this;
+				var dragLengthX = (PAGE_X - e.touches[0].pageX) * DRAFG_MOVE_RATIO;
+				var dragLengthY = (PAGE_Y - e.touches[0].pageY) * DRAFG_MOVE_RATIO;
 				// 左移
 				if (dragLengthX > 0) {
-					if (this.cutL - dragLengthX < 0) dragLengthX = this.cutL
+					if (this.cutL - dragLengthX < 0) dragLengthX = this.cutL;
 				} else {
-					if (this.cutR + dragLengthX < 0) dragLengthX = -this.cutR
+					if (this.cutR + dragLengthX < 0) dragLengthX = -this.cutR;
 				}
 
 				if (dragLengthY > 0) {
-					if (this.cutT - dragLengthY < 0) dragLengthY = this.cutT
+					if (this.cutT - dragLengthY < 0) dragLengthY = this.cutT;
 				} else {
-					if (this.cutB + dragLengthY < 0) dragLengthY = -this.cutB
+					if (this.cutB + dragLengthY < 0) dragLengthY = -this.cutB;
 				}
 				this.setData({
 					cutL: this.cutL - dragLengthX,
 					cutT: this.cutT - dragLengthY,
 					cutR: this.cutR + dragLengthX,
-					cutB: this.cutB + dragLengthY
-				})
+					cutB: this.cutB + dragLengthY,
+				});
 
-				PAGE_X = e.touches[0].pageX
-				PAGE_Y = e.touches[0].pageY
+				PAGE_X = e.touches[0].pageX;
+				PAGE_Y = e.touches[0].pageY;
 			},
 
-			contentTouchEnd() {
-
-			},
+			contentTouchEnd() {},
 
 			// 获取图片
 			getImageInfo() {
 				var _this = this;
 				uni.showLoading({
-					title: '图片生成中...',
+					title: "图片生成中...",
 				});
 				// 将图片写入画布
-				const ctx = uni.createCanvasContext('myCanvas');
+				const ctx = uni.createCanvasContext("myCanvas");
 				ctx.drawImage(_this.imageSrc, 0, 0, IMG_REAL_W, IMG_REAL_H);
 				ctx.draw(true, () => {
 					// 获取画布要裁剪的位置和宽度   均为百分比 * 画布中图片的宽度    保证了在微信小程序中裁剪的图片模糊  位置不对的问题 canvasT = (_this.cutT / _this.cropperH) * (_this.imageH / pixelRatio)
@@ -260,84 +269,84 @@
 						destWidth: canvasW,
 						destHeight: canvasH,
 						quality: 0.5,
-						canvasId: 'myCanvas',
+						canvasId: "myCanvas",
 						success: function (res) {
-							uni.hideLoading()
+							uni.hideLoading();
 							// 成功获得地址的地方
 							uni.previewImage({
-								current: '', // 当前显示图片的http链接
-								urls: [res.tempFilePath] // 需要预览的图片http链接列表
-							})
-						}
+								current: "", // 当前显示图片的http链接
+								urls: [res.tempFilePath], // 需要预览的图片http链接列表
+							});
+						},
 					});
 				});
 			},
 
 			// 设置大小的时候触发的touchStart事件
 			dragStart(e) {
-				T_PAGE_X = e.touches[0].pageX
-				T_PAGE_Y = e.touches[0].pageY
-				CUT_L = this.cutL
-				CUT_R = this.cutR
-				CUT_B = this.cutB
-				CUT_T = this.cutT
+				T_PAGE_X = e.touches[0].pageX;
+				T_PAGE_Y = e.touches[0].pageY;
+				CUT_L = this.cutL;
+				CUT_R = this.cutR;
+				CUT_B = this.cutB;
+				CUT_T = this.cutT;
 			},
 
 			// 设置大小的时候触发的touchMove事件
 			dragMove(e) {
-				var _this = this
-				var dragType = e.target.dataset.drag
+				var _this = this;
+				var dragType = e.target.dataset.drag;
 				switch (dragType) {
-					case 'right':
-						var dragLength = (T_PAGE_X - e.touches[0].pageX) * DRAFG_MOVE_RATIO
-						if (CUT_R + dragLength < 0) dragLength = -CUT_R
+					case "right":
+						var dragLength = (T_PAGE_X - e.touches[0].pageX) * DRAFG_MOVE_RATIO;
+						if (CUT_R + dragLength < 0) dragLength = -CUT_R;
 						this.setData({
-							cutR: CUT_R + dragLength
-						})
+							cutR: CUT_R + dragLength,
+						});
 						break;
-					case 'left':
-						var dragLength = (T_PAGE_X - e.touches[0].pageX) * DRAFG_MOVE_RATIO
-						if (CUT_L - dragLength < 0) dragLength = CUT_L
-						if ((CUT_L - dragLength) > (this.cropperW - this.cutR)) dragLength = CUT_L - (this.cropperW - this.cutR)
+					case "left":
+						var dragLength = (T_PAGE_X - e.touches[0].pageX) * DRAFG_MOVE_RATIO;
+						if (CUT_L - dragLength < 0) dragLength = CUT_L;
+						if (CUT_L - dragLength > this.cropperW - this.cutR) dragLength = CUT_L - (this.cropperW - this.cutR);
 						this.setData({
-							cutL: CUT_L - dragLength
-						})
+							cutL: CUT_L - dragLength,
+						});
 						break;
-					case 'top':
-						var dragLength = (T_PAGE_Y - e.touches[0].pageY) * DRAFG_MOVE_RATIO
-						if (CUT_T - dragLength < 0) dragLength = CUT_T
-						if ((CUT_T - dragLength) > (this.cropperH - this.cutB)) dragLength = CUT_T - (this.cropperH - this.cutB)
+					case "top":
+						var dragLength = (T_PAGE_Y - e.touches[0].pageY) * DRAFG_MOVE_RATIO;
+						if (CUT_T - dragLength < 0) dragLength = CUT_T;
+						if (CUT_T - dragLength > this.cropperH - this.cutB) dragLength = CUT_T - (this.cropperH - this.cutB);
 						this.setData({
-							cutT: CUT_T - dragLength
-						})
+							cutT: CUT_T - dragLength,
+						});
 						break;
-					case 'bottom':
-						var dragLength = (T_PAGE_Y - e.touches[0].pageY) * DRAFG_MOVE_RATIO
-						if (CUT_B + dragLength < 0) dragLength = -CUT_B
+					case "bottom":
+						var dragLength = (T_PAGE_Y - e.touches[0].pageY) * DRAFG_MOVE_RATIO;
+						if (CUT_B + dragLength < 0) dragLength = -CUT_B;
 						this.setData({
-							cutB: CUT_B + dragLength
-						})
+							cutB: CUT_B + dragLength,
+						});
 						break;
-					case 'rightBottom':
-						var dragLengthX = (T_PAGE_X - e.touches[0].pageX) * DRAFG_MOVE_RATIO
-						var dragLengthY = (T_PAGE_Y - e.touches[0].pageY) * DRAFG_MOVE_RATIO
+					case "rightBottom":
+						var dragLengthX = (T_PAGE_X - e.touches[0].pageX) * DRAFG_MOVE_RATIO;
+						var dragLengthY = (T_PAGE_Y - e.touches[0].pageY) * DRAFG_MOVE_RATIO;
 
-						if (CUT_B + dragLengthY < 0) dragLengthY = -CUT_B
-						if (CUT_R + dragLengthX < 0) dragLengthX = -CUT_R
+						if (CUT_B + dragLengthY < 0) dragLengthY = -CUT_B;
+						if (CUT_R + dragLengthX < 0) dragLengthX = -CUT_R;
 						let cutB = CUT_B + dragLengthY;
 						let cutR = CUT_R + dragLengthX;
 
 						this.setData({
 							cutB: cutB,
-							cutR: cutR
-						})
+							cutR: cutR,
+						});
 						break;
 					default:
 						break;
 				}
-			}
-		}
-	}
+			},
+		},
+	};
 </script>
 
 <style>
@@ -417,7 +426,7 @@
 		height: 100%;
 		overflow: visible;
 		outline: 1rpx solid #69f;
-		outline-color: rgba(102, 153, 255, .75)
+		outline-color: rgba(102, 153, 255, 0.75);
 	}
 	/* 横向虚线 */
 
@@ -456,7 +465,7 @@
 	}
 
 	.uni-cropper-line-t::before {
-		content: '';
+		content: "";
 		position: absolute;
 		top: 50%;
 		right: 0rpx;
@@ -482,7 +491,7 @@
 	}
 
 	.uni-cropper-line-r::before {
-		content: '';
+		content: "";
 		position: absolute;
 		top: 0;
 		left: 50%;
@@ -508,7 +517,7 @@
 	}
 
 	.uni-cropper-line-b::before {
-		content: '';
+		content: "";
 		position: absolute;
 		top: 50%;
 		right: 0rpx;
@@ -534,7 +543,7 @@
 	}
 
 	.uni-cropper-line-l::before {
-		content: '';
+		content: "";
 		position: absolute;
 		top: 0;
 		left: 50%;
@@ -551,7 +560,7 @@
 		width: 5rpx;
 		height: 5rpx;
 		background-color: #69f;
-		opacity: .75;
+		opacity: 0.75;
 		position: absolute;
 		z-index: 3;
 	}

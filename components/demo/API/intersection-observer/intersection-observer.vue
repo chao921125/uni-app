@@ -3,7 +3,7 @@
 		<page-head :title="title"></page-head>
 		<view class="uni-padding-wrap uni-common-mt">
 			<view class="uni-title uni-common-mt">
-				{{appear ? '小球出现' : '小球消失'}}
+				{{ appear ? "小球出现" : "小球消失" }}
 			</view>
 			<scroll-view class="scroll-view" scroll-y>
 				<view class="scroll-area">
@@ -20,25 +20,25 @@
 		data() {
 			return {
 				appear: false,
-				title:'intersectionObserver'
-			}
+				title: "intersectionObserver",
+			};
 		},
 		onReady() {
 			observer = uni.createIntersectionObserver(this);
-			observer.relativeTo('.scroll-view').observe('.ball', (res) => {
+			observer.relativeTo(".scroll-view").observe(".ball", (res) => {
 				if (res.intersectionRatio > 0 && !this.appear) {
 					this.appear = true;
 				} else if (!res.intersectionRatio > 0 && this.appear) {
 					this.appear = false;
 				}
-			})
+			});
 		},
 		onUnload() {
 			if (observer) {
-				observer.disconnect()
+				observer.disconnect();
 			}
-		}
-	}
+		},
+	};
 </script>
 <style>
 	.scroll-view {

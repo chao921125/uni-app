@@ -5,8 +5,9 @@
 		</uni-card>
 		<uni-section title="示例" type="line">
 			<view class="example">
-				<uni-transition ref="ani" custom-class="transition" :mode-class="modeClass" :styles="styles"
-					:show="show"><text class="text">示例元素</text></uni-transition>
+				<uni-transition ref="ani" custom-class="transition" :mode-class="modeClass" :styles="styles" :show="show"
+					><text class="text">示例元素</text></uni-transition
+				>
 			</view>
 		</uni-section>
 
@@ -19,7 +20,6 @@
 				<button class="transition-button" type="primary" @click="custom">自定义动画</button>
 			</view>
 		</uni-section>
-
 	</view>
 </template>
 
@@ -29,28 +29,28 @@
 		data() {
 			return {
 				show: true,
-				modeClass: 'fade',
-				styles: {}
-			}
+				modeClass: "fade",
+				styles: {},
+			};
 		},
 		onLoad() {
 			// #ifdef APP-NVUE
 			this.styles = {
-				justifyContent: 'center',
-				alignItems: 'center',
-				width: '100px',
-				height: '100px',
-				borderRadius: '5px',
-				textAlign: 'center',
-				backgroundColor: '#4cd964',
-				boxShadow: '0 0 5px 1px rgba(0,0,0,0.2)'
-			}
+				justifyContent: "center",
+				alignItems: "center",
+				width: "100px",
+				height: "100px",
+				borderRadius: "5px",
+				textAlign: "center",
+				backgroundColor: "#4cd964",
+				boxShadow: "0 0 5px 1px rgba(0,0,0,0.2)",
+			};
 			// #endif
 		},
 		methods: {
 			handle(type) {
-				this.show = !this.show
-				this.modeClass = type
+				this.show = !this.show;
+				this.modeClass = type;
 			},
 			custom() {
 				// TODO 下面修改宽高在百度下还有些问题待修复
@@ -63,55 +63,73 @@
 				// 	delay:100,
 				// 	duration:200
 				// })
-				this.$refs.ani.step({
-					width: '100px',
-					height: '100px',
-					rotate: '180'
-				}, {
-					delay: 200,
-					duration: 300
-				})
-				this.$refs.ani.step({
-					width: '100px',
-					height: '100px',
-					rotate: '0'
-				}, {
-					transformOrigin: '50% 50%'
-				})
+				this.$refs.ani.step(
+					{
+						width: "100px",
+						height: "100px",
+						rotate: "180",
+					},
+					{
+						delay: 200,
+						duration: 300,
+					},
+				);
+				this.$refs.ani.step(
+					{
+						width: "100px",
+						height: "100px",
+						rotate: "0",
+					},
+					{
+						transformOrigin: "50% 50%",
+					},
+				);
 
-				this.$refs.ani.step({
-					translateX: '-100px'
-				}, {
-					timingFunction: 'ease-in',
-					duration: 100
-				})
+				this.$refs.ani.step(
+					{
+						translateX: "-100px",
+					},
+					{
+						timingFunction: "ease-in",
+						duration: 100,
+					},
+				);
 
-				this.$refs.ani.step({
-					translateX: '100px'
-				}, {
-					timingFunction: 'ease',
-					duration: 300
-				})
+				this.$refs.ani.step(
+					{
+						translateX: "100px",
+					},
+					{
+						timingFunction: "ease",
+						duration: 300,
+					},
+				);
 
-				this.$refs.ani.step({
-					translateX: '50px',
-					scale: 1.5
-				}, {
-					timingFunction: 'linear',
-					duration: 100
-				})
-				this.$refs.ani.step({
-					translateX: '0px',
-					scale: 1
-				}, {
-					timingFunction: 'linear',
-					duration: 150
-				})
+				this.$refs.ani.step(
+					{
+						translateX: "50px",
+						scale: 1.5,
+					},
+					{
+						timingFunction: "linear",
+						duration: 100,
+					},
+				);
+				this.$refs.ani.step(
+					{
+						translateX: "0px",
+						scale: 1,
+					},
+					{
+						timingFunction: "linear",
+						duration: 150,
+					},
+				);
 
-				this.$refs.ani.run()
-			}
-		}
-	}
+				this.$refs.ani.run();
+			},
+		},
+	};
 </script>
 
 <style lang="scss">

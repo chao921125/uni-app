@@ -15,7 +15,7 @@
 		<view class="example-body">
 			<uni-datetime-picker v-model="range" type="daterange" @maskClick="maskClick" />
 		</view>
-		<uni-section :title="'日期时间范围用法：' + '[' + datetimerange + ']' " type="line"></uni-section>
+		<uni-section :title="'日期时间范围用法：' + '[' + datetimerange + ']'" type="line"></uni-section>
 		<view class="example-body">
 			<uni-datetime-picker v-model="datetimerange" type="datetimerange" rangeSeparator="至" />
 		</view>
@@ -54,50 +54,50 @@
 	export default {
 		data() {
 			return {
-				single: '',
-				datetimesingle: '',
-				range: ['2021-02-1', '2021-3-28'],
+				single: "",
+				datetimesingle: "",
+				range: ["2021-02-1", "2021-3-28"],
 				datetimerange: [],
 				start: Date.now() - 1000000000,
-				end: Date.now() + 1000000000
-			}
+				end: Date.now() + 1000000000,
+			};
 		},
 
 		watch: {
 			datetimesingle(newval) {
-				console.log('单选:', this.datetimesingle);
+				console.log("单选:", this.datetimesingle);
 			},
 			range(newval) {
-				console.log('范围选:', this.range);
+				console.log("范围选:", this.range);
 			},
 			datetimerange(newval) {
-				console.log('范围选:', this.datetimerange);
-			}
+				console.log("范围选:", this.datetimerange);
+			},
 		},
 		mounted() {
 			setTimeout(() => {
-				this.datetimesingle = Date.now() - 2 * 24 * 3600 * 1000
-				this.single = '2021-2-12'
+				this.datetimesingle = Date.now() - 2 * 24 * 3600 * 1000;
+				this.single = "2021-2-12";
 				// this.range = ['2021-03-1', '2021-4-28']
-				this.datetimerange = ["2021-07-08 0:01:10", "2021-08-08 23:59:59"]
+				this.datetimerange = ["2021-07-08 0:01:10", "2021-08-08 23:59:59"];
 				// this.start = '2021-07-10'
 				// this.end = '2021-07-20'
-			}, 3000)
+			}, 3000);
 		},
 
 		methods: {
 			change(e) {
-				this.single = e
-				console.log('----change事件:', this.single = e);
+				this.single = e;
+				console.log("----change事件:", (this.single = e));
 			},
 			changeLog(e) {
-				console.log('----change事件:', e);
+				console.log("----change事件:", e);
 			},
 			maskClick(e) {
-				console.log('----maskClick事件:', e);
-			}
-		}
-	}
+				console.log("----maskClick事件:", e);
+			},
+		},
+	};
 </script>
 
 <style lang="scss">

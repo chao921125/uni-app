@@ -9,9 +9,7 @@
 			<movable-area>
 				<movable-view :x="x" :y="y" direction="all" @change="onChange">text</movable-view>
 			</movable-area>
-			<view @tap="tap" class="uni-link uni-center uni-common-mt">
-				点击这里移动至 (30px, 30px)
-			</view>
+			<view @tap="tap" class="uni-link uni-center uni-common-mt"> 点击这里移动至 (30px, 30px) </view>
 			<view class="uni-title uni-common-mt">
 				示例 2
 				<text>\nmovable-view区域大于movable-area</text>
@@ -54,9 +52,7 @@
 			<movable-area scale-area>
 				<movable-view direction="all" @scale="onScale" scale scale-min="0.5" scale-max="4" :scale-value="scale">text</movable-view>
 			</movable-area>
-			<view @tap="tap2" class="uni-link uni-center uni-common-mt" style="padding-bottom:80rpx;">
-				点击这里放大3倍
-			</view>
+			<view @tap="tap2" class="uni-link uni-center uni-common-mt" style="padding-bottom: 80rpx"> 点击这里放大3倍 </view>
 		</view>
 	</view>
 </template>
@@ -71,37 +67,37 @@
 				old: {
 					x: 0,
 					y: 0,
-					scale: 2
-				}
-			}
+					scale: 2,
+				},
+			};
 		},
 		methods: {
-			tap: function(e) {
+			tap: function (e) {
 				// 解决view层不同步的问题
-				this.x = this.old.x
-				this.y = this.old.y
-				this.$nextTick(function() {
-					this.x = 30
-					this.y = 30
-				})
+				this.x = this.old.x;
+				this.y = this.old.y;
+				this.$nextTick(function () {
+					this.x = 30;
+					this.y = 30;
+				});
 			},
 			tap2() {
 				// 解决view层不同步的问题
-				this.scale = this.old.scale
-				this.scale = this.old.scale
-				this.$nextTick(function() {
-					this.scale = 3
-				})
+				this.scale = this.old.scale;
+				this.scale = this.old.scale;
+				this.$nextTick(function () {
+					this.scale = 3;
+				});
 			},
-			onChange: function(e) {
-				this.old.x = e.detail.x
-				this.old.y = e.detail.y
+			onChange: function (e) {
+				this.old.x = e.detail.x;
+				this.old.y = e.detail.y;
 			},
-			onScale: function(e) {
-				this.old.scale = e.detail.scale
-			}
-		}
-	}
+			onScale: function (e) {
+				this.old.scale = e.detail.scale;
+			},
+		},
+	};
 </script>
 
 <style>
@@ -111,19 +107,19 @@
 		justify-content: center;
 		height: 150rpx;
 		width: 150rpx;
-		background-color: #007AFF;
+		background-color: #007aff;
 		color: #fff;
 	}
 
 	movable-area {
 		height: 300rpx;
 		width: 100%;
-		background-color: #D8D8D8;
+		background-color: #d8d8d8;
 		overflow: hidden;
 	}
 
 	.max {
-		width:500rpx;
+		width: 500rpx;
 		height: 500rpx;
 	}
 </style>

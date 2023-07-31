@@ -14,29 +14,29 @@
 	export default {
 		data() {
 			return {
-				title: 'makePhoneCall',
-				disabled: true
-			}
+				title: "makePhoneCall",
+				disabled: true,
+			};
 		},
 		methods: {
 			bindInput: function (e) {
-				this.inputValue = e.detail.value
+				this.inputValue = e.detail.value;
 				if (this.inputValue.length > 0) {
-					this.disabled = false
+					this.disabled = false;
 				} else {
-					this.disabled = true
+					this.disabled = true;
 				}
 			},
 			makePhoneCall: function () {
 				uni.makePhoneCall({
 					phoneNumber: this.inputValue,
 					success: () => {
-						console.log("成功拨打电话")
-					}
-				})
-			}
-		}
-	}
+						console.log("成功拨打电话");
+					},
+				});
+			},
+		},
+	};
 </script>
 
 <style>
@@ -44,7 +44,7 @@
 		height: 119rpx;
 		line-height: 119rpx;
 		font-size: 78rpx;
-		border-bottom: 1rpx solid #E2E2E2;
-		text-align:center;
+		border-bottom: 1rpx solid #e2e2e2;
+		text-align: center;
 	}
 </style>

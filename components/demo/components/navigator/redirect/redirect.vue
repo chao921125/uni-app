@@ -7,8 +7,8 @@
 	export default {
 		data() {
 			return {
-				title: '当前页'
-			}
-		}
-	}
+				title: "当前页",
+			};
+		},
+	};
 </script>

@@ -1,22 +1,30 @@
 <template>
-	<view class="uni-calendar-item__weeks-box" :class="{
-		'uni-calendar-item--disable':weeks.disable,
-		'uni-calendar-item--before-checked-x':weeks.beforeMultiple,
-		'uni-calendar-item--multiple': weeks.multiple,
-		'uni-calendar-item--after-checked-x':weeks.afterMultiple,
-		}" @click="choiceDate(weeks)" @mouseenter="handleMousemove(weeks)">
-		<view class="uni-calendar-item__weeks-box-item" :class="{
-				'uni-calendar-item--checked':calendar.fullDate === weeks.fullDate && (calendar.userChecked || !checkHover),
+	<view
+		class="uni-calendar-item__weeks-box"
+		:class="{
+			'uni-calendar-item--disable': weeks.disable,
+			'uni-calendar-item--before-checked-x': weeks.beforeMultiple,
+			'uni-calendar-item--multiple': weeks.multiple,
+			'uni-calendar-item--after-checked-x': weeks.afterMultiple,
+		}"
+		@click="choiceDate(weeks)"
+		@mouseenter="handleMousemove(weeks)"
+	>
+		<view
+			class="uni-calendar-item__weeks-box-item"
+			:class="{
+				'uni-calendar-item--checked': calendar.fullDate === weeks.fullDate && (calendar.userChecked || !checkHover),
 				'uni-calendar-item--checked-range-text': checkHover,
-				'uni-calendar-item--before-checked':weeks.beforeMultiple,
+				'uni-calendar-item--before-checked': weeks.beforeMultiple,
 				'uni-calendar-item--multiple': weeks.multiple,
-				'uni-calendar-item--after-checked':weeks.afterMultiple,
-				'uni-calendar-item--disable':weeks.disable,
-				}">
-			<text v-if="selected&&weeks.extraInfo" class="uni-calendar-item__weeks-box-circle"></text>
-			<text class="uni-calendar-item__weeks-box-text uni-calendar-item__weeks-box-text-disable uni-calendar-item--checked-text">{{weeks.date}}</text>
+				'uni-calendar-item--after-checked': weeks.afterMultiple,
+				'uni-calendar-item--disable': weeks.disable,
+			}"
+		>
+			<text v-if="selected && weeks.extraInfo" class="uni-calendar-item__weeks-box-circle"></text>
+			<text class="uni-calendar-item__weeks-box-text uni-calendar-item__weeks-box-text-disable uni-calendar-item--checked-text">{{ weeks.date }}</text>
 		</view>
-		<view :class="{'uni-calendar-item--isDay': weeks.isDay}"></view>
+		<view :class="{ 'uni-calendar-item--isDay': weeks.isDay }"></view>
 	</view>
 </template>
 
@@ -25,43 +33,43 @@
 		props: {
 			weeks: {
 				type: Object,
-				default () {
-					return {}
-				}
+				default() {
+					return {};
+				},
 			},
 			calendar: {
 				type: Object,
 				default: () => {
-					return {}
-				}
+					return {};
+				},
 			},
 			selected: {
 				type: Array,
 				default: () => {
-					return []
-				}
+					return [];
+				},
 			},
 			lunar: {
 				type: Boolean,
-				default: false
+				default: false,
 			},
 			checkHover: {
 				type: Boolean,
-				default: false
-			}
+				default: false,
+			},
 		},
 		methods: {
 			choiceDate(weeks) {
-				this.$emit('change', weeks)
+				this.$emit("change", weeks);
 			},
 			handleMousemove(weeks) {
-				this.$emit('handleMouse', weeks)
-			}
-		}
-	}
+				this.$emit("handleMouse", weeks);
+			},
+		},
+	};
 </script>
 
-<style lang="scss" >
+<style lang="scss">
 	.uni-calendar-item__weeks-box {
 		flex: 1;
 		/* #ifndef APP-NVUE */
@@ -101,7 +109,6 @@
 		/* #endif */
 	}
 
-
 	.uni-calendar-item__weeks-box-circle {
 		position: absolute;
 		top: 5px;
@@ -110,7 +117,6 @@
 		height: 8px;
 		border-radius: 8px;
 		background-color: #dd524d;
-
 	}
 
 	.uni-calendar-item__weeks-box .uni-calendar-item--disable {
@@ -119,7 +125,7 @@
 	}
 
 	.uni-calendar-item--disable .uni-calendar-item__weeks-box-text-disable {
-		color: #D1D1D1;
+		color: #d1d1d1;
 	}
 
 	.uni-calendar-item--isDay {
@@ -127,7 +133,7 @@
 		top: 10px;
 		right: 17%;
 		background-color: #dd524d;
-		width:6px;
+		width: 6px;
 		height: 6px;
 		border-radius: 50%;
 	}
@@ -153,7 +159,7 @@
 	}
 
 	.uni-calendar-item--multiple {
-		background-color:  #F6F7FC;
+		background-color: #f6f7fc;
 		// color: #fff;
 	}
 
@@ -162,7 +168,7 @@
 		background-color: #409eff;
 		border-radius: 50%;
 		box-sizing: border-box;
-		border: 3px solid #F6F7FC;
+		border: 3px solid #f6f7fc;
 	}
 
 	.uni-calendar-item--before-checked .uni-calendar-item--checked-text,
@@ -174,12 +180,12 @@
 		border-top-left-radius: 50px;
 		border-bottom-left-radius: 50px;
 		box-sizing: border-box;
-		background-color: #F6F7FC;
+		background-color: #f6f7fc;
 	}
 
 	.uni-calendar-item--after-checked-x {
 		border-top-right-radius: 50px;
 		border-bottom-right-radius: 50px;
-		background-color: #F6F7FC;
+		background-color: #f6f7fc;
 	}
 </style>

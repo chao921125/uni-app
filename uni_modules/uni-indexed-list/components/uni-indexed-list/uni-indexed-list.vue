@@ -8,8 +8,7 @@
 				<scroll-view :scroll-into-view="scrollViewId" class="uni-indexed-list__scroll" scroll-y>
 					<view v-for="(list, idx) in lists" :key="idx" :id="'uni-indexed-list-' + idx">
 						<!-- #endif -->
-						<indexed-list-item :list="list" :loaded="loaded" :idx="idx" :showSelect="showSelect"
-							@itemClick="onClick"></indexed-list-item>
+						<indexed-list-item :list="list" :loaded="loaded" :idx="idx" :showSelect="showSelect" @itemClick="onClick"></indexed-list-item>
 						<!-- #ifndef APP-NVUE -->
 					</view>
 				</scroll-view>
@@ -18,13 +17,17 @@
 			</cell>
 		</list>
 		<!-- #endif -->
-		<view class="uni-indexed-list__menu" @touchstart="touchStart" @touchmove.stop.prevent="touchMove"
-			@touchend="touchEnd" @mousedown.stop="mousedown" @mousemove.stop.prevent="mousemove"
-			@mouseleave.stop="mouseleave">
-			<view v-for="(list, key) in lists" :key="key" class="uni-indexed-list__menu-item"
-				:class="touchmoveIndex == key ? 'uni-indexed-list__menu--active' : ''">
-				<text class="uni-indexed-list__menu-text"
-					:class="touchmoveIndex == key ? 'uni-indexed-list__menu-text--active' : ''">{{ list.key }}</text>
+		<view
+			class="uni-indexed-list__menu"
+			@touchstart="touchStart"
+			@touchmove.stop.prevent="touchMove"
+			@touchend="touchEnd"
+			@mousedown.stop="mousedown"
+			@mousemove.stop.prevent="mousemove"
+			@mouseleave.stop="mouseleave"
+		>
+			<view v-for="(list, key) in lists" :key="key" class="uni-indexed-list__menu-item" :class="touchmoveIndex == key ? 'uni-indexed-list__menu--active' : ''">
+				<text class="uni-indexed-list__menu-text" :class="touchmoveIndex == key ? 'uni-indexed-list__menu-text--active' : ''">{{ list.key }}</text>
 			</view>
 		</view>
 		<view v-if="touchmove" class="uni-indexed-list__alert-wrapper">
@@ -33,14 +36,14 @@
 	</view>
 </template>
 <script>
-	import indexedListItem from './uni-indexed-list-item.vue'
+	import indexedListItem from "./uni-indexed-list-item.vue";
 	// #ifdef APP-NVUE
-	const dom = weex.requireModule('dom');
+	const dom = weex.requireModule("dom");
 	// #endif
 	// #ifdef APP-PLUS
 	function throttle(func, delay) {
 		var prev = Date.now();
-		return function() {
+		return function () {
 			var context = this;
 			var args = arguments;
 			var now = Date.now();
@@ -48,30 +51,30 @@
 				func.apply(context, args);
 				prev = Date.now();
 			}
-		}
+		};
 	}
 
 	function touchMove(e) {
-		let pageY = e.touches[0].pageY
-		let index = Math.floor((pageY - this.winOffsetY) / this.itemHeight)
+		let pageY = e.touches[0].pageY;
+		let index = Math.floor((pageY - this.winOffsetY) / this.itemHeight);
 		if (this.touchmoveIndex === index) {
-			return false
+			return false;
 		}
-		let item = this.lists[index]
+		let item = this.lists[index];
 		if (item) {
 			// #ifndef APP-NVUE
-			this.scrollViewId = 'uni-indexed-list-' + index
-			this.touchmoveIndex = index
+			this.scrollViewId = "uni-indexed-list-" + index;
+			this.touchmoveIndex = index;
 			// #endif
 			// #ifdef APP-NVUE
-			dom.scrollToElement(this.$refs['uni-indexed-list-' + index][0], {
-				animated: false
-			})
-			this.touchmoveIndex = index
+			dom.scrollToElement(this.$refs["uni-indexed-list-" + index][0], {
+				animated: false,
+			});
+			this.touchmoveIndex = index;
 			// #endif
 		}
 	}
-	const throttleTouchMove = throttle(touchMove, 40)
+	const throttleTouchMove = throttle(touchMove, 40);
 	// #endif
 
 	/**
@@ -86,22 +89,22 @@
 	 * @example <uni-indexed-list options="" showSelect="false" @click=""></uni-indexed-list>
 	 */
 	export default {
-		name: 'UniIndexedList',
+		name: "UniIndexedList",
 		components: {
-			indexedListItem
+			indexedListItem,
 		},
-		emits: ['click'],
+		emits: ["click"],
 		props: {
 			options: {
 				type: Array,
-				default () {
-					return []
-				}
+				default() {
+					return [];
+				},
 			},
 			showSelect: {
 				type: Boolean,
-				default: false
-			}
+				default: false,
+			},
 		},
 		data() {
 			return {
@@ -111,109 +114,110 @@
 				winOffsetY: 0,
 				touchmove: false,
 				touchmoveIndex: -1,
-				scrollViewId: '',
+				scrollViewId: "",
 				touchmovable: true,
 				loaded: false,
-				isPC: false
-			}
+				isPC: false,
+			};
 		},
 		watch: {
 			options: {
-				handler: function() {
-					this.setList()
+				handler: function () {
+					this.setList();
 				},
-				deep: true
-			}
+				deep: true,
+			},
 		},
 		mounted() {
 			// #ifdef H5
-			this.isPC = this.IsPC()
+			this.isPC = this.IsPC();
 			// #endif
 			setTimeout(() => {
-				this.setList()
-			}, 50)
+				this.setList();
+			}, 50);
 			setTimeout(() => {
-				this.loaded = true
+				this.loaded = true;
 			}, 300);
 		},
 		methods: {
 			setList() {
 				let index = 0;
-				this.lists = []
+				this.lists = [];
 				this.options.forEach((value, index) => {
 					if (value.data.length === 0) {
-						return
+						return;
 					}
-					let indexBefore = index
-					let items = value.data.map(item => {
-						let obj = {}
-						obj['key'] = value.letter
-						obj['name'] = item
-						obj['itemIndex'] = index
-						index++
-						obj.checked = item.checked ? item.checked : false
-						return obj
-					})
+					let indexBefore = index;
+					let items = value.data.map((item) => {
+						let obj = {};
+						obj["key"] = value.letter;
+						obj["name"] = item;
+						obj["itemIndex"] = index;
+						index++;
+						obj.checked = item.checked ? item.checked : false;
+						return obj;
+					});
 					this.lists.push({
 						title: value.letter,
 						key: value.letter,
 						items: items,
-						itemIndex: indexBefore
-					})
-				})
+						itemIndex: indexBefore,
+					});
+				});
 				// #ifndef APP-NVUE
-				uni.createSelectorQuery()
+				uni
+					.createSelectorQuery()
 					.in(this)
-					.select('#list')
+					.select("#list")
 					.boundingClientRect()
-					.exec(ret => {
-						this.winOffsetY = ret[0].top
-						this.winHeight = ret[0].height
-						this.itemHeight = this.winHeight / this.lists.length
-					})
+					.exec((ret) => {
+						this.winOffsetY = ret[0].top;
+						this.winHeight = ret[0].height;
+						this.itemHeight = this.winHeight / this.lists.length;
+					});
 				// #endif
 				// #ifdef APP-NVUE
-				dom.getComponentRect(this.$refs['list'], (res) => {
-					this.winOffsetY = res.size.top
-					this.winHeight = res.size.height
-					this.itemHeight = this.winHeight / this.lists.length
-				})
+				dom.getComponentRect(this.$refs["list"], (res) => {
+					this.winOffsetY = res.size.top;
+					this.winHeight = res.size.height;
+					this.itemHeight = this.winHeight / this.lists.length;
+				});
 				// #endif
 			},
 			touchStart(e) {
-				this.touchmove = true
-				let pageY = this.isPC ? e.pageY : e.touches[0].pageY
-				let index = Math.floor((pageY - this.winOffsetY) / this.itemHeight)
-				let item = this.lists[index]
+				this.touchmove = true;
+				let pageY = this.isPC ? e.pageY : e.touches[0].pageY;
+				let index = Math.floor((pageY - this.winOffsetY) / this.itemHeight);
+				let item = this.lists[index];
 				if (item) {
-					this.scrollViewId = 'uni-indexed-list-' + index
-					this.touchmoveIndex = index
+					this.scrollViewId = "uni-indexed-list-" + index;
+					this.touchmoveIndex = index;
 					// #ifdef APP-NVUE
-					dom.scrollToElement(this.$refs['uni-indexed-list-' + index][0], {
-						animated: false
-					})
+					dom.scrollToElement(this.$refs["uni-indexed-list-" + index][0], {
+						animated: false,
+					});
 					// #endif
 				}
 			},
 			touchMove(e) {
 				// #ifndef APP-PLUS
-				let pageY = this.isPC ? e.pageY : e.touches[0].pageY
-				let index = Math.floor((pageY - this.winOffsetY) / this.itemHeight)
+				let pageY = this.isPC ? e.pageY : e.touches[0].pageY;
+				let index = Math.floor((pageY - this.winOffsetY) / this.itemHeight);
 				if (this.touchmoveIndex === index) {
-					return false
+					return false;
 				}
-				let item = this.lists[index]
+				let item = this.lists[index];
 				if (item) {
-					this.scrollViewId = 'uni-indexed-list-' + index
-					this.touchmoveIndex = index
+					this.scrollViewId = "uni-indexed-list-" + index;
+					this.touchmoveIndex = index;
 				}
 				// #endif
 				// #ifdef APP-PLUS
-				throttleTouchMove.call(this, e)
+				throttleTouchMove.call(this, e);
 				// #endif
 			},
 			touchEnd() {
-				this.touchmove = false
+				this.touchmove = false;
 				// this.touchmoveIndex = -1
 			},
 
@@ -222,16 +226,16 @@
 			 */
 
 			mousedown(e) {
-				if (!this.isPC) return
-				this.touchStart(e)
+				if (!this.isPC) return;
+				this.touchStart(e);
 			},
 			mousemove(e) {
-				if (!this.isPC) return
-				this.touchMove(e)
+				if (!this.isPC) return;
+				this.touchMove(e);
 			},
 			mouseleave(e) {
-				if (!this.isPC) return
-				this.touchEnd(e)
+				if (!this.isPC) return;
+				this.touchEnd(e);
 			},
 
 			// #ifdef H5
@@ -249,38 +253,34 @@
 			},
 			// #endif
 
-
 			onClick(e) {
-				let {
-					idx,
-					index
-				} = e
-				let obj = {}
+				let { idx, index } = e;
+				let obj = {};
 				for (let key in this.lists[idx].items[index]) {
-					obj[key] = this.lists[idx].items[index][key]
+					obj[key] = this.lists[idx].items[index][key];
 				}
-				let select = []
+				let select = [];
 				if (this.showSelect) {
-					this.lists[idx].items[index].checked = !this.lists[idx].items[index].checked
+					this.lists[idx].items[index].checked = !this.lists[idx].items[index].checked;
 					this.lists.forEach((value, idx) => {
 						value.items.forEach((item, index) => {
 							if (item.checked) {
-								let obj = {}
+								let obj = {};
 								for (let key in this.lists[idx].items[index]) {
-									obj[key] = this.lists[idx].items[index][key]
+									obj[key] = this.lists[idx].items[index][key];
 								}
-								select.push(obj)
+								select.push(obj);
 							}
-						})
-					})
+						});
+					});
 				}
-				this.$emit('click', {
+				this.$emit("click", {
 					item: obj,
-					select: select
-				})
-			}
-		}
-	}
+					select: select,
+				});
+			},
+		},
+	};
 </script>
 <style lang="scss" scoped>
 	.uni-indexed-list {
@@ -329,7 +329,8 @@
 		// background-color: rgb(200, 200, 200);
 	}
 
-	.uni-indexed-list__menu--active {}
+	.uni-indexed-list__menu--active {
+	}
 
 	.uni-indexed-list__menu-text--active {
 		border-radius: 16px;

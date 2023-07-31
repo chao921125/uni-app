@@ -1,22 +1,19 @@
 <template>
-  <view class="container">
-    <no-data></no-data>
-  </view>
+	<view class="container">
+		<no-data></no-data>
+	</view>
 </template>
 
 <script>
-  export default {
-    data() {
-      return {
-        title: this.$t('')
-      }
-    },
-    methods: {
-      
-    }
-  }
+	export default {
+		data() {
+			return {
+				title: this.$t(""),
+			};
+		},
+
+		methods: {},
+	};
 </script>
 
-<style>
-
-</style>
+<style lang="scss"></style>

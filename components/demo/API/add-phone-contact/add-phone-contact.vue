@@ -8,7 +8,7 @@
 						<view class="uni-label">名称</view>
 					</view>
 					<view class="uni-list-cell-db">
-						<input class="uni-input" type="text" placeholder="请输入联系人名称" name="name" :value="name" @input="nameChange"/>
+						<input class="uni-input" type="text" placeholder="请输入联系人名称" name="name" :value="name" @input="nameChange" />
 					</view>
 				</view>
 				<view class="uni-list-cell">
@@ -16,7 +16,7 @@
 						<view class="uni-label">手机号</view>
 					</view>
 					<view class="uni-list-cell-db">
-						<input class="uni-input" type="text" placeholder="请输入联系人手机号" name="phone" :value="phone" @input="phoneChange"/>
+						<input class="uni-input" type="text" placeholder="请输入联系人手机号" name="phone" :value="phone" @input="phoneChange" />
 					</view>
 				</view>
 			</view>
@@ -30,53 +30,51 @@
 </template>
 <script>
 	// #ifdef APP-PLUS
-	import permision from "@/common/permission.js"
+	import permision from "@/common/permission.js";
 	// #endif
 	export default {
 		data() {
 			return {
-				title: 'addPhoneContact',
-				name: '',
-				phone: ''
-			}
+				title: "addPhoneContact",
+				name: "",
+				phone: "",
+			};
 		},
 		methods: {
-			nameChange: function(e) {
-				this.name = e.detail.value
+			nameChange: function (e) {
+				this.name = e.detail.value;
 			},
-			phoneChange: function(e) {
-				this.phone = e.detail.value
+			phoneChange: function (e) {
+				this.phone = e.detail.value;
 			},
 			async add() {
 				// #ifdef APP-PLUS
 				let status = await this.checkPermission();
 				if (status !== 1) {
-				    return;
+					return;
 				}
 				// #endif
 
 				uni.addPhoneContact({
 					firstName: this.name,
 					mobilePhoneNumber: this.phone,
-					success: function() {
+					success: function () {
 						uni.showModal({
-							content: '已成功添加联系人！',
-							showCancel: false
-						})
+							content: "已成功添加联系人！",
+							showCancel: false,
+						});
 					},
-					fail: function() {
+					fail: function () {
 						uni.showModal({
-							content: '添加联系人失败！',
-							showCancel: false
-						})
-					}
+							content: "添加联系人失败！",
+							showCancel: false,
+						});
+					},
 				});
-			}
+			},
 			// #ifdef APP-PLUS
-			,
 			async checkPermission() {
-				let status = permision.isIOS ? await permision.requestIOS('contact') :
-					await permision.requestAndroid('android.permission.WRITE_CONTACTS');
+				let status = permision.isIOS ? await permision.requestIOS("contact") : await permision.requestAndroid("android.permission.WRITE_CONTACTS");
 
 				if (status === null || status === 1) {
 					status = 1;
@@ -84,19 +82,18 @@
 					uni.showModal({
 						content: "需要联系人权限",
 						confirmText: "设置",
-						success: function(res) {
+						success: function (res) {
 							if (res.confirm) {
 								permision.gotoAppSetting();
 							}
-						}
-					})
+						},
+					});
 				}
 				return status;
-			}
+			},
 			// #endif
-		}
-	}
+		},
+	};
 </script>
 
-<style>
-</style>
+<style></style>

@@ -25,81 +25,81 @@
 	</view>
 </template>
 <script>
-	const preloadPageUrl = '/pages/extUI/calendar/calendar'
-	import { mapState } from 'vuex'
+	const preloadPageUrl = "/pages/extUI/calendar/calendar";
+	import { mapState } from "vuex";
 	export default {
 		data() {
 			return {
-				title: 'navigate'
-			}
+				title: "navigate",
+			};
 		},
 		computed: {
 			...mapState({
-				hasLeftWin: state => !state.noMatchLeftWindow
-			})
+				hasLeftWin: (state) => !state.noMatchLeftWindow,
+			}),
 		},
 		methods: {
 			navigateTo() {
 				uni.navigateTo({
-					url: 'new-page/new-vue-page-1?data=Hello'
-				})
+					url: "new-page/new-vue-page-1?data=Hello",
+				});
 			},
 			navigateBack() {
 				uni.navigateBack();
 			},
 			redirectTo() {
 				uni.redirectTo({
-					url: 'new-page/new-vue-page-1'
+					url: "new-page/new-vue-page-1",
 				});
 			},
 			switchTab() {
 				uni.switchTab({
-					url: '/pages/tabBar/template/template'
+					url: "/pages/tabBar/template/template",
 				});
 			},
 			reLaunch() {
 				if (this.hasLeftWin) {
 					uni.reLaunch({
-						url: '/pages/component/view/view'
+						url: "/pages/component/view/view",
 					});
 					return;
 				}
 				uni.reLaunch({
-					url: '/pages/tabBar/component/component'
+					url: "/pages/tabBar/component/component",
 				});
 			},
-			customAnimation(){
+			customAnimation() {
 				uni.navigateTo({
-					url: 'new-page/new-vue-page-1?data=使用自定义动画打开页面',
-					animationType: 'slide-in-bottom',
-					animationDuration: 200
-				})
+					url: "new-page/new-vue-page-1?data=使用自定义动画打开页面",
+					animationType: "slide-in-bottom",
+					animationDuration: 200,
+				});
 			},
-			preloadPage(){
+			preloadPage() {
 				uni.preloadPage({
 					url: preloadPageUrl,
-					success(){
+					success() {
 						uni.showToast({
-							title:'页面预载成功'
-						})
+							title: "页面预载成功",
+						});
 					},
-					fail(){
+					fail() {
 						uni.showToast({
-							title:'页面预载失败'
-						})
-					}
-				})
+							title: "页面预载失败",
+						});
+					},
+				});
 			},
-			unPreloadPage(){
+			unPreloadPage() {
 				uni.unPreloadPage({
-					url: preloadPageUrl
-				})
+					url: preloadPageUrl,
+				});
 			},
-			navigateToPreloadPage(){
+			navigateToPreloadPage() {
 				uni.navigateTo({
-					url: preloadPageUrl
-				})
-			}
-		}
-	}
+					url: preloadPageUrl,
+				});
+			},
+		},
+	};
 </script>

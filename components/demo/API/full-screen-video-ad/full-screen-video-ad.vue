@@ -11,27 +11,27 @@
 	export default {
 		data() {
 			return {
-				title: '全屏视频广告',
+				title: "全屏视频广告",
 				loading: false,
-				loadError: false
-			}
+				loadError: false,
+			};
 		},
 		onReady() {
 			// #ifdef APP-PLUS
 			this.adOption = {
-				adpid: '1507000611'
+				adpid: "1507000611",
 			};
 			// #endif
 			this.createAd();
 		},
 		methods: {
 			createAd() {
-				var _ad = this._ad = uni.createFullScreenVideoAd(this.adOption);
+				var _ad = (this._ad = uni.createFullScreenVideoAd(this.adOption));
 				_ad.onLoad(() => {
 					this.loading = false;
 					this.loadError = false;
 					_ad.show();
-					console.log('onLoad event')
+					console.log("onLoad event");
 				});
 				_ad.onClose((res) => {
 					// 用户点击了【关闭广告】按钮
@@ -47,28 +47,28 @@
 						uni.showToast({
 							title: "全屏视频" + (res.isEnded ? "成功" : "未") + "播放完毕",
 							duration: 10000,
-							position: 'bottom'
-						})
-					}, 500)
+							position: "bottom",
+						});
+					}, 500);
 				});
 				_ad.onError((err) => {
 					this.loading = false;
 					if (err.code) {
 						this.loadError = true;
 					}
-					console.log('onError event', err)
+					console.log("onError event", err);
 					uni.showToast({
 						title: err.errMsg,
-						position: 'bottom'
-					})
+						position: "bottom",
+					});
 				});
 			},
 			showAd() {
 				this.loading = true;
 				this._ad.load();
-			}
-		}
-	}
+			},
+		},
+	};
 </script>
 
 <style>

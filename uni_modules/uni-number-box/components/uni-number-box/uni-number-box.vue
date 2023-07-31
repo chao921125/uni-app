@@ -1,12 +1,11 @@
 <template>
 	<view class="uni-numbox">
-		<view @click="_calcValue('minus')" class="uni-numbox__minus uni-numbox-btns" :style="{background}">
-			<text class="uni-numbox--text" :class="{ 'uni-numbox--disabled': inputValue <= min || disabled }" :style="{color}">-</text>
+		<view @click="_calcValue('minus')" class="uni-numbox__minus uni-numbox-btns" :style="{ background }">
+			<text class="uni-numbox--text" :class="{ 'uni-numbox--disabled': inputValue <= min || disabled }" :style="{ color }">-</text>
 		</view>
-		<input :disabled="disabled" @focus="_onFocus" @blur="_onBlur" class="uni-numbox__value" type="number"
-			v-model="inputValue" :style="{background, color}" />
-		<view @click="_calcValue('plus')" class="uni-numbox__plus uni-numbox-btns" :style="{background}">
-			<text class="uni-numbox--text" :class="{ 'uni-numbox--disabled': inputValue >= max || disabled }" :style="{color}">+</text>
+		<input :disabled="disabled" @focus="_onFocus" @blur="_onBlur" class="uni-numbox__value" type="number" v-model="inputValue" :style="{ background, color }" />
+		<view @click="_calcValue('plus')" class="uni-numbox__plus uni-numbox-btns" :style="{ background }">
+			<text class="uni-numbox--text" :class="{ 'uni-numbox--disabled': inputValue >= max || disabled }" :style="{ color }">+</text>
 		</view>
 	</view>
 </template>
@@ -29,44 +28,44 @@
 
 	export default {
 		name: "UniNumberBox",
-		emits: ['change', 'input', 'update:modelValue', 'blur', 'focus'],
+		emits: ["change", "input", "update:modelValue", "blur", "focus"],
 		props: {
 			value: {
 				type: [Number, String],
-				default: 1
+				default: 1,
 			},
 			modelValue: {
 				type: [Number, String],
-				default: 1
+				default: 1,
 			},
 			min: {
 				type: Number,
-				default: 0
+				default: 0,
 			},
 			max: {
 				type: Number,
-				default: 100
+				default: 100,
 			},
 			step: {
 				type: Number,
-				default: 1
+				default: 1,
 			},
 			background: {
 				type: String,
-				default: '#f5f5f5'
+				default: "#f5f5f5",
 			},
 			color: {
 				type: String,
-				default: '#333'
+				default: "#333",
 			},
 			disabled: {
 				type: Boolean,
-				default: false
-			}
+				default: false,
+			},
 		},
 		data() {
 			return {
-				inputValue: 0
+				inputValue: 0,
 			};
 		},
 		watch: {
@@ -75,7 +74,7 @@
 			},
 			modelValue(val) {
 				this.inputValue = +val;
-			}
+			},
 		},
 		created() {
 			if (this.value === 1) {
@@ -95,21 +94,21 @@
 				let step = this.step * scale;
 				if (type === "minus") {
 					value -= step;
-					if (value < (this.min * scale)) {
+					if (value < this.min * scale) {
 						return;
 					}
-					if (value > (this.max * scale)) {
-						value = this.max * scale
+					if (value > this.max * scale) {
+						value = this.max * scale;
 					}
 				}
 
 				if (type === "plus") {
 					value += step;
-					if (value > (this.max * scale)) {
+					if (value > this.max * scale) {
 						return;
 					}
-					if (value < (this.min * scale)) {
-						value = this.min * scale
+					if (value < this.min * scale) {
+						value = this.min * scale;
 					}
 				}
 
@@ -121,7 +120,6 @@
 				this.$emit("update:modelValue", +this.inputValue);
 			},
 			_getDecimalScale() {
-
 				let scale = 1;
 				// 浮点型
 				if (~~this.step !== this.step) {
@@ -130,7 +128,7 @@
 				return scale;
 			},
 			_onBlur(event) {
-				this.$emit('blur', event)
+				this.$emit("blur", event);
 				let value = event.detail.value;
 				if (!value) {
 					// this.inputValue = 0;
@@ -148,9 +146,9 @@
 				this.$emit("input", +this.inputValue);
 			},
 			_onFocus(event) {
-				this.$emit('focus', event)
-			}
-		}
+				this.$emit("focus", event);
+			},
+		},
 	};
 </script>
 <style lang="scss" scoped>
