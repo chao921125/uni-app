@@ -1,26 +1,38 @@
 {
     "pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
         {
-            "path": "pages/index/index",
+            "path": "pages/tab-bar/index",
             "style": {
                 "navigationBarTitleText": "%index.title%"
             }
         }, {
-            "path": "pages/component/component",
+            "path": "pages/tab-bar/component",
             "style": {
                 "navigationBarTitleText": "%index.component%",
                 "enablePullDownRefresh": false
             }
         }, {
-            "path": "pages/api/api",
+            "path": "pages/tab-bar/api",
             "style": {
                 "navigationBarTitleText": "%index.api%",
                 "enablePullDownRefresh": false
             }
         }, {
-            "path": "pages/schema/schema",
+            "path": "pages/tab-bar/schema",
             "style": {
                 "navigationBarTitleText": "%index.schema%",
+                "enablePullDownRefresh": false
+            }
+        }, {
+            "path": "pages/common/blank",
+            "style": {
+                "navigationBarTitleText": "空白页",
+                "enablePullDownRefresh": false
+            }
+        }, {
+            "path": "pages/contact/contact",
+            "style": {
+                "navigationBarTitleText": "联系人页面",
                 "enablePullDownRefresh": false
             }
         }
@@ -31,17 +43,17 @@
         "borderStyle": "black",
         "backgroundColor": "#F8F8F8",
         "list": [{
-                "pagePath": "pages/index/index",
+                "pagePath": "pages/tab-bar/index",
                 "text": "%index.home%"
             },
             {
-                "pagePath": "pages/component/component",
+                "pagePath": "pages/tab-bar/component",
                 "text": "%index.component%"
             }, {
-                "pagePath": "pages/api/api",
+                "pagePath": "pages/tab-bar/api",
                 "text": "%index.api%"
             }, {
-                "pagePath": "pages/schema/schema",
+                "pagePath": "pages/tab-bar/schema",
                 "text": "%index.schema%"
             }
         ]
