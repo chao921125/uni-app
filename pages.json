@@ -1,179 +1,55 @@
 {
-	"pages": [ // pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
+	"pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
 		{
-            "path" : "pages/tabbar/home",
-            "style" : {
-                "navigationBarTitleText": "首页",
-                "enablePullDownRefresh": true
-            }
-            
-        }, {
-            "path" : "pages/tabbar/order",
-            "style" : {
-                "navigationBarTitleText": "订单",
-                "enablePullDownRefresh": true
-            }
-            
-        }, {
-            "path" : "pages/tabbar/user",
-            "style" : {
-                "navigationBarTitleText": "我",
-                "enablePullDownRefresh": false
-            }
-            
-        }
-    ],
-    "subPackages": [{
-        "root": "pages/permission",
-        "pages": [{
-            "path" : "permission",
-            "style" : {
-                "navigationBarTitleText": "授权登录",
-                "enablePullDownRefresh": false
-            }
-        }, {
-            "path" : "login",
-            "style" : {
-                "navigationBarTitleText": "登录",
-                "enablePullDownRefresh": false
-            }
-            
-        }, {
-            "path" : "register",
-            "style" : {
-                "navigationBarTitleText": "会员注册",
-                "enablePullDownRefresh": false
-            }
-            
-        }, {
-            "path" : "forgotpwd",
-            "style" : {
-                "navigationBarTitleText": "找回密码",
-                "enablePullDownRefresh": false
-            }
-            
-        }]
-    }, {
-        "root": "pages/user",
-        "pages": [{
-            "path" : "edit",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "修改个人信息",
-                "enablePullDownRefresh": false
-            }
-            
-        }, {
-            "path" : "password",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "修改密码",
-                "enablePullDownRefresh": false
-            }
-            
-        }, {
-            "path" : "address",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "修改地址",
-                "enablePullDownRefresh": false
-            }
-            
-        }, {
-            "path" : "bank",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "修改绑定信息",
-                "enablePullDownRefresh": false
-            }
-            
-        }, {
-            "path" : "player",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "名人介绍",
-                "enablePullDownRefresh": false
-            }
-            
-        }, {
-            "path" : "recharge",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "提现明细",
-                "enablePullDownRefresh": true
-            }
-            
-        }, {
-            "path" : "fans",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "粉丝明细",
-                "enablePullDownRefresh": true
-            }
-            
-        }]
-    }],
-    "preloadRule": {
-        "pages/permission/login": {
-            "network": "all",
-            "packages": ["__APP__"]
-        },
-        "pages/user/edit": {
-            "network": "all",
-            "packages": ["__APP__"]
-        }
-    },
-    "tabBar": {
-        "borderStyle": "black",
-        "backgroundColor": "#FFFFFF",
-        "color": "#8a8a8a",
-        "selectedColor": "#0088ff",
-        
-        "height": "50px",
-        "fontSize": "12px",
-        "iconWidth": "24px",
-        "spacing": "5px",
-        
-        "position": "bottom",
-                
-        "list": [
+			"path": "pages/index/index",
+			"style": {
+				"navigationBarTitleText": "%index.title%"
+			}
+		}, {
+			"path": "pages/component/component",
+			"style": {
+				"navigationBarTitleText": "%index.component%",
+				"enablePullDownRefresh": false
+			}
+		}, {
+			"path": "pages/api/api",
+			"style": {
+				"navigationBarTitleText": "%index.api%",
+				"enablePullDownRefresh": false
+			}
+		}, {
+			"path": "pages/schema/schema",
+			"style": {
+				"navigationBarTitleText": "%index.schema%",
+				"enablePullDownRefresh": false
+			}
+		}
+	],
+	"tabBar": {
+		"color": "#7A7E83",
+		"selectedColor": "#007AFF",
+		"borderStyle": "black",
+		"backgroundColor": "#F8F8F8",
+		"list": [{
+				"pagePath": "pages/index/index",
+				"text": "%index.home%"
+			},
 			{
-        		"pagePath": "pages/tabbar/home",
-        		"iconPath": "static/images/tabbar/home.png",
-        		// "iconfont": "iconfont",
-        		"selectedIconPath": "static/images/tabbar/home_active.png",
-        		"text": "首页"
-        	},
-        	{
-        		"pagePath": "pages/tabbar/order",
-        		"iconPath": "static/images/tabbar/order.png",
-        		"selectedIconPath": "static/images/tabbar/order_active.png",
-        		"text": "订单"
-        	},
-        	{
-        		"pagePath": "pages/tabbar/user",
-        		"iconPath": "static/images/tabbar/user.png",
-        		"selectedIconPath": "static/images/tabbar/user_active.png",
-        		"text": "我"
-        	}
-        ]
-    },
-    "easycom": {
-      "autoscan": true,
-      "custom": {
-        "^uni-(.*)": "@/uni_modules/uni-$1.vue" // 匹配components目录内的vue文件
-      }
-    },
+				"pagePath": "pages/component/component",
+				"text": "%index.component%"
+			}, {
+				"pagePath": "pages/api/api",
+				"text": "%index.api%"
+			}, {
+				"pagePath": "pages/schema/schema",
+				"text": "%index.schema%"
+			}
+		]
+	},
 	"globalStyle": {
 		"navigationBarTextStyle": "black",
 		"navigationBarTitleText": "uni-app",
 		"navigationBarBackgroundColor": "#F8F8F8",
-		"backgroundColor": "#F8F8F8",
-        "backgroundTextStyle": "dark",
-        "enablePullDownRefresh": true,
-        "onReachBottomDistance": 50,
-        "pageOrientation": "portrait",
-        "usingComponents": {
-        }
+		"backgroundColor": "#F8F8F8"
 	}
 }

@@ -169,7 +169,7 @@
                 "enable" : true
             }
         },
-        "title" : "UNI_APP",
+        "title" : "CC",
         "sdkConfigs" : {
             "maps" : {}
         }
