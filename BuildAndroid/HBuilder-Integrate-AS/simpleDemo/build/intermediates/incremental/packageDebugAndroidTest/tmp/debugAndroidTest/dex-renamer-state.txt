@@ -1,0 +1,7 @@
+#Mon Jul 31 16:23:52 CST 2023
+base.0=/Users/huangchao/works/Study/uni-app/BuildAndroid/HBuilder-Integrate-AS/simpleDemo/build/intermediates/dex/debugAndroidTest/mergeProjectDexDebugAndroidTest/0/classes.dex
+base.1=/Users/huangchao/works/Study/uni-app/BuildAndroid/HBuilder-Integrate-AS/simpleDemo/build/intermediates/dex/debugAndroidTest/mergeProjectDexDebugAndroidTest/6/classes.dex
+path.0=0/classes.dex
+path.1=6/classes.dex
+renamed.0=classes.dex
+renamed.1=classes2.dex

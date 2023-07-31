@@ -1,0 +1,14 @@
+[
+    {
+        "merged": "com.android.simple.simpleDemo-merged_res-14:/drawable_icon.png.flat",
+        "source": "com.android.simple.simpleDemo-main-15:/drawable/icon.png"
+    },
+    {
+        "merged": "com.android.simple.simpleDemo-merged_res-14:/drawable_splash.png.flat",
+        "source": "com.android.simple.simpleDemo-main-15:/drawable/splash.png"
+    },
+    {
+        "merged": "com.android.simple.simpleDemo-merged_res-14:/drawable_push.png.flat",
+        "source": "com.android.simple.simpleDemo-main-15:/drawable/push.png"
+    }
+]
