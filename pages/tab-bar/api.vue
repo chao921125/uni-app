@@ -1,6 +1,6 @@
 <template>
 	<view class="container">
-		<button @click="showModel">uni.showModal</button>
+		<button @click="toContact">跳转获取联系人</button>
 	</view>
 </template>
 
@@ -11,14 +11,11 @@
 		},
 
 		methods: {
-			showModel() {
-				uni.showModal({
-					content: this.$t("api.message"),
-					success: (res) => {
-						console.log(res);
-					},
-				});
-			},
+			toContact() {
+			    uni.navigateTo({
+			        url: "/pages/contact/contact",
+			    })
+			}
 		},
 	};
 </script>
