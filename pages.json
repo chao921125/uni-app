@@ -30,9 +30,21 @@
                 "enablePullDownRefresh": false
             }
         }, {
-            "path": "pages/contact/contact",
+            "path": "pages/apis/contact",
             "style": {
-                "navigationBarTitleText": "联系人页面",
+                "navigationBarTitleText": "联系人",
+                "enablePullDownRefresh": false
+            }
+        }, {
+            "path": "pages/demo/language",
+            "style": {
+                "navigationBarTitleText": "国际化",
+                "enablePullDownRefresh": false
+            }
+        }, {
+            "path": "pages/demo/lottery",
+            "style": {
+                "navigationBarTitleText": "抽奖",
                 "enablePullDownRefresh": false
             }
         }
