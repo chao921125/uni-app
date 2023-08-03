@@ -29,26 +29,33 @@
                 "navigationBarTitleText": "空白页",
                 "enablePullDownRefresh": false
             }
-        }, {
-            "path": "pages/apis/contact",
+        }
+    ],
+    "subPackages": [{
+        "root": "pages/apis/",
+        "pages": [{
+            "path": "contact",
             "style": {
                 "navigationBarTitleText": "联系人",
                 "enablePullDownRefresh": false
             }
-        }, {
-            "path": "pages/demo/language",
+        }]
+    }, {
+        "root": "pages/demo/",
+        "pages": [{
+            "path": "language",
             "style": {
                 "navigationBarTitleText": "国际化",
                 "enablePullDownRefresh": false
             }
         }, {
-            "path": "pages/demo/lottery",
+            "path": "lottery",
             "style": {
                 "navigationBarTitleText": "抽奖",
                 "enablePullDownRefresh": false
             }
-        }
-    ],
+        }]
+    }],
     "tabBar": {
         "color": "#7A7E83",
         "selectedColor": "#007AFF",
@@ -69,6 +76,13 @@
                 "text": "%index.schema%"
             }
         ]
+    },
+    "uniIdRouter": {
+        "loginPage": "pages/login/login",
+        "needLogin": [
+            "pages/user/.*" // 需要登录才可访问的页面列表，可以使用正则语法
+        ],
+        "resToLogin": true
     },
     "globalStyle": {
         "navigationBarTextStyle": "black",
