@@ -2,7 +2,7 @@
     <view class="layout-content">
         <view v-show="!isLoading">
             <text v-show="isInput" class="uni-title">请输入抽奖的内容（请用逗号或者空格分割）</text>
-            <textarea v-show="isInput" class="lottery-text cc-mt-10" placeholder="请输入抽奖的内容" auto-focus="true" v-model="data.lottery.text"></textarea>
+            <textarea v-show="isInput" class="lottery-text cc-mt-10" placeholder="请输入抽奖的内容" auto-focus="true" :maxlength="-1" v-model="data.lottery.text"></textarea>
             <view class="uni-title">您输入的内容是</view>
             <view>{{ data.lottery.array }}</view>
             <view class="cc-mt-20">
@@ -53,8 +53,9 @@ const data = reactive({
 const isLoading = ref(false);
 const isInput = ref(true);
 const isShowResult = ref(false);
-const intervalObj = ref(null);
-const intervalObjAuto = ref(null);
+// 定时器请勿使用，其他方式声明，直接在执行体外部即可，否则会失效
+let intervalObj = null;
+let intervalObjAuto = null;
 
 const textToArray = () => {
     isShowResult.value = false;
@@ -84,12 +85,13 @@ const startDrawAuto = () => {
     isLoading.value = true;
     drawLottery();
     data.result.auto = 10;
-    intervalObjAuto.value = setInterval(() => {
+    intervalObjAuto = setInterval(() => {
         data.result.auto = --data.result.auto;
-        if (data.result.auto === 0) {
+        if (data.result.auto <= 0) {
             stopDraw();
+			data.result.auto = 0;
             clearInterval(intervalObjAuto);
-            intervalObjAuto.value = null;
+            intervalObjAuto = null;
         }
     }, 1000);
 };
@@ -100,12 +102,13 @@ const stopDraw = () => {
     data.result.index = Math.floor(Math.random() * data.lottery.array.length);
     data.result.text = data.lottery.array[data.result.index];
 
+    data.result.auto = 0;
     clearInterval(intervalObj);
-    intervalObj.value = null;
+    intervalObj = null;
 };
 
 const drawLottery = () => {
-    intervalObj.value = setInterval(() => {
+    intervalObj = setInterval(() => {
         data.result.progress = data.lottery.array[Math.floor(Math.random() * data.lottery.array.length)];
     }, 100);
 };
