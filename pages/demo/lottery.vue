@@ -2,7 +2,7 @@
     <view class="layout-content">
         <view v-show="!isLoading">
             <text v-show="isInput" class="uni-title">请输入抽奖的内容（请用逗号或者空格分割）</text>
-            <textarea v-show="isInput" class="lottery-text cc-mt-10" placeholder="请输入抽奖的内容: a,b,c" auto-focus="true" v-model="data.lottery.text"></textarea>
+            <textarea v-show="isInput" class="lottery-text cc-mt-10" placeholder="请输入抽奖的内容" auto-focus="true" v-model="data.lottery.text"></textarea>
             <view class="uni-title">您输入的内容是</view>
             <view>{{ data.lottery.array }}</view>
             <view class="cc-mt-20">
