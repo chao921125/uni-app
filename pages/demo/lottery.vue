@@ -2,10 +2,10 @@
     <view class="container">
         <view v-show="!isLoading">
             <text v-show="isInput" class="uni-title">请输入抽奖的内容（请用逗号或者空格分割）</text>
-            <textarea v-show="isInput" class="lottery-text cc-mt-10" placeholder="请输入抽奖的内容" auto-focus="true" :maxlength="-1" v-model="data.lottery.text"></textarea>
+            <textarea v-show="isInput" class="lottery-text re-mt-10" placeholder="请输入抽奖的内容" auto-focus="true" :maxlength="-1" v-model="data.lottery.text"></textarea>
             <view class="uni-title">您输入的内容是</view>
             <view>{{ data.lottery.array }}</view>
-            <view class="cc-mt-20">
+            <view class="re-mt-20">
                 <button
                     v-show="isInput"
                     @click="
@@ -16,14 +16,14 @@
                     完成输入
                 </button>
             </view>
-            <view class="cc-mt-20"><button v-show="!isInput" @click="isInput = true">重新输入</button></view>
+            <view class="re-mt-20"><button v-show="!isInput" @click="isInput = true">重新输入</button></view>
         </view>
         <view v-show="!isInput">
             <view v-show="isLoading" class="uni-title">抽奖中......</view>
-            <view v-show="isLoading" class="uni-title cc-mt-10">{{ data.result.progress }}</view>
+            <view v-show="isLoading" class="uni-title re-mt-10">{{ data.result.progress }}</view>
             <view v-show="isShowResult" class="uni-title lottery-result">抽奖结果 {{ data.result.startDateTime }}</view>
-            <view v-show="isShowResult" class="uni-title cc-mt-10 lottery-result">{{ data.result.text }}</view>
-            <view class="cc-mt-20">
+            <view v-show="isShowResult" class="uni-title re-mt-10 lottery-result">{{ data.result.text }}</view>
+            <view class="re-mt-20">
                 <button v-show="!isLoading" @click="startDraw">手动抽奖</button>
                 <button v-show="isLoading && !data.result.auto" @click="stopDraw">点击停止抽奖</button>
                 <button v-show="!isLoading" @click="startDrawAuto">自动抽奖</button>
