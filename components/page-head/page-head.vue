@@ -1,6 +1,6 @@
 <template name="page-head">
 	<view class="common-page-head">
-		<view class="common-page-head-title">{{ title }}</view>
+		<view class="common-page-head-title">{{title}}</view>
 	</view>
 </template>
 <script>
@@ -9,8 +9,8 @@
 		props: {
 			title: {
 				type: String,
-				default: "",
-			},
-		},
-	};
+				default: ""
+			}
+		}
+	}
 </script>

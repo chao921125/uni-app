@@ -1,1 +1,1 @@
-export default "./lib/marked";
+export default './lib/marked'

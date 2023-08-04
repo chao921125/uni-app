@@ -1,36 +1,34 @@
-{
-    "pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
-        {
-            "path": "pages/tab-bar/index",
-            "style": {
-                "navigationBarTitleText": "%index.title%"
-            }
-        }, {
-            "path": "pages/tab-bar/component",
-            "style": {
-                "navigationBarTitleText": "%index.component%",
-                "enablePullDownRefresh": false
-            }
-        }, {
-            "path": "pages/tab-bar/api",
-            "style": {
-                "navigationBarTitleText": "%index.api%",
-                "enablePullDownRefresh": false
-            }
-        }, {
-            "path": "pages/tab-bar/schema",
-            "style": {
-                "navigationBarTitleText": "%index.schema%",
-                "enablePullDownRefresh": false
-            }
-        }, {
-            "path": "pages/common/blank",
-            "style": {
-                "navigationBarTitleText": "空白页",
-                "enablePullDownRefresh": false
-            }
+{ // pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
+    "pages": [{
+        "path": "pages/tab-bar/index",
+        "style": {
+            "navigationBarTitleText": "%index.title%"
         }
-    ],
+    }, {
+        "path": "pages/tab-bar/component",
+        "style": {
+            "navigationBarTitleText": "%index.component%",
+            "enablePullDownRefresh": false
+        }
+    }, {
+        "path": "pages/tab-bar/api",
+        "style": {
+            "navigationBarTitleText": "%index.api%",
+            "enablePullDownRefresh": false
+        }
+    }, {
+        "path": "pages/tab-bar/schema",
+        "style": {
+            "navigationBarTitleText": "%index.schema%",
+            "enablePullDownRefresh": false
+        }
+    }, {
+        "path": "pages/common/blank",
+        "style": {
+            "navigationBarTitleText": "空白页",
+            "enablePullDownRefresh": false
+        }
+    }],
     "subPackages": [{
         "root": "pages/apis/",
         "pages": [{
@@ -76,6 +74,24 @@
                 "text": "%index.schema%"
             }
         ]
+    },
+    "preloadRule": {
+        "pages/tab-bar/index": {
+            "network": "all",
+            "packages": ["__APP__"]
+        },
+        "pages/tab-bar/component": {
+            "network": "all",
+            "packages": ["__APP__"]
+        },
+        "pages/tab-bar/api": {
+            "network": "all",
+            "packages": ["__APP__"]
+        },
+        "pages/tab-bar/schema": {
+            "network": "all",
+            "packages": ["__APP__"]
+        }
     },
     "uniIdRouter": {
         "loginPage": "pages/login/login",

@@ -1,21 +1,21 @@
 <template>
 	<div class="mpvue-picker">
-		<div :class="{ pickerMask: showPicker }" @click="maskClick" catchtouchmove="true"></div>
-		<div class="mpvue-picker-content" :class="{ 'mpvue-picker-view-show': showPicker }">
+		<div :class="{'pickerMask':showPicker}" @click="maskClick" catchtouchmove="true"></div>
+		<div class="mpvue-picker-content " :class="{'mpvue-picker-view-show':showPicker}">
 			<div class="mpvue-picker__hd" catchtouchmove="true">
 				<div class="mpvue-picker__action" @click="pickerCancel">取消</div>
-				<div class="mpvue-picker__action" :style="{ color: themeColor }" @click="pickerConfirm">确定</div>
+				<div class="mpvue-picker__action" :style="{color:themeColor}" @click="pickerConfirm">确定</div>
 			</div>
 			<picker-view indicator-style="height: 40px;" class="mpvue-picker-view" :value="pickerValue" @change="pickerChange">
 				<block>
 					<picker-view-column>
-						<div class="picker-item" v-for="(item, index) in provinceDataList" :key="index">{{ item.label }}</div>
+						<div class="picker-item" v-for="(item,index) in provinceDataList" :key="index">{{item.label}}</div>
 					</picker-view-column>
 					<picker-view-column>
-						<div class="picker-item" v-for="(item, index) in cityDataList" :key="index">{{ item.label }}</div>
+						<div class="picker-item" v-for="(item,index) in cityDataList" :key="index">{{item.label}}</div>
 					</picker-view-column>
 					<picker-view-column>
-						<div class="picker-item" v-for="(item, index) in areaDataList" :key="index">{{ item.label }}</div>
+						<div class="picker-item" v-for="(item,index) in areaDataList" :key="index">{{item.label}}</div>
 					</picker-view-column>
 				</block>
 			</picker-view>
@@ -24,9 +24,9 @@
 </template>
 
 <script>
-	import provinceData from "./city-data/province.js";
-	import cityData from "./city-data/city.js";
-	import areaData from "./city-data/area.js";
+	import provinceData from './city-data/province.js';
+	import cityData from './city-data/city.js';
+	import areaData from './city-data/area.js';
 	export default {
 		data() {
 			return {
@@ -39,29 +39,29 @@
 			};
 		},
 		created() {
-			this.init();
+			this.init()
 		},
 		props: {
 			/* 默认值 */
 			pickerValueDefault: {
 				type: Array,
-				default() {
-					return [0, 0, 0];
-				},
+				default () {
+					return [0, 0, 0]
+				}
 			},
 			/* 主题色 */
-			themeColor: String,
+			themeColor: String
 		},
 		watch: {
 			pickerValueDefault() {
 				this.init();
-			},
+			}
 		},
 		methods: {
 			init() {
 				this.handPickValueDefault(); // 对 pickerValueDefault 做兼容处理
 
-				const pickerValueDefault = this.pickerValueDefault;
+				const pickerValueDefault = this.pickerValueDefault
 
 				this.cityDataList = cityData[pickerValueDefault[0]];
 				this.areaDataList = areaData[pickerValueDefault[0]][pickerValueDefault[1]];
@@ -77,22 +77,26 @@
 			},
 			pickerCancel() {
 				this.showPicker = false;
-				this._$emit("onCancel");
+				this._$emit('onCancel');
 			},
 			pickerConfirm(e) {
 				this.showPicker = false;
-				this._$emit("onConfirm");
+				this._$emit('onConfirm');
 			},
 			showPickerView() {
 				this.showPicker = true;
 			},
 			handPickValueDefault() {
-				const pickerValueDefault = this.pickerValueDefault;
+				const pickerValueDefault = this.pickerValueDefault
 
-				let provinceIndex = pickerValueDefault[0];
-				let cityIndex = pickerValueDefault[1];
-				const areaIndex = pickerValueDefault[2];
-				if (provinceIndex !== 0 || cityIndex !== 0 || areaIndex !== 0) {
+				let provinceIndex = pickerValueDefault[0]
+				let cityIndex = pickerValueDefault[1]
+				const areaIndex = pickerValueDefault[2]
+				if (
+					provinceIndex !== 0 ||
+					cityIndex !== 0 ||
+					areaIndex !== 0
+				) {
 					if (provinceIndex > provinceData.length - 1) {
 						this.pickerValueDefault[0] = provinceIndex = provinceData.length - 1;
 					}
@@ -114,33 +118,34 @@
 					changePickerValue[2] = 0;
 				} else if (this.pickerValue[1] !== changePickerValue[1]) {
 					// 第二级滚动
-					this.areaDataList = areaData[changePickerValue[0]][changePickerValue[1]];
+					this.areaDataList =
+						areaData[changePickerValue[0]][changePickerValue[1]];
 					changePickerValue[2] = 0;
 				}
 				this.pickerValue = changePickerValue;
-				this._$emit("onChange");
+				this._$emit('onChange');
 			},
 			_$emit(emitName) {
 				let pickObj = {
 					label: this._getLabel(),
 					value: this.pickerValue,
-					cityCode: this._getCityCode(),
+					cityCode: this._getCityCode()
 				};
 				this.$emit(emitName, pickObj);
 			},
 			_getLabel() {
 				let pcikerLabel =
 					this.provinceDataList[this.pickerValue[0]].label +
-					"-" +
+					'-' +
 					this.cityDataList[this.pickerValue[1]].label +
-					"-" +
+					'-' +
 					this.areaDataList[this.pickerValue[2]].label;
 				return pcikerLabel;
 			},
 			_getCityCode() {
 				return this.areaDataList[this.pickerValue[2]].value;
-			},
-		},
+			}
+		}
 	};
 </script>
 
@@ -179,7 +184,7 @@
 	}
 
 	.mpvue-picker__hd:after {
-		content: " ";
+		content: ' ';
 		position: absolute;
 		left: 0;
 		bottom: 0;

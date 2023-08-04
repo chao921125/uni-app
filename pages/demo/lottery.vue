@@ -1,5 +1,5 @@
 <template>
-    <view class="layout-content">
+    <view class="container">
         <view v-show="!isLoading">
             <text v-show="isInput" class="uni-title">请输入抽奖的内容（请用逗号或者空格分割）</text>
             <textarea v-show="isInput" class="lottery-text cc-mt-10" placeholder="请输入抽奖的内容" auto-focus="true" :maxlength="-1" v-model="data.lottery.text"></textarea>
@@ -21,7 +21,7 @@
         <view v-show="!isInput">
             <view v-show="isLoading" class="uni-title">抽奖中......</view>
             <view v-show="isLoading" class="uni-title cc-mt-10">{{ data.result.progress }}</view>
-            <view v-show="isShowResult" class="uni-title lottery-result">抽奖结果 {{data.result.startDateTime}}</view>
+            <view v-show="isShowResult" class="uni-title lottery-result">抽奖结果 {{ data.result.startDateTime }}</view>
             <view v-show="isShowResult" class="uni-title cc-mt-10 lottery-result">{{ data.result.text }}</view>
             <view class="cc-mt-20">
                 <button v-show="!isLoading" @click="startDraw">手动抽奖</button>
@@ -42,7 +42,7 @@ const data = reactive({
         array: []
     },
     result: {
-        startDateTime: "",
+        startDateTime: '',
         index: 0,
         auto: 0,
         progress: '',
@@ -89,7 +89,7 @@ const startDrawAuto = () => {
         data.result.auto = --data.result.auto;
         if (data.result.auto <= 0) {
             stopDraw();
-			data.result.auto = 0;
+            data.result.auto = 0;
             clearInterval(intervalObjAuto);
             intervalObjAuto = null;
         }
@@ -115,9 +115,9 @@ const drawLottery = () => {
 </script>
 
 <style lang="scss">
-    .lottery-result {
-        color: #FF4040;
-        font-size: 30rpx;
-        font-weight: bold;
-    }
+.lottery-result {
+    color: #ff4040;
+    font-size: 30rpx;
+    font-weight: bold;
+}
 </style>

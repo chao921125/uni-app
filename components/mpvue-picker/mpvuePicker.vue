@@ -1,85 +1,78 @@
 <template>
 	<view class="mpvue-picker">
-		<view :class="{ pickerMask: showPicker }" @click="maskClick" catchtouchmove="true"></view>
-		<view class="mpvue-picker-content" :class="{ 'mpvue-picker-view-show': showPicker }">
+		<view :class="{'pickerMask':showPicker}" @click="maskClick" catchtouchmove="true"></view>
+		<view class="mpvue-picker-content " :class="{'mpvue-picker-view-show':showPicker}">
 			<view class="mpvue-picker__hd" catchtouchmove="true">
 				<view class="mpvue-picker__action" @click="pickerCancel">取消</view>
-				<view class="mpvue-picker__action" :style="{ color: themeColor }" @click="pickerConfirm">确定</view>
+				<view class="mpvue-picker__action" :style="{color:themeColor}" @click="pickerConfirm">确定</view>
 			</view>
 			<!-- 单列 -->
-			<picker-view
-				indicator-style="height: 40px;"
-				class="mpvue-picker-view"
-				:value="pickerValue"
-				@change="pickerChange"
-				v-if="mode === 'selector' && pickerValueSingleArray.length > 0"
-			>
+			<picker-view indicator-style="height: 40px;" class="mpvue-picker-view" :value="pickerValue"
+				@change="pickerChange" v-if="mode==='selector' && pickerValueSingleArray.length > 0">
 				<picker-view-column>
-					<view class="picker-item" v-for="(item, index) in pickerValueSingleArray" :key="index">{{ item.label }} </view>
+					<view class="picker-item" v-for="(item,index) in pickerValueSingleArray" :key="index">{{item.label}}
+					</view>
 				</picker-view-column>
 			</picker-view>
 			<!-- 时间选择器 -->
-			<picker-view indicator-style="height: 40px;" class="mpvue-picker-view" :value="pickerValue" @change="pickerChange" v-if="mode === 'timeSelector'">
+			<picker-view indicator-style="height: 40px;" class="mpvue-picker-view" :value="pickerValue"
+				@change="pickerChange" v-if="mode==='timeSelector'">
 				<picker-view-column>
-					<view class="picker-item" v-for="(item, index) in pickerValueHour" :key="index">{{ item.label }}</view>
+					<view class="picker-item" v-for="(item,index) in pickerValueHour" :key="index">{{item.label}}</view>
 				</picker-view-column>
 				<picker-view-column>
-					<view class="picker-item" v-for="(item, index) in pickerValueMinute" :key="index">{{ item.label }} </view>
+					<view class="picker-item" v-for="(item,index) in pickerValueMinute" :key="index">{{item.label}}
+					</view>
 				</picker-view-column>
 			</picker-view>
 			<!-- 多列选择 -->
-			<picker-view indicator-style="height: 40px;" class="mpvue-picker-view" :value="pickerValue" @change="pickerChange" v-if="mode === 'multiSelector'">
+			<picker-view indicator-style="height: 40px;" class="mpvue-picker-view" :value="pickerValue"
+				@change="pickerChange" v-if="mode==='multiSelector'">
 				<!-- #ifdef VUE3 -->
-				<template v-for="(n, index) in pickerValueMulArray.length" :key="index">
+				<template v-for="(n,index) in pickerValueMulArray.length" :key="index">
 					<picker-view-column>
-						<view class="picker-item" v-for="(item, index1) in pickerValueMulArray[n]" :key="index1">
-							{{ item.label }}
+						<view class="picker-item" v-for="(item,index1) in pickerValueMulArray[n]" :key="index1">
+							{{item.label}}
 						</view>
 					</picker-view-column>
 				</template>
 				<!-- #endif -->
 				<!-- #ifndef VUE3 -->
-				<block v-for="(n, index) in pickerValueMulArray.length" :key="index">
+				<block v-for="(n,index) in pickerValueMulArray.length" :key="index">
 					<picker-view-column>
-						<view class="picker-item" v-for="(item, index1) in pickerValueMulArray[n]" :key="index1">
-							{{ item.label }}
+						<view class="picker-item" v-for="(item,index1) in pickerValueMulArray[n]" :key="index1">
+							{{item.label}}
 						</view>
 					</picker-view-column>
 				</block>
 				<!-- #endif -->
 			</picker-view>
 			<!-- 二级联动 -->
-			<picker-view
-				indicator-style="height: 40px;"
-				class="mpvue-picker-view"
-				:value="pickerValue"
-				@change="pickerChangeMul"
-				v-if="mode === 'multiLinkageSelector' && deepLength === 2"
-			>
+			<picker-view indicator-style="height: 40px;" class="mpvue-picker-view" :value="pickerValue"
+				@change="pickerChangeMul" v-if="mode==='multiLinkageSelector' && deepLength===2">
 				<picker-view-column>
-					<view class="picker-item" v-for="(item, index) in pickerValueMulTwoOne" :key="index">{{ item.label }} </view>
+					<view class="picker-item" v-for="(item,index) in pickerValueMulTwoOne" :key="index">{{item.label}}
+					</view>
 				</picker-view-column>
 				<picker-view-column>
-					<view class="picker-item" v-for="(item, index) in pickerValueMulTwoTwo" :key="index">{{ item.label }} </view>
+					<view class="picker-item" v-for="(item,index) in pickerValueMulTwoTwo" :key="index">{{item.label}}
+					</view>
 				</picker-view-column>
 			</picker-view>
 			<!-- 三级联动 -->
-			<picker-view
-				indicator-style="height: 40px;"
-				class="mpvue-picker-view"
-				:value="pickerValue"
-				@change="pickerChangeMul"
-				v-if="mode === 'multiLinkageSelector' && deepLength === 3"
-			>
+			<picker-view indicator-style="height: 40px;" class="mpvue-picker-view" :value="pickerValue"
+				@change="pickerChangeMul" v-if="mode==='multiLinkageSelector' && deepLength===3">
 				<picker-view-column>
-					<view class="picker-item" v-for="(item, index) in pickerValueMulThreeOne" :key="index">{{ item.label }} </view>
+					<view class="picker-item" v-for="(item,index) in pickerValueMulThreeOne" :key="index">{{item.label}}
+					</view>
 				</picker-view-column>
 				<picker-view-column>
-					<view class="picker-item" v-for="(item, index) in pickerValueMulThreeTwo" :key="index">{{ item.label }} </view>
+					<view class="picker-item" v-for="(item,index) in pickerValueMulThreeTwo" :key="index">{{item.label}}
+					</view>
 				</picker-view-column>
 				<picker-view-column>
-					<view class="picker-item" v-for="(item, index) in pickerValueMulThreeThree" :key="index">
-						{{ item.label }}
+					<view class="picker-item" v-for="(item,index) in pickerValueMulThreeThree" :key="index">
+						{{item.label}}
 					</view>
 				</picker-view-column>
 			</picker-view>
@@ -112,29 +105,29 @@
 			/* mode */
 			mode: {
 				type: String,
-				default: "selector",
+				default: 'selector'
 			},
 			/* picker 数值 */
 			pickerValueArray: {
 				type: Array,
-				default() {
-					return [];
-				},
+				default () {
+					return []
+				}
 			},
 			/* 默认值 */
 			pickerValueDefault: {
 				type: Array,
-				default() {
-					return [];
-				},
+				default () {
+					return []
+				}
 			},
 			/* 几级联动 */
 			deepLength: {
 				type: Number,
-				default: 2,
+				default: 2
 			},
 			/* 主题色 */
-			themeColor: String,
+			themeColor: String
 		},
 		watch: {
 			pickerValueArray(oldVal, newVal) {
@@ -145,36 +138,36 @@
 			},
 			pickerValueArray(val) {
 				this.initPicker(val);
-			},
+			}
 		},
 		methods: {
 			initPicker(valueArray) {
 				let pickerValueArray = valueArray;
 				this.pickerValue = this.pickerValueDefault;
 				// 初始化多级联动
-				if (this.mode === "selector") {
+				if (this.mode === 'selector') {
 					this.pickerValueSingleArray = valueArray;
-				} else if (this.mode === "timeSelector") {
+				} else if (this.mode === 'timeSelector') {
 					this.modeChange = false;
 					let hourArray = [];
 					let minuteArray = [];
 					for (let i = 0; i < 24; i++) {
 						hourArray.push({
 							value: i,
-							label: i > 9 ? `${i} 时` : `0${i} 时`,
+							label: i > 9 ? `${i} 时` : `0${i} 时`
 						});
 					}
 					for (let i = 0; i < 60; i++) {
 						minuteArray.push({
 							value: i,
-							label: i > 9 ? `${i} 分` : `0${i} 分`,
+							label: i > 9 ? `${i} 分` : `0${i} 分`
 						});
 					}
 					this.pickerValueHour = hourArray;
 					this.pickerValueMinute = minuteArray;
-				} else if (this.mode === "multiSelector") {
+				} else if (this.mode === 'multiSelector') {
 					this.pickerValueMulArray = valueArray;
-				} else if (this.mode === "multiLinkageSelector" && this.deepLength === 2) {
+				} else if (this.mode === 'multiLinkageSelector' && this.deepLength === 2) {
 					// 两级联动
 					let pickerValueMulTwoOne = [];
 					let pickerValueMulTwoTwo = [];
@@ -186,17 +179,24 @@
 					// 如果有设定的默认值
 					if (this.pickerValueDefault.length === 2) {
 						let num = this.pickerValueDefault[0];
-						for (let i = 0, length = pickerValueArray[num].children.length; i < length; i++) {
+						for (
+							let i = 0, length = pickerValueArray[num].children.length; i < length; i++
+						) {
 							pickerValueMulTwoTwo.push(pickerValueArray[num].children[i]);
 						}
 					} else {
-						for (let i = 0, length = pickerValueArray[0].children.length; i < length; i++) {
+						for (
+							let i = 0, length = pickerValueArray[0].children.length; i < length; i++
+						) {
 							pickerValueMulTwoTwo.push(pickerValueArray[0].children[i]);
 						}
 					}
 					this.pickerValueMulTwoOne = pickerValueMulTwoOne;
 					this.pickerValueMulTwoTwo = pickerValueMulTwoTwo;
-				} else if (this.mode === "multiLinkageSelector" && this.deepLength === 3) {
+				} else if (
+					this.mode === 'multiLinkageSelector' &&
+					this.deepLength === 3
+				) {
 					let pickerValueMulThreeOne = [];
 					let pickerValueMulThreeTwo = [];
 					let pickerValueMulThreeThree = [];
@@ -205,16 +205,23 @@
 						pickerValueMulThreeOne.push(pickerValueArray[i]);
 					}
 					// 渲染第二列
-					this.pickerValueDefault = this.pickerValueDefault.length === 3 ? this.pickerValueDefault : [0, 0, 0];
+					this.pickerValueDefault =
+						this.pickerValueDefault.length === 3 ?
+						this.pickerValueDefault : [0, 0, 0];
 					if (this.pickerValueDefault.length === 3) {
 						let num = this.pickerValueDefault[0];
-						for (let i = 0, length = pickerValueArray[num].children.length; i < length; i++) {
+						for (
+							let i = 0, length = pickerValueArray[num].children.length; i < length; i++
+						) {
 							pickerValueMulThreeTwo.push(pickerValueArray[num].children[i]);
 						}
 						// 第三列
 						let numSecond = this.pickerValueDefault[1];
-						for (let i = 0, length = pickerValueArray[num].children[numSecond].children.length; i < length; i++) {
-							pickerValueMulThreeThree.push(pickerValueArray[num].children[numSecond].children[i]);
+						for (let i = 0, length = pickerValueArray[num].children[numSecond].children.length; i <
+							length; i++) {
+							pickerValueMulThreeThree.push(
+								pickerValueArray[num].children[numSecond].children[i]
+							);
 						}
 					}
 					this.pickerValueMulThreeOne = pickerValueMulThreeOne;
@@ -243,9 +250,9 @@
 				let pickObj = {
 					index: this.pickerValue,
 					value: this._getPickerLabelAndValue(this.pickerValue, this.mode).value,
-					label: this._getPickerLabelAndValue(this.pickerValue, this.mode).label,
+					label: this._getPickerLabelAndValue(this.pickerValue, this.mode).label
 				};
-				this.$emit("onCancel", pickObj);
+				this.$emit('onCancel', pickObj);
 			},
 			pickerConfirm(e) {
 				this.showPicker = false;
@@ -253,9 +260,9 @@
 				let pickObj = {
 					index: this.pickerValue,
 					value: this._getPickerLabelAndValue(this.pickerValue, this.mode).value,
-					label: this._getPickerLabelAndValue(this.pickerValue, this.mode).label,
+					label: this._getPickerLabelAndValue(this.pickerValue, this.mode).label
 				};
-				this.$emit("onConfirm", pickObj);
+				this.$emit('onConfirm', pickObj);
 			},
 			showPickerView() {
 				this.showPicker = true;
@@ -266,9 +273,9 @@
 				let pickObj = {
 					index: this.pickerValue,
 					value: this._getPickerLabelAndValue(this.pickerValue, this.mode).value,
-					label: this._getPickerLabelAndValue(this.pickerValue, this.mode).label,
+					label: this._getPickerLabelAndValue(this.pickerValue, this.mode).label
 				};
-				this.$emit("onChange", pickObj);
+				this.$emit('onChange', pickObj);
 			},
 			pickerChangeMul(e) {
 				if (this.deepLength === 2) {
@@ -299,7 +306,8 @@
 							pickerValueMulThreeTwo.push(pickerValueArray[changeValue[0]].children[i]);
 						}
 						// 重新渲染第三列
-						for (let i = 0, length = pickerValueArray[changeValue[0]].children[0].children.length; i < length; i++) {
+						for (let i = 0, length = pickerValueArray[changeValue[0]].children[0].children.length; i <
+							length; i++) {
 							pickerValueMulThreeThree.push(pickerValueArray[changeValue[0]].children[0].children[i]);
 						}
 						changeValue[1] = 0;
@@ -311,8 +319,12 @@
 						// 重新渲染第三列
 						this.pickerValueMulThreeThree = [];
 						pickerValueMulThreeTwo = this.pickerValueMulThreeTwo;
-						for (let i = 0, length = pickerValueArray[changeValue[0]].children[changeValue[1]].children.length; i < length; i++) {
-							pickerValueMulThreeThree.push(pickerValueArray[changeValue[0]].children[changeValue[1]].children[i]);
+						for (let i = 0, length = pickerValueArray[changeValue[0]].children[changeValue[1]].children
+								.length; i <
+							length; i++) {
+							pickerValueMulThreeThree.push(pickerValueArray[changeValue[0]].children[changeValue[1]]
+								.children[
+									i]);
 						}
 						changeValue[2] = 0;
 						this.pickerValueMulThreeThree = pickerValueMulThreeThree;
@@ -322,39 +334,38 @@
 				let pickObj = {
 					index: this.pickerValue,
 					value: this._getPickerLabelAndValue(this.pickerValue, this.mode).value,
-					label: this._getPickerLabelAndValue(this.pickerValue, this.mode).label,
+					label: this._getPickerLabelAndValue(this.pickerValue, this.mode).label
 				};
-				this.$emit("onChange", pickObj);
+				this.$emit('onChange', pickObj);
 			},
 			// 获取 pxikerLabel
 			_getPickerLabelAndValue(value, mode) {
 				let pickerLable;
 				let pickerGetValue = [];
 				// selector
-				if (mode === "selector") {
+				if (mode === 'selector') {
 					pickerLable = this.pickerValueSingleArray[value].label;
 					pickerGetValue.push(this.pickerValueSingleArray[value].value);
-				} else if (mode === "timeSelector") {
+				} else if (mode === 'timeSelector') {
 					pickerLable = `${this.pickerValueHour[value[0]].label}-${this.pickerValueMinute[value[1]].label}`;
 					pickerGetValue.push(this.pickerValueHour[value[0]].value);
 					pickerGetValue.push(this.pickerValueHour[value[1]].value);
-				} else if (mode === "multiSelector") {
+				} else if (mode === 'multiSelector') {
 					for (let i = 0; i < value.length; i++) {
 						if (i > 0) {
-							pickerLable += this.pickerValueMulArray[i][value[i]].label + (i === value.length - 1 ? "" : "-");
+							pickerLable += this.pickerValueMulArray[i][value[i]].label + (i === value.length - 1 ? '' :
+								'-');
 						} else {
-							pickerLable = this.pickerValueMulArray[i][value[i]].label + "-";
+							pickerLable = this.pickerValueMulArray[i][value[i]].label + '-';
 						}
 						pickerGetValue.push(this.pickerValueMulArray[i][value[i]].value);
 					}
-				} else if (mode === "multiLinkageSelector") {
+				} else if (mode === 'multiLinkageSelector') {
 					/* eslint-disable indent */
 					pickerLable =
-						this.deepLength === 2
-							? `${this.pickerValueMulTwoOne[value[0]].label}-${this.pickerValueMulTwoTwo[value[1]].label}`
-							: `${this.pickerValueMulThreeOne[value[0]].label}-${this.pickerValueMulThreeTwo[value[1]].label}-${
-									this.pickerValueMulThreeThree[value[2]].label
-							  }`;
+						this.deepLength === 2 ?
+						`${this.pickerValueMulTwoOne[value[0]].label}-${this.pickerValueMulTwoTwo[value[1]].label}` :
+						`${this.pickerValueMulThreeOne[value[0]].label}-${this.pickerValueMulThreeTwo[value[1]].label}-${this.pickerValueMulThreeThree[value[2]].label}`;
 					if (this.deepLength === 2) {
 						pickerGetValue.push(this.pickerValueMulTwoOne[value[0]].value);
 						pickerGetValue.push(this.pickerValueMulTwoTwo[value[1]].value);
@@ -367,24 +378,30 @@
 				}
 				return {
 					label: pickerLable,
-					value: pickerGetValue,
+					value: pickerGetValue
 				};
 			},
 			// 初始化 pickerValue 默认值
 			_initPickerVale() {
 				if (this.pickerValue.length === 0) {
-					if (this.mode === "selector") {
+					if (this.mode === 'selector') {
 						this.pickerValue = [0];
-					} else if (this.mode === "multiSelector") {
+					} else if (this.mode === 'multiSelector') {
 						this.pickerValue = new Int8Array(this.pickerValueArray.length);
-					} else if (this.mode === "multiLinkageSelector" && this.deepLength === 2) {
+					} else if (
+						this.mode === 'multiLinkageSelector' &&
+						this.deepLength === 2
+					) {
 						this.pickerValue = [0, 0];
-					} else if (this.mode === "multiLinkageSelector" && this.deepLength === 3) {
+					} else if (
+						this.mode === 'multiLinkageSelector' &&
+						this.deepLength === 3
+					) {
 						this.pickerValue = [0, 0, 0];
 					}
 				}
-			},
-		},
+			}
+		}
 	};
 </script>
 
@@ -423,7 +440,7 @@
 	}
 
 	.mpvue-picker__hd:after {
-		content: " ";
+		content: ' ';
 		position: absolute;
 		left: 0;
 		bottom: 0;
