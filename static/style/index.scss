@@ -1,4 +1,6 @@
-// 按照顺序引入所有静态文件
+// 组件
+@import '@/wxcomponents/vant/common/index.wxss';
+// 自定义，按顺序引入
 @import '@/static/fonts/index.css';
 @import '@/static/icon/iconfont/iconfont.css';
 @import '@/static/icon/font-awesome/css/font-awesome.css';

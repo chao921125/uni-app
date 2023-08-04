@@ -1,4 +1,10 @@
 # HTTP Request && API
+```text
+该项目使用的UI
+1、和微信内置的
+2、uni-ui
+3、vant
+```
 
 ###### pages/demo 目录下页面需要手动添加path访问，并且部分引用文件需要自行修改对应的正确的目录
 ###### pages/components 目录下页面需要手动引用，针对性引用，并非所有页面都适合

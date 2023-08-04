@@ -3,20 +3,19 @@
         <view v-show="!isLoading">
             <text v-show="isInput" class="uni-title">请输入抽奖的内容（请用逗号或者空格分割）</text>
             <textarea v-show="isInput" class="lottery-text re-mt-10" placeholder="请输入抽奖的内容" auto-focus="true" :maxlength="-1" v-model="data.lottery.text"></textarea>
-            <view class="uni-title">您输入的内容是</view>
+            <van-button
+                class="re-mt-20"
+                v-show="isInput"
+                @click="
+                    isInput = false;
+                    textToArray();
+                "
+            >
+                完成输入
+            </van-button>
+            <view class="uni-title re-mt-20">您输入的内容是</view>
             <view>{{ data.lottery.array }}</view>
-            <view class="re-mt-20">
-                <button
-                    v-show="isInput"
-                    @click="
-                        isInput = false;
-                        textToArray();
-                    "
-                >
-                    完成输入
-                </button>
-            </view>
-            <view class="re-mt-20"><button v-show="!isInput" @click="isInput = true">重新输入</button></view>
+            <view class="re-mt-20"><van-button v-show="!isInput" @click="isInput = true">重新输入</van-button></view>
         </view>
         <view v-show="!isInput">
             <view v-show="isLoading" class="uni-title">抽奖中......</view>
@@ -24,10 +23,10 @@
             <view v-show="isShowResult" class="uni-title lottery-result">抽奖结果 {{ data.result.startDateTime }}</view>
             <view v-show="isShowResult" class="uni-title re-mt-10 lottery-result">{{ data.result.text }}</view>
             <view class="re-mt-20">
-                <button v-show="!isLoading" @click="startDraw">手动抽奖</button>
-                <button v-show="isLoading && !data.result.auto" @click="stopDraw">点击停止抽奖</button>
-                <button v-show="!isLoading" @click="startDrawAuto">自动抽奖</button>
-                <button v-show="isLoading && data.result.auto" disabled="disabled">{{ data.result.auto }}s</button>
+                <van-button v-show="!isLoading" @click="startDraw">手动抽奖</van-button>
+                <van-button v-show="isLoading && !data.result.auto" @click="stopDraw">点击停止抽奖</van-button>
+                <van-button v-show="!isLoading" class="re-ml-20" @click="startDrawAuto">自动抽奖</van-button>
+                <van-button v-show="isLoading && data.result.auto" disabled="disabled">{{ data.result.auto }}s</van-button>
             </view>
         </view>
     </view>
