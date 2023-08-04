@@ -24,9 +24,9 @@
             <view v-show="isShowResult" class="uni-title re-mt-10 lottery-result">{{ data.result.text }}</view>
             <view class="re-mt-20">
                 <van-button v-show="!isLoading" @click="startDraw">手动抽奖</van-button>
-                <van-button v-show="isLoading && !data.result.auto" @click="stopDraw">点击停止抽奖</van-button>
+                <van-button v-show="isLoading && data.result.auto <= 0" @click="stopDraw">点击停止抽奖</van-button>
                 <van-button v-show="!isLoading" class="re-ml-20" @click="startDrawAuto">自动抽奖</van-button>
-                <van-button v-show="isLoading && data.result.auto" disabled="disabled">{{ data.result.auto }}s</van-button>
+                <van-button v-show="isLoading && data.result.auto > 0" disabled="disabled">{{ data.result.auto }}s</van-button>
             </view>
         </view>
     </view>
@@ -59,7 +59,11 @@ let intervalObjAuto = null;
 const textToArray = () => {
     isShowResult.value = false;
     if (!data.lottery.text) data.lottery.array = [];
-    const text = data.lottery.text.trim().replace(/[,，\s]+/gi, ',');
+    const text = data.lottery.text
+        .trim()
+        .replace(/[,，\s]+$/, '')
+        .replace(/^[,，\s]+/, '')
+        .replace(/[,，\s]+/gi, ',');
     data.lottery.array = text.split(',');
 };
 
@@ -71,6 +75,7 @@ const startDraw = () => {
         return false;
     }
     isLoading.value = true;
+    data.result.auto = 0;
     drawLottery();
 };
 // 自动停止
@@ -82,8 +87,12 @@ const startDrawAuto = () => {
         return false;
     }
     isLoading.value = true;
-    drawLottery();
-    data.result.auto = 10;
+    if (data.lottery.array.length < 10) {
+        data.result.auto = 5;
+    } else {
+        data.result.auto = Matn.ceil(data.lottery.array.length / 2);
+    }
+
     intervalObjAuto = setInterval(() => {
         data.result.auto = --data.result.auto;
         if (data.result.auto <= 0) {
@@ -93,6 +102,7 @@ const startDrawAuto = () => {
             intervalObjAuto = null;
         }
     }, 1000);
+    drawLottery();
 };
 const stopDraw = () => {
     isLoading.value = false;
