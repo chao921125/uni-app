@@ -5,6 +5,19 @@
     "versionName" : "1.1.7",
     "versionCode" : "100",
     "transformPx" : false,
+    "networkTimeout" : {
+        "request": 60000,
+        "connectSocket": 60000,
+        "uploadFile": 60000,
+        "downloadFile": 60000
+    },
+    "debug": true,
+    "uniStatistics" : {
+        "enable" : true
+    },
+    "vueVersion" : "3",
+    "locale" : "auto",
+    "fallbackLocale" : "zh-Hans",
     "compatConfig" : {
         "MODE" : 3 // 2代表兼容Vue2模式，3代表非兼容Vue2模式
     },
@@ -146,9 +159,6 @@
     "mp-toutiao" : {
         "usingComponents" : true
     },
-    "uniStatistics" : {
-        "enable" : false
-    },
     /* 小程序特有相关 */
     "h5" : {
         "devServer" : {
@@ -177,8 +187,5 @@
         "sdkConfigs" : {
             "maps" : {}
         }
-    },
-    "vueVersion" : "3",
-    "locale" : "auto",
-    "fallbackLocale" : "zh-Hans"
+    }
 }

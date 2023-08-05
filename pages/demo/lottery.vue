@@ -1,33 +1,32 @@
 <template>
-    <view class="layout-content">
+    <view class="container">
         <view v-show="!isLoading">
             <text v-show="isInput" class="uni-title">请输入抽奖的内容（请用逗号或者空格分割）</text>
-            <textarea v-show="isInput" class="lottery-text cc-mt-10" placeholder="请输入抽奖的内容" auto-focus="true" :maxlength="-1" v-model="data.lottery.text"></textarea>
-            <view class="uni-title">您输入的内容是</view>
+            <textarea v-show="isInput" class="lottery-text re-mt-10" placeholder="请输入抽奖的内容" auto-focus="true" :maxlength="-1" v-model="data.lottery.text"></textarea>
+            <van-button
+                class="re-mt-20"
+                v-show="isInput"
+                @click="
+                    isInput = false;
+                    textToArray();
+                "
+            >
+                完成输入
+            </van-button>
+            <view class="uni-title re-mt-20">您输入的内容是</view>
             <view>{{ data.lottery.array }}</view>
-            <view class="cc-mt-20">
-                <button
-                    v-show="isInput"
-                    @click="
-                        isInput = false;
-                        textToArray();
-                    "
-                >
-                    完成输入
-                </button>
-            </view>
-            <view class="cc-mt-20"><button v-show="!isInput" @click="isInput = true">重新输入</button></view>
+            <view class="re-mt-20"><van-button v-show="!isInput" @click="isInput = true">重新输入</van-button></view>
         </view>
         <view v-show="!isInput">
             <view v-show="isLoading" class="uni-title">抽奖中......</view>
-            <view v-show="isLoading" class="uni-title cc-mt-10">{{ data.result.progress }}</view>
-            <view v-show="isShowResult" class="uni-title lottery-result">抽奖结果 {{data.result.startDateTime}}</view>
-            <view v-show="isShowResult" class="uni-title cc-mt-10 lottery-result">{{ data.result.text }}</view>
-            <view class="cc-mt-20">
-                <button v-show="!isLoading" @click="startDraw">手动抽奖</button>
-                <button v-show="isLoading && !data.result.auto" @click="stopDraw">点击停止抽奖</button>
-                <button v-show="!isLoading" @click="startDrawAuto">自动抽奖</button>
-                <button v-show="isLoading && data.result.auto" disabled="disabled">{{ data.result.auto }}s</button>
+            <view v-show="isLoading" class="uni-title re-mt-10">{{ data.result.progress }}</view>
+            <view v-show="isShowResult" class="uni-title lottery-result">抽奖结果 {{ data.result.startDateTime }}</view>
+            <view v-show="isShowResult" class="uni-title re-mt-10 lottery-result">{{ data.result.text }}</view>
+            <view class="re-mt-20">
+                <van-button v-show="!isLoading" @click="startDraw">手动抽奖</van-button>
+                <van-button v-show="isLoading && data.result.auto <= 0" @click="stopDraw">点击停止抽奖</van-button>
+                <van-button v-show="!isLoading" class="re-ml-20" @click="startDrawAuto">自动抽奖</van-button>
+                <van-button v-show="isLoading && data.result.auto > 0" disabled="disabled">{{ data.result.auto }}s</van-button>
             </view>
         </view>
     </view>
@@ -42,7 +41,7 @@ const data = reactive({
         array: []
     },
     result: {
-        startDateTime: "",
+        startDateTime: '',
         index: 0,
         auto: 0,
         progress: '',
@@ -60,7 +59,11 @@ let intervalObjAuto = null;
 const textToArray = () => {
     isShowResult.value = false;
     if (!data.lottery.text) data.lottery.array = [];
-    const text = data.lottery.text.trim().replace(/[,，\s]+/gi, ',');
+    const text = data.lottery.text
+        .trim()
+        .replace(/[,，\s]+$/, '')
+        .replace(/^[,，\s]+/, '')
+        .replace(/[,，\s]+/gi, ',');
     data.lottery.array = text.split(',');
 };
 
@@ -72,6 +75,7 @@ const startDraw = () => {
         return false;
     }
     isLoading.value = true;
+    data.result.auto = 0;
     drawLottery();
 };
 // 自动停止
@@ -83,17 +87,22 @@ const startDrawAuto = () => {
         return false;
     }
     isLoading.value = true;
-    drawLottery();
-    data.result.auto = 10;
+    if (data.lottery.array.length < 10) {
+        data.result.auto = 5;
+    } else {
+        data.result.auto = Matn.ceil(data.lottery.array.length / 2);
+    }
+
     intervalObjAuto = setInterval(() => {
         data.result.auto = --data.result.auto;
         if (data.result.auto <= 0) {
             stopDraw();
-			data.result.auto = 0;
+            data.result.auto = 0;
             clearInterval(intervalObjAuto);
             intervalObjAuto = null;
         }
     }, 1000);
+    drawLottery();
 };
 const stopDraw = () => {
     isLoading.value = false;
@@ -115,9 +124,9 @@ const drawLottery = () => {
 </script>
 
 <style lang="scss">
-    .lottery-result {
-        color: #FF4040;
-        font-size: 30rpx;
-        font-weight: bold;
-    }
+.lottery-result {
+    color: #ff4040;
+    font-size: 30rpx;
+    font-weight: bold;
+}
 </style>

@@ -2,14 +2,13 @@
     "id": "uni-app",
     "name": "uni-app",
     "displayName": "uni-app",
-    "version": "3.3.7",
+    "version": "3.8.7",
     "description": "uni-app",
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1"
     },
     "repository": "https://github.com/chao921125/uni-app.git",
     "keywords": [
-        "uni-app",
         "uni-app",
         "uni-ui"
     ],

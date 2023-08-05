@@ -1,36 +1,34 @@
-{
-    "pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
-        {
-            "path": "pages/tab-bar/index",
-            "style": {
-                "navigationBarTitleText": "%index.title%"
-            }
-        }, {
-            "path": "pages/tab-bar/component",
-            "style": {
-                "navigationBarTitleText": "%index.component%",
-                "enablePullDownRefresh": false
-            }
-        }, {
-            "path": "pages/tab-bar/api",
-            "style": {
-                "navigationBarTitleText": "%index.api%",
-                "enablePullDownRefresh": false
-            }
-        }, {
-            "path": "pages/tab-bar/schema",
-            "style": {
-                "navigationBarTitleText": "%index.schema%",
-                "enablePullDownRefresh": false
-            }
-        }, {
-            "path": "pages/common/blank",
-            "style": {
-                "navigationBarTitleText": "空白页",
-                "enablePullDownRefresh": false
-            }
+{ // pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
+    "pages": [{
+        "path": "pages/tabBar/index",
+        "style": {
+            "navigationBarTitleText": "%index.title%"
         }
-    ],
+    }, {
+        "path": "pages/tabBar/component",
+        "style": {
+            "navigationBarTitleText": "%index.component%",
+            "enablePullDownRefresh": false
+        }
+    }, {
+        "path": "pages/tabBar/api",
+        "style": {
+            "navigationBarTitleText": "%index.api%",
+            "enablePullDownRefresh": false
+        }
+    }, {
+        "path": "pages/tabBar/schema",
+        "style": {
+            "navigationBarTitleText": "%index.schema%",
+            "enablePullDownRefresh": false
+        }
+    }, {
+        "path": "pages/common/blank",
+        "style": {
+            "navigationBarTitleText": "空白页",
+            "enablePullDownRefresh": false
+        }
+    }],
     "subPackages": [{
         "root": "pages/apis/",
         "pages": [{
@@ -62,20 +60,38 @@
         "borderStyle": "black",
         "backgroundColor": "#F8F8F8",
         "list": [{
-                "pagePath": "pages/tab-bar/index",
+                "pagePath": "pages/tabBar/index",
                 "text": "%index.home%"
             },
             {
-                "pagePath": "pages/tab-bar/component",
+                "pagePath": "pages/tabBar/component",
                 "text": "%index.component%"
             }, {
-                "pagePath": "pages/tab-bar/api",
+                "pagePath": "pages/tabBar/api",
                 "text": "%index.api%"
             }, {
-                "pagePath": "pages/tab-bar/schema",
+                "pagePath": "pages/tabBar/schema",
                 "text": "%index.schema%"
             }
         ]
+    },
+    "preloadRule": {
+        "pages/tabBar/index": {
+            "network": "all",
+            "packages": ["__APP__"]
+        },
+        "pages/tabBar/component": {
+            "network": "all",
+            "packages": ["__APP__"]
+        },
+        "pages/tabBar/api": {
+            "network": "all",
+            "packages": ["__APP__"]
+        },
+        "pages/tabBar/schema": {
+            "network": "all",
+            "packages": ["__APP__"]
+        }
     },
     "uniIdRouter": {
         "loginPage": "pages/login/login",
@@ -88,6 +104,13 @@
         "navigationBarTextStyle": "black",
         "navigationBarTitleText": "uni-app",
         "navigationBarBackgroundColor": "#F8F8F8",
-        "backgroundColor": "#F8F8F8"
+        "backgroundColor": "#F8F8F8",
+        "usingComponents": {
+            "van-row": "/wxcomponents/vant/row/index",
+            "van-col": "/wxcomponents/vant/col/index",
+            "van-cell-group": "/wxcomponents/vant/cell-group/index",
+            "van-button": "/wxcomponents/vant/button/index",
+            "van-field": "/wxcomponents/vant/field/index"
+        }
     }
 }
