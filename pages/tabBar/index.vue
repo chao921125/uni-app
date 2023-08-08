@@ -1,9 +1,9 @@
 <template>
     <view class="container">
-        <view class="re-mb-20">以下是进入各个DEMO的入口</view>
+        <view class="re-mb-20">点击按钮进入工具</view>
         <van-row gutter="20">
-            <van-col span="6"><van-button class="remt-20" @click="toPageLottery">抽奖</van-button></van-col>
-            <van-col span="6"><van-button class="re-mt-20" @click="toPageI18n">国际化</van-button></van-col>
+            <van-col span="8"><van-button class="remt-20" @click="toPageLottery">抽奖</van-button></van-col>
+            <van-col span="8"><van-button class="re-mt-20" @click="toPageI18n">国际化</van-button></van-col>
         </van-row>
     </view>
 </template>
