@@ -7,7 +7,8 @@
 
 <script setup>
 import Home from './home.vue';
-import { onMounted, onUnmounted, ref } from 'vue';
+import { onMounted, ref } from 'vue';
+
 const timer = ref(null);
 const isShowHome = ref(false);
 onMounted(() => {
