@@ -106,6 +106,9 @@
         "navigationBarBackgroundColor": "#F8F8F8",
         "backgroundColor": "#F8F8F8",
         "usingComponents": {
+            "van-config-provider": "/wxcomponents/vant/config-provider/index",
+            "van-transition": "/wxcomponents/vant/transition/index",
+            "van-loading": "/wxcomponents/vant/loading/index",
             "van-row": "/wxcomponents/vant/row/index",
             "van-col": "/wxcomponents/vant/col/index",
             "van-cell-group": "/wxcomponents/vant/cell-group/index",
