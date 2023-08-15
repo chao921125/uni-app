@@ -6,6 +6,7 @@
                 <view class="re-pb-20">
                     <van-button @click="openDialog"><van-icon name="wap-nav" size="24" /></van-button>
                     <text class="re-ml-20">当前分类：{{ webSiteArray.websiteType[webSiteActive].label }}</text>
+                    <view class="re-mt-20 website-tips">点击名称即可完成复制,在手机浏览器打开即可</view>
                 </view>
             </van-col>
             <van-col span="24" v-for="(item, index) in webSiteArray.websiteType[webSiteActive].child" :key="index">
@@ -62,6 +63,10 @@ const changeWebSite = (e) => {
 </script>
 
 <style lang="scss">
+.website-tips {
+    color: #999999;
+    font-size: 20rpx;
+}
 .home-dialog {
     .home-sidebar {
         width: 100%;

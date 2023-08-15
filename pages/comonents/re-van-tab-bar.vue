@@ -1,6 +1,6 @@
 <template>
     <view>
-        <van-tabbar :active="active" @change="changePage" active-color="#1989fa">
+        <van-tabbar :active="active" @change="changePage" :placeholder="true" active-color="#1989fa">
             <van-tabbar-item name="index" icon="home-o">首页</van-tabbar-item>
             <van-tabbar-item name="article" icon="description">文章</van-tabbar-item>
             <van-tabbar-item name="api" icon="coupon-o">API</van-tabbar-item>
