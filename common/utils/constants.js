@@ -8,5 +8,6 @@ export default {
         contact: "/pages/apis/contact",
         language: "/pages/demo/language",
         lottery: "/pages/demo/lottery",
-    }
+        productDetail: "/pages/product/detail",
+    },
 }

@@ -1,26 +1,27 @@
 { // pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
     "pages": [{
-        "path": "pages/tabBar/index",
+        "path": "pages/tab-bar/index",
         "style": {
-            "navigationBarTitleText": "%index.title%"
+            "navigationBarTitleText": "%index.title%",
+            "enablePullDownRefresh": true
         }
     }, {
-        "path": "pages/tabBar/component",
+        "path": "pages/tab-bar/article",
         "style": {
-            "navigationBarTitleText": "%index.component%",
-            "enablePullDownRefresh": false
+            "navigationBarTitleText": "文章",
+            "enablePullDownRefresh": true
         }
     }, {
-        "path": "pages/tabBar/api",
+        "path": "pages/tab-bar/api",
         "style": {
             "navigationBarTitleText": "%index.api%",
-            "enablePullDownRefresh": false
+            "enablePullDownRefresh": true
         }
     }, {
-        "path": "pages/tabBar/schema",
+        "path": "pages/tab-bar/demo",
         "style": {
-            "navigationBarTitleText": "%index.schema%",
-            "enablePullDownRefresh": false
+            "navigationBarTitleText": "示例",
+            "enablePullDownRefresh": true
         }
     }, {
         "path": "pages/common/blank",
@@ -30,12 +31,22 @@
         }
     }],
     "subPackages": [{
+        "root": "pages/product/",
+        "pages": [{
+            "path": "detail",
+            "style": {
+                "navigationStyle": "custom",
+                "navigationBarTitleText": "详情",
+                "enablePullDownRefresh": true
+            }
+        }]
+    }, {
         "root": "pages/apis/",
         "pages": [{
             "path": "contact",
             "style": {
                 "navigationBarTitleText": "联系人",
-                "enablePullDownRefresh": false
+                "enablePullDownRefresh": true
             }
         }]
     }, {
@@ -44,51 +55,52 @@
             "path": "language",
             "style": {
                 "navigationBarTitleText": "国际化",
-                "enablePullDownRefresh": false
+                "enablePullDownRefresh": true
             }
         }, {
             "path": "lottery",
             "style": {
                 "navigationBarTitleText": "抽奖",
-                "enablePullDownRefresh": false
+                "enablePullDownRefresh": true
             }
         }]
     }],
     "tabBar": {
+        "height": "1px",
         "color": "#7A7E83",
         "selectedColor": "#007AFF",
         "borderStyle": "black",
         "backgroundColor": "#F8F8F8",
         "list": [{
-                "pagePath": "pages/tabBar/index",
-                "text": "%index.home%"
+                "pagePath": "pages/tab-bar/index",
+                "text": ""
             },
             {
-                "pagePath": "pages/tabBar/component",
-                "text": "%index.component%"
+                "pagePath": "pages/tab-bar/article",
+                "text": ""
             }, {
-                "pagePath": "pages/tabBar/api",
-                "text": "%index.api%"
+                "pagePath": "pages/tab-bar/api",
+                "text": ""
             }, {
-                "pagePath": "pages/tabBar/schema",
-                "text": "%index.schema%"
+                "pagePath": "pages/tab-bar/demo",
+                "text": ""
             }
         ]
     },
     "preloadRule": {
-        "pages/tabBar/index": {
+        "pages/tab-bar/index": {
             "network": "all",
             "packages": ["__APP__"]
         },
-        "pages/tabBar/component": {
+        "pages/tab-bar/article": {
             "network": "all",
             "packages": ["__APP__"]
         },
-        "pages/tabBar/api": {
+        "pages/tab-bar/api": {
             "network": "all",
             "packages": ["__APP__"]
         },
-        "pages/tabBar/schema": {
+        "pages/tab-bar/demo": {
             "network": "all",
             "packages": ["__APP__"]
         }
@@ -111,9 +123,19 @@
             "van-loading": "/wxcomponents/vant/loading/index",
             "van-row": "/wxcomponents/vant/row/index",
             "van-col": "/wxcomponents/vant/col/index",
+            "van-cell": "/wxcomponents/vant/cell/index",
             "van-cell-group": "/wxcomponents/vant/cell-group/index",
+            "van-popup": "/wxcomponents/vant/popup/index",
             "van-button": "/wxcomponents/vant/button/index",
-            "van-field": "/wxcomponents/vant/field/index"
+            "van-icon": "/wxcomponents/vant/icon/index",
+            "van-image": "/wxcomponents/vant/image/index",
+            "van-field": "/wxcomponents/vant/field/index",
+            "van-toast": "/wxcomponents/vant/toast/index",
+            "van-nav-bar": "/wxcomponents/vant/nav-bar/index",
+            "van-tabbar": "/wxcomponents/vant/tabbar/index",
+            "van-tabbar-item": "/wxcomponents/vant/tabbar-item/index",
+            "van-sidebar": "/wxcomponents/vant/sidebar/index",
+            "van-sidebar-item": "/wxcomponents/vant/sidebar-item/index"
         }
     }
 }
