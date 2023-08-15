@@ -1,6 +1,6 @@
 <template>
     <view class="container">
-        wenzhang
+        <view>等待更新......</view>
         <re-van-tab-bar></re-van-tab-bar>
     </view>
 </template>

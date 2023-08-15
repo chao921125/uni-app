@@ -5,16 +5,21 @@
             <van-col span="24">
                 <view class="re-pb-20">
                     <van-button @click="openDialog"><van-icon name="wap-nav" size="24" /></van-button>
-                    <text class="re-ml-20">分类：{{ webSiteArray.websiteType[webSiteActive].label }}</text>
+                    <text class="re-ml-20">当前分类：{{ webSiteArray.websiteType[webSiteActive].label }}</text>
                 </view>
             </van-col>
-            <van-col span="12" v-for="(item, index) in webSiteArray.websiteType[webSiteActive].child" :key="index">
-                <van-button class="re-mt-20">
-                    <view class="re-flex-row-center">
-                        <van-image width="15" height="15" :src="item.icon"></van-image>
-                        <text class="re-ml-10">{{ item.name }}</text>
-                    </view>
-                </van-button>
+            <van-col span="24" v-for="(item, index) in webSiteArray.websiteType[webSiteActive].child" :key="index">
+                <view class="re-mt-20 re-flex">
+                    <van-image width="15" height="15" :src="item.icon"></van-image>
+                    <uni-link
+                        class="re-ml-10"
+                        color="#000000"
+                        :href="item.url"
+                        :text="item.name"
+                        showUnderLine="false"
+                        copyTips="已复制,请在浏览器打开"
+                    ></uni-link>
+                </view>
             </van-col>
         </van-row>
         <re-van-tab-bar></re-van-tab-bar>
