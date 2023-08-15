@@ -1,9 +1,12 @@
 <template>
     <view class="container">
-        <uni-notice-bar show-icon scrollable :speed="50" text="为了方便大家,特此做出一个小小工具.请大家关注支持!!!" />
-        <van-row gutter="20" class="re-mt-20">
+        <van-row gutter="20">
             <van-col span="24">
-                <view class="re-pb-20">
+                <!-- <uni-notice-bar show-icon scrollable :speed="50" text="为了方便大家,特此做出一个小小工具.请大家关注支持!!!" /> -->
+                <van-notice-bar left-icon="volume-o" text="为了方便大家,特此做出一个小小工具.请大家关注支持!!!" />
+            </van-col>
+            <van-col span="24">
+                <view class="re-pb-20 re-mt-20">
                     <van-button @click="openDialog"><van-icon name="wap-nav" size="24" /></van-button>
                     <text class="re-ml-20">当前分类：{{ webSiteArray.websiteType[webSiteActive].label }}</text>
                     <view class="re-mt-20 website-tips">点击名称即可完成复制,在手机浏览器打开即可</view>
@@ -23,8 +26,10 @@
                 </view>
             </van-col>
         </van-row>
-        <re-van-tab-bar></re-van-tab-bar>
     </view>
+
+    <re-van-tab-bar></re-van-tab-bar>
+
     <van-popup
         :show="isShowDialog"
         closeable

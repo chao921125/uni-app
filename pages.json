@@ -112,6 +112,13 @@
         ],
         "resToLogin": true
     },
+    "easycom": {
+        "autoscan": true
+        // "custom": {
+        //     // uni-ui 规则如下配置
+        //     "^van-(.*)": "@/wxcomponents/vant/$1/index"
+        // }
+    },
     "globalStyle": {
         "navigationBarTextStyle": "black",
         "navigationBarTitleText": "uni-app",
@@ -135,7 +142,8 @@
             "van-tabbar": "/wxcomponents/vant/tabbar/index",
             "van-tabbar-item": "/wxcomponents/vant/tabbar-item/index",
             "van-sidebar": "/wxcomponents/vant/sidebar/index",
-            "van-sidebar-item": "/wxcomponents/vant/sidebar-item/index"
+            "van-sidebar-item": "/wxcomponents/vant/sidebar-item/index",
+            "van-notice-bar": "/wxcomponents/vant/notice-bar/index"
         }
     }
 }
