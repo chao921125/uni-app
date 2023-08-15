@@ -66,9 +66,114 @@
             "url": "https://prompthero.com/"
         }]
     }, {
+        "key": "office",
+        "label": "办公工具",
+        "isRecommend": false,
+        "child": [{
+            "icon": "https://cn.office-converter.com/favicon.ico",
+            "name": "转换 - 很齐全的一个转换网站",
+            "url": "https://cn.office-converter.com/"
+        }, {
+            "icon": "https://wormhole.app/favicon.ico",
+            "name": "分享 - 临时的一个分享工具",
+            "url": "https://wormhole.app/"
+        }]
+    }, {
+        "key": "dev",
+        "label": "编程开发",
+        "isRecommend": false,
+        "child": [{
+            "icon": "https://juejin.cn/favicon.ico",
+            "name": "社区 - 掘金",
+            "url": "https://juejin.cn/"
+        }, {
+            "icon": "https://segmentfault.com/favicon.ico",
+            "name": "社区 - segmentfault",
+            "url": "https://segmentfault.com/"
+        }, {
+            "icon": "https://stackoverflow.com/favicon.ico",
+            "name": "社区 - stackoverflow",
+            "url": "https://stackoverflow.com/"
+        }, {
+            "icon": "https://www.producthunt.com/favicon.ico",
+            "name": "社区 - producthunt",
+            "url": "https://www.producthunt.com/"
+        }, {
+            "icon": "https://github.com/favicon.ico",
+            "name": "源码 - github",
+            "url": "https://github.com/"
+        }, {
+            "icon": "https://www.notion.so/zh-cnfavicon.ico",
+            "name": "源码 - notion",
+            "url": "https://www.notion.so/zh-cn/"
+        }, {
+            "icon": "https://codepen.io/favicon.ico",
+            "name": "源码 - 托管及运行 codepen",
+            "url": "https://codepen.io/"
+        }, {
+            "icon": "https://coding.net/favicon.ico",
+            "name": "源码 - 托管及运行 coding",
+            "url": "https://coding.net/"
+        }, {
+            "icon": "https://gitee.com/favicon.ico",
+            "name": "源码 - gitee",
+            "url": "https://gitee.com/"
+        }, {
+            "icon": "https://www.ipip.net/favicon.ico",
+            "name": "其他 - ipip",
+            "url": "https://www.ipip.net/"
+        }]
+    }, {
+        "key": "source",
+        "label": "素材资源",
+        "isRecommend": false,
+        "child": [{
+            "icon": "https://unsplash.com/favicon.ico",
+            "name": "图片 - unsplash",
+            "url": "https://unsplash.com/"
+        }, {
+            "icon": "https://www.iconfont.cn/favicon.ico",
+            "name": "图标 - iconfont",
+            "url": "https://www.iconfont.cn/"
+        }]
+    }, {
+        "key": "life",
+        "label": "生活小帮手",
+        "isRecommend": false,
+        "child": [{
+            "icon": "https://www.114best.com/favicon.ico",
+            "name": "手机号查询",
+            "url": "https://www.114best.com/"
+        }, {
+            "icon": "https://typhoon.slt.zj.gov.cn/favicon.ico",
+            "name": "台风路径",
+            "url": "https://typhoon.slt.zj.gov.cn/"
+        }, {
+            "icon": "https://www.speedtest.net/favicon.ico",
+            "name": "网速测速",
+            "url": "https://www.speedtest.net/"
+        }, {
+            "icon": "https://zoom.earth/favicon.ico",
+            "name": "卫星地图",
+            "url": "https://zoom.earth/"
+        }]
+    }, {
+        "key": "power",
+        "label": "法律保护",
+        "isRecommend": false,
+        "child": [{
+            "icon": "https://wenshu.court.gov.cn/favicon.ico",
+            "name": "中国裁判文书",
+            "url": "https://wenshu.court.gov.cn/"
+        }, {
+            "icon": "https://cont.12315.cn/favicon.ico",
+            "name": "中国合同范文",
+            "url": "https://cont.12315.cn/"
+        }]
+    }, {
         "key": "blank",
         "label": "净土",
-        "isRecommend": true,
+        "isRecommend": false,
         "child": [{
             "icon": "none",
             "name": "不要点我",

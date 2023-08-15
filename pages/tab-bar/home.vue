@@ -12,7 +12,7 @@
                 <view class="re-mt-20 re-flex">
                     <van-image width="15" height="15" :src="item.icon"></van-image>
                     <uni-link
-                        class="re-ml-10"
+                        class="re-ml-30"
                         color="#000000"
                         :href="item.url"
                         :text="item.name"
@@ -24,8 +24,16 @@
         </van-row>
         <re-van-tab-bar></re-van-tab-bar>
     </view>
-    <van-popup :show="isShowDialog" closeable position="left" custom-style="width: 50%; height: 100%;" @close="closeDialog" @click-overlay="closeDialog">
-        <van-sidebar :active-key="webSiteActive" custom-class="home-dialog" @change="changeWebSite">
+    <van-popup
+        :show="isShowDialog"
+        closeable
+        position="left"
+        class="home-dialog"
+        custom-style="width: 50%; height: 100%;"
+        @close="closeDialog"
+        @click-overlay="closeDialog"
+    >
+        <van-sidebar :active-key="webSiteActive" class="home-sidebar" @change="changeWebSite">
             <van-sidebar-item v-for="(item, index) in webSiteArray.websiteType" :key="index" :title="item.label" :dot="item.isRecommend" />
         </van-sidebar>
     </van-popup>
@@ -49,13 +57,20 @@ const changeWebSite = (e) => {
     webSiteActive.value = e.detail;
     closeDialog();
 };
+// https://wenshu.court.gov.cn/website/wenshu/181107ANFZ0BXSK4/index.html?docId=rxLVW1QZMc15xc1anR6VQ6RpwTP57ez7JsVdXFe4QErIgJT4deCP4p/dgBYosE2gXlwaJez63rKkpQ0i3SSnRtavYjmV3fpKzjgAYaM/n+FQHg8NDVboBJv/Z/lfIkZJ
+// https://wenshu.court.gov.cn/website/wenshu/181107ANFZ0BXSK4/index.html?docId=HSIbTIHYRKI5LHHYsLc85Z2AC+jPMl0IiQDcJnRMWWdvjtuLyU1gfZ/dgBYosE2gXlwaJez63rKkpQ0i3SSnRtavYjmV3fpKzjgAYaM/n+FQHg8NDVboBBLmnDWLKvik
 </script>
 
 <style lang="scss">
 .home-dialog {
-    width: 100%;
-    .van-sidebar {
-        width: 100% !important;
+    .home-sidebar {
+        width: 100%;
+        > view {
+            width: 100%;
+        }
+        ::v-deep .van-sidebar {
+            width: 100%;
+        }
     }
 }
 </style>
