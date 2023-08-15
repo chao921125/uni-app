@@ -1,24 +1,26 @@
 <template>
     <view class="container">
-        <view class="re-mb-20">点击按钮进入工具</view>
-        <van-row gutter="20">
+        <van-row gutter="20" class="re-mt-20">
             <van-col span="8"><van-button class="remt-20" @click="toPageLottery">抽奖</van-button></van-col>
             <van-col span="8"><van-button class="re-mt-20" @click="toPageI18n">国际化</van-button></van-col>
         </van-row>
+
+        <re-van-tab-bar></re-van-tab-bar>
     </view>
 </template>
 
 <script setup>
-import Constants from '../../common/utils/constants.js';
+import ReVanTabBar from '@/pages/comonents/re-van-tab-bar.vue';
+import Constants from '@/common/utils/constants.js';
 
 const toPageI18n = () => {
-    uni.redirectTo({
+    uni.navigateTo({
         url: Constants.pages.language
     });
 };
 
 const toPageLottery = () => {
-    uni.redirectTo({
+    uni.navigateTo({
         url: Constants.pages.lottery
     });
 };

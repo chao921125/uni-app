@@ -1,4 +1,5 @@
 <script>
+// 一群傻逼玩意，审核的时候都不过脑子
 export default {
     globalData: {
         title: 'CC APP'
