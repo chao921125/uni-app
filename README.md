@@ -2,6 +2,8 @@
 1. 微信内置的
 2. [vant v1.10.23](https://github.com/youzan/vant-weapp)
 3. [uni-ui v1.4.27](https://github.com/dcloudio/uni-ui)
+4. [uviewui 未用](https://uviewui.com/)
+5. [ucharts 图表 收费 未用](https://www.ucharts.cn/v2/#/)
 
 # 注意事项
 ###### vant 样式修改方式：1、行内；2、标签加名称，内容额外使用view等内置组件；3、添加 ::v-deep 修改
