@@ -20,61 +20,17 @@
             "name": "Google",
             "url": "https://www.google.com/"
         }, {
-            "icon": "https://lanrenao.com/favicon.ico",
-            "name": "综合性的导航网站 - 懒人",
-            "url": "https://lanrenao.com/"
+            "icon": "https://ailogo.qq.com/favicon.ico",
+            "name": "AI LOGO 设计 腾讯出品",
+            "url": "https://ailogo.qq.com/guide/brandname"
         }, {
-            "icon": "https://www.shandiandh.com/favicon.ico",
-            "name": "综合性的导航网站 - 闪电",
-            "url": "https://www.shandiandh.com/"
+            "icon": "https://www.logosc.cn/img/share/logosc.jpg?v=1",
+            "name": "AI LOGO 设计 小智",
+            "url": "https://www.logosc.cn/"
         }, {
-            "icon": "http://byr.wiki/favicon.ico",
-            "name": "综合性的导航网站 - 邮人",
-            "url": "http://byr.wiki/"
-        }, {
-            "icon": "http://123.meibp.com/favicon.ico",
-            "name": "综合性的导航网站 - 小站",
-            "url": "http://123.meibp.com/"
-        }, {
-            "icon": "https://www.moulem.com/favicon.ico",
-            "name": "综合性的导航网站 - 柠檬",
-            "url": "https://www.moulem.com/"
-        }, {
-            "icon": "https://www.sjsdh.cn/favicon.ico",
-            "name": "综合性的导航网站 - 搜奇",
-            "url": "https://www.sjsdh.cn/"
-        }, {
-            "icon": "https://ailongmiao.com/favicon.ico",
-            "name": "综合性的导航网站 - 龙猫",
-            "url": "https://ailongmiao.com/"
-        }, {
-            "icon": "http://ilxdh.com/favicon.ico",
-            "name": "综合性的导航网站 - 个人",
-            "url": "http://ilxdh.com/"
-        }, {
-            "icon": "http://guozhivip.com/favicon.ico",
-            "name": "综合性的导航网站 - 果汁",
-            "url": "http://guozhivip.com/"
-        }, {
-            "icon": "https://www.bidianer.com/favicon.ico",
-            "name": "综合性的导航网站 - 啥啥",
-            "url": "https://www.bidianer.com/"
-        }, {
-            "icon": "https://webjike.com/favicon.ico",
-            "name": "综合性的导航网站 - 呆呆",
-            "url": "https://webjike.com/"
-        }, {
-            "icon": "https://paidaohang.org/favicon.ico",
-            "name": "综合性的导航网站 - 派导航",
-            "url": "https://paidaohang.org/"
-        }, {
-            "icon": "https://www.zhansousou.com/favicon.ico",
-            "name": "综合性的导航网站 - 站搜搜",
-            "url": "https://www.zhansousou.com/"
-        }, {
-            "icon": "https://0x3.com/favicon.ico",
-            "name": "综合性的导航网站 - 万花筒",
-            "url": "https://0x3.com/"
+            "icon": "https://uploads-ssl.webflow.com/636852831cdb71260df1f862/636852cafc2139a1a5e64346_Favicon.png",
+            "name": "AI聊天 forefront",
+            "url": "https://www.forefront.ai/"
         }]
     }, {
         "key": "ai",
@@ -225,6 +181,67 @@
             "icon": "https://cont.12315.cn/favicon.ico",
             "name": "中国合同范文",
             "url": "https://cont.12315.cn/"
+        }]
+    }, {
+        "key": "view",
+        "label": "导航",
+        "isRecommend": false,
+        "child": [{
+            "icon": "https://lanrenao.com/favicon.ico",
+            "name": "综合性的导航网站 - 懒人",
+            "url": "https://lanrenao.com/"
+        }, {
+            "icon": "https://www.shandiandh.com/favicon.ico",
+            "name": "综合性的导航网站 - 闪电",
+            "url": "https://www.shandiandh.com/"
+        }, {
+            "icon": "http://byr.wiki/favicon.ico",
+            "name": "综合性的导航网站 - 邮人",
+            "url": "http://byr.wiki/"
+        }, {
+            "icon": "http://123.meibp.com/favicon.ico",
+            "name": "综合性的导航网站 - 小站",
+            "url": "http://123.meibp.com/"
+        }, {
+            "icon": "https://www.moulem.com/favicon.ico",
+            "name": "综合性的导航网站 - 柠檬",
+            "url": "https://www.moulem.com/"
+        }, {
+            "icon": "https://www.sjsdh.cn/favicon.ico",
+            "name": "综合性的导航网站 - 搜奇",
+            "url": "https://www.sjsdh.cn/"
+        }, {
+            "icon": "https://ailongmiao.com/favicon.ico",
+            "name": "综合性的导航网站 - 龙猫",
+            "url": "https://ailongmiao.com/"
+        }, {
+            "icon": "http://ilxdh.com/favicon.ico",
+            "name": "综合性的导航网站 - 个人",
+            "url": "http://ilxdh.com/"
+        }, {
+            "icon": "http://guozhivip.com/favicon.ico",
+            "name": "综合性的导航网站 - 果汁",
+            "url": "http://guozhivip.com/"
+        }, {
+            "icon": "https://www.bidianer.com/favicon.ico",
+            "name": "综合性的导航网站 - 啥啥",
+            "url": "https://www.bidianer.com/"
+        }, {
+            "icon": "https://webjike.com/favicon.ico",
+            "name": "综合性的导航网站 - 呆呆",
+            "url": "https://webjike.com/"
+        }, {
+            "icon": "https://paidaohang.org/favicon.ico",
+            "name": "综合性的导航网站 - 派导航",
+            "url": "https://paidaohang.org/"
+        }, {
+            "icon": "https://www.zhansousou.com/favicon.ico",
+            "name": "综合性的导航网站 - 站搜搜",
+            "url": "https://www.zhansousou.com/"
+        }, {
+            "icon": "https://0x3.com/favicon.ico",
+            "name": "综合性的导航网站 - 万花筒",
+            "url": "https://0x3.com/"
         }]
     }, {
         "key": "blank",
