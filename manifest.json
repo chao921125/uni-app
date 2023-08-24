@@ -1,60 +1,60 @@
 {
-    "name" : "CC",
-    "appid" : "__UNI__539320B",
-    "description" : "CC APP仅限于学习功能测试，请勿做不良传播",
-    "versionName" : "1.1.7",
-    "versionCode" : "100",
-    "transformPx" : false,
-    "networkTimeout" : {
+    "name": "CC",
+    "appid": "__UNI__9950032",
+    "description": "CC APP仅限于学习功能测试，请勿做不良传播",
+    "versionName": "1.1.7",
+    "versionCode": "100",
+    "transformPx": false,
+    "networkTimeout": {
         "request": 60000,
         "connectSocket": 60000,
         "uploadFile": 60000,
         "downloadFile": 60000
     },
     "debug": true,
-    "uniStatistics" : {
-        "enable" : true
+    "uniStatistics": {
+        "enable": true
     },
-    "vueVersion" : "3",
-    "locale" : "auto",
-    "fallbackLocale" : "zh-Hans",
-    "compatConfig" : {
-        "MODE" : 3 // 2代表兼容Vue2模式，3代表非兼容Vue2模式
+    "vueVersion": "3",
+    "locale": "auto",
+    "fallbackLocale": "zh-Hans",
+    "compatConfig": {
+        "MODE": 3 // 2代表兼容Vue2模式，3代表非兼容Vue2模式
     },
     /* 5+App特有相关 */
-    "app-plus" : {
-        "optimization" : {
-            "subPackages" : true
+    "app-plus": {
+        "optimization": {
+            "subPackages": true
         },
-        "runmode" : "liberate",
-        "usingComponents" : true,
-        "nvueStyleCompiler" : "uni-app",
-        "compilerVersion" : 3,
-        "splashscreen" : {
-            "alwaysShowBeforeRender" : true,
-            "waiting" : true,
-            "autoclose" : true,
-            "delay" : 0
+        "runmode": "liberate",
+        "usingComponents": true,
+        "nvueStyleCompiler": "uni-app",
+        "compilerVersion": 3,
+        "splashscreen": {
+            "alwaysShowBeforeRender": true,
+            "waiting": true,
+            "autoclose": true,
+            "delay": 0
         },
         /* 模块配置 */
-        "modules" : {
-            "Barcode" : {},
-            "Bluetooth" : {},
-            "Camera" : {},
-            "Contacts" : {},
-            "iBeacon" : {},
-            "Messaging" : {},
-            "Record" : {},
-            "Geolocation" : {},
-            "Fingerprint" : {},
-            "SQLite" : {},
-            "VideoPlayer" : {}
+        "modules": {
+            "Barcode": {},
+            "Bluetooth": {},
+            "Camera": {},
+            "Contacts": {},
+            "iBeacon": {},
+            "Messaging": {},
+            "Record": {},
+            "Geolocation": {},
+            "Fingerprint": {},
+            "SQLite": {},
+            "VideoPlayer": {}
         },
         /* 应用发布信息 */
-        "distribute" : {
+        "distribute": {
             /* android打包配置 */
-            "android" : {
-                "permissions" : [
+            "android": {
+                "permissions": [
                     "<uses-feature android:name=\"android.hardware.camera\"/>",
                     "<uses-feature android:name=\"android.hardware.camera.autofocus\"/>",
                     "<uses-permission android:name=\"android.permission.ACCESS_NETWORK_STATE\"/>",
@@ -79,113 +79,113 @@
                     "<uses-permission android:name=\"android.permission.WRITE_SETTINGS\"/>",
                     "<uses-permission android:name=\"android.permission.WRITE_SMS\"/>"
                 ],
-                "abiFilters" : [ "armeabi-v7a", "arm64-v8a", "x86" ]
+                "abiFilters": ["armeabi-v7a", "arm64-v8a", "x86"]
             },
             /* ios打包配置 */
-            "ios" : {
-                "privacyDescription" : {
-                    "NSPhotoLibraryUsageDescription" : "使用此功能，请务必授权",
-                    "NSPhotoLibraryAddUsageDescription" : "使用此功能，请务必授权",
-                    "NSCameraUsageDescription" : "使用此功能，请务必授权",
-                    "NSMicrophoneUsageDescription" : "使用此功能，请务必授权",
-                    "NSLocationWhenInUseUsageDescription" : "使用此功能，请务必授权",
-                    "NSLocationAlwaysUsageDescription" : "使用此功能，请务必授权",
-                    "NSLocationAlwaysAndWhenInUseUsageDescription" : "使用此功能，请务必授权",
-                    "NSCalendarsUsageDescription" : "使用此功能，请务必授权",
-                    "NSContactsUsageDescription" : "使用此功能，请务必授权",
-                    "NSBluetoothPeripheralUsageDescription" : "使用此功能，请务必授权",
-                    "NSBluetoothAlwaysUsageDescription" : "使用此功能，请务必授权",
-                    "NSSpeechRecognitionUsageDescription" : "使用此功能，请务必授权",
-                    "NSRemindersUsageDescription" : "使用此功能，请务必授权",
-                    "NSMotionUsageDescription" : "使用此功能，请务必授权",
-                    "NSHealthUpdateUsageDescription" : "使用此功能，请务必授权",
-                    "NSHealthShareUsageDescription" : "使用此功能，请务必授权",
-                    "NSAppleMusicUsageDescription" : "使用此功能，请务必授权",
-                    "NFCReaderUsageDescription" : "使用此功能，请务必授权",
-                    "NSHealthClinicalHealthRecordsShareUsageDescription" : "使用此功能，请务必授权",
-                    "NSHomeKitUsageDescription" : "使用此功能，请务必授权",
-                    "NSSiriUsageDescription" : "使用此功能，请务必授权",
-                    "NSFaceIDUsageDescription" : "使用此功能，请务必授权",
-                    "NSLocalNetworkUsageDescription" : "使用此功能，请务必授权",
-                    "NSUserTrackingUsageDescription" : "使用此功能，请务必授权"
+            "ios": {
+                "privacyDescription": {
+                    "NSPhotoLibraryUsageDescription": "使用此功能，请务必授权",
+                    "NSPhotoLibraryAddUsageDescription": "使用此功能，请务必授权",
+                    "NSCameraUsageDescription": "使用此功能，请务必授权",
+                    "NSMicrophoneUsageDescription": "使用此功能，请务必授权",
+                    "NSLocationWhenInUseUsageDescription": "使用此功能，请务必授权",
+                    "NSLocationAlwaysUsageDescription": "使用此功能，请务必授权",
+                    "NSLocationAlwaysAndWhenInUseUsageDescription": "使用此功能，请务必授权",
+                    "NSCalendarsUsageDescription": "使用此功能，请务必授权",
+                    "NSContactsUsageDescription": "使用此功能，请务必授权",
+                    "NSBluetoothPeripheralUsageDescription": "使用此功能，请务必授权",
+                    "NSBluetoothAlwaysUsageDescription": "使用此功能，请务必授权",
+                    "NSSpeechRecognitionUsageDescription": "使用此功能，请务必授权",
+                    "NSRemindersUsageDescription": "使用此功能，请务必授权",
+                    "NSMotionUsageDescription": "使用此功能，请务必授权",
+                    "NSHealthUpdateUsageDescription": "使用此功能，请务必授权",
+                    "NSHealthShareUsageDescription": "使用此功能，请务必授权",
+                    "NSAppleMusicUsageDescription": "使用此功能，请务必授权",
+                    "NFCReaderUsageDescription": "使用此功能，请务必授权",
+                    "NSHealthClinicalHealthRecordsShareUsageDescription": "使用此功能，请务必授权",
+                    "NSHomeKitUsageDescription": "使用此功能，请务必授权",
+                    "NSSiriUsageDescription": "使用此功能，请务必授权",
+                    "NSFaceIDUsageDescription": "使用此功能，请务必授权",
+                    "NSLocalNetworkUsageDescription": "使用此功能，请务必授权",
+                    "NSUserTrackingUsageDescription": "使用此功能，请务必授权"
                 }
             },
             /* SDK配置 */
-            "sdkConfigs" : {
-                "geolocation" : {
-                    "system" : {
-                        "__platform__" : [ "ios", "android" ]
+            "sdkConfigs": {
+                "geolocation": {
+                    "system": {
+                        "__platform__": ["ios", "android"]
                     }
                 },
-                "share" : {},
-                "payment" : {},
-                "oauth" : {}
+                "share": {},
+                "payment": {},
+                "oauth": {}
             },
-            "splashscreen" : {
-                "useOriginalMsgbox" : true
+            "splashscreen": {
+                "useOriginalMsgbox": true
             }
         },
-        "compatible" : {
-            "ignoreVersion" : true
+        "compatible": {
+            "ignoreVersion": true
         }
     },
     /* 快应用特有相关 */
-    "quickapp" : {},
+    "quickapp": {},
     /* 小程序特有相关 */
-    "mp-weixin" : {
-        "appid" : "wxa52bb659b38d1ae2",
-        "setting" : {
-            "urlCheck" : false,
-            "postcss" : true,
-            "minified" : true,
-            "es6" : true
+    "mp-weixin": {
+        "appid": "wxa52bb659b38d1ae2",
+        "setting": {
+            "urlCheck": false,
+            "postcss": true,
+            "minified": true,
+            "es6": true
         },
-        "usingComponents" : true,
-        "permission" : {
-            "scope.userLocation" : {
-                "desc" : "地图导航"
+        "usingComponents": true,
+        "permission": {
+            "scope.userLocation": {
+                "desc": "地图导航"
             }
         },
-        "secureNetwork" : {
-            "enable" : true
+        "secureNetwork": {
+            "enable": true
         }
     },
-    "mp-alipay" : {
-        "usingComponents" : true
+    "mp-alipay": {
+        "usingComponents": true
     },
-    "mp-baidu" : {
-        "usingComponents" : true
+    "mp-baidu": {
+        "usingComponents": true
     },
-    "mp-toutiao" : {
-        "usingComponents" : true
+    "mp-toutiao": {
+        "usingComponents": true
     },
     /* 小程序特有相关 */
-    "h5" : {
-        "devServer" : {
-            "https" : true,
-            "port" : 9993,
-            "disableHostCheck" : true,
-            "proxy" : {
-                "/arts" : {
-                    "target" : "http://127.0.0.1:8080",
-                    "changeOrigin" : true,
-                    "pathRewrite" : {
-                        "^/" : "/"
+    "h5": {
+        "devServer": {
+            "https": true,
+            "port": 9993,
+            "disableHostCheck": true,
+            "proxy": {
+                "/arts": {
+                    "target": "http://127.0.0.1:8080",
+                    "changeOrigin": true,
+                    "pathRewrite": {
+                        "^/": "/"
                     }
                 }
             }
         },
-        "router" : {
-            "mode" : "history"
+        "router": {
+            "mode": "history"
         },
-        "optimization" : {
-            "treeShaking" : {
-                "enable" : true
+        "optimization": {
+            "treeShaking": {
+                "enable": true
             }
         },
-        "title" : "CC",
-        "sdkConfigs" : {
-            "maps" : {}
+        "title": "CC",
+        "sdkConfigs": {
+            "maps": {}
         }
     }
 }
