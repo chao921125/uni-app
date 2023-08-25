@@ -9,8 +9,6 @@ import {
 import App from "./App";
 import messages from "./locale/index";
 
-import "./static/style/index.scss";
-
 let i18nConfig = {
     locale: uni.getLocale(),
     messages,

@@ -40,3 +40,11 @@ export default {
     }
 };
 </script>
+<style lang="scss">
+/*每个页面公共css */
+@import '@/uni_modules/uni-scss/index.scss';
+
+/* #ifndef APP-PLUS-NVUE */
+@import '@/static/style/index.scss';
+/* #endif */
+</style>
