@@ -141,8 +141,8 @@ export default {
                 },
                 fail: function(res) {
                     uni.hideLoading();
-                    reject(res);
                     utils.toast(res.msg);
+                    reject(res);
                 },
                 complete: () => {
                     ajaxTimes--;
