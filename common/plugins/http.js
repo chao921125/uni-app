@@ -140,8 +140,16 @@ export default {
                     }
                 },
                 fail: function(res) {
+                    uni.hideLoading();
                     reject(res);
                     utils.toast(res.msg);
+                },
+                complete: () => {
+                    ajaxTimes--;
+                    if (ajaxTimes <= 0) {
+                        // 关闭正在等待的图标
+                        uni.hideLoading();
+                    }
                 },
             });
         });
