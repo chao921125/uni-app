@@ -17,3 +17,11 @@
     font-family: "customicons";
     src: url("./customicons.ttf");
 }
+@font-face {
+    font-family: "SF-Pro-Rounded-Bold";
+    src: url("./SF-Pro-Rounded-Bold.ttf");
+}
+@font-face {
+    font-family: "SF-Pro-Rounded-Regular";
+    src: url("./SF-Pro-Rounded-Regular.ttf");
+}
