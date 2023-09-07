@@ -69,6 +69,7 @@ const changeWebSite = (e) => {
 
 <style lang="scss">
 .website-tips {
+	font-family: "SF-Pro-Rounded-Bold";
     color: #999999;
     font-size: 20rpx;
 }
