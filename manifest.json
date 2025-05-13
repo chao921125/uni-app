@@ -1,191 +1,207 @@
 {
-    "name": "CC",
-    "appid": "__UNI__9950032",
-    "description": "CC APP仅限于学习功能测试，请勿做不良传播",
-    "versionName": "1.1.7",
-    "versionCode": "100",
-    "transformPx": false,
+	"name": "uni-mini",
+	"appid": "__UNI__9950032",
+	"description": "应用描述",
+	"versionName": "1.0.0",
+	"versionCode": "100",
+	"transformPx": false,
     "networkTimeout": {
         "request": 60000,
         "connectSocket": 60000,
         "uploadFile": 60000,
         "downloadFile": 60000
     },
+	"vueVersion": "3",
     "debug": true,
     "uniStatistics": {
+		"version": "2",
         "enable": true
     },
-    "vueVersion": "3",
-    "locale": "auto",
     "fallbackLocale": "zh-Hans",
+    "locale": "auto",
     "compatConfig": {
         "MODE": 3 // 2代表兼容Vue2模式，3代表非兼容Vue2模式
     },
-    /* 5+App特有相关 */
-    "app-plus": {
-        "optimization": {
-            "subPackages": true
-        },
-        "runmode": "liberate",
-        "usingComponents": true,
-        "nvueStyleCompiler": "uni-app",
-        "compilerVersion": 3,
-        "splashscreen": {
-            "alwaysShowBeforeRender": true,
-            "waiting": true,
-            "autoclose": true,
-            "delay": 0
-        },
-        /* 模块配置 */
-        "modules": {
-            "Barcode": {},
-            "Bluetooth": {},
-            "Camera": {},
-            "Contacts": {},
-            "iBeacon": {},
-            "Messaging": {},
-            "Record": {},
-            "Geolocation": {},
-            "Fingerprint": {},
-            "SQLite": {},
-            "VideoPlayer": {}
-        },
-        /* 应用发布信息 */
-        "distribute": {
-            /* android打包配置 */
-            "android": {
-                "permissions": [
-                    "<uses-feature android:name=\"android.hardware.camera\"/>",
-                    "<uses-feature android:name=\"android.hardware.camera.autofocus\"/>",
-                    "<uses-permission android:name=\"android.permission.ACCESS_NETWORK_STATE\"/>",
-                    "<uses-permission android:name=\"android.permission.ACCESS_WIFI_STATE\"/>",
-                    "<uses-permission android:name=\"android.permission.BLUETOOTH\"/>",
-                    "<uses-permission android:name=\"android.permission.BLUETOOTH_ADMIN\"/>",
-                    "<uses-permission android:name=\"android.permission.CAMERA\"/>",
-                    "<uses-permission android:name=\"android.permission.CHANGE_NETWORK_STATE\"/>",
-                    "<uses-permission android:name=\"android.permission.CHANGE_WIFI_STATE\"/>",
-                    "<uses-permission android:name=\"android.permission.FLASHLIGHT\"/>",
-                    "<uses-permission android:name=\"android.permission.GET_ACCOUNTS\"/>",
-                    "<uses-permission android:name=\"android.permission.MOUNT_UNMOUNT_FILESYSTEMS\"/>",
-                    "<uses-permission android:name=\"android.permission.READ_CONTACTS\"/>",
-                    "<uses-permission android:name=\"android.permission.READ_LOGS\"/>",
-                    "<uses-permission android:name=\"android.permission.READ_PHONE_STATE\"/>",
-                    "<uses-permission android:name=\"android.permission.READ_SMS\"/>",
-                    "<uses-permission android:name=\"android.permission.SEND_SMS\"/>",
-                    "<uses-permission android:name=\"android.permission.USE_FINGERPRINT\"/>",
-                    "<uses-permission android:name=\"android.permission.VIBRATE\"/>",
-                    "<uses-permission android:name=\"android.permission.WAKE_LOCK\"/>",
-                    "<uses-permission android:name=\"android.permission.WRITE_CONTACTS\"/>",
-                    "<uses-permission android:name=\"android.permission.WRITE_SETTINGS\"/>",
-                    "<uses-permission android:name=\"android.permission.WRITE_SMS\"/>"
-                ],
-                "abiFilters": ["armeabi-v7a", "arm64-v8a", "x86"]
-            },
-            /* ios打包配置 */
-            "ios": {
-                "privacyDescription": {
-                    "NSPhotoLibraryUsageDescription": "使用此功能，请务必授权",
-                    "NSPhotoLibraryAddUsageDescription": "使用此功能，请务必授权",
-                    "NSCameraUsageDescription": "使用此功能，请务必授权",
-                    "NSMicrophoneUsageDescription": "使用此功能，请务必授权",
-                    "NSLocationWhenInUseUsageDescription": "使用此功能，请务必授权",
-                    "NSLocationAlwaysUsageDescription": "使用此功能，请务必授权",
-                    "NSLocationAlwaysAndWhenInUseUsageDescription": "使用此功能，请务必授权",
-                    "NSCalendarsUsageDescription": "使用此功能，请务必授权",
-                    "NSContactsUsageDescription": "使用此功能，请务必授权",
-                    "NSBluetoothPeripheralUsageDescription": "使用此功能，请务必授权",
-                    "NSBluetoothAlwaysUsageDescription": "使用此功能，请务必授权",
-                    "NSSpeechRecognitionUsageDescription": "使用此功能，请务必授权",
-                    "NSRemindersUsageDescription": "使用此功能，请务必授权",
-                    "NSMotionUsageDescription": "使用此功能，请务必授权",
-                    "NSHealthUpdateUsageDescription": "使用此功能，请务必授权",
-                    "NSHealthShareUsageDescription": "使用此功能，请务必授权",
-                    "NSAppleMusicUsageDescription": "使用此功能，请务必授权",
-                    "NFCReaderUsageDescription": "使用此功能，请务必授权",
-                    "NSHealthClinicalHealthRecordsShareUsageDescription": "使用此功能，请务必授权",
-                    "NSHomeKitUsageDescription": "使用此功能，请务必授权",
-                    "NSSiriUsageDescription": "使用此功能，请务必授权",
-                    "NSFaceIDUsageDescription": "使用此功能，请务必授权",
-                    "NSLocalNetworkUsageDescription": "使用此功能，请务必授权",
-                    "NSUserTrackingUsageDescription": "使用此功能，请务必授权"
-                }
-            },
-            /* SDK配置 */
-            "sdkConfigs": {
-                "geolocation": {
-                    "system": {
-                        "__platform__": ["ios", "android"]
-                    }
-                },
-                "share": {},
-                "payment": {},
-                "oauth": {}
-            },
-            "splashscreen": {
-                "useOriginalMsgbox": true
-            }
-        },
-        "compatible": {
-            "ignoreVersion": true
-        }
-    },
-    /* 快应用特有相关 */
-    "quickapp": {},
-    /* 小程序特有相关 */
-    "mp-weixin": {
-        "appid": "wxa52bb659b38d1ae2",
-        "setting": {
-            "urlCheck": false,
-            "postcss": true,
-            "minified": true,
-            "es6": true
-        },
-        "usingComponents": true,
-        "permission": {
-            "scope.userLocation": {
-                "desc": "地图导航"
-            }
-        },
-        "secureNetwork": {
-            "enable": true
-        }
-    },
-    "mp-alipay": {
-        "usingComponents": true
-    },
-    "mp-baidu": {
-        "usingComponents": true
-    },
-    "mp-toutiao": {
-        "usingComponents": true
-    },
-    /* 小程序特有相关 */
-    "h5": {
-        "devServer": {
-            "https": true,
-            "port": 9993,
-            "disableHostCheck": true,
-            "proxy": {
-                "/arts": {
-                    "target": "http://127.0.0.1:8080",
-                    "changeOrigin": true,
-                    "pathRewrite": {
-                        "^/": "/"
-                    }
-                }
-            }
-        },
-        "router": {
-            "mode": "history"
-        },
-        "optimization": {
-            "treeShaking": {
-                "enable": true
-            }
-        },
-        "title": "CC",
-        "sdkConfigs": {
-            "maps": {}
-        }
-    }
+	"app-plus": {
+		"usingComponents": true,
+		"nvueCompiler": "uni-app",
+		"nvueStyleCompiler": "uni-app",
+		"compilerVersion": 3,
+		"nvueLaunchMode": "fast",
+		"splashscreen": {
+			"alwaysShowBeforeRender": true,
+			"waiting": true,
+			"autoclose": true,
+			"delay": 0
+		},
+		"modules": {
+			"OAuth": {},
+			"Payment": {},
+			"Push": {},
+			"Share": {},
+			"Speech": {},
+			"VideoPlayer": {}
+		},
+		"distribute": {
+			"android": {
+				"permissions": [
+					"<uses-feature android:name=\"android.hardware.camera\"/>",
+					"<uses-feature android:name=\"android.hardware.camera.autofocus\"/>",
+					"<uses-permission android:name=\"android.permission.ACCESS_COARSE_LOCATION\"/>",
+					"<uses-permission android:name=\"android.permission.VIBRATE\"/>",
+					"<uses-permission android:name=\"android.permission.ACCESS_FINE_LOCATION\"/>",
+					"<uses-permission android:name=\"android.permission.ACCESS_MOCK_LOCATION\"/>",
+					"<uses-permission android:name=\"android.permission.ACCESS_NETWORK_STATE\"/>",
+					"<uses-permission android:name=\"android.permission.ACCESS_WIFI_STATE\"/>",
+					"<uses-permission android:name=\"android.permission.CALL_PHONE\"/>",
+					"<uses-permission android:name=\"android.permission.CAMERA\"/>",
+					"<uses-permission android:name=\"android.permission.CHANGE_NETWORK_STATE\"/>",
+					"<uses-permission android:name=\"android.permission.CHANGE_WIFI_STATE\"/>",
+					"<uses-permission android:name=\"android.permission.FLASHLIGHT\"/>",
+					"<uses-permission android:name=\"android.permission.GET_ACCOUNTS\"/>",
+					"<uses-permission android:name=\"android.permission.GET_TASKS\"/>",
+					"<uses-permission android:name=\"android.permission.INTERNET\"/>",
+					"<uses-permission android:name=\"android.permission.MODIFY_AUDIO_SETTINGS\"/>",
+					"<uses-permission android:name=\"android.permission.MOUNT_UNMOUNT_FILESYSTEMS\"/>",
+					"<uses-permission android:name=\"android.permission.READ_CONTACTS\"/>",
+					"<uses-permission android:name=\"android.permission.READ_LOGS\"/>",
+					"<uses-permission android:name=\"android.permission.READ_PHONE_STATE\"/>",
+					"<uses-permission android:name=\"android.permission.READ_SMS\"/>",
+					"<uses-permission android:name=\"android.permission.RECEIVE_BOOT_COMPLETED\"/>",
+					"<uses-permission android:name=\"android.permission.RECORD_AUDIO\"/>",
+					"<uses-permission android:name=\"android.permission.SEND_SMS\"/>",
+					"<uses-permission android:name=\"android.permission.SYSTEM_ALERT_WINDOW\"/>",
+					"<uses-permission android:name=\"android.permission.WAKE_LOCK\"/>",
+					"<uses-permission android:name=\"android.permission.WRITE_CONTACTS\"/>",
+					"<uses-permission android:name=\"android.permission.WRITE_EXTERNAL_STORAGE\"/>",
+					"<uses-permission android:name=\"android.permission.WRITE_SETTINGS\"/>",
+					"<uses-permission android:name=\"android.permission.WRITE_SMS\"/>",
+					"<uses-permission android:name=\"android.permission.RECEIVE_USER_PRESENT\"/>"
+				]
+			},
+			"ios": {
+				"UIBackgroundModes": ["audio"],
+				"urlschemewhitelist": ["baidumap", "iosamap"]
+			},
+			"sdkConfigs": {
+				"speech": {
+					"ifly": {}
+				}
+			},
+			"orientation": ["portrait-primary"]
+		},
+		"uniStatistics": {
+			"enable": true
+		}
+	},
+	"quickapp": {},
+	"quickapp-native": {
+		"icon": "/static/logo.png",
+		"package": "com.example.demo",
+		"features": [{
+			"name": "system.clipboard"
+		}]
+	},
+	"quickapp-webview": {
+		"icon": "/static/logo.png",
+		"package": "com.example.demo",
+		"minPlatformVersion": 1070,
+		"versionName": "1.0.0",
+		"versionCode": 100
+	},
+	"mp-weixin": {
+		"appid": "wxa52bb659b38d1ae2",
+		"setting": {
+			"urlCheck": false,
+			"es6": true,
+			"postcss": true,
+			"minified": true
+		},
+		"usingComponents": true,
+		"permission": {
+			"scope.userLocation": {
+				"desc": "定位能力"
+			}
+		},
+		"uniStatistics": {
+			"enable": true
+		},
+		"secureNetwork": {
+			"enable": true
+		}
+	},
+	"mp-alipay": {
+		"usingComponents": true,
+		"uniStatistics": {
+			"enable": true
+		}
+	},
+	"mp-baidu": {
+		"usingComponents": true,
+		"uniStatistics": {
+			"enable": true
+		},
+		"dynamicLib": {
+			"editorLib": {
+				"provider": "swan-editor"
+			}
+		}
+	},
+	"mp-toutiao": {
+		"usingComponents": true,
+		"uniStatistics": {
+			"enable": true
+		}
+	},
+	"mp-jd": {
+		"usingComponents": true,
+		"uniStatistics": {
+			"enable": true
+		}
+	},
+	"h5": {
+		"template": "template.h5.html",
+		"router": {
+			"mode": "history",
+			"base": ""
+		},
+		"sdkConfigs": {
+			"maps": {
+				"qqmap": {
+					"key": "TKUBZ-D24AF-GJ4JY-JDVM2-IBYKK-KEBCU"
+				}
+			}
+		},
+		"async": {
+			"timeout": 20000
+		},
+		"uniStatistics": {
+			"enable": true
+		}
+	},
+	"mp-kuaishou": {
+		"uniStatistics": {
+			"enable": true
+		}
+	},
+	"mp-lark": {
+		"uniStatistics": {
+			"enable": true
+		}
+	},
+	"mp-qq": {
+		"uniStatistics": {
+			"enable": true
+		}
+	},
+	"quickapp-webview-huawei": {
+		"uniStatistics": {
+			"enable": true
+		}
+	},
+	"quickapp-webview-union": {
+		"uniStatistics": {
+			"enable": true
+		}
+	}
 }

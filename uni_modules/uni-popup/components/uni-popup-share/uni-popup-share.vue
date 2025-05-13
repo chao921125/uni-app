@@ -1,63 +1,64 @@
 <template>
 	<view class="uni-popup-share">
-		<view class="uni-share-title"
-			><text class="uni-share-title-text">{{ shareTitleText }}</text></view
-		>
+		<view class="uni-share-title"><text class="uni-share-title-text">{{shareTitleText}}</text></view>
 		<view class="uni-share-content">
 			<view class="uni-share-content-box">
-				<view class="uni-share-content-item" v-for="(item, index) in bottomData" :key="index" @click.stop="select(item, index)">
+				<view class="uni-share-content-item" v-for="(item,index) in bottomData" :key="index" @click.stop="select(item,index)">
 					<image class="uni-share-image" :src="item.icon" mode="aspectFill"></image>
-					<text class="uni-share-text">{{ item.text }}</text>
+					<text class="uni-share-text">{{item.text}}</text>
 				</view>
+
 			</view>
 		</view>
 		<view class="uni-share-button-box">
-			<button class="uni-share-button" @click="close">{{ cancelText }}</button>
+			<button class="uni-share-button" @click="close">{{cancelText}}</button>
 		</view>
 	</view>
 </template>
 
 <script>
-	import popup from "../uni-popup/popup.js";
-	import { initVueI18n } from "@dcloudio/uni-i18n";
-	import messages from "../uni-popup/i18n/index.js";
-	const { t } = initVueI18n(messages);
+	import popup from '../uni-popup/popup.js'
+	import {
+	initVueI18n
+	} from '@dcloudio/uni-i18n'
+	import messages from '../uni-popup/i18n/index.js'
+	const {	t	} = initVueI18n(messages)
 	export default {
-		name: "UniPopupShare",
-		mixins: [popup],
-		emits: ["select"],
+		name: 'UniPopupShare',
+		mixins:[popup],
+		emits:['select'],
 		props: {
 			title: {
 				type: String,
-				default: "",
+				default: ''
 			},
 			beforeClose: {
 				type: Boolean,
-				default: false,
-			},
+				default: false
+			}
 		},
 		data() {
 			return {
-				bottomData: [
-					{
-						text: "微信",
-						icon: "https://vkceyugu.cdn.bspapp.com/VKCEYUGU-dc-site/c2b17470-50be-11eb-b680-7980c8a877b8.png",
-						name: "wx",
+				// TODO 替换为自己的图标
+				bottomData: [{
+						text: '微信',
+						icon: 'https://qiniu-web-assets.dcloud.net.cn/unidoc/zh/unicloudlogo.png',
+						name: 'wx'
 					},
 					{
-						text: "支付宝",
-						icon: "https://vkceyugu.cdn.bspapp.com/VKCEYUGU-dc-site/d684ae40-50be-11eb-8ff1-d5dcf8779628.png",
-						name: "wx",
+						text: '支付宝',
+						icon: 'https://qiniu-web-assets.dcloud.net.cn/unidoc/zh/unicloudlogo.png',
+						name: 'ali'
 					},
 					{
-						text: "QQ",
-						icon: "https://vkceyugu.cdn.bspapp.com/VKCEYUGU-dc-site/e7a79520-50be-11eb-b997-9918a5dda011.png",
-						name: "qq",
+						text: 'QQ',
+						icon: 'https://qiniu-web-assets.dcloud.net.cn/unidoc/zh/unicloudlogo.png',
+						name: 'qq'
 					},
 					{
-						text: "新浪",
-						icon: "https://vkceyugu.cdn.bspapp.com/VKCEYUGU-dc-site/0dacdbe0-50bf-11eb-8ff1-d5dcf8779628.png",
-						name: "sina",
+						text: '新浪',
+						icon: 'https://qiniu-web-assets.dcloud.net.cn/unidoc/zh/unicloudlogo.png',
+						name: 'sina'
 					},
 					// {
 					// 	text: '百度',
@@ -69,40 +70,41 @@
 					// 	icon: 'https://vkceyugu.cdn.bspapp.com/VKCEYUGU-dc-site/2e0fdfe0-50bf-11eb-b997-9918a5dda011.png',
 					// 	name: 'more'
 					// }
-				],
-			};
+				]
+			}
 		},
 		created() {},
 		computed: {
 			cancelText() {
-				return t("uni-popup.cancel");
+				return t("uni-popup.cancel")
 			},
-			shareTitleText() {
-				return this.title || t("uni-popup.shareTitle");
-			},
+		shareTitleText() {
+				return this.title || t("uni-popup.shareTitle")
+			}
 		},
 		methods: {
 			/**
 			 * 选择内容
 			 */
 			select(item, index) {
-				this.$emit("select", {
+				this.$emit('select', {
 					item,
-					index,
-				});
-				this.close();
+					index
+				})
+				this.close()
+
 			},
 			/**
 			 * 关闭窗口
 			 */
 			close() {
-				if (this.beforeClose) return;
-				this.popup.close();
-			},
-		},
-	};
+				if(this.beforeClose) return
+				this.popup.close()
+			}
+		}
+	}
 </script>
-<style lang="scss">
+<style lang="scss" >
 	.uni-popup-share {
 		background-color: #fff;
 		border-top-left-radius: 11px;
@@ -162,7 +164,7 @@
 	.uni-share-text {
 		margin-top: 10px;
 		font-size: 14px;
-		color: #3b4144;
+		color: #3B4144;
 	}
 
 	.uni-share-button-box {

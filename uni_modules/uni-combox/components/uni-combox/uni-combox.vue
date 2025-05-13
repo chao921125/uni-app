@@ -1,29 +1,25 @@
 <template>
 	<view class="uni-combox" :class="border ? '' : 'uni-combox__no-border'">
 		<view v-if="label" class="uni-combox__label" :style="labelStyle">
-			<text>{{ label }}</text>
+			<text>{{label}}</text>
 		</view>
 		<view class="uni-combox__input-box">
-			<input
-				class="uni-combox__input"
-				type="text"
-				:placeholder="placeholder"
-				placeholder-class="uni-combox__input-plac"
-				v-model="inputVal"
-				@input="onInput"
-				@focus="onFocus"
-				@blur="onBlur"
-			/>
-			<uni-icons :type="showSelector ? 'top' : 'bottom'" size="14" color="#999" @click="toggleSelector"> </uni-icons>
+			<input class="uni-combox__input" type="text" :placeholder="placeholder" placeholder-class="uni-combox__input-plac"
+				v-model="inputVal" @input="onInput" @focus="onFocus" @blur="onBlur" />
+			<uni-icons v-if="!inputVal || !clearAble" :type="showSelector? 'top' : 'bottom'" size="14" color="#999" @click="toggleSelector">
+			</uni-icons>
+			<uni-icons v-if="inputVal && clearAble" type="clear" size="24" color="#999" @click="clean">
+			</uni-icons>
 		</view>
 		<view class="uni-combox__selector" v-if="showSelector">
 			<view class="uni-popper__arrow"></view>
 			<scroll-view scroll-y="true" class="uni-combox__selector-scroll">
 				<view class="uni-combox__selector-empty" v-if="filterCandidatesLength === 0">
-					<text>{{ emptyTips }}</text>
+					<text>{{emptyTips}}</text>
 				</view>
-				<view class="uni-combox__selector-item" v-for="(item, index) in filterCandidates" :key="index" @click="onSelectorClick(index)">
-					<text>{{ item }}</text>
+				<view class="uni-combox__selector-item" v-for="(item,index) in filterCandidates" :key="index"
+					@click="onSelectorClick(index)">
+					<text>{{item}}</text>
 				</view>
 			</scroll-view>
 		</view>
@@ -43,120 +39,128 @@
 	 * @property {String} value 组合框的值
 	 */
 	export default {
-		name: "uniCombox",
-		emits: ["input", "update:modelValue"],
+		name: 'uniCombox',
+		emits: ['input', 'update:modelValue'],
 		props: {
+			clearAble: {
+				type: Boolean,
+				default: false
+			},
 			border: {
 				type: Boolean,
-				default: true,
+				default: true
 			},
 			label: {
 				type: String,
-				default: "",
+				default: ''
 			},
 			labelWidth: {
 				type: String,
-				default: "auto",
+				default: 'auto'
 			},
 			placeholder: {
 				type: String,
-				default: "",
+				default: ''
 			},
 			candidates: {
 				type: Array,
-				default() {
-					return [];
-				},
+				default () {
+					return []
+				}
 			},
 			emptyTips: {
 				type: String,
-				default: "无匹配项",
+				default: '无匹配项'
 			},
 			// #ifndef VUE3
 			value: {
 				type: [String, Number],
-				default: "",
+				default: ''
 			},
 			// #endif
 			// #ifdef VUE3
 			modelValue: {
 				type: [String, Number],
-				default: "",
+				default: ''
 			},
 			// #endif
 		},
 		data() {
 			return {
 				showSelector: false,
-				inputVal: "",
-			};
+				inputVal: ''
+			}
 		},
 		computed: {
 			labelStyle() {
-				if (this.labelWidth === "auto") {
-					return "";
+				if (this.labelWidth === 'auto') {
+					return ""
 				}
-				return `width: ${this.labelWidth}`;
+				return `width: ${this.labelWidth}`
 			},
 			filterCandidates() {
 				return this.candidates.filter((item) => {
-					return item.toString().indexOf(this.inputVal) > -1;
-				});
+					return item.toString().indexOf(this.inputVal) > -1
+				})
 			},
 			filterCandidatesLength() {
-				return this.filterCandidates.length;
-			},
+				return this.filterCandidates.length
+			}
 		},
 		watch: {
 			// #ifndef VUE3
 			value: {
 				handler(newVal) {
-					this.inputVal = newVal;
+					this.inputVal = newVal
 				},
-				immediate: true,
+				immediate: true
 			},
 			// #endif
 			// #ifdef VUE3
 			modelValue: {
 				handler(newVal) {
-					this.inputVal = newVal;
+					this.inputVal = newVal
 				},
-				immediate: true,
+				immediate: true
 			},
 			// #endif
 		},
 		methods: {
 			toggleSelector() {
-				this.showSelector = !this.showSelector;
+				this.showSelector = !this.showSelector
 			},
 			onFocus() {
-				this.showSelector = true;
+				this.showSelector = true
 			},
 			onBlur() {
 				setTimeout(() => {
-					this.showSelector = false;
-				}, 153);
+					this.showSelector = false
+				}, 153)
 			},
 			onSelectorClick(index) {
-				this.inputVal = this.filterCandidates[index];
-				this.showSelector = false;
-				this.$emit("input", this.inputVal);
-				this.$emit("update:modelValue", this.inputVal);
+				this.inputVal = this.filterCandidates[index]
+				this.showSelector = false
+				this.$emit('input', this.inputVal)
+				this.$emit('update:modelValue', this.inputVal)
 			},
 			onInput() {
 				setTimeout(() => {
-					this.$emit("input", this.inputVal);
-					this.$emit("update:modelValue", this.inputVal);
-				});
+					this.$emit('input', this.inputVal)
+					this.$emit('update:modelValue', this.inputVal)
+				})
 			},
-		},
-	};
+			clean() {
+				this.inputVal = ''
+				this.onInput()
+			}
+		}
+	}
 </script>
 
 <style lang="scss" scoped>
 	.uni-combox {
 		font-size: 14px;
-		border: 1px solid #dcdfe6;
+		border: 1px solid #DCDFE6;
 		border-radius: 4px;
 		padding: 6px 10px;
 		position: relative;
@@ -206,8 +210,8 @@
 		top: calc(100% + 12px);
 		left: 0;
 		width: 100%;
-		background-color: #ffffff;
-		border: 1px solid #ebeef5;
+		background-color: #FFFFFF;
+		border: 1px solid #EBEEF5;
 		border-radius: 6px;
 		box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
 		z-index: 2;
@@ -263,7 +267,7 @@
 		left: 10%;
 		margin-right: 3px;
 		border-top-width: 0;
-		border-bottom-color: #ebeef5;
+		border-bottom-color: #EBEEF5;
 	}
 
 	.uni-popper__arrow::after {

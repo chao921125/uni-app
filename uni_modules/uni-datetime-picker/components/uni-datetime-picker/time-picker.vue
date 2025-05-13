@@ -2,34 +2,37 @@
 	<view class="uni-datetime-picker">
 		<view @click="initTimePicker">
 			<slot>
-				<view class="uni-datetime-picker-timebox-pointer" :class="{ 'uni-datetime-picker-disabled': disabled, 'uni-datetime-picker-timebox': border }">
-					<text class="uni-datetime-picker-text">{{ time }}</text>
+				<view class="uni-datetime-picker-timebox-pointer"
+					:class="{'uni-datetime-picker-disabled': disabled, 'uni-datetime-picker-timebox': border}">
+					<text class="uni-datetime-picker-text">{{time}}</text>
 					<view v-if="!time" class="uni-datetime-picker-time">
-						<text class="uni-datetime-picker-text">{{ selectTimeText }}</text>
+						<text class="uni-datetime-picker-text">{{selectTimeText}}</text>
 					</view>
 				</view>
 			</slot>
 		</view>
 		<view v-if="visible" id="mask" class="uni-datetime-picker-mask" @click="tiggerTimePicker"></view>
-		<view v-if="visible" class="uni-datetime-picker-popup" :class="[dateShow && timeShow ? '' : 'fix-nvue-height']" :style="fixNvueBug">
+		<view v-if="visible" class="uni-datetime-picker-popup" :class="[dateShow && timeShow ? '' : 'fix-nvue-height']"
+			:style="fixNvueBug">
 			<view class="uni-title">
-				<text class="uni-datetime-picker-text">{{ selectTimeText }}</text>
+				<text class="uni-datetime-picker-text">{{selectTimeText}}</text>
 			</view>
 			<view v-if="dateShow" class="uni-datetime-picker__container-box">
-				<picker-view class="uni-datetime-picker-view" :indicator-style="indicatorStyle" :value="ymd" @change="bindDateChange">
+				<picker-view class="uni-datetime-picker-view" :indicator-style="indicatorStyle" :value="ymd"
+					@change="bindDateChange">
 					<picker-view-column>
-						<view class="uni-datetime-picker-item" v-for="(item, index) in years" :key="index">
-							<text class="uni-datetime-picker-item">{{ lessThanTen(item) }}</text>
+						<view class="uni-datetime-picker-item" v-for="(item,index) in years" :key="index">
+							<text class="uni-datetime-picker-item">{{lessThanTen(item)}}</text>
 						</view>
 					</picker-view-column>
 					<picker-view-column>
-						<view class="uni-datetime-picker-item" v-for="(item, index) in months" :key="index">
-							<text class="uni-datetime-picker-item">{{ lessThanTen(item) }}</text>
+						<view class="uni-datetime-picker-item" v-for="(item,index) in months" :key="index">
+							<text class="uni-datetime-picker-item">{{lessThanTen(item)}}</text>
 						</view>
 					</picker-view-column>
 					<picker-view-column>
-						<view class="uni-datetime-picker-item" v-for="(item, index) in days" :key="index">
-							<text class="uni-datetime-picker-item">{{ lessThanTen(item) }}</text>
+						<view class="uni-datetime-picker-item" v-for="(item,index) in days" :key="index">
+							<text class="uni-datetime-picker-item">{{lessThanTen(item)}}</text>
 						</view>
 					</picker-view-column>
 				</picker-view>
@@ -38,26 +41,21 @@
 				<text class="uni-datetime-picker-sign sign-right">-</text>
 			</view>
 			<view v-if="timeShow" class="uni-datetime-picker__container-box">
-				<picker-view
-					class="uni-datetime-picker-view"
-					:class="[hideSecond ? 'time-hide-second' : '']"
-					:indicator-style="indicatorStyle"
-					:value="hms"
-					@change="bindTimeChange"
-				>
+				<picker-view class="uni-datetime-picker-view" :class="[hideSecond ? 'time-hide-second' : '']"
+					:indicator-style="indicatorStyle" :value="hms" @change="bindTimeChange">
 					<picker-view-column>
-						<view class="uni-datetime-picker-item" v-for="(item, index) in hours" :key="index">
-							<text class="uni-datetime-picker-item">{{ lessThanTen(item) }}</text>
+						<view class="uni-datetime-picker-item" v-for="(item,index) in hours" :key="index">
+							<text class="uni-datetime-picker-item">{{lessThanTen(item)}}</text>
 						</view>
 					</picker-view-column>
 					<picker-view-column>
-						<view class="uni-datetime-picker-item" v-for="(item, index) in minutes" :key="index">
-							<text class="uni-datetime-picker-item">{{ lessThanTen(item) }}</text>
+						<view class="uni-datetime-picker-item" v-for="(item,index) in minutes" :key="index">
+							<text class="uni-datetime-picker-item">{{lessThanTen(item)}}</text>
 						</view>
 					</picker-view-column>
 					<picker-view-column v-if="!hideSecond">
-						<view class="uni-datetime-picker-item" v-for="(item, index) in seconds" :key="index">
-							<text class="uni-datetime-picker-item">{{ lessThanTen(item) }}</text>
+						<view class="uni-datetime-picker-item" v-for="(item,index) in seconds" :key="index">
+							<text class="uni-datetime-picker-item">{{lessThanTen(item)}}</text>
 						</view>
 					</picker-view-column>
 				</picker-view>
@@ -67,31 +65,32 @@
 			</view>
 			<view class="uni-datetime-picker-btn">
 				<view @click="clearTime">
-					<text class="uni-datetime-picker-btn-text">{{ clearText }}</text>
+					<text class="uni-datetime-picker-btn-text">{{clearText}}</text>
 				</view>
 				<view class="uni-datetime-picker-btn-group">
 					<view class="uni-datetime-picker-cancel" @click="tiggerTimePicker">
-						<text class="uni-datetime-picker-btn-text">{{ cancelText }}</text>
+						<text class="uni-datetime-picker-btn-text">{{cancelText}}</text>
 					</view>
 					<view @click="setTime">
-						<text class="uni-datetime-picker-btn-text">{{ okText }}</text>
+						<text class="uni-datetime-picker-btn-text">{{okText}}</text>
 					</view>
 				</view>
 			</view>
 		</view>
-		<!-- #ifdef H5 -->
-		<!-- <keypress v-if="visible" @esc="tiggerTimePicker" @enter="setTime" /> -->
-		<!-- #endif -->
 	</view>
 </template>
 
 <script>
-	// #ifdef H5
-	import keypress from "./keypress";
-	// #endif
-	import { initVueI18n } from "@dcloudio/uni-i18n";
-	import messages from "./i18n/index.js";
-	const { t } = initVueI18n(messages);
+	import {
+		initVueI18n
+	} from '@dcloudio/uni-i18n'
+	import i18nMessages from './i18n/index.js'
+	const {
+		t
+	} = initVueI18n(i18nMessages)
+	import {
+		fixIosDateFormat
+	} from './util'
 
 	/**
 	 * DatetimePicker 时间选择器
@@ -107,12 +106,7 @@
 	 */
 
 	export default {
-		name: "UniDatetimePicker",
-		components: {
-			// #ifdef H5
-			keypress,
-			// #endif
-		},
+		name: 'UniDatetimePicker',
 		data() {
 			return {
 				indicatorStyle: `height: 50px;`,
@@ -120,9 +114,9 @@
 				fixNvueBug: {},
 				dateShow: true,
 				timeShow: true,
-				title: "日期和时间",
+				title: '日期和时间',
 				// 输入框当前时间
-				time: "",
+				time: '',
 				// 当前的年月日时分秒
 				year: 1920,
 				month: 0,
@@ -144,271 +138,295 @@
 				endHour: 23,
 				endMinute: 59,
 				endSecond: 59,
-			};
+			}
+		},
+		options: {
+			// #ifdef MP-TOUTIAO
+			virtualHost: false,
+			// #endif
+			// #ifndef MP-TOUTIAO
+			virtualHost: true
+			// #endif
 		},
 		props: {
 			type: {
 				type: String,
-				default: "datetime",
+				default: 'datetime'
 			},
 			value: {
 				type: [String, Number],
-				default: "",
+				default: ''
 			},
 			modelValue: {
 				type: [String, Number],
-				default: "",
+				default: ''
 			},
 			start: {
 				type: [Number, String],
-				default: "",
+				default: ''
 			},
 			end: {
 				type: [Number, String],
-				default: "",
+				default: ''
 			},
 			returnType: {
 				type: String,
-				default: "string",
+				default: 'string'
 			},
 			disabled: {
 				type: [Boolean, String],
-				default: false,
+				default: false
 			},
 			border: {
 				type: [Boolean, String],
-				default: true,
+				default: true
 			},
 			hideSecond: {
 				type: [Boolean, String],
-				default: false,
-			},
+				default: false
+			}
 		},
 		watch: {
+			// #ifndef VUE3
 			value: {
-				handler(newVal, oldVal) {
+				handler(newVal) {
 					if (newVal) {
-						this.parseValue(this.fixIosDateFormat(newVal)); //兼容 iOS、safari 日期格式
-						this.initTime(false);
+						this.parseValue(fixIosDateFormat(newVal))
+						this.initTime(false)
 					} else {
-						this.time = "";
-						this.parseValue(Date.now());
+						this.time = ''
+						this.parseValue(Date.now())
 					}
 				},
-				immediate: true,
+				immediate: true
 			},
+			// #endif
+			// #ifdef VUE3
+			modelValue: {
+				handler(newVal) {
+					if (newVal) {
+						this.parseValue(fixIosDateFormat(newVal))
+						this.initTime(false)
+					} else {
+						this.time = ''
+						this.parseValue(Date.now())
+					}
+				},
+				immediate: true
+			},
+			// #endif
 			type: {
 				handler(newValue) {
-					if (newValue === "date") {
-						this.dateShow = true;
-						this.timeShow = false;
-						this.title = "日期";
-					} else if (newValue === "time") {
-						this.dateShow = false;
-						this.timeShow = true;
-						this.title = "时间";
+					if (newValue === 'date') {
+						this.dateShow = true
+						this.timeShow = false
+						this.title = '日期'
+					} else if (newValue === 'time') {
+						this.dateShow = false
+						this.timeShow = true
+						this.title = '时间'
 					} else {
-						this.dateShow = true;
-						this.timeShow = true;
-						this.title = "日期和时间";
+						this.dateShow = true
+						this.timeShow = true
+						this.title = '日期和时间'
 					}
 				},
-				immediate: true,
+				immediate: true
 			},
 			start: {
 				handler(newVal) {
-					this.parseDatetimeRange(this.fixIosDateFormat(newVal), "start"); //兼容 iOS、safari 日期格式
+					this.parseDatetimeRange(fixIosDateFormat(newVal), 'start')
 				},
-				immediate: true,
+				immediate: true
 			},
 			end: {
 				handler(newVal) {
-					this.parseDatetimeRange(this.fixIosDateFormat(newVal), "end"); //兼容 iOS、safari 日期格式
+					this.parseDatetimeRange(fixIosDateFormat(newVal), 'end')
 				},
-				immediate: true,
+				immediate: true
 			},
 
 			// 月、日、时、分、秒可选范围变化后，检查当前值是否在范围内，不在则当前值重置为可选范围第一项
 			months(newVal) {
-				this.checkValue("month", this.month, newVal);
+				this.checkValue('month', this.month, newVal)
 			},
 			days(newVal) {
-				this.checkValue("day", this.day, newVal);
+				this.checkValue('day', this.day, newVal)
 			},
 			hours(newVal) {
-				this.checkValue("hour", this.hour, newVal);
+				this.checkValue('hour', this.hour, newVal)
 			},
 			minutes(newVal) {
-				this.checkValue("minute", this.minute, newVal);
+				this.checkValue('minute', this.minute, newVal)
 			},
 			seconds(newVal) {
-				this.checkValue("second", this.second, newVal);
-			},
+				this.checkValue('second', this.second, newVal)
+			}
 		},
 		computed: {
 			// 当前年、月、日、时、分、秒选择范围
 			years() {
-				return this.getCurrentRange("year");
+				return this.getCurrentRange('year')
 			},
 
 			months() {
-				return this.getCurrentRange("month");
+				return this.getCurrentRange('month')
 			},
 
 			days() {
-				return this.getCurrentRange("day");
+				return this.getCurrentRange('day')
 			},
 
 			hours() {
-				return this.getCurrentRange("hour");
+				return this.getCurrentRange('hour')
 			},
 
 			minutes() {
-				return this.getCurrentRange("minute");
+				return this.getCurrentRange('minute')
 			},
 
 			seconds() {
-				return this.getCurrentRange("second");
+				return this.getCurrentRange('second')
 			},
 
 			// picker 当前值数组
 			ymd() {
-				return [this.year - this.minYear, this.month - this.minMonth, this.day - this.minDay];
+				return [this.year - this.minYear, this.month - this.minMonth, this.day - this.minDay]
 			},
 			hms() {
-				return [this.hour - this.minHour, this.minute - this.minMinute, this.second - this.minSecond];
+				return [this.hour - this.minHour, this.minute - this.minMinute, this.second - this.minSecond]
 			},
 
 			// 当前 date 是 start
 			currentDateIsStart() {
-				return this.year === this.startYear && this.month === this.startMonth && this.day === this.startDay;
+				return this.year === this.startYear && this.month === this.startMonth && this.day === this.startDay
 			},
 
 			// 当前 date 是 end
 			currentDateIsEnd() {
-				return this.year === this.endYear && this.month === this.endMonth && this.day === this.endDay;
+				return this.year === this.endYear && this.month === this.endMonth && this.day === this.endDay
 			},
 
 			// 当前年、月、日、时、分、秒的最小值和最大值
 			minYear() {
-				return this.startYear;
+				return this.startYear
 			},
 			maxYear() {
-				return this.endYear;
+				return this.endYear
 			},
 			minMonth() {
 				if (this.year === this.startYear) {
-					return this.startMonth;
+					return this.startMonth
 				} else {
-					return 1;
+					return 1
 				}
 			},
 			maxMonth() {
 				if (this.year === this.endYear) {
-					return this.endMonth;
+					return this.endMonth
 				} else {
-					return 12;
+					return 12
 				}
 			},
 			minDay() {
 				if (this.year === this.startYear && this.month === this.startMonth) {
-					return this.startDay;
+					return this.startDay
 				} else {
-					return 1;
+					return 1
 				}
 			},
 			maxDay() {
 				if (this.year === this.endYear && this.month === this.endMonth) {
-					return this.endDay;
+					return this.endDay
 				} else {
-					return this.daysInMonth(this.year, this.month);
+					return this.daysInMonth(this.year, this.month)
 				}
 			},
 			minHour() {
-				if (this.type === "datetime") {
+				if (this.type === 'datetime') {
 					if (this.currentDateIsStart) {
-						return this.startHour;
+						return this.startHour
 					} else {
-						return 0;
+						return 0
 					}
 				}
-				if (this.type === "time") {
-					return this.startHour;
+				if (this.type === 'time') {
+					return this.startHour
 				}
 			},
 			maxHour() {
-				if (this.type === "datetime") {
+				if (this.type === 'datetime') {
 					if (this.currentDateIsEnd) {
-						return this.endHour;
+						return this.endHour
 					} else {
-						return 23;
+						return 23
 					}
 				}
-				if (this.type === "time") {
-					return this.endHour;
+				if (this.type === 'time') {
+					return this.endHour
 				}
 			},
 			minMinute() {
-				if (this.type === "datetime") {
+				if (this.type === 'datetime') {
 					if (this.currentDateIsStart && this.hour === this.startHour) {
-						return this.startMinute;
+						return this.startMinute
 					} else {
-						return 0;
+						return 0
 					}
 				}
-				if (this.type === "time") {
+				if (this.type === 'time') {
 					if (this.hour === this.startHour) {
-						return this.startMinute;
+						return this.startMinute
 					} else {
-						return 0;
+						return 0
 					}
 				}
 			},
 			maxMinute() {
-				if (this.type === "datetime") {
+				if (this.type === 'datetime') {
 					if (this.currentDateIsEnd && this.hour === this.endHour) {
-						return this.endMinute;
+						return this.endMinute
 					} else {
-						return 59;
+						return 59
 					}
 				}
-				if (this.type === "time") {
+				if (this.type === 'time') {
 					if (this.hour === this.endHour) {
-						return this.endMinute;
+						return this.endMinute
 					} else {
-						return 59;
+						return 59
 					}
 				}
 			},
 			minSecond() {
-				if (this.type === "datetime") {
+				if (this.type === 'datetime') {
 					if (this.currentDateIsStart && this.hour === this.startHour && this.minute === this.startMinute) {
-						return this.startSecond;
+						return this.startSecond
 					} else {
-						return 0;
+						return 0
 					}
 				}
-				if (this.type === "time") {
+				if (this.type === 'time') {
 					if (this.hour === this.startHour && this.minute === this.startMinute) {
-						return this.startSecond;
+						return this.startSecond
 					} else {
-						return 0;
+						return 0
 					}
 				}
 			},
 			maxSecond() {
-				if (this.type === "datetime") {
+				if (this.type === 'datetime') {
 					if (this.currentDateIsEnd && this.hour === this.endHour && this.minute === this.endMinute) {
-						return this.endSecond;
+						return this.endSecond
 					} else {
-						return 59;
+						return 59
 					}
 				}
-				if (this.type === "time") {
+				if (this.type === 'time') {
 					if (this.hour === this.endHour && this.minute === this.endMinute) {
-						return this.endSecond;
+						return this.endSecond
 					} else {
-						return 59;
+						return 59
 					}
 				}
 			},
@@ -417,17 +435,17 @@
 			 * for i18n
 			 */
 			selectTimeText() {
-				return t("uni-datetime-picker.selectTime");
+				return t("uni-datetime-picker.selectTime")
 			},
 			okText() {
-				return t("uni-datetime-picker.ok");
+				return t("uni-datetime-picker.ok")
 			},
 			clearText() {
-				return t("uni-datetime-picker.clear");
+				return t("uni-datetime-picker.clear")
 			},
 			cancelText() {
-				return t("uni-datetime-picker.cancel");
-			},
+				return t("uni-datetime-picker.cancel")
+			}
 		},
 
 		mounted() {
@@ -435,8 +453,8 @@
 			const res = uni.getSystemInfoSync();
 			this.fixNvueBug = {
 				top: res.windowHeight / 2,
-				left: res.windowWidth / 2,
-			};
+				left: res.windowWidth / 2
+			}
 			// #endif
 		},
 
@@ -447,7 +465,7 @@
 			 */
 
 			lessThanTen(item) {
-				return item < 10 ? "0" + item : item;
+				return item < 10 ? '0' + item : item
 			},
 
 			/**
@@ -456,10 +474,10 @@
 			 */
 			parseTimeType(timeString) {
 				if (timeString) {
-					let timeArr = timeString.split(":");
-					this.hour = Number(timeArr[0]);
-					this.minute = Number(timeArr[1]);
-					this.second = Number(timeArr[2]);
+					let timeArr = timeString.split(':')
+					this.hour = Number(timeArr[0])
+					this.minute = Number(timeArr[1])
+					this.second = Number(timeArr[2])
 				}
 			},
 
@@ -468,14 +486,14 @@
 			 * @param {String | Number} datetime
 			 */
 			initPickerValue(datetime) {
-				let defaultValue = null;
+				let defaultValue = null
 				if (datetime) {
-					defaultValue = this.compareValueWithStartAndEnd(datetime, this.start, this.end);
+					defaultValue = this.compareValueWithStartAndEnd(datetime, this.start, this.end)
 				} else {
-					defaultValue = Date.now();
-					defaultValue = this.compareValueWithStartAndEnd(defaultValue, this.start, this.end);
+					defaultValue = Date.now()
+					defaultValue = this.compareValueWithStartAndEnd(defaultValue, this.start, this.end)
 				}
-				this.parseValue(defaultValue);
+				this.parseValue(defaultValue)
 			},
 
 			/**
@@ -490,28 +508,28 @@
 			 * @param {Object} dateBase
 			 */
 			compareValueWithStartAndEnd(value, start, end) {
-				let winner = null;
-				value = this.superTimeStamp(value);
-				start = this.superTimeStamp(start);
-				end = this.superTimeStamp(end);
+				let winner = null
+				value = this.superTimeStamp(value)
+				start = this.superTimeStamp(start)
+				end = this.superTimeStamp(end)
 
 				if (start && end) {
 					if (value < start) {
-						winner = new Date(start);
+						winner = new Date(start)
 					} else if (value > end) {
-						winner = new Date(end);
+						winner = new Date(end)
 					} else {
-						winner = new Date(value);
+						winner = new Date(value)
 					}
 				} else if (start && !end) {
-					winner = start <= value ? new Date(value) : new Date(start);
+					winner = start <= value ? new Date(value) : new Date(start)
 				} else if (!start && end) {
-					winner = value <= end ? new Date(value) : new Date(end);
+					winner = value <= end ? new Date(value) : new Date(end)
 				} else {
-					winner = new Date(value);
+					winner = new Date(value)
 				}
 
-				return winner;
+				return winner
 			},
 
 			/**
@@ -519,19 +537,19 @@
 			 * @param {Object} value
 			 */
 			superTimeStamp(value) {
-				let dateBase = "";
-				if (this.type === "time" && value && typeof value === "string") {
-					const now = new Date();
-					const year = now.getFullYear();
-					const month = now.getMonth() + 1;
-					const day = now.getDate();
-					dateBase = year + "/" + month + "/" + day + " ";
+				let dateBase = ''
+				if (this.type === 'time' && value && typeof value === 'string') {
+					const now = new Date()
+					const year = now.getFullYear()
+					const month = now.getMonth() + 1
+					const day = now.getDate()
+					dateBase = year + '/' + month + '/' + day + ' '
 				}
-				if (Number(value) && typeof value !== NaN) {
-					value = parseInt(value);
-					dateBase = 0;
+				if (Number(value)) {
+					value = parseInt(value)
+					dateBase = 0
 				}
-				return this.createTimeStamp(dateBase + value);
+				return this.createTimeStamp(dateBase + value)
 			},
 
 			/**
@@ -540,26 +558,26 @@
 			 */
 			parseValue(value) {
 				if (!value) {
-					return;
+					return
 				}
-				if (this.type === "time" && typeof value === "string") {
-					this.parseTimeType(value);
+				if (this.type === 'time' && typeof value === "string") {
+					this.parseTimeType(value)
 				} else {
-					let defaultDate = null;
-					defaultDate = new Date(value);
-					if (this.type !== "time") {
-						this.year = defaultDate.getFullYear();
-						this.month = defaultDate.getMonth() + 1;
-						this.day = defaultDate.getDate();
+					let defaultDate = null
+					defaultDate = new Date(value)
+					if (this.type !== 'time') {
+						this.year = defaultDate.getFullYear()
+						this.month = defaultDate.getMonth() + 1
+						this.day = defaultDate.getDate()
 					}
-					if (this.type !== "date") {
-						this.hour = defaultDate.getHours();
-						this.minute = defaultDate.getMinutes();
-						this.second = defaultDate.getSeconds();
+					if (this.type !== 'date') {
+						this.hour = defaultDate.getHours()
+						this.minute = defaultDate.getMinutes()
+						this.second = defaultDate.getSeconds()
 					}
 				}
 				if (this.hideSecond) {
-					this.second = 0;
+					this.second = 0
 				}
 			},
 
@@ -570,87 +588,79 @@
 			parseDatetimeRange(point, pointType) {
 				// 时间为空，则重置为初始值
 				if (!point) {
-					if (pointType === "start") {
-						this.startYear = 1920;
-						this.startMonth = 1;
-						this.startDay = 1;
-						this.startHour = 0;
-						this.startMinute = 0;
-						this.startSecond = 0;
+					if (pointType === 'start') {
+						this.startYear = 1920
+						this.startMonth = 1
+						this.startDay = 1
+						this.startHour = 0
+						this.startMinute = 0
+						this.startSecond = 0
 					}
-					if (pointType === "end") {
-						this.endYear = 2120;
-						this.endMonth = 12;
-						this.endDay = 31;
-						this.endHour = 23;
-						this.endMinute = 59;
-						this.endSecond = 59;
+					if (pointType === 'end') {
+						this.endYear = 2120
+						this.endMonth = 12
+						this.endDay = 31
+						this.endHour = 23
+						this.endMinute = 59
+						this.endSecond = 59
 					}
-					return;
+					return
 				}
-				if (this.type === "time") {
-					const pointArr = point.split(":");
-					this[pointType + "Hour"] = Number(pointArr[0]);
-					this[pointType + "Minute"] = Number(pointArr[1]);
-					this[pointType + "Second"] = Number(pointArr[2]);
+				if (this.type === 'time') {
+					const pointArr = point.split(':')
+					this[pointType + 'Hour'] = Number(pointArr[0])
+					this[pointType + 'Minute'] = Number(pointArr[1])
+					this[pointType + 'Second'] = Number(pointArr[2])
 				} else {
 					if (!point) {
-						pointType === "start" ? (this.startYear = this.year - 60) : (this.endYear = this.year + 60);
-						return;
+						pointType === 'start' ? this.startYear = this.year - 60 : this.endYear = this.year + 60
+						return
 					}
-					if (Number(point) && Number(point) !== NaN) {
-						point = parseInt(point);
+					if (Number(point)) {
+						point = parseInt(point)
 					}
 					// datetime 的 end 没有时分秒, 则不限制
-					const hasTime = /[0-9]:[0-9]/;
-					if (this.type === "datetime" && pointType === "end" && typeof point === "string" && !hasTime.test(point)) {
-						point = point + " 23:59:59";
+					const hasTime = /[0-9]:[0-9]/
+					if (this.type === 'datetime' && pointType === 'end' && typeof point === 'string' && !hasTime.test(
+							point)) {
+						point = point + ' 23:59:59'
 					}
-					const pointDate = new Date(point);
-					this[pointType + "Year"] = pointDate.getFullYear();
-					this[pointType + "Month"] = pointDate.getMonth() + 1;
-					this[pointType + "Day"] = pointDate.getDate();
-					if (this.type === "datetime") {
-						this[pointType + "Hour"] = pointDate.getHours();
-						this[pointType + "Minute"] = pointDate.getMinutes();
-						this[pointType + "Second"] = pointDate.getSeconds();
+					const pointDate = new Date(point)
+					this[pointType + 'Year'] = pointDate.getFullYear()
+					this[pointType + 'Month'] = pointDate.getMonth() + 1
+					this[pointType + 'Day'] = pointDate.getDate()
+					if (this.type === 'datetime') {
+						this[pointType + 'Hour'] = pointDate.getHours()
+						this[pointType + 'Minute'] = pointDate.getMinutes()
+						this[pointType + 'Second'] = pointDate.getSeconds()
 					}
 				}
 			},
 
 			// 获取 年、月、日、时、分、秒 当前可选范围
 			getCurrentRange(value) {
-				const range = [];
-				for (let i = this["min" + this.capitalize(value)]; i <= this["max" + this.capitalize(value)]; i++) {
-					range.push(i);
+				const range = []
+				for (let i = this['min' + this.capitalize(value)]; i <= this['max' + this.capitalize(value)]; i++) {
+					range.push(i)
 				}
-				return range;
+				return range
 			},
 
 			// 字符串首字母大写
 			capitalize(str) {
-				return str.charAt(0).toUpperCase() + str.slice(1);
+				return str.charAt(0).toUpperCase() + str.slice(1)
 			},
 
 			// 检查当前值是否在范围内，不在则当前值重置为可选范围第一项
 			checkValue(name, value, values) {
 				if (values.indexOf(value) === -1) {
-					this[name] = values[0];
+					this[name] = values[0]
 				}
 			},
 
 			// 每个月的实际天数
-			daysInMonth(year, month) {
-				// Use 1 for January, 2 for February, etc.
+			daysInMonth(year, month) { // Use 1 for January, 2 for February, etc.
 				return new Date(year, month, 0).getDate();
-			},
-
-			//兼容 iOS、safari 日期格式
-			fixIosDateFormat(value) {
-				if (typeof value === "string") {
-					value = value.replace(/-/g, "/");
-				}
-				return value;
 			},
 
 			/**
@@ -658,15 +668,15 @@
 			 * @param {Object} time
 			 */
 			createTimeStamp(time) {
-				if (!time) return;
+				if (!time) return
 				if (typeof time === "number") {
-					return time;
+					return time
 				} else {
-					time = time.replace(/-/g, "/");
-					if (this.type === "date") {
-						time = time + " " + "00:00:00";
+					time = time.replace(/-/g, '/')
+					if (this.type === 'date') {
+						time = time + ' ' + '00:00:00'
 					}
-					return Date.parse(time);
+					return Date.parse(time)
 				}
 			},
 
@@ -674,20 +684,26 @@
 			 * 生成日期或时间的字符串
 			 */
 			createDomSting() {
-				const yymmdd = this.year + "-" + this.lessThanTen(this.month) + "-" + this.lessThanTen(this.day);
+				const yymmdd = this.year +
+					'-' +
+					this.lessThanTen(this.month) +
+					'-' +
+					this.lessThanTen(this.day)
 
-				let hhmmss = this.lessThanTen(this.hour) + ":" + this.lessThanTen(this.minute);
+				let hhmmss = this.lessThanTen(this.hour) +
+					':' +
+					this.lessThanTen(this.minute)
 
 				if (!this.hideSecond) {
-					hhmmss = hhmmss + ":" + this.lessThanTen(this.second);
+					hhmmss = hhmmss + ':' + this.lessThanTen(this.second)
 				}
 
-				if (this.type === "date") {
-					return yymmdd;
-				} else if (this.type === "time") {
-					return hhmmss;
+				if (this.type === 'date') {
+					return yymmdd
+				} else if (this.type === 'time') {
+					return hhmmss
 				} else {
-					return yymmdd + " " + hhmmss;
+					return yymmdd + ' ' + hhmmss
 				}
 			},
 
@@ -695,16 +711,16 @@
 			 * 初始化返回值，并抛出 change 事件
 			 */
 			initTime(emit = true) {
-				this.time = this.createDomSting();
-				if (!emit) return;
-				if (this.returnType === "timestamp" && this.type !== "time") {
-					this.$emit("change", this.createTimeStamp(this.time));
-					this.$emit("input", this.createTimeStamp(this.time));
-					this.$emit("update:modelValue", this.createTimeStamp(this.time));
+				this.time = this.createDomSting()
+				if (!emit) return
+				if (this.returnType === 'timestamp' && this.type !== 'time') {
+					this.$emit('change', this.createTimeStamp(this.time))
+					this.$emit('input', this.createTimeStamp(this.time))
+					this.$emit('update:modelValue', this.createTimeStamp(this.time))
 				} else {
-					this.$emit("change", this.time);
-					this.$emit("input", this.time);
-					this.$emit("update:modelValue", this.time);
+					this.$emit('change', this.time)
+					this.$emit('input', this.time)
+					this.$emit('update:modelValue', this.time)
 				}
 			},
 
@@ -713,58 +729,60 @@
 			 * @param {Object} e
 			 */
 			bindDateChange(e) {
-				const val = e.detail.value;
-				this.year = this.years[val[0]];
-				this.month = this.months[val[1]];
-				this.day = this.days[val[2]];
+				const val = e.detail.value
+				this.year = this.years[val[0]]
+				this.month = this.months[val[1]]
+				this.day = this.days[val[2]]
 			},
 			bindTimeChange(e) {
-				const val = e.detail.value;
-				this.hour = this.hours[val[0]];
-				this.minute = this.minutes[val[1]];
-				this.second = this.seconds[val[2]];
+				const val = e.detail.value
+				this.hour = this.hours[val[0]]
+				this.minute = this.minutes[val[1]]
+				this.second = this.seconds[val[2]]
 			},
 
 			/**
 			 * 初始化弹出层
 			 */
 			initTimePicker() {
-				if (this.disabled) return;
-				const value = this.fixIosDateFormat(this.value);
-				this.initPickerValue(value);
-				this.visible = !this.visible;
+				if (this.disabled) return
+				const value = fixIosDateFormat(this.time)
+				this.initPickerValue(value)
+				this.visible = !this.visible
 			},
 
 			/**
 			 * 触发或关闭弹框
 			 */
 			tiggerTimePicker(e) {
-				this.visible = !this.visible;
+				this.visible = !this.visible
 			},
 
 			/**
 			 * 用户点击“清空”按钮，清空当前值
 			 */
 			clearTime() {
-				this.time = "";
-				this.$emit("change", this.time);
-				this.$emit("input", this.time);
-				this.$emit("update:modelValue", this.time);
-				this.tiggerTimePicker();
+				this.time = ''
+				this.$emit('change', this.time)
+				this.$emit('input', this.time)
+				this.$emit('update:modelValue', this.time)
+				this.tiggerTimePicker()
 			},
 
 			/**
 			 * 用户点击“确定”按钮
 			 */
 			setTime() {
-				this.initTime();
-				this.tiggerTimePicker();
-			},
-		},
-	};
+				this.initTime()
+				this.tiggerTimePicker()
+			}
+		}
+	}
 </script>
 
-<style>
+<style lang="scss">
+	$uni-primary: #007aff !default;
+
 	.uni-datetime-picker {
 		/* #ifndef APP-NVUE */
 		/* width: 100%; */
@@ -798,7 +816,7 @@
 
 	.uni-datetime-picker-btn-text {
 		font-size: 14px;
-		color: #007aff;
+		color: $uni-primary;
 	}
 
 	.uni-datetime-picker-btn-group {
@@ -857,7 +875,8 @@
 	}
 
 	.uni-datetime-picker-timebox {
-		border: 1px solid #e5e5e5;
+
+		border: 1px solid #E5E5E5;
 		border-radius: 5px;
 		padding: 7px 10px;
 		/* #ifndef APP-NVUE */
@@ -872,6 +891,7 @@
 		/* #endif */
 	}
 
+
 	.uni-datetime-picker-disabled {
 		opacity: 0.4;
 		/* #ifdef H5 */
@@ -881,6 +901,7 @@
 
 	.uni-datetime-picker-text {
 		font-size: 14px;
+		line-height: 50px
 	}
 
 	.uni-datetime-picker-sign {

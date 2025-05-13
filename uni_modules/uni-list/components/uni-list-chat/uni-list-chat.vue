@@ -7,43 +7,40 @@
 			<view class="uni-list-chat__container">
 				<view class="uni-list-chat__header-warp">
 					<view v-if="avatarCircle || avatarList.length === 0" class="uni-list-chat__header" :class="{ 'header--circle': avatarCircle }">
-						<image class="uni-list-chat__header-image" :class="{ 'header--circle': avatarCircle }" :src="avatar" mode="aspectFill"></image>
+						<image class="uni-list-chat__header-image" :class="{ 'header--circle': avatarCircle }" :src="avatarUrl" mode="aspectFill"></image>
 					</view>
 					<!-- 头像组 -->
 					<view v-else class="uni-list-chat__header">
-						<view
-							v-for="(item, index) in avatarList"
-							:key="index"
-							class="uni-list-chat__header-box"
-							:class="computedAvatar"
-							:style="{ width: imageWidth + 'px', height: imageWidth + 'px' }"
-						>
-							<image
-								class="uni-list-chat__header-image"
-								:style="{ width: imageWidth + 'px', height: imageWidth + 'px' }"
-								:src="item.url"
-								mode="aspectFill"
-							></image>
+						<view v-for="(item, index) in avatarList" :key="index" class="uni-list-chat__header-box" :class="computedAvatar"
+						 :style="{ width: imageWidth + 'px', height: imageWidth + 'px' }">
+							<image class="uni-list-chat__header-image" :style="{ width: imageWidth + 'px', height: imageWidth + 'px' }" :src="item.url"
+							 mode="aspectFill"></image>
 						</view>
 					</view>
 				</view>
+				<!-- #ifndef APP -->
+				<view class="slot-header">
+				<!-- #endif -->
+					<slot name="header"></slot>
+				<!-- #ifndef APP -->
+				</view>
+				<!-- #endif -->
 				<view v-if="badgeText && badgePositon === 'left'" class="uni-list-chat__badge uni-list-chat__badge-pos" :class="[isSingle]">
-					<text class="uni-list-chat__badge-text">{{ badgeText === "dot" ? "" : badgeText }}</text>
+					<text class="uni-list-chat__badge-text">{{ badgeText === 'dot' ? '' : badgeText }}</text>
 				</view>
 				<view class="uni-list-chat__content">
 					<view class="uni-list-chat__content-main">
 						<text class="uni-list-chat__content-title uni-ellipsis">{{ title }}</text>
-						<text class="uni-list-chat__content-note uni-ellipsis">{{ note }}</text>
+						<view style="flex-direction: row;">
+							<text class="draft" v-if="isDraft">[草稿]</text>
+							<text class="uni-list-chat__content-note uni-ellipsis">{{isDraft?note.slice(14):note}}</text>
+						</view>
 					</view>
 					<view class="uni-list-chat__content-extra">
 						<slot>
 							<text class="uni-list-chat__content-extra-text">{{ time }}</text>
-							<view
-								v-if="badgeText && badgePositon === 'right'"
-								class="uni-list-chat__badge"
-								:class="[isSingle, badgePositon === 'right' ? 'uni-list-chat--right' : '']"
-							>
-								<text class="uni-list-chat__badge-text">{{ badgeText === "dot" ? "" : badgeText }}</text>
+							<view v-if="badgeText && badgePositon === 'right'" class="uni-list-chat__badge" :class="[isSingle, badgePositon === 'right' ? 'uni-list-chat--right' : '']">
+								<text class="uni-list-chat__badge-text">{{ badgeText === 'dot' ? '' : badgeText }}</text>
 							</view>
 						</slot>
 					</view>
@@ -82,82 +79,104 @@
 	 * @event {Function} 	click 							点击 uniListChat 触发事件
 	 */
 	export default {
-		name: "UniListChat",
-		emits: ["click"],
+		name: 'UniListChat',
+		emits:['click'],
 		props: {
 			title: {
 				type: String,
-				default: "",
+				default: ''
 			},
 			note: {
 				type: String,
-				default: "",
+				default: ''
 			},
 			clickable: {
 				type: Boolean,
-				default: false,
+				default: false
 			},
 			link: {
 				type: [Boolean, String],
-				default: false,
+				default: false
 			},
 			to: {
 				type: String,
-				default: "",
+				default: ''
 			},
 			badgeText: {
 				type: [String, Number],
-				default: "",
+				default: ''
 			},
 			badgePositon: {
 				type: String,
-				default: "right",
+				default: 'right'
 			},
 			time: {
 				type: String,
-				default: "",
+				default: ''
 			},
 			avatarCircle: {
 				type: Boolean,
-				default: false,
+				default: false
 			},
 			avatar: {
 				type: String,
-				default: "",
+				default: ''
 			},
 			avatarList: {
 				type: Array,
-				default() {
+				default () {
 					return [];
-				},
-			},
+				}
+			}
 		},
 		// inject: ['list'],
 		computed: {
+			isDraft(){
+				return this.note.slice(0,14) == '[uni-im-draft]'
+			},
 			isSingle() {
-				if (this.badgeText === "dot") {
-					return "uni-badge--dot";
+				if (this.badgeText === 'dot') {
+					return 'uni-badge--dot';
 				} else {
 					const badgeText = this.badgeText.toString();
 					if (badgeText.length > 1) {
-						return "uni-badge--complex";
+						return 'uni-badge--complex';
 					} else {
-						return "uni-badge--single";
+						return 'uni-badge--single';
 					}
 				}
 			},
 			computedAvatar() {
 				if (this.avatarList.length > 4) {
 					this.imageWidth = avatarWidth * 0.31;
-					return "avatarItem--3";
+					return 'avatarItem--3';
 				} else if (this.avatarList.length > 1) {
 					this.imageWidth = avatarWidth * 0.47;
-					return "avatarItem--2";
+					return 'avatarItem--2';
 				} else {
 					this.imageWidth = avatarWidth;
-					return "avatarItem--1";
+					return 'avatarItem--1';
 				}
-			},
+			}
+		},
+		watch: {
+			avatar:{
+				handler(avatar) {
+					if(avatar.substr(0,8) == 'cloud://'){
+						uniCloud.getTempFileURL({
+							fileList: [avatar]
+						}).then(res=>{
+							// console.log(res);
+							// 兼容uniCloud私有化部署
+							let fileList = res.fileList || res.result.fileList
+							this.avatarUrl = fileList[0].tempFileURL
+						})
+					}else{
+						this.avatarUrl = avatar
+					}
+				},
+				immediate: true
+			}
 		},
 		data() {
 			return {
@@ -165,10 +184,11 @@
 				border: true,
 				// avatarList: 3,
 				imageWidth: 50,
+				avatarUrl:''
 			};
 		},
 		mounted() {
-			this.list = this.getForm();
+			this.list = this.getForm()
 			if (this.list) {
 				if (!this.list.firstChildAppend) {
 					this.list.firstChildAppend = true;
@@ -181,57 +201,72 @@
 			/**
 			 * 获取父元素实例
 			 */
-			getForm(name = "uniList") {
+			getForm(name = 'uniList') {
 				let parent = this.$parent;
 				let parentName = parent.$options.name;
 				while (parentName !== name) {
 					parent = parent.$parent;
-					if (!parent) return false;
+					if (!parent) return false
 					parentName = parent.$options.name;
 				}
 				return parent;
 			},
 			onClick() {
-				if (this.to !== "") {
+				if (this.to !== '') {
 					this.openPage();
 					return;
 				}
 
 				if (this.clickable || this.link) {
-					this.$emit("click", {
-						data: {},
+					this.$emit('click', {
+						data: {}
 					});
 				}
 			},
 			openPage() {
-				if (["navigateTo", "redirectTo", "reLaunch", "switchTab"].indexOf(this.link) !== -1) {
+				if (['navigateTo', 'redirectTo', 'reLaunch', 'switchTab'].indexOf(this.link) !== -1) {
 					this.pageApi(this.link);
 				} else {
-					this.pageApi("navigateTo");
+					this.pageApi('navigateTo');
 				}
 			},
 			pageApi(api) {
-				uni[api]({
+				let callback = {
 					url: this.to,
-					success: (res) => {
-						this.$emit("click", {
-							data: res,
+					success: res => {
+						this.$emit('click', {
+							data: res
 						});
 					},
-					fail: (err) => {
-						this.$emit("click", {
-							data: err,
+					fail: err => {
+						this.$emit('click', {
+							data: err
 						});
-						console.error(err.errMsg);
-					},
-				});
-			},
-		},
+					}
+				}
+				switch (api) {
+					case 'navigateTo':
+						uni.navigateTo(callback)
+						break
+					case 'redirectTo':
+						uni.redirectTo(callback)
+						break
+					case 'reLaunch':
+						uni.reLaunch(callback)
+						break
+					case 'switchTab':
+						uni.switchTab(callback)
+						break
+					default:
+					uni.navigateTo(callback)
+				}
+			}
+		}
 	};
 </script>
 
-<style lang="scss">
-	$uni-font-size-lg: 16px;
+<style lang="scss" >
+	$uni-font-size-lg:16px;
 	$uni-spacing-row-sm: 5px;
 	$uni-spacing-row-base: 10px;
 	$uni-spacing-row-lg: 15px;
@@ -294,7 +329,7 @@
 		right: 0;
 		left: 0;
 		height: 1px;
-		content: "";
+		content: '';
 		-webkit-transform: scaleY(0.5);
 		transform: scaleY(0.5);
 		background-color: $divide-line-color;
@@ -458,12 +493,19 @@
 		overflow: hidden;
 	}
 
-	.uni-list-chat__content-note {
+	.draft ,.uni-list-chat__content-note {
 		margin-top: 3px;
 		color: $note-color;
 		font-size: $note-size;
 		font-weight: $title-weight;
 		overflow: hidden;
+	}
+	.draft{
+		color: #eb3a41;
+		/* #ifndef APP-NVUE */
+		flex-shrink: 0;
+		/* #endif */
+		padding-right: 3px;
 	}
 
 	.uni-list-chat__content-extra {

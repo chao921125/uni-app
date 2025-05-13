@@ -1,11 +1,11 @@
 <template>
-	<view class="uni-group" :class="['uni-group--' + mode, margin ? 'group-margin' : '']" :style="{ marginTop: `${top}px` }">
+	<view class="uni-group" :class="['uni-group--'+mode ,margin?'group-margin':'']" :style="{marginTop: `${top}px` }">
 		<slot name="title">
-			<view v-if="title" class="uni-group__title" :style="{ 'padding-left': border ? '30px' : '15px' }">
+			<view v-if="title" class="uni-group__title" :style="{'padding-left':border?'30px':'15px'}">
 				<text class="uni-group__title-text">{{ title }}</text>
 			</view>
 		</slot>
-		<view class="uni-group__content" :class="{ 'group-conent-padding': border }">
+		<view class="uni-group__content" :class="{'group-conent-padding':border}">
 			<slot />
 		</view>
 	</view>
@@ -21,44 +21,44 @@
 	 * @property {Number} mode 模式
 	 */
 	export default {
-		name: "uniGroup",
-		emits: ["click"],
+		name: 'uniGroup',
+		emits:['click'],
 		props: {
 			title: {
 				type: String,
-				default: "",
+				default: ''
 			},
 			top: {
 				type: [Number, String],
-				default: 10,
+				default: 10
 			},
 			mode: {
 				type: String,
-				default: "default",
+				default: 'default'
 			},
-			stat: {
+			stat:{
 				type: Boolean,
-				default: false,
-			},
+				default: false
+			}
 		},
 		data() {
 			return {
 				margin: false,
-				border: false,
-			};
+				border: false
+			}
 		},
 		watch: {
 			title(newVal) {
-				if (uni.report && this.stat && newVal !== "") {
-					uni.report("title", newVal);
+				if (uni.report && this.stat && newVal !== '') {
+					uni.report('title', newVal)
 				}
-			},
+			}
 		},
 		created() {
-			this.form = this.getForm();
+			this.form = this.getForm()
 			if (this.form) {
-				this.margin = true;
-				this.border = this.form.border;
+				this.margin = true
+				this.border = this.form.border
 			}
 		},
 		methods: {
@@ -68,20 +68,20 @@
 			getForm() {
 				let parent = this.$parent;
 				let parentName = parent.$options.name;
-				while (parentName !== "uniForms") {
+				while (parentName !== 'uniForms') {
 					parent = parent.$parent;
-					if (!parent) return false;
+					if (!parent) return false
 					parentName = parent.$options.name;
 				}
 				return parent;
 			},
 			onClick() {
-				this.$emit("click");
-			},
-		},
-	};
+				this.$emit('click')
+			}
+		}
+	}
 </script>
-<style lang="scss">
+<style lang="scss" >
 	.uni-group {
 		background: #fff;
 		margin-top: 10px;

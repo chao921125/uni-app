@@ -1,5 +1,0 @@
-com.android.simple.test.simpleDemo-androidTest-0 /Users/huangchao/works/Study/uni-app/BuildAndroid/HBuilder-Integrate-AS/simpleDemo/build/generated/res/resValues/androidTest/debug
-com.android.simple.test.simpleDemo-androidTest-1 /Users/huangchao/works/Study/uni-app/BuildAndroid/HBuilder-Integrate-AS/simpleDemo/build/generated/res/rs/androidTest/debug
-com.android.simple.test.simpleDemo-mergeDebugAndroidTestResources-2 /Users/huangchao/works/Study/uni-app/BuildAndroid/HBuilder-Integrate-AS/simpleDemo/build/intermediates/incremental/debugAndroidTest/mergeDebugAndroidTestResources/merged.dir
-com.android.simple.test.simpleDemo-mergeDebugAndroidTestResources-3 /Users/huangchao/works/Study/uni-app/BuildAndroid/HBuilder-Integrate-AS/simpleDemo/build/intermediates/incremental/debugAndroidTest/mergeDebugAndroidTestResources/stripped.dir
-com.android.simple.test.simpleDemo-merged_res-4 /Users/huangchao/works/Study/uni-app/BuildAndroid/HBuilder-Integrate-AS/simpleDemo/build/intermediates/merged_res/debugAndroidTest

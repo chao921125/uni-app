@@ -1,6 +1,6 @@
 <template>
-	<view class="uni-title__box" :style="{ 'align-items': textAlign }">
-		<text class="uni-title__base" :class="['uni-' + type]" :style="{ color: color }">{{ title }}</text>
+	<view class="uni-title__box" :style="{'align-items':textAlign}">
+		<text class="uni-title__base" :class="['uni-'+type]" :style="{'color':color}">{{title}}</text>
 	</view>
 </template>
 
@@ -24,92 +24,95 @@
 	 * @property {Boolean} stat = [true|false] 是否开启统计功能呢，如不填写type值，默认为开启，填写 type 属性，默认为关闭
 	 */
 	export default {
-		name: "UniTitle",
+		name:"UniTitle",
 		props: {
 			type: {
 				type: String,
-				default: "",
+				default: ''
 			},
 			title: {
 				type: String,
-				default: "",
+				default: ''
 			},
 			align: {
 				type: String,
-				default: "left",
+				default: 'left'
 			},
 			color: {
 				type: String,
-				default: "#333333",
+				default: '#333333'
 			},
 			stat: {
 				type: [Boolean, String],
-				default: "",
-			},
+				default: ''
+			}
 		},
 		data() {
-			return {};
+			return {
+
+			};
 		},
 		computed: {
 			textAlign() {
-				let align = "center";
+				let align = 'center';
 				switch (this.align) {
-					case "left":
-						align = "flex-start";
+					case 'left':
+						align = 'flex-start'
 						break;
-					case "center":
-						align = "center";
+					case 'center':
+						align = 'center'
 						break;
-					case "right":
-						align = "flex-end";
+					case 'right':
+						align = 'flex-end'
 						break;
 				}
-				return align;
-			},
+				return align
+			}
 		},
 		watch: {
 			title(newVal) {
 				if (this.isOpenStat()) {
 					// 上报数据
 					if (uni.report) {
-						uni.report("title", this.title);
+						uni.report('title', this.title)
 					}
 				}
-			},
+			}
 		},
 		mounted() {
 			if (this.isOpenStat()) {
 				// 上报数据
 				if (uni.report) {
-					uni.report("title", this.title);
+					uni.report('title', this.title)
 				}
 			}
 		},
 		methods: {
 			isOpenStat() {
-				if (this.stat === "") {
-					this.isStat = false;
+				if (this.stat === '') {
+					this.isStat = false
 				}
-				let stat_type = (typeof this.stat === "boolean" && this.stat) || (typeof this.stat === "string" && this.stat !== "");
+				let stat_type = (typeof(this.stat) === 'boolean' && this.stat) || (typeof(this.stat) === 'string' && this.stat !==
+					'')
 				if (this.type === "") {
-					this.isStat = true;
-					if (this.stat.toString() === "false") {
-						this.isStat = false;
+					this.isStat = true
+					if (this.stat.toString() === 'false') {
+						this.isStat = false
 					}
 				}
 
-				if (this.type !== "") {
-					this.isStat = true;
+				if (this.type !== '') {
+					this.isStat = true
 					if (stat_type) {
-						this.isStat = true;
+						this.isStat = true
 					} else {
-						this.isStat = false;
+						this.isStat = false
 					}
 				}
-				return this.isStat;
-			},
-		},
-	};
+				return this.isStat
+			}
+		}
+	}
 </script>
 
 <style>

@@ -4,11 +4,9 @@
  * @param wait 延迟执行毫秒数
  * @param immediate true - 立即执行， false - 延迟执行
  */
-export const debounce = function (func, wait = 1000, immediate = true) {
+export const debounce = function(func, wait = 1000, immediate = true) {
 	let timer;
-	console.log(1);
-	return function () {
-		console.log(123);
+	return function() {
 		let context = this,
 			args = arguments;
 		if (timer) clearTimeout(timer);
@@ -21,10 +19,10 @@ export const debounce = function (func, wait = 1000, immediate = true) {
 		} else {
 			timer = setTimeout(() => {
 				func.apply(context, args);
-			}, wait);
+			}, wait)
 		}
-	};
-};
+	}
+}
 /**
  * @desc 函数节流
  * @param func 函数
@@ -34,7 +32,7 @@ export const debounce = function (func, wait = 1000, immediate = true) {
 export const throttle = (func, wait = 1000, type = 1) => {
 	let previous = 0;
 	let timeout;
-	return function () {
+	return function() {
 		let context = this;
 		let args = arguments;
 		if (type === 1) {
@@ -48,9 +46,9 @@ export const throttle = (func, wait = 1000, type = 1) => {
 			if (!timeout) {
 				timeout = setTimeout(() => {
 					timeout = null;
-					func.apply(context, args);
-				}, wait);
+					func.apply(context, args)
+				}, wait)
 			}
 		}
-	};
-};
+	}
+}

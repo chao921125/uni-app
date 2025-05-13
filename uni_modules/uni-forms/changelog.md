@@ -1,3 +1,17 @@
+## 1.4.13（2024-10-08）
+- 修复 校验规则在抖音开发者工具上不生效的bug，详见：[https://ask.dcloud.net.cn/question/191933](https://ask.dcloud.net.cn/question/191933)
+## 1.4.12 (2024-9-21)
+- 修复 form上次修改的问题
+## 1.4.11 (2024-9-14)
+- 修复 binddata的兼容性问题
+## 1.4.10（2023-11-03）
+- 优化 labelWidth 描述错误
+## 1.4.9（2023-02-10）
+- 修复 required 参数无法动态绑定
+## 1.4.8（2022-08-23）
+- 优化 根据 rules 自动添加 required 的问题
+## 1.4.7（2022-08-22）
+- 修复 item 未设置 require 属性，rules 设置 require 后，星号也显示的 bug，详见：[https://ask.dcloud.net.cn/question/151540](https://ask.dcloud.net.cn/question/151540)
 ## 1.4.6（2022-07-13）
 - 修复 model 需要校验的值没有声明对应字段时，导致第一次不触发校验的bug
 ## 1.4.5（2022-07-05）

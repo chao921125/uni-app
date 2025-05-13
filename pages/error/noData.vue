@@ -5,15 +5,15 @@
 </template>
 
 <script>
-	export default {
-		data() {
-			return {
-				title: this.$t(""),
-			};
-		},
+export default {
+	data() {
+		return {
+			title: this.$t(""),
+		};
+	},
 
-		methods: {},
-	};
+	methods: {},
+};
 </script>
 
 <style lang="scss"></style>

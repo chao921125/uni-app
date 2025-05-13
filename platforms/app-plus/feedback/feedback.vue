@@ -15,7 +15,7 @@
 				<view class="uni-uploader-body">
 					<view class="uni-uploader__files">
 						<block v-for="(image, index) in imageList" :key="index">
-							<view class="uni-uploader__file" style="position: relative;">
+							<view class="uni-uploader__file" style="position: relative">
 								<image class="uni-uploader__img" :src="image" @tap="previewImage(index)"></image>
 								<view class="close-view" @click="close(index)">x</view>
 							</view>
@@ -40,27 +40,27 @@
 export default {
 	data() {
 		return {
-			msgContents: ['界面显示错乱', '启动缓慢，卡出翔了', 'UI无法直视，丑哭了', '偶发性崩溃'],
+			msgContents: ["界面显示错乱", "启动缓慢，卡出翔了", "UI无法直视，丑哭了", "偶发性崩溃"],
 			stars: [1, 2, 3, 4, 5],
 			imageList: [],
 			sendDate: {
 				score: 0,
-				content: '',
-				contact: ''
-			}
+				content: "",
+				contact: "",
+			},
 		};
 	},
 	onLoad() {
 		this.deviceInfo = {
 			// appid: plus.runtime.appid,
-			appid: '__UNI__5D0B0CA',
+			appid: "__UNI__5D0B0CA",
 			imei: plus.device.imei, //设备标识
-			p: plus.os.name === 'Android' ? 'a' : 'i', //平台类型，i表示iOS平台，a表示Android平台。
+			p: plus.os.name === "Android" ? "a" : "i", //平台类型，i表示iOS平台，a表示Android平台。
 			md: plus.device.model, //设备型号
 			app_version: plus.runtime.version,
 			plus_version: plus.runtime.innerVersion, //基座版本号
 			os: plus.os.version,
-			net: '' + plus.networkinfo.getCurrentType()
+			net: "" + plus.networkinfo.getCurrentType(),
 		};
 		this.sendDate = Object.assign(this.deviceInfo, this.sendDate);
 	},
@@ -79,9 +79,9 @@ export default {
 		chooseMsg() {
 			uni.showActionSheet({
 				itemList: this.msgContents,
-				success: res => {
+				success: (res) => {
 					this.sendDate.content = this.msgContents[res.tapIndex];
-				}
+				},
 			});
 		},
 
@@ -91,12 +91,12 @@ export default {
 		chooseImg() {
 			//选择图片
 			uni.chooseImage({
-				sourceType: ['camera', 'album'],
-				sizeType: 'compressed',
+				sourceType: ["camera", "album"],
+				sizeType: "compressed",
 				count: 5 - this.imageList.length,
-				success: res => {
+				success: (res) => {
 					this.imageList = this.imageList.concat(res.tempFilePaths);
-				}
+				},
 			});
 		},
 
@@ -115,7 +115,7 @@ export default {
 		previewImage(index) {
 			uni.previewImage({
 				urls: this.imageList,
-				current: this.imageList[index]
+				current: this.imageList[index],
 			});
 		},
 
@@ -126,50 +126,50 @@ export default {
 			//发送反馈
 			if (this.sendDate.content.length === 0) {
 				uni.showModal({
-					content: '请输入问题和意见',
-					showCancel: false
+					content: "请输入问题和意见",
+					showCancel: false,
 				});
 				return;
 			}
 			uni.showLoading({
-				title: '上传中...'
+				title: "上传中...",
 			});
 			let imgs = this.imageList.map((value, index) => {
 				return {
-					name: 'images' + index,
-					uri: value
+					name: "images" + index,
+					uri: value,
 				};
 			});
 			// TODO 服务端限制上传文件一次最大不超过 2M, 图片一次最多不超过5张
 			this.request(this.sendDate, imgs)
-				.then(res => {
-					if (typeof res.data === 'string') {
+				.then((res) => {
+					if (typeof res.data === "string") {
 						res.data = JSON.parse(res.data);
 					}
 					if (res.statusCode === 200 && res.data && res.data.ret === 0) {
 						uni.showModal({
-							content: '反馈成功',
-							showCancel: false
+							content: "反馈成功",
+							showCancel: false,
 						});
 						this.imageList = [];
 						this.sendDate = Object.assign(this.deviceInfo, {
 							score: 0,
-							content: '',
-							contact: ''
+							content: "",
+							contact: "",
 						});
 					} else if (res.statusCode !== 200) {
 						uni.showModal({
-							content: '反馈失败，错误码为：' + res.statusCode,
-							showCancel: false
+							content: "反馈失败，错误码为：" + res.statusCode,
+							showCancel: false,
 						});
 					} else {
 						uni.showModal({
-							content: '反馈失败',
-							showCancel: false
+							content: "反馈失败",
+							showCancel: false,
 						});
 					}
 				})
-				.catch(err => {
+				.catch((err) => {
 					console.log(err);
 				});
 		},
@@ -180,16 +180,16 @@ export default {
 		request(sendDate, imgs) {
 			return new Promise((resolve, reject) => {
 				let fromData = {
-					url: 'https://service.dcloud.net.cn/feedback',
-					success: res => {
+					url: "https://service.dcloud.net.cn/feedback",
+					success: (res) => {
 						resolve(res);
 					},
-					fail: res => {
+					fail: (res) => {
 						reject(res);
 					},
 					complete() {
 						uni.hideLoading();
-					}
+					},
 				};
 
 				if (imgs.length > 0) {
@@ -198,12 +198,12 @@ export default {
 					uni.uploadFile(fromData);
 				} else {
 					fromData.data = sendDate;
-					fromData.method = 'POST';
+					fromData.method = "POST";
 					uni.request(fromData);
 				}
 			});
-		}
-	}
+		},
+	},
 };
 </script>
 

@@ -1,138 +1,126 @@
 <template>
 	<view class="uni-calendar" @mouseleave="leaveCale">
-		<view v-if="!insert && show" class="uni-calendar__mask" :class="{ 'uni-calendar--mask-show': aniMaskShow }" @click="clean"></view>
-		<view
-			v-if="insert || show"
-			class="uni-calendar__content"
-			:class="{ 'uni-calendar--fixed': !insert, 'uni-calendar--ani-show': aniMaskShow, 'uni-calendar__content-mobile': aniMaskShow }"
-		>
-			<view class="uni-calendar__header" :class="{ 'uni-calendar__header-mobile': !insert }">
-				<view v-if="left" class="uni-calendar__header-btn-box" @click.stop="pre">
+
+		<view v-if="!insert && show" class="uni-calendar__mask" :class="{'uni-calendar--mask-show':aniMaskShow}"
+			@click="maskClick"></view>
+
+		<view v-if="insert || show" class="uni-calendar__content"
+			:class="{'uni-calendar--fixed':!insert,'uni-calendar--ani-show':aniMaskShow, 'uni-calendar__content-mobile': aniMaskShow}">
+			<view class="uni-calendar__header" :class="{'uni-calendar__header-mobile' :!insert}">
+
+				<view class="uni-calendar__header-btn-box" @click.stop="changeMonth('pre')">
 					<view class="uni-calendar__header-btn uni-calendar--left"></view>
 				</view>
+
 				<picker mode="date" :value="date" fields="month" @change="bindDateChange">
-					<text class="uni-calendar__header-text">{{ (nowDate.year || "") + yearText + (nowDate.month || "") + monthText }}</text>
+					<text
+						class="uni-calendar__header-text">{{ (nowDate.year||'') + yearText + ( nowDate.month||'') + monthText}}</text>
 				</picker>
-				<view v-if="right" class="uni-calendar__header-btn-box" @click.stop="next">
+
+				<view class="uni-calendar__header-btn-box" @click.stop="changeMonth('next')">
 					<view class="uni-calendar__header-btn uni-calendar--right"></view>
 				</view>
-				<view v-if="!insert" class="dialog-close" @click="clean">
+
+				<view v-if="!insert" class="dialog-close" @click="maskClick">
 					<view class="dialog-close-plus" data-id="close"></view>
 					<view class="dialog-close-plus dialog-close-rotate" data-id="close"></view>
 				</view>
-
-				<!-- <text class="uni-calendar__backtoday" @click="backtoday">回到今天</text> -->
 			</view>
 			<view class="uni-calendar__box">
+
 				<view v-if="showMonth" class="uni-calendar__box-bg">
-					<text class="uni-calendar__box-bg-text">{{ nowDate.month }}</text>
+					<text class="uni-calendar__box-bg-text">{{nowDate.month}}</text>
 				</view>
-				<view class="uni-calendar__weeks" style="padding-bottom: 7px">
+
+				<view class="uni-calendar__weeks" style="padding-bottom: 7px;">
 					<view class="uni-calendar__weeks-day">
-						<text class="uni-calendar__weeks-day-text">{{ SUNText }}</text>
+						<text class="uni-calendar__weeks-day-text">{{SUNText}}</text>
 					</view>
 					<view class="uni-calendar__weeks-day">
-						<text class="uni-calendar__weeks-day-text">{{ MONText }}</text>
+						<text class="uni-calendar__weeks-day-text">{{MONText}}</text>
 					</view>
 					<view class="uni-calendar__weeks-day">
-						<text class="uni-calendar__weeks-day-text">{{ TUEText }}</text>
+						<text class="uni-calendar__weeks-day-text">{{TUEText}}</text>
 					</view>
 					<view class="uni-calendar__weeks-day">
-						<text class="uni-calendar__weeks-day-text">{{ WEDText }}</text>
+						<text class="uni-calendar__weeks-day-text">{{WEDText}}</text>
 					</view>
 					<view class="uni-calendar__weeks-day">
-						<text class="uni-calendar__weeks-day-text">{{ THUText }}</text>
+						<text class="uni-calendar__weeks-day-text">{{THUText}}</text>
 					</view>
 					<view class="uni-calendar__weeks-day">
-						<text class="uni-calendar__weeks-day-text">{{ FRIText }}</text>
+						<text class="uni-calendar__weeks-day-text">{{FRIText}}</text>
 					</view>
 					<view class="uni-calendar__weeks-day">
-						<text class="uni-calendar__weeks-day-text">{{ SATText }}</text>
+						<text class="uni-calendar__weeks-day-text">{{SATText}}</text>
 					</view>
 				</view>
-				<view class="uni-calendar__weeks" v-for="(item, weekIndex) in weeks" :key="weekIndex">
-					<view class="uni-calendar__weeks-item" v-for="(weeks, weeksIndex) in item" :key="weeksIndex">
-						<calendar-item
-							class="uni-calendar-item--hook"
-							:weeks="weeks"
-							:calendar="calendar"
-							:selected="selected"
-							:lunar="lunar"
-							:checkHover="range"
-							@change="choiceDate"
-							@handleMouse="handleMouse"
-						>
+
+				<view class="uni-calendar__weeks" v-for="(item,weekIndex) in weeks" :key="weekIndex">
+					<view class="uni-calendar__weeks-item" v-for="(weeks,weeksIndex) in item" :key="weeksIndex">
+						<calendar-item class="uni-calendar-item--hook" :weeks="weeks" :calendar="calendar" :selected="selected"
+							:checkHover="range" @change="choiceDate" @handleMouse="handleMouse">
 						</calendar-item>
 					</view>
 				</view>
 			</view>
-			<view v-if="!insert && !range && typeHasTime" class="uni-date-changed uni-calendar--fixed-top" style="padding: 0 80px">
-				<view class="uni-date-changed--time-date">{{ tempSingleDate ? tempSingleDate : selectDateText }}</view>
-				<time-picker
-					type="time"
-					:start="reactStartTime"
-					:end="reactEndTime"
-					v-model="time"
-					:disabled="!tempSingleDate"
-					:border="false"
-					:hide-second="hideSecond"
-					class="time-picker-style"
-				>
+
+			<view v-if="!insert && !range && hasTime" class="uni-date-changed uni-calendar--fixed-top"
+				style="padding: 0 80px;">
+				<view class="uni-date-changed--time-date">{{tempSingleDate ? tempSingleDate : selectDateText}}</view>
+				<time-picker type="time" :start="timepickerStartTime" :end="timepickerEndTime" v-model="time"
+					:disabled="!tempSingleDate" :border="false" :hide-second="hideSecond" class="time-picker-style">
 				</time-picker>
 			</view>
 
-			<view v-if="!insert && range && typeHasTime" class="uni-date-changed uni-calendar--fixed-top">
+			<view v-if="!insert && range && hasTime" class="uni-date-changed uni-calendar--fixed-top">
 				<view class="uni-date-changed--time-start">
-					<view class="uni-date-changed--time-date">{{ tempRange.before ? tempRange.before : startDateText }} </view>
-					<time-picker
-						type="time"
-						:start="reactStartTime"
-						v-model="timeRange.startTime"
-						:border="false"
-						:hide-second="hideSecond"
-						:disabled="!tempRange.before"
-						class="time-picker-style"
-					>
+					<view class="uni-date-changed--time-date">{{tempRange.before ? tempRange.before : startDateText}}
+					</view>
+					<time-picker type="time" :start="timepickerStartTime" v-model="timeRange.startTime" :border="false"
+						:hide-second="hideSecond" :disabled="!tempRange.before" class="time-picker-style">
 					</time-picker>
 				</view>
-				<uni-icons type="arrowthinright" color="#999" style="line-height: 50px"></uni-icons>
+				<view style="line-height: 50px;">
+					<uni-icons type="arrowthinright" color="#999"></uni-icons>
+				</view>
 				<view class="uni-date-changed--time-end">
-					<view class="uni-date-changed--time-date">{{ tempRange.after ? tempRange.after : endDateText }}</view>
-					<time-picker
-						type="time"
-						:end="reactEndTime"
-						v-model="timeRange.endTime"
-						:border="false"
-						:hide-second="hideSecond"
-						:disabled="!tempRange.after"
-						class="time-picker-style"
-					>
+					<view class="uni-date-changed--time-date">{{tempRange.after ? tempRange.after : endDateText}}</view>
+					<time-picker type="time" :end="timepickerEndTime" v-model="timeRange.endTime" :border="false"
+						:hide-second="hideSecond" :disabled="!tempRange.after" class="time-picker-style">
 					</time-picker>
 				</view>
 			</view>
+
 			<view v-if="!insert" class="uni-date-changed uni-date-btn--ok">
-				<!-- <view class="uni-calendar__header-btn-box">
-					<text class="uni-calendar__button-text uni-calendar--fixed-width">{{okText}}</text>
-				</view> -->
-				<view class="uni-datetime-picker--btn" @click="confirm">{{ confirmText }}</view>
+				<view class="uni-datetime-picker--btn" @click="confirm">{{confirmText}}</view>
 			</view>
 		</view>
 	</view>
 </template>
 
 <script>
-	import Calendar from "./util.js";
-	import calendarItem from "./calendar-item.vue";
-	import timePicker from "./time-picker.vue";
-	import { initVueI18n } from "@dcloudio/uni-i18n";
-	import messages from "./i18n/index.js";
-	const { t } = initVueI18n(messages);
+	import {
+		Calendar,
+		getDate,
+		getTime
+	} from './util.js';
+	import calendarItem from './calendar-item.vue'
+	import timePicker from './time-picker.vue'
+
+	import {
+		initVueI18n
+	} from '@dcloudio/uni-i18n'
+	import i18nMessages from './i18n/index.js'
+	const {
+		t
+	} = initVueI18n(i18nMessages)
+
 	/**
 	 * Calendar 日历
 	 * @description 日历组件可以查看日期，选择任意范围内的日期，打点操作。常用场景如：酒店日期预订、火车机票选择购买日期、上下班打卡等
 	 * @tutorial https://ext.dcloud.net.cn/plugin?id=56
 	 * @property {String} date 自定义当前时间，默认为今天
-	 * @property {Boolean} lunar 显示农历
 	 * @property {String} startDate 日期选择范围-开始日期
 	 * @property {String} endDate 日期选择范围-结束日期
 	 * @property {Boolean} range 范围选择
@@ -142,392 +130,455 @@
 	 * @property {Boolean} clearDate = [true|false] 弹窗模式是否清空上次选择内容
 	 * @property {Array} selected 打点，期待格式[{date: '2019-06-27', info: '签到', data: { custom: '自定义信息', name: '自定义消息头',xxx:xxx... }}]
 	 * @property {Boolean} showMonth 是否选择月份为背景
+	 * @property {[String} defaultValue 选择器打开时默认显示的时间
 	 * @event {Function} change 日期改变，`insert :ture` 时生效
 	 * @event {Function} confirm 确认选择`insert :false` 时生效
 	 * @event {Function} monthSwitch 切换月份时触发
-	 * @example <uni-calendar :insert="true":lunar="true" :start-date="'2019-3-2'":end-date="'2019-5-20'"@change="change" />
+	 * @example <uni-calendar :insert="true" :start-date="'2019-3-2'":end-date="'2019-5-20'"@change="change" />
 	 */
 	export default {
 		components: {
 			calendarItem,
-			timePicker,
+			timePicker
+		},
+
+		options: {
+			// #ifdef MP-TOUTIAO
+			virtualHost: false,
+			// #endif
+			// #ifndef MP-TOUTIAO
+			virtualHost: true
+			// #endif
 		},
 		props: {
 			date: {
 				type: String,
-				default: "",
+				default: ''
 			},
 			defTime: {
 				type: [String, Object],
-				default: "",
+				default: ''
 			},
 			selectableTimes: {
 				type: [Object],
-				default() {
-					return {};
-				},
+				default () {
+					return {}
+				}
 			},
 			selected: {
 				type: Array,
-				default() {
-					return [];
-				},
-			},
-			lunar: {
-				type: Boolean,
-				default: false,
+				default () {
+					return []
+				}
 			},
 			startDate: {
 				type: String,
-				default: "",
+				default: ''
 			},
 			endDate: {
 				type: String,
-				default: "",
+				default: ''
+			},
+			startPlaceholder: {
+				type: String,
+				default: ''
+			},
+			endPlaceholder: {
+				type: String,
+				default: ''
 			},
 			range: {
 				type: Boolean,
-				default: false,
+				default: false
 			},
-			typeHasTime: {
+			hasTime: {
 				type: Boolean,
-				default: false,
+				default: false
 			},
 			insert: {
 				type: Boolean,
-				default: true,
+				default: true
 			},
 			showMonth: {
 				type: Boolean,
-				default: true,
+				default: true
 			},
 			clearDate: {
 				type: Boolean,
-				default: true,
-			},
-			left: {
-				type: Boolean,
-				default: true,
-			},
-			right: {
-				type: Boolean,
-				default: true,
+				default: true
 			},
 			checkHover: {
 				type: Boolean,
-				default: true,
+				default: true
 			},
 			hideSecond: {
 				type: [Boolean],
-				default: false,
+				default: false
 			},
 			pleStatus: {
 				type: Object,
-				default() {
+				default () {
 					return {
-						before: "",
-						after: "",
+						before: '',
+						after: '',
 						data: [],
-						fulldate: "",
-					};
-				},
+						fulldate: ''
+					}
+				}
 			},
+			defaultValue: {
+				type: [String, Object, Array],
+				default: ''
+			}
 		},
 		data() {
 			return {
 				show: false,
 				weeks: [],
 				calendar: {},
-				nowDate: "",
+				nowDate: {},
 				aniMaskShow: false,
 				firstEnter: true,
-				time: "",
+				time: '',
 				timeRange: {
-					startTime: "",
-					endTime: "",
+					startTime: '',
+					endTime: ''
 				},
-				tempSingleDate: "",
+				tempSingleDate: '',
 				tempRange: {
-					before: "",
-					after: "",
-				},
-			};
+					before: '',
+					after: ''
+				}
+			}
 		},
 		watch: {
 			date: {
 				immediate: true,
-				handler(newVal, oldVal) {
+				handler(newVal) {
 					if (!this.range) {
-						this.tempSingleDate = newVal;
+						this.tempSingleDate = newVal
 						setTimeout(() => {
-							this.init(newVal);
-						}, 100);
+							this.init(newVal)
+						}, 100)
 					}
-				},
+				}
 			},
 			defTime: {
 				immediate: true,
-				handler(newVal, oldVal) {
+				handler(newVal) {
 					if (!this.range) {
-						this.time = newVal;
+						this.time = newVal
 					} else {
-						// console.log('-----', newVal);
-						this.timeRange.startTime = newVal.start;
-						this.timeRange.endTime = newVal.end;
+						this.timeRange.startTime = newVal.start
+						this.timeRange.endTime = newVal.end
 					}
-				},
+				}
 			},
 			startDate(val) {
-				this.cale.resetSatrtDate(val);
-				this.cale.setDate(this.nowDate.fullDate);
-				this.weeks = this.cale.weeks;
+				// 字节小程序 watch 早于 created
+				if (!this.cale) {
+					return
+				}
+				this.cale.setStartDate(val)
+				this.cale.setDate(this.nowDate.fullDate)
+				this.weeks = this.cale.weeks
 			},
 			endDate(val) {
-				this.cale.resetEndDate(val);
-				this.cale.setDate(this.nowDate.fullDate);
-				this.weeks = this.cale.weeks;
+				// 字节小程序 watch 早于 created
+				if (!this.cale) {
+					return
+				}
+				this.cale.setEndDate(val)
+				this.cale.setDate(this.nowDate.fullDate)
+				this.weeks = this.cale.weeks
 			},
 			selected(newVal) {
-				this.cale.setSelectInfo(this.nowDate.fullDate, newVal);
-				this.weeks = this.cale.weeks;
+				// 字节小程序 watch 早于 created
+				if (!this.cale) {
+					return
+				}
+				this.cale.setSelectInfo(this.nowDate.fullDate, newVal)
+				this.weeks = this.cale.weeks
 			},
 			pleStatus: {
 				immediate: true,
-				handler(newVal, oldVal) {
-					const { before, after, fulldate, which } = newVal;
-					this.tempRange.before = before;
-					this.tempRange.after = after;
+				handler(newVal) {
+					const {
+						before,
+						after,
+						fulldate,
+						which
+					} = newVal
+					this.tempRange.before = before
+					this.tempRange.after = after
 					setTimeout(() => {
 						if (fulldate) {
-							this.cale.setHoverMultiple(fulldate);
+							this.cale.setHoverMultiple(fulldate)
 							if (before && after) {
-								this.cale.lastHover = true;
-								if (this.rangeWithinMonth(after, before)) return;
-								this.setDate(before);
+								this.cale.lastHover = true
+								if (this.rangeWithinMonth(after, before)) return
+								this.setDate(before)
 							} else {
-								this.cale.setMultiple(fulldate);
-								this.setDate(this.nowDate.fullDate);
-								this.calendar.fullDate = "";
-								this.cale.lastHover = false;
+								this.cale.setMultiple(fulldate)
+								this.setDate(this.nowDate.fullDate)
+								this.calendar.fullDate = ''
+								this.cale.lastHover = false
 							}
 						} else {
-							this.cale.setDefaultMultiple(before, after);
-							if (which === "left") {
-								this.setDate(before);
-								this.weeks = this.cale.weeks;
-							} else {
-								this.setDate(after);
-								this.weeks = this.cale.weeks;
+							// 字节小程序 watch 早于 created
+							if (!this.cale) {
+								return
 							}
-							this.cale.lastHover = true;
+
+							this.cale.setDefaultMultiple(before, after)
+							if (which === 'left' && before) {
+								this.setDate(before)
+								this.weeks = this.cale.weeks
+							} else if (after) {
+								this.setDate(after)
+								this.weeks = this.cale.weeks
+							}
+							this.cale.lastHover = true
 						}
-					}, 16);
-				},
-			},
+					}, 16)
+				}
+			}
 		},
 		computed: {
-			reactStartTime() {
-				const activeDate = this.range ? this.tempRange.before : this.calendar.fullDate;
-				const res = activeDate === this.startDate ? this.selectableTimes.start : "";
-				return res;
+			timepickerStartTime() {
+				const activeDate = this.range ? this.tempRange.before : this.calendar.fullDate
+				return activeDate === this.startDate ? this.selectableTimes.start : ''
 			},
-			reactEndTime() {
-				const activeDate = this.range ? this.tempRange.after : this.calendar.fullDate;
-				const res = activeDate === this.endDate ? this.selectableTimes.end : "";
-				return res;
+			timepickerEndTime() {
+				const activeDate = this.range ? this.tempRange.after : this.calendar.fullDate
+				return activeDate === this.endDate ? this.selectableTimes.end : ''
 			},
 			/**
 			 * for i18n
 			 */
 			selectDateText() {
-				return t("uni-datetime-picker.selectDate");
+				return t("uni-datetime-picker.selectDate")
 			},
 			startDateText() {
-				return this.startPlaceholder || t("uni-datetime-picker.startDate");
+				return this.startPlaceholder || t("uni-datetime-picker.startDate")
 			},
 			endDateText() {
-				return this.endPlaceholder || t("uni-datetime-picker.endDate");
+				return this.endPlaceholder || t("uni-datetime-picker.endDate")
 			},
 			okText() {
-				return t("uni-datetime-picker.ok");
+				return t("uni-datetime-picker.ok")
 			},
 			yearText() {
-				return t("uni-datetime-picker.year");
+				return t("uni-datetime-picker.year")
 			},
 			monthText() {
-				return t("uni-datetime-picker.month");
+				return t("uni-datetime-picker.month")
 			},
 			MONText() {
-				return t("uni-calender.MON");
+				return t("uni-calender.MON")
 			},
 			TUEText() {
-				return t("uni-calender.TUE");
+				return t("uni-calender.TUE")
 			},
 			WEDText() {
-				return t("uni-calender.WED");
+				return t("uni-calender.WED")
 			},
 			THUText() {
-				return t("uni-calender.THU");
+				return t("uni-calender.THU")
 			},
 			FRIText() {
-				return t("uni-calender.FRI");
+				return t("uni-calender.FRI")
 			},
 			SATText() {
-				return t("uni-calender.SAT");
+				return t("uni-calender.SAT")
 			},
 			SUNText() {
-				return t("uni-calender.SUN");
+				return t("uni-calender.SUN")
 			},
 			confirmText() {
-				return t("uni-calender.confirm");
+				return t("uni-calender.confirm")
 			},
 		},
 		created() {
 			// 获取日历方法实例
 			this.cale = new Calendar({
-				// date: new Date(),
 				selected: this.selected,
 				startDate: this.startDate,
 				endDate: this.endDate,
 				range: this.range,
-				// multipleStatus: this.pleStatus
-			});
+			})
 			// 选中某一天
-			// this.cale.setDate(this.date)
-			this.init(this.date);
-			// this.setDay
+			this.init(this.date)
 		},
 		methods: {
 			leaveCale() {
-				this.firstEnter = true;
+				this.firstEnter = true
 			},
 			handleMouse(weeks) {
-				if (weeks.disable) return;
-				if (this.cale.lastHover) return;
-				let { before, after } = this.cale.multipleStatus;
-				if (!before) return;
-				this.calendar = weeks;
+				if (weeks.disable) return
+				if (this.cale.lastHover) return
+				let {
+					before,
+					after
+				} = this.cale.multipleStatus
+				if (!before) return
+				this.calendar = weeks
 				// 设置范围选
-				this.cale.setHoverMultiple(this.calendar.fullDate);
-				this.weeks = this.cale.weeks;
+				this.cale.setHoverMultiple(this.calendar.fullDate)
+				this.weeks = this.cale.weeks
 				// hover时，进入一个日历，更新另一个
 				if (this.firstEnter) {
-					this.$emit("firstEnterCale", this.cale.multipleStatus);
-					this.firstEnter = false;
+					this.$emit('firstEnterCale', this.cale.multipleStatus)
+					this.firstEnter = false
 				}
 			},
 			rangeWithinMonth(A, B) {
-				const [yearA, monthA] = A.split("-");
-				const [yearB, monthB] = B.split("-");
-				return yearA === yearB && monthA === monthB;
+				const [yearA, monthA] = A.split('-')
+				const [yearB, monthB] = B.split('-')
+				return yearA === yearB && monthA === monthB
 			},
-
-			// 取消穿透
-			clean() {
-				this.close();
+			// 蒙版点击事件
+			maskClick() {
+				this.close()
+				this.$emit('maskClose')
 			},
 
 			clearCalender() {
 				if (this.range) {
-					this.timeRange.startTime = "";
-					this.timeRange.endTime = "";
-					this.tempRange.before = "";
-					this.tempRange.after = "";
-					this.cale.multipleStatus.before = "";
-					this.cale.multipleStatus.after = "";
-					this.cale.multipleStatus.data = [];
-					this.cale.lastHover = false;
+					this.timeRange.startTime = ''
+					this.timeRange.endTime = ''
+					this.tempRange.before = ''
+					this.tempRange.after = ''
+					this.cale.multipleStatus.before = ''
+					this.cale.multipleStatus.after = ''
+					this.cale.multipleStatus.data = []
+					this.cale.lastHover = false
 				} else {
-					this.time = "";
-					this.tempSingleDate = "";
+					this.time = ''
+					this.tempSingleDate = ''
 				}
-				this.calendar.fullDate = "";
-				this.setDate();
+				this.calendar.fullDate = ''
+				this.setDate(new Date())
 			},
 
 			bindDateChange(e) {
-				const value = e.detail.value + "-1";
-				this.init(value);
+				const value = e.detail.value + '-1'
+				this.setDate(value)
 			},
 			/**
 			 * 初始化日期显示
 			 * @param {Object} date
 			 */
 			init(date) {
-				this.cale.setDate(date);
-				this.weeks = this.cale.weeks;
-				this.nowDate = this.calendar = this.cale.getInfo(date);
+				// 字节小程序 watch 早于 created
+				if (!this.cale) {
+					return
+				}
+				this.cale.setDate(date || new Date())
+				this.weeks = this.cale.weeks
+				this.nowDate = this.cale.getInfo(date)
+				this.calendar = {
+					...this.nowDate
+				}
+				if (!date) {
+					// 优化date为空默认不选中今天
+					this.calendar.fullDate = ''
+					if (this.defaultValue && !this.range) {
+						// 暂时只支持移动端非范围选择
+						const defaultDate = new Date(this.defaultValue)
+						const fullDate = getDate(defaultDate)
+						const year = defaultDate.getFullYear()
+						const month = defaultDate.getMonth() + 1
+						const date = defaultDate.getDate()
+						const day = defaultDate.getDay()
+						this.calendar = {
+								fullDate,
+								year,
+								month,
+								date,
+								day
+							},
+							this.tempSingleDate = fullDate
+						this.time = getTime(defaultDate, this.hideSecond)
+					}
+				}
 			},
-			// choiceDate(weeks) {
-			// 	if (weeks.disable) return
-			// 	this.calendar = weeks
-			// 	// 设置多选
-			// 	this.cale.setMultiple(this.calendar.fullDate, true)
-			// 	this.weeks = this.cale.weeks
-			// 	this.tempSingleDate = this.calendar.fullDate
-			// 	this.tempRange.before = this.cale.multipleStatus.before
-			// 	this.tempRange.after = this.cale.multipleStatus.after
-			// 	this.change()
-			// },
 			/**
 			 * 打开日历弹窗
 			 */
 			open() {
 				// 弹窗模式并且清理数据
 				if (this.clearDate && !this.insert) {
-					this.cale.cleanMultipleStatus();
-					// this.cale.setDate(this.date)
-					this.init(this.date);
+					this.cale.cleanMultipleStatus()
+					this.init(this.date)
 				}
-				this.show = true;
+				this.show = true
 				this.$nextTick(() => {
 					setTimeout(() => {
-						this.aniMaskShow = true;
-					}, 50);
-				});
+						this.aniMaskShow = true
+					}, 50)
+				})
 			},
 			/**
 			 * 关闭日历弹窗
 			 */
 			close() {
-				this.aniMaskShow = false;
+				this.aniMaskShow = false
 				this.$nextTick(() => {
 					setTimeout(() => {
-						this.show = false;
-						this.$emit("close");
-					}, 300);
-				});
+						this.show = false
+						this.$emit('close')
+					}, 300)
+				})
 			},
 			/**
 			 * 确认按钮
 			 */
 			confirm() {
-				this.setEmit("confirm");
-				this.close();
+				this.setEmit('confirm')
+				this.close()
 			},
 			/**
 			 * 变化触发
 			 */
-			change() {
-				if (!this.insert) return;
-				this.setEmit("change");
+			change(isSingleChange) {
+				if (!this.insert && !isSingleChange) return
+				this.setEmit('change')
 			},
 			/**
 			 * 选择月份触发
 			 */
 			monthSwitch() {
-				let { year, month } = this.nowDate;
-				this.$emit("monthSwitch", {
+				let {
 					year,
-					month: Number(month),
-				});
+					month
+				} = this.nowDate
+				this.$emit('monthSwitch', {
+					year,
+					month: Number(month)
+				})
 			},
 			/**
 			 * 派发事件
 			 * @param {Object} name
 			 */
 			setEmit(name) {
-				let { year, month, date, fullDate, lunar, extraInfo } = this.calendar;
+				if (!this.range) {
+					if (!this.calendar.fullDate) {
+						this.calendar = this.cale.getInfo(new Date())
+						this.tempSingleDate = this.calendar.fullDate
+					}
+					if (this.hasTime && !this.time) {
+						this.time = getTime(new Date(), this.hideSecond)
+					}
+				}
+				let {
+					year,
+					month,
+					date,
+					fullDate,
+					extraInfo
+				} = this.calendar
 				this.$emit(name, {
 					range: this.cale.multipleStatus,
 					year,
@@ -536,79 +587,59 @@
 					time: this.time,
 					timeRange: this.timeRange,
 					fulldate: fullDate,
-					lunar,
-					extraInfo: extraInfo || {},
-				});
+					extraInfo: extraInfo || {}
+				})
 			},
 			/**
 			 * 选择天触发
 			 * @param {Object} weeks
 			 */
 			choiceDate(weeks) {
-				if (weeks.disable) return;
-				this.calendar = weeks;
-				this.calendar.userChecked = true;
+				if (weeks.disable) return
+				this.calendar = weeks
+				this.calendar.userChecked = true
 				// 设置多选
-				this.cale.setMultiple(this.calendar.fullDate, true);
-				this.weeks = this.cale.weeks;
-				this.tempSingleDate = this.calendar.fullDate;
-				this.tempRange.before = this.cale.multipleStatus.before;
-				this.tempRange.after = this.cale.multipleStatus.after;
-				this.change();
-			},
-			/**
-			 * 回到今天
-			 */
-			backtoday() {
-				let date = this.cale.getDate(new Date()).fullDate;
-				// this.cale.setDate(date)
-				this.init(date);
-				this.change();
-			},
-			/**
-			 * 比较时间大小
-			 */
-			dateCompare(startDate, endDate) {
-				// 计算截止时间
-				startDate = new Date(startDate.replace("-", "/").replace("-", "/"));
-				// 计算详细项的截止时间
-				endDate = new Date(endDate.replace("-", "/").replace("-", "/"));
-				if (startDate <= endDate) {
-					return true;
+				this.cale.setMultiple(this.calendar.fullDate, true)
+				this.weeks = this.cale.weeks
+				this.tempSingleDate = this.calendar.fullDate
+				const beforeDate = new Date(this.cale.multipleStatus.before).getTime()
+				const afterDate = new Date(this.cale.multipleStatus.after).getTime()
+				if (beforeDate > afterDate && afterDate) {
+					this.tempRange.before = this.cale.multipleStatus.after
+					this.tempRange.after = this.cale.multipleStatus.before
 				} else {
-					return false;
+					this.tempRange.before = this.cale.multipleStatus.before
+					this.tempRange.after = this.cale.multipleStatus.after
 				}
+				this.change(true)
 			},
-			/**
-			 * 上个月
-			 */
-			pre() {
-				const preDate = this.cale.getDate(this.nowDate.fullDate, -1, "month").fullDate;
-				this.setDate(preDate);
-				this.monthSwitch();
-			},
-			/**
-			 * 下个月
-			 */
-			next() {
-				const nextDate = this.cale.getDate(this.nowDate.fullDate, +1, "month").fullDate;
-				this.setDate(nextDate);
-				this.monthSwitch();
+			changeMonth(type) {
+				let newDate
+				if (type === 'pre') {
+					newDate = this.cale.getPreMonthObj(this.nowDate.fullDate).fullDate
+				} else if (type === 'next') {
+					newDate = this.cale.getNextMonthObj(this.nowDate.fullDate).fullDate
+				}
+
+				this.setDate(newDate)
+				this.monthSwitch()
 			},
 			/**
 			 * 设置日期
 			 * @param {Object} date
 			 */
 			setDate(date) {
-				this.cale.setDate(date);
-				this.weeks = this.cale.weeks;
-				this.nowDate = this.cale.getInfo(date);
-			},
-		},
-	};
+				this.cale.setDate(date)
+				this.weeks = this.cale.weeks
+				this.nowDate = this.cale.getInfo(date)
+			}
+		}
+	}
 </script>
 
 <style lang="scss">
+	$uni-primary: #007aff !default;
+
 	.uni-calendar {
 		/* #ifndef APP-NVUE */
 		display: flex;
@@ -632,7 +663,7 @@
 	}
 
 	.uni-calendar--mask-show {
-		opacity: 1;
+		opacity: 1
 	}
 
 	.uni-calendar--fixed {
@@ -719,7 +750,7 @@
 		text-align: center;
 		width: 100px;
 		font-size: 14px;
-		color: #007aff;
+		color: $uni-primary;
 		/* #ifndef APP-NVUE */
 		letter-spacing: 3px;
 		/* #endif */
@@ -755,6 +786,7 @@
 		transform: rotate(135deg);
 	}
 
+
 	.uni-calendar__weeks {
 		position: relative;
 		/* #ifndef APP-NVUE */
@@ -776,14 +808,14 @@
 		justify-content: center;
 		align-items: center;
 		height: 40px;
-		border-bottom-color: #f5f5f5;
+		border-bottom-color: #F5F5F5;
 		border-bottom-style: solid;
 		border-bottom-width: 1px;
 	}
 
 	.uni-calendar__weeks-day-text {
 		font-size: 12px;
-		color: #b2b2b2;
+		color: #B2B2B2;
 	}
 
 	.uni-calendar__box {
@@ -821,7 +853,8 @@
 		// line-height: 50px;
 		text-align: center;
 		color: #333;
-		border-top-color: #dcdcdc;
+		border-top-color: #DCDCDC;
+		;
 		border-top-style: solid;
 		border-top-width: 1px;
 		flex: 1;
@@ -848,6 +881,9 @@
 	.uni-date-changed--time-date {
 		color: #999;
 		line-height: 50px;
+		/* #ifdef MP-TOUTIAO */
+		font-size: 16px;
+		/* #endif */
 		margin-right: 5px;
 		// opacity: 0.6;
 	}
@@ -858,7 +894,7 @@
 		display: flex;
 		/* #endif */
 		justify-content: center;
-		align-items: center;
+		align-items: center
 	}
 
 	.mr-10 {
@@ -896,7 +932,7 @@
 		border-radius: 100px;
 		height: 40px;
 		line-height: 40px;
-		background-color: #007aff;
+		background-color: $uni-primary;
 		color: #fff;
 		font-size: 16px;
 		letter-spacing: 2px;
@@ -906,5 +942,6 @@
 	.uni-datetime-picker--btn:active {
 		opacity: 0.7;
 	}
+
 	/* #endif */
 </style>

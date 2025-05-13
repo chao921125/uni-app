@@ -11,56 +11,56 @@
 </template>
 
 <script>
-	export default {
-		name: "product",
-		props: ["image", "title", "originalPrice", "favourPrice", "tip"],
-	};
+export default {
+	name: "product",
+	props: ["image", "title", "originalPrice", "favourPrice", "tip"],
+};
 </script>
 
 <style>
-	.product {
-		padding: 10rpx 20rpx;
-		display: flex;
-		flex-direction: column;
-	}
+.product {
+	padding: 10rpx 20rpx;
+	display: flex;
+	flex-direction: column;
+}
 
-	.product-image {
-		height: 330rpx;
-		width: 330rpx;
-	}
+.product-image {
+	height: 330rpx;
+	width: 330rpx;
+}
 
-	.product-title {
-		width: 300rpx;
-		font-size: 32rpx;
-		word-break: break-all;
-		display: -webkit-box;
-		overflow: hidden;
-		text-overflow: ellipsis;
-		-webkit-box-orient: vertical;
-		-webkit-line-clamp: 2;
-	}
+.product-title {
+	width: 300rpx;
+	font-size: 32rpx;
+	word-break: break-all;
+	display: -webkit-box;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	-webkit-box-orient: vertical;
+	-webkit-line-clamp: 2;
+}
 
-	.product-price {
-		font-size: 28rpx;
-		position: relative;
-	}
+.product-price {
+	font-size: 28rpx;
+	position: relative;
+}
 
-	.product-price-original {
-		color: #e80080;
-	}
+.product-price-original {
+	color: #e80080;
+}
 
-	.product-price-favour {
-		color: #888888;
-		text-decoration: line-through;
-		margin-left: 10rpx;
-	}
+.product-price-favour {
+	color: #888888;
+	text-decoration: line-through;
+	margin-left: 10rpx;
+}
 
-	.product-tip {
-		position: absolute;
-		right: 10rpx;
-		background-color: #ff3333;
-		color: #ffffff;
-		padding: 0 10rpx;
-		border-radius: 5rpx;
-	}
+.product-tip {
+	position: absolute;
+	right: 10rpx;
+	background-color: #ff3333;
+	color: #ffffff;
+	padding: 0 10rpx;
+	border-radius: 5rpx;
+}
 </style>

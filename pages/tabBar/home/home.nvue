@@ -1,0 +1,27 @@
+<template>
+	<view>
+		<view class="status" :style="{height: `${data.sH}px`}">{{data.sH}}</view>
+		<view class="bound" :style="{height: `${data.bH}px`, marginTop: '10px'}">{{data.bH}}</view>
+		<view class="nav" :style="{height: `${data.nH}px`}">{{data.nH}}</view>
+	</view>
+</template>
+
+<script setup>
+	import { onMounted, reactive } from 'vue';
+	import { useHeightStore } from "@/store/height.js";
+	
+	const data = reactive({
+		sH: useHeightStore().heightStatus,
+		nH: useHeightStore().heightNav,
+		bH: useHeightStore().heightBound,
+	});
+	
+	onMounted(() => {
+		console.log("home", useHeightStore().heightStatus);
+		
+	});
+</script>
+
+<style>
+	       
+</style>

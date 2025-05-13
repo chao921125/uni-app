@@ -1,9 +1,3 @@
-/**
- * create/insert add
- * select/read get/search
- * delete remove
- * update edit
- */
 export default {
 	testPath: "/test",
 	basePath: "",

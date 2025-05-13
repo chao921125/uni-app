@@ -2,70 +2,26 @@
 	<view class="uni-easyinput" :class="{ 'uni-easyinput-error': msg }" :style="boxStyle">
 		<view class="uni-easyinput__content" :class="inputContentClass" :style="inputContentStyle">
 			<uni-icons v-if="prefixIcon" class="content-clear-icon" :type="prefixIcon" color="#c0c4cc" @click="onClickIcon('prefix')" size="22"></uni-icons>
-			<textarea
-				v-if="type === 'textarea'"
-				class="uni-easyinput__content-textarea"
-				:class="{ 'input-padding': inputBorder }"
-				:name="name"
-				:value="val"
-				:placeholder="placeholder"
-				:placeholderStyle="placeholderStyle"
-				:disabled="disabled"
-				placeholder-class="uni-easyinput__placeholder-class"
-				:maxlength="inputMaxlength"
-				:focus="focused"
-				:autoHeight="autoHeight"
-				@input="onInput"
-				@blur="_Blur"
-				@focus="_Focus"
-				@confirm="onConfirm"
-			></textarea>
-			<input
-				v-else
-				:type="type === 'password' ? 'text' : type"
-				class="uni-easyinput__content-input"
-				:style="inputStyle"
-				:name="name"
-				:value="val"
-				:password="!showPassword && type === 'password'"
-				:placeholder="placeholder"
-				:placeholderStyle="placeholderStyle"
-				placeholder-class="uni-easyinput__placeholder-class"
-				:disabled="disabled"
-				:maxlength="inputMaxlength"
-				:focus="focused"
-				:confirmType="confirmType"
-				@focus="_Focus"
-				@blur="_Blur"
-				@input="onInput"
-				@confirm="onConfirm"
-			/>
+			<slot name="left">
+			</slot>
+			<!-- #ifdef MP-ALIPAY -->
+			<textarea :enableNative="enableNative" v-if="type === 'textarea'" class="uni-easyinput__content-textarea" :class="{ 'input-padding': inputBorder }" :name="name" :value="val" :placeholder="placeholder" :placeholderStyle="placeholderStyle" :disabled="disabled" placeholder-class="uni-easyinput__placeholder-class" :maxlength="inputMaxlength" :focus="focused" :autoHeight="autoHeight" :cursor-spacing="cursorSpacing" :adjust-position="adjustPosition" @input="onInput" @blur="_Blur" @focus="_Focus" @confirm="onConfirm" @keyboardheightchange="onkeyboardheightchange"></textarea>
+			<input :enableNative="enableNative" v-else :type="type === 'password' ? 'text' : type" class="uni-easyinput__content-input" :style="inputStyle" :name="name" :value="val" :password="!showPassword && type === 'password'" :placeholder="placeholder" :placeholderStyle="placeholderStyle" placeholder-class="uni-easyinput__placeholder-class" :disabled="disabled" :maxlength="inputMaxlength" :focus="focused" :confirmType="confirmType" :cursor-spacing="cursorSpacing" :adjust-position="adjustPosition" @focus="_Focus" @blur="_Blur" @input="onInput" @confirm="onConfirm" @keyboardheightchange="onkeyboardheightchange" />
+			<!-- #endif -->
+			<!-- #ifndef MP-ALIPAY -->
+			<textarea v-if="type === 'textarea'" class="uni-easyinput__content-textarea" :class="{ 'input-padding': inputBorder }" :name="name" :value="val" :placeholder="placeholder" :placeholderStyle="placeholderStyle" :disabled="disabled" placeholder-class="uni-easyinput__placeholder-class" :maxlength="inputMaxlength" :focus="focused" :autoHeight="autoHeight" :cursor-spacing="cursorSpacing" :adjust-position="adjustPosition" @input="onInput" @blur="_Blur" @focus="_Focus" @confirm="onConfirm" @keyboardheightchange="onkeyboardheightchange"></textarea>
+			<input v-else :type="type === 'password' ? 'text' : type" class="uni-easyinput__content-input" :style="inputStyle" :name="name" :value="val" :password="!showPassword && type === 'password'" :placeholder="placeholder" :placeholderStyle="placeholderStyle" placeholder-class="uni-easyinput__placeholder-class" :disabled="disabled" :maxlength="inputMaxlength" :focus="focused" :confirmType="confirmType" :cursor-spacing="cursorSpacing" :adjust-position="adjustPosition" @focus="_Focus" @blur="_Blur" @input="onInput" @confirm="onConfirm" @keyboardheightchange="onkeyboardheightchange" />
+			<!-- #endif -->
+
 			<template v-if="type === 'password' && passwordIcon">
 				<!-- 开启密码时显示小眼睛 -->
-				<uni-icons
-					v-if="isVal"
-					class="content-clear-icon"
-					:class="{ 'is-textarea-icon': type === 'textarea' }"
-					:type="showPassword ? 'eye-slash-filled' : 'eye-filled'"
-					:size="22"
-					:color="focusShow ? '#2979ff' : '#c0c4cc'"
-					@click="onEyes"
-				>
-				</uni-icons>
+				<uni-icons v-if="isVal" class="content-clear-icon" :class="{ 'is-textarea-icon': type === 'textarea' }" :type="showPassword ? 'eye-slash-filled' : 'eye-filled'" :size="22" :color="focusShow ? primaryColor : '#c0c4cc'" @click="onEyes"></uni-icons>
 			</template>
-			<template v-else-if="suffixIcon">
+			<template v-if="suffixIcon">
 				<uni-icons v-if="suffixIcon" class="content-clear-icon" :type="suffixIcon" color="#c0c4cc" @click="onClickIcon('suffix')" size="22"></uni-icons>
 			</template>
 			<template v-else>
-				<uni-icons
-					v-if="clearable && isVal && !disabled && type !== 'textarea'"
-					class="content-clear-icon"
-					:class="{ 'is-textarea-icon': type === 'textarea' }"
-					type="clear"
-					:size="clearSize"
-					:color="msg ? '#dd524d' : focusShow ? '#2979ff' : '#c0c4cc'"
-					@click="onClear"
-				></uni-icons>
+				<uni-icons v-if="clearable && isVal && !disabled && type !== 'textarea'" class="content-clear-icon" :class="{ 'is-textarea-icon': type === 'textarea' }" type="clear" :size="clearSize" :color="msg ? '#dd524d' : focusShow ? primaryColor : '#c0c4cc'" @click="onClear"></uni-icons>
 			</template>
 			<slot name="right"></slot>
 		</view>
@@ -96,7 +52,10 @@
 	 * @property {Number }	clearSize	清除图标的大小，单位px（默认15）
 	 * @property {String}	prefixIcon	输入框头部图标
 	 * @property {String}	suffixIcon	输入框尾部图标
+	 * @property {String}	primaryColor	设置主题色（默认#2979ff）
 	 * @property {Boolean}	trim	是否自动去除两端的空格
+	 * @property {Boolean}	cursorSpacing	指定光标与键盘的距离，单位 px
+	 * @property {Boolean}  ajust-position 当键盘弹起时，是否上推内容，默认值：true
 	 * @value both	去除两端空格
 	 * @value left	去除左侧空格
 	 * @value right	去除右侧空格
@@ -115,7 +74,7 @@
 	 * @example <uni-easyinput v-model="mobile"></uni-easyinput>
 	 */
 	function obj2strClass(obj) {
-		let classess = "";
+		let classess = '';
 		for (let key in obj) {
 			const val = obj[key];
 			if (val) {
@@ -126,7 +85,7 @@
 	}
 
 	function obj2strStyle(obj) {
-		let style = "";
+		let style = '';
 		for (let key in obj) {
 			const val = obj[key];
 			style += `${key}:${val};`;
@@ -134,24 +93,41 @@
 		return style;
 	}
 	export default {
-		name: "uni-easyinput",
-		emits: ["click", "iconClick", "update:modelValue", "input", "focus", "blur", "confirm", "clear", "eyes", "change"],
+		name: 'uni-easyinput',
+		emits: [
+			'click',
+			'iconClick',
+			'update:modelValue',
+			'input',
+			'focus',
+			'blur',
+			'confirm',
+			'clear',
+			'eyes',
+			'change',
+			'keyboardheightchange'
+		],
 		model: {
-			prop: "modelValue",
-			event: "update:modelValue",
+			prop: 'modelValue',
+			event: 'update:modelValue'
 		},
 		options: {
-			virtualHost: true,
+			// #ifdef MP-TOUTIAO
+			virtualHost: false,
+			// #endif
+			// #ifndef MP-TOUTIAO
+			virtualHost: true
+			// #endif
 		},
 		inject: {
 			form: {
-				from: "uniForm",
-				default: null,
+				from: 'uniForm',
+				default: null
 			},
 			formItem: {
-				from: "uniFormItem",
-				default: null,
-			},
+				from: 'uniFormItem',
+				default: null
+			}
 		},
 		props: {
 			name: String,
@@ -159,87 +135,107 @@
 			modelValue: [Number, String],
 			type: {
 				type: String,
-				default: "text",
+				default: 'text'
 			},
 			clearable: {
 				type: Boolean,
-				default: true,
+				default: true
 			},
 			autoHeight: {
 				type: Boolean,
-				default: false,
+				default: false
 			},
 			placeholder: {
 				type: String,
-				default: " ",
+				default: ' '
 			},
 			placeholderStyle: String,
 			focus: {
 				type: Boolean,
-				default: false,
+				default: false
 			},
 			disabled: {
 				type: Boolean,
-				default: false,
+				default: false
 			},
 			maxlength: {
 				type: [Number, String],
-				default: 140,
+				default: 140
 			},
 			confirmType: {
 				type: String,
-				default: "done",
+				default: 'done'
 			},
 			clearSize: {
 				type: [Number, String],
-				default: 24,
+				default: 24
 			},
 			inputBorder: {
 				type: Boolean,
-				default: true,
+				default: true
 			},
 			prefixIcon: {
 				type: String,
-				default: "",
+				default: ''
 			},
 			suffixIcon: {
 				type: String,
-				default: "",
+				default: ''
 			},
 			trim: {
 				type: [Boolean, String],
-				default: true,
+				default: false
+			},
+			cursorSpacing: {
+				type: Number,
+				default: 0
 			},
 			passwordIcon: {
 				type: Boolean,
-				default: true,
+				default: true
+			},
+			adjustPosition: {
+				type: Boolean,
+				default: true
+			},
+			primaryColor: {
+				type: String,
+				default: '#2979ff'
 			},
 			styles: {
 				type: Object,
-				default() {
+				default () {
 					return {
-						color: "#333",
-						disableColor: "#F7F6F6",
-						borderColor: "#e5e5e5",
+						color: '#333',
+						backgroundColor: '#fff',
+						disableColor: '#F7F6F6',
+						borderColor: '#e5e5e5'
 					};
-				},
+				}
 			},
 			errorMessage: {
 				type: [String, Boolean],
-				default: "",
+				default: ''
 			},
+			// #ifdef MP-ALIPAY
+			enableNative: {
+				type: Boolean,
+				default: false
+			}
+			// #endif
 		},
 		data() {
 			return {
 				focused: false,
-				val: "",
-				showMsg: "",
+				val: '',
+				showMsg: '',
 				border: false,
 				isFirstBorder: false,
 				showClearIcon: false,
 				showPassword: false,
 				focusShow: false,
-				localMsg: "",
+				localMsg: '',
+				isEnter: false // 用于判断当前是否是使用回车操作
 			};
 		},
 		computed: {
@@ -268,39 +264,58 @@
 
 			// 处理外层样式的style
 			boxStyle() {
-				return `color:${this.inputBorder && this.msg ? "#e43d33" : this.styles.color};`;
+				return `color:${
+					this.inputBorder && this.msg ? '#e43d33' : this.styles.color
+				};`;
 			},
 			// input 内容的类和样式处理
 			inputContentClass() {
 				return obj2strClass({
-					"is-input-border": this.inputBorder,
-					"is-input-error-border": this.inputBorder && this.msg,
-					"is-textarea": this.type === "textarea",
-					"is-disabled": this.disabled,
+					'is-input-border': this.inputBorder,
+					'is-input-error-border': this.inputBorder && this.msg,
+					'is-textarea': this.type === 'textarea',
+					'is-disabled': this.disabled,
+					'is-focused': this.focusShow
 				});
 			},
 			inputContentStyle() {
-				const focusColor = this.focusShow ? "#2979ff" : this.styles.borderColor;
-				const borderColor = this.inputBorder && this.msg ? "#dd524d" : focusColor;
+				const focusColor = this.focusShow ?
+					this.primaryColor :
+					this.styles.borderColor;
+				const borderColor =
+					this.inputBorder && this.msg ? '#dd524d' : focusColor;
 				return obj2strStyle({
-					"border-color": borderColor || "#e5e5e5",
-					"background-color": this.disabled ? this.styles.disableColor : "#fff",
+					'border-color': borderColor || '#e5e5e5',
+					'background-color': this.disabled ?
+						this.styles.disableColor : this.styles.backgroundColor
 				});
 			},
 			// input右侧样式
 			inputStyle() {
-				const paddingRight = this.type === "password" || this.clearable || this.prefixIcon ? "" : "10px";
+				const paddingRight =
+					this.type === 'password' || this.clearable || this.prefixIcon ?
+					'' :
+					'10px';
 				return obj2strStyle({
-					"padding-right": paddingRight,
-					"padding-left": this.prefixIcon ? "" : "10px",
+					'padding-right': paddingRight,
+					'padding-left': this.prefixIcon ? '' : '10px'
 				});
-			},
+			}
 		},
 		watch: {
 			value(newVal) {
+				// fix by mehaotian 解决 值为null的情况下，input报错的bug
+				if (newVal === null) {
+					this.val = '';
+					return
+				}
 				this.val = newVal;
 			},
 			modelValue(newVal) {
+				if (newVal === null) {
+					this.val = '';
+					return
+				}
 				this.val = newVal;
 			},
 			focus(newVal) {
@@ -308,13 +323,13 @@
 					this.focused = this.focus;
 					this.focusShow = this.focus;
 				});
-			},
+			}
 		},
 		created() {
 			this.init();
 			// TODO 处理头条vue3 computed 不监听 inject 更改的问题（formItem.errMsg）
 			if (this.form && this.formItem) {
-				this.$watch("formItem.errMsg", (newVal) => {
+				this.$watch('formItem.errMsg', newVal => {
 					this.localMsg = newVal;
 				});
 			}
@@ -332,10 +347,15 @@
 			init() {
 				if (this.value || this.value === 0) {
 					this.val = this.value;
-				} else if (this.modelValue || this.modelValue === 0) {
-					this.val = this.modelValue;
+				} else if (
+					this.modelValue ||
+					this.modelValue === 0 ||
+					this.modelValue === ''
+				) {
+					this.val = this.modelValue; 
 				} else {
-					this.val = null;
+					// fix by ht 如果初始值为null，则input报错，待框架修复
+					this.val = '';
 				}
 			},
 
@@ -344,7 +364,7 @@
 			 * @param {Object} type
 			 */
 			onClickIcon(type) {
-				this.$emit("iconClick", type);
+				this.$emit('iconClick', type);
 			},
 
 			/**
@@ -352,7 +372,7 @@
 			 */
 			onEyes() {
 				this.showPassword = !this.showPassword;
-				this.$emit("eyes", this.showPassword);
+				this.$emit('eyes', this.showPassword);
 			},
 
 			/**
@@ -363,19 +383,19 @@
 				let value = event.detail.value;
 				// 判断是否去除空格
 				if (this.trim) {
-					if (typeof this.trim === "boolean" && this.trim) {
+					if (typeof this.trim === 'boolean' && this.trim) {
 						value = this.trimStr(value);
 					}
-					if (typeof this.trim === "string") {
+					if (typeof this.trim === 'string') {
 						value = this.trimStr(value, this.trim);
 					}
 				}
-				if (this.errMsg) this.errMsg = "";
+				if (this.errMsg) this.errMsg = '';
 				this.val = value;
 				// TODO 兼容 vue2
-				this.$emit("input", value);
+				this.$emit('input', value);
 				// TODO　兼容　vue3
-				this.$emit("update:modelValue", value);
+				this.$emit('update:modelValue', value);
 			},
 
 			/**
@@ -387,12 +407,12 @@
 				this.$nextTick(() => {
 					this.focused = true;
 				});
-				this.$emit("focus", null);
+				this.$emit('focus', null);
 			},
 
 			_Focus(event) {
 				this.focusShow = true;
-				this.$emit("focus", event);
+				this.$emit('focus', event);
 			},
 
 			/**
@@ -402,18 +422,20 @@
 			 */
 			onBlur() {
 				this.focused = false;
-				this.$emit("focus", null);
+				this.$emit('blur', null);
 			},
 			_Blur(event) {
 				let value = event.detail.value;
 				this.focusShow = false;
-				this.$emit("blur", event);
+				this.$emit('blur', event);
 				// 根据类型返回值，在event中获取的值理论上讲都是string
-				this.$emit("change", this.val);
+				if (this.isEnter === false) {
+					this.$emit('change', this.val);
+				}
 				// 失去焦点时参与表单校验
 				if (this.form && this.formItem) {
 					const { validateTrigger } = this.form;
-					if (validateTrigger === "blur") {
+					if (validateTrigger === 'blur') {
 						this.formItem.onFieldChange();
 					}
 				}
@@ -424,8 +446,12 @@
 			 * @param {Object} e
 			 */
 			onConfirm(e) {
-				this.$emit("confirm", this.val);
-				this.$emit("change", this.val);
+				this.$emit('confirm', this.val);
+				this.isEnter = true;
+				this.$emit('change', this.val);
+				this.$nextTick(() => {
+					this.isEnter = false;
+				});
 			},
 
 			/**
@@ -433,38 +459,47 @@
 			 * @param {Object} event
 			 */
 			onClear(event) {
-				this.val = "";
+				this.val = '';
 				// TODO 兼容 vue2
-				this.$emit("input", "");
+				this.$emit('input', '');
 				// TODO 兼容 vue2
 				// TODO　兼容　vue3
-				this.$emit("update:modelValue", "");
+				this.$emit('update:modelValue', '');
 				// 点击叉号触发
-				this.$emit("clear");
+				this.$emit('clear');
+			},
+
+			/**
+			 * 键盘高度发生变化的时候触发此事件
+			 * 兼容性：微信小程序2.7.0+、App 3.1.0+
+			 * @param {Object} event
+			 */
+			onkeyboardheightchange(event) {
+				this.$emit('keyboardheightchange', event);
 			},
 
 			/**
 			 * 去除空格
 			 */
-			trimStr(str, pos = "both") {
-				if (pos === "both") {
+			trimStr(str, pos = 'both') {
+				if (pos === 'both') {
 					return str.trim();
-				} else if (pos === "left") {
+				} else if (pos === 'left') {
 					return str.trimLeft();
-				} else if (pos === "right") {
+				} else if (pos === 'right') {
 					return str.trimRight();
-				} else if (pos === "start") {
+				} else if (pos === 'start') {
 					return str.trimStart();
-				} else if (pos === "end") {
+				} else if (pos === 'end') {
 					return str.trimEnd();
-				} else if (pos === "all") {
-					return str.replace(/\s+/g, "");
-				} else if (pos === "none") {
+				} else if (pos === 'all') {
+					return str.replace(/\s+/g, '');
+				} else if (pos === 'none') {
 					return str;
 				}
 				return str;
-			},
-		},
+			}
+		}
 	};
 </script>
 
@@ -510,6 +545,21 @@
 		font-size: 14px;
 		height: 35px;
 		// min-height: 36px;
+
+		/*ifdef H5*/
+		& ::-ms-reveal {
+			display: none;
+		}
+
+		& ::-ms-clear {
+			display: none;
+		}
+
+		& ::-o-clear {
+			display: none;
+		}
+
+		/*endif*/
 	}
 
 	.uni-easyinput__placeholder-class {

@@ -3,26 +3,26 @@
 </template>
 
 <script>
-import WxCanvas from './wx-canvas';
+import WxCanvas from "./wx-canvas";
 
 export default {
 	props: {
 		canvasId: {
 			type: String,
-			default: 'ec-canvas'
+			default: "ec-canvas",
 		},
 		lazyLoad: {
 			type: Boolean,
-			default: false
+			default: false,
 		},
 		disableTouch: {
 			type: Boolean,
-			default: false
+			default: false,
 		},
 		throttleTouch: {
 			type: Boolean,
-			default: false
-		}
+			default: false,
+		},
 	},
 	// #ifdef H5
 	mounted() {
@@ -35,8 +35,8 @@ export default {
 	},
 	// #endif
 	methods: {
-		setChart(chart){
-			this.chart = chart
+		setChart(chart) {
+			this.chart = chart;
 		},
 		init() {
 			const { canvasId } = this;
@@ -47,14 +47,14 @@ export default {
 			const query = wx.createSelectorQuery().in(this);
 			query
 				.select(`#${canvasId}`)
-				.boundingClientRect(res => {
+				.boundingClientRect((res) => {
 					if (!res) {
 						setTimeout(() => this.init(), 50);
 						return;
 					}
-					this.$emit('onInit', {
+					this.$emit("onInit", {
 						width: res.width,
-						height: res.height
+						height: res.height,
 					});
 				})
 				.exec();
@@ -64,7 +64,7 @@ export default {
 			this.ctx.draw(true, () => {
 				wx.canvasToTempFilePath({
 					canvasId,
-					...opt
+					...opt,
 				});
 			});
 		},
@@ -72,13 +72,13 @@ export default {
 			const { disableTouch, chart } = this;
 			if (disableTouch || !chart || !e.mp.touches.length) return;
 			const touch = e.mp.touches[0];
-			chart._zr.handler.dispatch('mousedown', {
+			chart._zr.handler.dispatch("mousedown", {
 				zrX: touch.x,
-				zrY: touch.y
+				zrY: touch.y,
 			});
-			chart._zr.handler.dispatch('mousemove', {
+			chart._zr.handler.dispatch("mousemove", {
 				zrX: touch.x,
-				zrY: touch.y
+				zrY: touch.y,
 			});
 		},
 		touchMove(e) {
@@ -92,25 +92,25 @@ export default {
 			}
 
 			const touch = e.mp.touches[0];
-			chart._zr.handler.dispatch('mousemove', {
+			chart._zr.handler.dispatch("mousemove", {
 				zrX: touch.x,
-				zrY: touch.y
+				zrY: touch.y,
 			});
 		},
 		touchEnd(e) {
 			const { disableTouch, chart } = this;
 			if (disableTouch || !chart) return;
 			const touch = e.mp.changedTouches ? e.mp.changedTouches[0] : {};
-			chart._zr.handler.dispatch('mouseup', {
+			chart._zr.handler.dispatch("mouseup", {
 				zrX: touch.x,
-				zrY: touch.y
+				zrY: touch.y,
 			});
-			chart._zr.handler.dispatch('click', {
+			chart._zr.handler.dispatch("click", {
 				zrX: touch.x,
-				zrY: touch.y
+				zrY: touch.y,
 			});
-		}
-	}
+		},
+	},
 };
 </script>
 

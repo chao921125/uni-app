@@ -6,19 +6,22 @@
 
 <script>
 	export default {
-		name: "UniStatusBar",
+		name: 'UniStatusBar',
 		data() {
 			return {
-				statusBarHeight: 20,
-			};
-		},
-		mounted() {
-			this.statusBarHeight = uni.getSystemInfoSync().statusBarHeight + "px";
-		},
-	};
+				// #ifdef MP-WEIXIN
+				statusBarHeight: uni.getWindowInfo().statusBarHeight + 'px',
+				// #endif
+				// #ifndef MP-WEIXIN
+				statusBarHeight: uni.getSystemInfoSync().statusBarHeight + 'px',
+				// #endif
+
+			}
+		}
+	}
 </script>
 
-<style lang="scss">
+<style lang="scss" >
 	.uni-status-bar {
 		// width: 750rpx;
 		height: 20px;

@@ -6,8 +6,8 @@
 		<view v-if="(loaded || list.itemIndex < 15) && list.items && list.items.length > 0" class="uni-indexed-list__list">
 			<view v-for="(item, index) in list.items" :key="index" class="uni-indexed-list__item" hover-class="uni-indexed-list__item--hover">
 				<view class="uni-indexed-list__item-container" @click="onClick(idx, index)">
-					<view class="uni-indexed-list__item-border" :class="{ 'uni-indexed-list__item-border--last': index === list.items.length - 1 }">
-						<view v-if="showSelect" style="margin-right: 20rpx">
+					<view class="uni-indexed-list__item-border" :class="{'uni-indexed-list__item-border--last':index===list.items.length-1}">
+						<view v-if="showSelect" style="margin-right: 20rpx;">
 							<uni-icons :type="item.checked ? 'checkbox-filled' : 'circle'" :color="item.checked ? '#007aff' : '#C0C0C0'" size="24" />
 						</view>
 						<text class="uni-indexed-list__item-content">{{ item.name }}</text>
@@ -20,37 +20,37 @@
 
 <script>
 	export default {
-		name: "UniIndexedList",
-		emits: ["itemClick"],
+		name: 'UniIndexedList',
+		emits:['itemClick'],
 		props: {
 			loaded: {
 				type: Boolean,
-				default: false,
+				default: false
 			},
 			idx: {
 				type: Number,
-				default: 0,
+				default: 0
 			},
 			list: {
 				type: Object,
-				default() {
-					return {};
-				},
+				default () {
+					return {}
+				}
 			},
 			showSelect: {
 				type: Boolean,
-				default: false,
-			},
+				default: false
+			}
 		},
 		methods: {
 			onClick(idx, index) {
 				this.$emit("itemClick", {
 					idx,
-					index,
-				});
-			},
-		},
-	};
+					index
+				})
+			}
+		}
+	}
 </script>
 
 <style lang="scss" scoped>
@@ -62,7 +62,7 @@
 		flex-direction: column;
 		border-top-style: solid;
 		border-top-width: 1px;
-		border-top-color: #dedede;
+		border-top-color: #DEDEDE;
 	}
 
 	.uni-indexed-list__item {
@@ -107,7 +107,7 @@
 		padding-left: 0;
 		border-bottom-style: solid;
 		border-bottom-width: 1px;
-		border-bottom-color: #dedede;
+		border-bottom-color:  #DEDEDE;
 	}
 
 	.uni-indexed-list__item-border--last {

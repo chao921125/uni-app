@@ -10,17 +10,25 @@
 </template>
 
 <script>
-	export default {
-		name: "uniBody",
-		options: {
-			virtualHost: true,
-		},
-		data() {
-			return {};
-		},
-		created() {},
-		methods: {},
-	};
+export default {
+	name: 'uniBody',
+	options: {
+		// #ifdef MP-TOUTIAO
+		virtualHost: false,
+		// #endif
+		// #ifndef MP-TOUTIAO
+		virtualHost: true
+		// #endif
+	},
+	data() {
+		return {
+
+		}
+	},
+	created() {},
+	methods: {}
+}
 </script>
 
-<style></style>
+<style>
+</style>

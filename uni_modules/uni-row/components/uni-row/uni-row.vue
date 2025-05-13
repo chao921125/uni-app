@@ -1,18 +1,15 @@
 <template>
-	<view
-		:class="['uni-row', typeClass, justifyClass, alignClass]"
-		:style="{
-			marginLeft: `${Number(marginValue)}rpx`,
-			marginRight: `${Number(marginValue)}rpx`,
-		}"
-	>
+	<view :class="[ 'uni-row', typeClass , justifyClass, alignClass, ]" :style="{
+		marginLeft:`${Number(marginValue)}rpx`,
+		marginRight:`${Number(marginValue)}rpx`,
+	}">
 		<slot></slot>
 	</view>
 </template>
 
 <script>
-	const ComponentClass = "uni-row";
-	const modifierSeparator = "--";
+	const ComponentClass = 'uni-row';
+	const modifierSeparator = '--';
 	/**
 	 * Row	布局-行
 	 * @description	流式栅格系统，随着屏幕或视口分为 24 份，可以迅速简便地创建布局。
@@ -29,12 +26,13 @@
 	 * 						默认值 750
 	 */
 
+
 	export default {
-		name: "uniRow",
-		componentName: "uniRow",
+		name: 'uniRow',
+		componentName: 'uniRow',
 		// #ifdef MP-WEIXIN
 		options: {
-			virtualHost: true, // 在微信小程序中将组件节点渲染为虚拟节点，更加接近Vue组件的表现，可使用flex布局
+			virtualHost: true // 在微信小程序中将组件节点渲染为虚拟节点，更加接近Vue组件的表现，可使用flex布局
 		},
 		// #endif
 		props: {
@@ -42,21 +40,21 @@
 			gutter: Number,
 			justify: {
 				type: String,
-				default: "start",
+				default: 'start'
 			},
 			align: {
 				type: String,
-				default: "top",
+				default: 'top'
 			},
 			// nvue如果使用span等属性，需要配置宽度
 			width: {
 				type: [String, Number],
-				default: 750,
-			},
+				default: 750
+			}
 		},
 		created() {
 			// #ifdef APP-NVUE
-			this.type = "flex";
+			this.type = 'flex';
 			// #endif
 		},
 		computed: {
@@ -69,27 +67,28 @@
 				return 0;
 			},
 			typeClass() {
-				return this.type === "flex" ? `${ComponentClass + modifierSeparator}flex` : "";
+				return this.type === 'flex' ? `${ComponentClass + modifierSeparator}flex` : '';
 			},
 			justifyClass() {
-				return this.justify !== "start" ? `${ComponentClass + modifierSeparator}flex-justify-${this.justify}` : "";
+				return this.justify !== 'start' ? `${ComponentClass + modifierSeparator}flex-justify-${this.justify}` : ''
 			},
 			alignClass() {
-				return this.align !== "top" ? `${ComponentClass + modifierSeparator}flex-align-${this.align}` : "";
-			},
-		},
+				return this.align !== 'top' ? `${ComponentClass + modifierSeparator}flex-align-${this.align}` : ''
+			}
+		}
 	};
 </script>
 
 <style lang="scss">
 	$layout-namespace: ".uni-";
-	$row: $layout-namespace + "row";
+	$row:$layout-namespace+"row";
 	$modifier-separator: "--";
 
 	@mixin utils-clearfix {
 		$selector: &;
 
 		@at-root {
+
 			/* #ifndef APP-NVUE */
 			#{$selector}::before,
 			#{$selector}::after {
@@ -103,9 +102,10 @@
 
 			/* #endif */
 		}
+
 	}
 
-	@mixin utils-flex($direction: row) {
+	@mixin utils-flex ($direction: row) {
 		/* #ifndef APP-NVUE */
 		display: flex;
 		/* #endif */
@@ -114,7 +114,7 @@
 
 	@mixin set-flex($state) {
 		@at-root &-#{$state} {
-			@content;
+			@content
 		}
 	}
 
@@ -135,6 +135,7 @@
 
 		// 在QQ、字节、百度小程序平台，编译后使用shadow dom，不可使用flex布局，使用float
 		@at-root {
+
 			/* #ifndef MP-QQ || MP-TOUTIAO || MP-BAIDU */
 			&#{$modifier-separator}flex {
 				@include utils-flex;
@@ -175,6 +176,7 @@
 
 			/* #endif */
 		}
+
 	}
 
 	// 字节、QQ配置后不生效

@@ -2,7 +2,8 @@
 	<!-- #ifdef H5 -->
 	<tr class="uni-table-tr">
 		<th v-if="selection === 'selection' && ishead" class="checkbox" :class="{ 'tr-table--border': border }">
-			<table-checkbox :checked="checked" :indeterminate="indeterminate" :disabled="disabled" @checkboxSelected="checkboxSelected"></table-checkbox>
+			<table-checkbox :checked="checked" :indeterminate="indeterminate" :disabled="disabled"
+				@checkboxSelected="checkboxSelected"></table-checkbox>
 		</th>
 		<slot></slot>
 		<!-- <uni-th class="th-fixed">123</uni-th> -->
@@ -10,8 +11,9 @@
 	<!-- #endif -->
 	<!-- #ifndef H5 -->
 	<view class="uni-table-tr">
-		<view v-if="selection === 'selection'" class="checkbox" :class="{ 'tr-table--border': border }">
-			<table-checkbox :checked="checked" :indeterminate="indeterminate" :disabled="disabled" @checkboxSelected="checkboxSelected"></table-checkbox>
+		<view v-if="selection === 'selection' " class="checkbox" :class="{ 'tr-table--border': border }">
+			<table-checkbox :checked="checked" :indeterminate="indeterminate" :disabled="disabled"
+				@checkboxSelected="checkboxSelected"></table-checkbox>
 		</view>
 		<slot></slot>
 	</view>
@@ -19,27 +21,34 @@
 </template>
 
 <script>
-	import tableCheckbox from "./table-checkbox.vue";
+	import tableCheckbox from './table-checkbox.vue'
 	/**
 	 * Tr 表格行组件
 	 * @description 表格行组件 仅包含 th,td 组件
 	 * @tutorial https://ext.dcloud.net.cn/plugin?id=
 	 */
 	export default {
-		name: "uniTr",
-		components: { tableCheckbox },
+		name: 'uniTr',
+		components: {
+			tableCheckbox
+		},
 		props: {
 			disabled: {
 				type: Boolean,
-				default: false,
+				default: false
 			},
 			keyValue: {
 				type: [String, Number],
-				default: "",
-			},
+				default: ''
+			}
 		},
 		options: {
-			virtualHost: true,
+			// #ifdef MP-TOUTIAO
+			virtualHost: false,
+			// #endif
+			// #ifndef MP-TOUTIAO
+			virtualHost: true
+			// #endif
 		},
 		data() {
 			return {
@@ -49,77 +58,81 @@
 				widthThArr: [],
 				ishead: true,
 				checked: false,
-				indeterminate: false,
-			};
+				indeterminate: false
+			}
 		},
 		created() {
-			this.root = this.getTable();
-			this.head = this.getTable("uniThead");
+			this.root = this.getTable()
+			this.head = this.getTable('uniThead')
 			if (this.head) {
-				this.ishead = false;
-				this.head.init(this);
+				this.ishead = false
+				this.head.init(this)
 			}
-			this.border = this.root.border;
-			this.selection = this.root.type;
-			this.root.trChildren.push(this);
-			const rowData = this.root.data.find((v) => v[this.root.rowKey] === this.keyValue);
+			this.border = this.root.border
+			this.selection = this.root.type
+			this.root.trChildren.push(this)
+			const rowData = this.root.data.find(v => v[this.root.rowKey] === this.keyValue)
 			if (rowData) {
-				this.rowData = rowData;
+				this.rowData = rowData
 			}
-			this.root.isNodata();
+			this.root.isNodata()
 		},
 		mounted() {
 			if (this.widthThArr.length > 0) {
-				const selectionWidth = this.selection === "selection" ? 50 : 0;
-				this.root.minWidth = this.widthThArr.reduce((a, b) => Number(a) + Number(b)) + selectionWidth;
+				const selectionWidth = this.selection === 'selection' ? 50 : 0
+				this.root.minWidth = Number(this.widthThArr.reduce((a, b) => Number(a) + Number(b))) + selectionWidth;
 			}
 		},
 		// #ifndef VUE3
 		destroyed() {
-			const index = this.root.trChildren.findIndex((i) => i === this);
-			this.root.trChildren.splice(index, 1);
-			this.root.isNodata();
+			const index = this.root.trChildren.findIndex(i => i === this)
+			this.root.trChildren.splice(index, 1)
+			this.root.isNodata()
 		},
 		// #endif
 		// #ifdef VUE3
 		unmounted() {
-			const index = this.root.trChildren.findIndex((i) => i === this);
-			this.root.trChildren.splice(index, 1);
-			this.root.isNodata();
+			const index = this.root.trChildren.findIndex(i => i === this)
+			this.root.trChildren.splice(index, 1)
+			this.root.isNodata()
 		},
 		// #endif
 		methods: {
 			minWidthUpdate(width) {
-				this.widthThArr.push(width);
+				this.widthThArr.push(width)
+				if (this.widthThArr.length > 0) {
+					const selectionWidth = this.selection === 'selection' ? 50 : 0;
+					this.root.minWidth = Number(this.widthThArr.reduce((a, b) => Number(a) + Number(b))) + selectionWidth;
+				}
 			},
 			// 选中
 			checkboxSelected(e) {
-				let rootData = this.root.data.find((v) => v[this.root.rowKey] === this.keyValue);
-				this.checked = e.checked;
-				this.root.check(rootData || this, e.checked, rootData ? this.keyValue : null);
+				let rootData = this.root.data.find(v => v[this.root.rowKey] === this.keyValue)
+				this.checked = e.checked
+				this.root.check(rootData || this, e.checked, rootData ? this.keyValue : null)
 			},
 			change(e) {
-				this.root.trChildren.forEach((item) => {
+				this.root.trChildren.forEach(item => {
 					if (item === this) {
-						this.root.check(this, e.detail.value.length > 0 ? true : false);
+						this.root.check(this, e.detail.value.length > 0 ? true : false)
 					}
-				});
+				})
 			},
 			/**
 			 * 获取父元素实例
 			 */
-			getTable(name = "uniTable") {
-				let parent = this.$parent;
-				let parentName = parent.$options.name;
+			getTable(name = 'uniTable') {
+				let parent = this.$parent
+				let parentName = parent.$options.name
 				while (parentName !== name) {
-					parent = parent.$parent;
-					if (!parent) return false;
-					parentName = parent.$options.name;
+					parent = parent.$parent
+					if (!parent) return false
+					parentName = parent.$options.name
 				}
-				return parent;
-			},
-		},
-	};
+				return parent
+			}
+		}
+	}
 </script>
 
 <style lang="scss">

@@ -7,7 +7,10 @@
 	</view>
 	<!-- #endif -->
 	<!-- #ifdef APP-NVUE -->
-	<list class="uni-list" :class="{ 'uni-list--border': border }" :enableBackToTop="enableBackToTop" loadmoreoffset="15"><slot /></list>
+	<list :bounce="false" :scrollable="true" show-scrollbar :render-reverse="renderReverse" @scroll="scroll" class="uni-list" :class="{ 'uni-list--border': border }" :enableBackToTop="enableBackToTop"
+		loadmoreoffset="15">
+		<slot />
+	</list>
 	<!-- #endif -->
 </template>
 
@@ -19,25 +22,33 @@
 	 * @property {String} 	border = [true|false] 		标题
 	 */
 	export default {
-		name: "uniList",
-		"mp-weixin": {
+		name: 'uniList',
+		'mp-weixin': {
 			options: {
-				multipleSlots: false,
-			},
+				multipleSlots: false
+			}
 		},
 		props: {
+			stackFromEnd:{
+				type: Boolean,
+				default:false
+			},
 			enableBackToTop: {
 				type: [Boolean, String],
-				default: false,
+				default: false
 			},
 			scrollY: {
 				type: [Boolean, String],
-				default: false,
+				default: false
 			},
 			border: {
 				type: Boolean,
-				default: true,
+				default: true
 			},
+			renderReverse:{
+				type: Boolean,
+				default: false
+			}
 		},
 		// provide() {
 		// 	return {
@@ -49,14 +60,18 @@
 		},
 		methods: {
 			loadMore(e) {
-				this.$emit("scrolltolower");
+				this.$emit('scrolltolower');
 			},
-		},
+			scroll(e) {
+				this.$emit('scroll', e);
+			}
+		}
 	};
 </script>
 <style lang="scss">
-	$uni-bg-color: #ffffff;
-	$uni-border-color: #e5e5e5;
+	$uni-bg-color:#ffffff;
+	$uni-border-color:#e5e5e5;
+
 	.uni-list {
 		/* #ifndef APP-NVUE */
 		display: flex;

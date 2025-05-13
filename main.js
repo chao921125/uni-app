@@ -1,26 +1,42 @@
-import {
-    createSSRApp
-} from "vue";
-import * as Pinia from "pinia";
-import {
-    createI18n
-} from "vue-i18n";
-
 import App from "./App";
-import messages from "./locale/index";
+import store from "./store";
 
-let i18nConfig = {
-    locale: uni.getLocale(),
-    messages,
+// #ifndef VUE3
+import Vue from "vue";
+Vue.config.productionTip = false;
+Vue.prototype.$store = store;
+Vue.prototype.$adpid = "0123456789";
+Vue.prototype.$backgroundAudioData = {
+	playing: false,
+	playTime: 0,
+	formatedPlayTime: "00:00:00",
 };
+App.mpType = "app";
+const app = new Vue({
+	store,
+	...App,
+});
+app.$mount();
+// #endif
 
-const i18n = createI18n(i18nConfig);
+// #ifdef VUE3
+import { createSSRApp } from "vue";
+import * as Pinia from "pinia";
+import Vuex from "vuex";
 export function createApp() {
-    const app = createSSRApp(App);
-    app.use(Pinia.createPinia());
-    app.use(i18n);
-    return {
-        app,
-        Pinia,
-    };
+	const app = createSSRApp(App);
+	app.use(store);
+	app.use(Pinia.createPinia());
+	app.config.globalProperties.$adpid = "0123456789";
+	app.config.globalProperties.$backgroundAudioData = {
+		playing: false,
+		playTime: 0,
+		formatedPlayTime: "00:00:00",
+	};
+	return {
+		app,
+		Vuex, // 如果 nvue 使用 vuex 的各种map工具方法时，必须 return Vuex
+		Pinia, // 此处必须将 Pinia 返回
+	};
 }
+// #endif

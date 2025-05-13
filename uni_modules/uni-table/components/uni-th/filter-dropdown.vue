@@ -1,12 +1,12 @@
 <template>
 	<view class="uni-filter-dropdown">
 		<view class="dropdown-btn" @click="onDropdown">
-			<view class="icon-select" :class="{ active: canReset }" v-if="isSelect || isRange"></view>
-			<view class="icon-search" :class="{ active: canReset }" v-if="isSearch">
+			<view class="icon-select" :class="{active: canReset}" v-if="isSelect || isRange"></view>
+			<view class="icon-search" :class="{active: canReset}" v-if="isSearch">
 				<view class="icon-search-0"></view>
 				<view class="icon-search-1"></view>
 			</view>
-			<view class="icon-calendar" :class="{ active: canReset }" v-if="isDate">
+			<view class="icon-calendar" :class="{active: canReset}" v-if="isDate">
 				<view class="icon-calendar-0"></view>
 				<view class="icon-calendar-1"></view>
 			</view>
@@ -15,46 +15,43 @@
 		<view class="dropdown-popup dropdown-popup-right" v-if="isOpened" @click.stop>
 			<!-- select-->
 			<view v-if="isSelect" class="list">
-				<label class="flex-r a-i-c list-item" v-for="(item, index) in dataList" :key="index" @click="onItemClick($event, index)">
+				<label class="flex-r a-i-c list-item" v-for="(item,index) in dataList" :key="index"
+					@click="onItemClick($event, index)">
 					<check-box class="check" :checked="item.checked" />
 					<view class="checklist-content">
-						<text class="checklist-text" :style="item.styleIconText">{{ item[map.text] }}</text>
+						<text class="checklist-text" :style="item.styleIconText">{{item[map.text]}}</text>
 					</view>
 				</label>
 			</view>
 			<view v-if="isSelect" class="flex-r opera-area">
-				<view class="flex-f btn btn-default" :class="{ disable: !canReset }" @click="handleSelectReset"> {{ resource.reset }}</view>
-				<view class="flex-f btn btn-submit" @click="handleSelectSubmit">{{ resource.submit }}</view>
+				<view class="flex-f btn btn-default" :class="{disable: !canReset}" @click="handleSelectReset">
+					{{resource.reset}}</view>
+				<view class="flex-f btn btn-submit" @click="handleSelectSubmit">{{resource.submit}}</view>
 			</view>
 			<!-- search -->
 			<view v-if="isSearch" class="search-area">
 				<input class="search-input" v-model="filterValue" />
 			</view>
 			<view v-if="isSearch" class="flex-r opera-area">
-				<view class="flex-f btn btn-submit" @click="handleSearchSubmit">{{ resource.search }}</view>
-				<view class="flex-f btn btn-default" :class="{ disable: !canReset }" @click="handleSearchReset"> {{ resource.reset }}</view>
+				<view class="flex-f btn btn-submit" @click="handleSearchSubmit">{{resource.search}}</view>
+				<view class="flex-f btn btn-default" :class="{disable: !canReset}" @click="handleSearchReset">
+					{{resource.reset}}</view>
 			</view>
 			<!-- range -->
 			<view v-if="isRange">
-				<view class="input-label">{{ resource.gt }}</view>
+				<view class="input-label">{{resource.gt}}</view>
 				<input class="input" v-model="gtValue" />
-				<view class="input-label">{{ resource.lt }}</view>
+				<view class="input-label">{{resource.lt}}</view>
 				<input class="input" v-model="ltValue" />
 			</view>
 			<view v-if="isRange" class="flex-r opera-area">
-				<view class="flex-f btn btn-default" :class="{ disable: !canReset }" @click="handleRangeReset"> {{ resource.reset }}</view>
-				<view class="flex-f btn btn-submit" @click="handleRangeSubmit">{{ resource.submit }}</view>
+				<view class="flex-f btn btn-default" :class="{disable: !canReset}" @click="handleRangeReset">
+					{{resource.reset}}</view>
+				<view class="flex-f btn btn-submit" @click="handleRangeSubmit">{{resource.submit}}</view>
 			</view>
 			<!-- date -->
 			<view v-if="isDate">
-				<uni-datetime-picker
-					ref="datetimepicker"
-					:value="dateRange"
-					type="datetimerange"
-					return-type="timestamp"
-					@change="datetimechange"
-					@maskClick="timepickerclose"
-				>
+				<uni-datetime-picker ref="datetimepicker" :value="dateRange" type="datetimerange" return-type="timestamp" @change="datetimechange" @maskClick="timepickerclose">
 					<view></view>
 				</uni-datetime-picker>
 			</view>
@@ -63,96 +60,102 @@
 </template>
 
 <script>
-	import checkBox from "../uni-tr/table-checkbox.vue";
+	import checkBox from '../uni-tr/table-checkbox.vue'
 
 	const resource = {
-		reset: "重置",
-		search: "搜索",
-		submit: "确定",
-		filter: "筛选",
-		gt: "大于等于",
-		lt: "小于等于",
-		date: "日期范围",
-	};
+		"reset": "重置",
+		"search": "搜索",
+		"submit": "确定",
+		"filter": "筛选",
+		"gt": "大于等于",
+		"lt": "小于等于",
+		"date": "日期范围"
+	}
 
 	const DropdownType = {
 		Select: "select",
 		Search: "search",
 		Range: "range",
 		Date: "date",
-		Timestamp: "timestamp",
-	};
+		Timestamp: "timestamp"
+	}
 
 	export default {
-		name: "FilterDropdown",
-		emits: ["change"],
+		name: 'FilterDropdown',
+		emits:['change'],
 		components: {
-			checkBox,
+			checkBox
 		},
 		options: {
-			virtualHost: true,
+			virtualHost: true
 		},
 		props: {
 			filterType: {
 				type: String,
-				default: DropdownType.Select,
+				default: DropdownType.Select
 			},
 			filterData: {
 				type: Array,
-				default() {
-					return [];
-				},
+				default () {
+					return []
+				}
 			},
 			mode: {
 				type: String,
-				default: "default",
+				default: 'default'
 			},
 			map: {
 				type: Object,
-				default() {
+				default () {
 					return {
-						text: "text",
-						value: "value",
-					};
-				},
+						text: 'text',
+						value: 'value'
+					}
+				}
 			},
+			filterDefaultValue: {
+				type: [Array,String],
+				default () {
+					return ""
+				}
+			}
 		},
 		computed: {
 			canReset() {
 				if (this.isSearch) {
-					return this.filterValue.length > 0;
+					return this.filterValue.length > 0
 				}
 				if (this.isSelect) {
-					return this.checkedValues.length > 0;
+					return this.checkedValues.length > 0
 				}
 				if (this.isRange) {
-					return this.gtValue.length > 0 && this.ltValue.length > 0;
+					return (this.gtValue.length > 0 && this.ltValue.length > 0)
 				}
 				if (this.isDate) {
-					return this.dateSelect.length > 0;
+					return this.dateSelect.length > 0
 				}
-				return false;
+				return false
 			},
 			isSelect() {
-				return this.filterType === DropdownType.Select;
+				return this.filterType === DropdownType.Select
 			},
 			isSearch() {
-				return this.filterType === DropdownType.Search;
+				return this.filterType === DropdownType.Search
 			},
 			isRange() {
-				return this.filterType === DropdownType.Range;
+				return this.filterType === DropdownType.Range
 			},
 			isDate() {
-				return this.filterType === DropdownType.Date || this.filterType === DropdownType.Timestamp;
-			},
+				return (this.filterType === DropdownType.Date || this.filterType === DropdownType.Timestamp)
+			}
 		},
 		watch: {
 			filterData(newVal) {
-				this._copyFilters();
+				this._copyFilters()
 			},
 			indeterminate(newVal) {
-				this.isIndeterminate = newVal;
-			},
+				this.isIndeterminate = newVal
+			}
 		},
 		data() {
 			return {
@@ -160,135 +163,137 @@
 				enabled: true,
 				isOpened: false,
 				dataList: [],
-				filterValue: "",
+				filterValue: this.filterDefaultValue,
 				checkedValues: [],
-				gtValue: "",
-				ltValue: "",
+				gtValue: '',
+				ltValue: '',
 				dateRange: [],
-				dateSelect: [],
+				dateSelect: []
 			};
 		},
 		created() {
-			this._copyFilters();
+			this._copyFilters()
 		},
 		methods: {
 			_copyFilters() {
-				let dl = JSON.parse(JSON.stringify(this.filterData));
+				let dl = JSON.parse(JSON.stringify(this.filterData))
 				for (let i = 0; i < dl.length; i++) {
 					if (dl[i].checked === undefined) {
-						dl[i].checked = false;
+						dl[i].checked = false
 					}
 				}
-				this.dataList = dl;
+				this.dataList = dl
 			},
 			openPopup() {
-				this.isOpened = true;
+				this.isOpened = true
 				if (this.isDate) {
 					this.$nextTick(() => {
 						if (!this.dateRange.length) {
-							this.resetDate();
+							this.resetDate()
 						}
-						this.$refs.datetimepicker.show();
-					});
+						this.$refs.datetimepicker.show()
+					})
 				}
 			},
 			closePopup() {
-				this.isOpened = false;
+				this.isOpened = false
 			},
 			handleClose(e) {
-				this.closePopup();
+				this.closePopup()
 			},
 			resetDate() {
-				let date = new Date();
-				let dateText = date.toISOString().split("T")[0];
-				this.dateRange = [dateText + " 0:00:00", dateText + " 23:59:59"];
+				let date = new Date()
+				let dateText = date.toISOString().split('T')[0]
+				this.dateRange = [dateText + ' 0:00:00', dateText + ' 23:59:59']
 			},
 			onDropdown(e) {
-				this.openPopup();
+				this.openPopup()
 			},
 			onItemClick(e, index) {
-				let items = this.dataList;
-				let listItem = items[index];
+				let items = this.dataList
+				let listItem = items[index]
 				if (listItem.checked === undefined) {
-					items[index].checked = true;
+					items[index].checked = true
 				} else {
-					items[index].checked = !listItem.checked;
+					items[index].checked = !listItem.checked
 				}
 
-				let checkvalues = [];
+				let checkvalues = []
 				for (let i = 0; i < items.length; i++) {
-					const item = items[i];
+					const item = items[i]
 					if (item.checked) {
-						checkvalues.push(item.value);
+						checkvalues.push(item.value)
 					}
 				}
-				this.checkedValues = checkvalues;
+				this.checkedValues = checkvalues
 			},
 			datetimechange(e) {
-				this.closePopup();
-				this.dateRange = e;
-				this.dateSelect = e;
-				this.$emit("change", {
+				this.closePopup()
+				this.dateRange = e
+				this.dateSelect = e
+				this.$emit('change', {
 					filterType: this.filterType,
-					filter: e,
-				});
+					filter: e
+				})
 			},
 			timepickerclose(e) {
-				this.closePopup();
+				this.closePopup()
 			},
 			handleSelectSubmit() {
-				this.closePopup();
-				this.$emit("change", {
+				this.closePopup()
+				this.$emit('change', {
 					filterType: this.filterType,
-					filter: this.checkedValues,
-				});
+					filter: this.checkedValues
+				})
 			},
 			handleSelectReset() {
 				if (!this.canReset) {
 					return;
 				}
-				var items = this.dataList;
+				var items = this.dataList
 				for (let i = 0; i < items.length; i++) {
-					let item = items[i];
-					this.$set(item, "checked", false);
+					let item = items[i]
+					this.$set(item, 'checked', false)
 				}
-				this.checkedValues = [];
-				this.handleSelectSubmit();
+				this.checkedValues = []
+				this.handleSelectSubmit()
 			},
 			handleSearchSubmit() {
-				this.closePopup();
-				this.$emit("change", {
+				this.closePopup()
+				this.$emit('change', {
 					filterType: this.filterType,
-					filter: this.filterValue,
-				});
+					filter: this.filterValue
+				})
 			},
 			handleSearchReset() {
 				if (!this.canReset) {
 					return;
 				}
-				this.filterValue = "";
-				this.handleSearchSubmit();
+				this.filterValue = ''
+				this.handleSearchSubmit()
 			},
 			handleRangeSubmit(isReset) {
-				this.closePopup();
-				this.$emit("change", {
+				this.closePopup()
+				this.$emit('change', {
 					filterType: this.filterType,
-					filter: isReset === true ? [] : [parseInt(this.gtValue), parseInt(this.ltValue)],
-				});
+					filter: isReset === true ? [] : [parseInt(this.gtValue), parseInt(this.ltValue)]
+				})
 			},
 			handleRangeReset() {
 				if (!this.canReset) {
 					return;
 				}
-				this.gtValue = "";
-				this.ltValue = "";
-				this.handleRangeSubmit(true);
-			},
-		},
-	};
+				this.gtValue = ''
+				this.ltValue = ''
+				this.handleRangeSubmit(true)
+			}
+		}
+	}
 </script>
 
 <style lang="scss">
+	$uni-primary: #1890ff !default;
+	
 	.flex-r {
 		display: flex;
 		flex-direction: row;
@@ -318,8 +323,8 @@
 	}
 
 	.icon-select.active {
-		background-color: #1890ff;
-		border-top-color: #1890ff;
+		background-color: $uni-primary;
+		border-top-color: $uni-primary;
 	}
 
 	.icon-search {
@@ -346,11 +351,11 @@
 	}
 
 	.icon-search.active .icon-search-0 {
-		border-color: #1890ff;
+		border-color: $uni-primary;
 	}
 
 	.icon-search.active .icon-search-1 {
-		background-color: #1890ff;
+		background-color: $uni-primary;
 	}
 
 	.icon-calendar {
@@ -367,9 +372,8 @@
 		border-radius: 2px 2px 1px 1px;
 		position: relative;
 	}
-	.icon-calendar-0:before,
-	.icon-calendar-0:after {
-		content: "";
+	.icon-calendar-0:before, .icon-calendar-0:after {
+		content: '';
 		position: absolute;
 		top: -3px;
 		width: 4px;
@@ -391,14 +395,14 @@
 	}
 
 	.icon-calendar.active {
-		color: #1890ff;
+		color: $uni-primary;
 	}
 
 	.icon-calendar.active .icon-calendar-0,
 	.icon-calendar.active .icon-calendar-1,
 	.icon-calendar.active .icon-calendar-0:before,
 	.icon-calendar.active .icon-calendar-0:after {
-		background-color: #1890ff;
+		background-color: $uni-primary;
 	}
 
 	.uni-filter-dropdown {
@@ -410,10 +414,7 @@
 		position: absolute;
 		top: 100%;
 		background-color: #fff;
-		box-shadow:
-			0 3px 6px -4px #0000001f,
-			0 6px 16px #00000014,
-			0 9px 28px 8px #0000000d;
+		box-shadow: 0 3px 6px -4px #0000001f, 0 6px 16px #00000014, 0 9px 28px 8px #0000000d;
 		min-width: 150px;
 		z-index: 1000;
 	}
@@ -504,7 +505,7 @@
 	}
 
 	.btn-submit {
-		background-color: #1890ff;
+		background-color: $uni-primary;
 		color: #ffffff;
 	}
 </style>
