@@ -1,0 +1,26 @@
+.cc-border {
+	border: 1px solid #000;
+}
+.cc-card {
+	width: 100%;
+	height: auto;
+	box-sizing: border-box;
+	background-color: #fff;
+	overflow: hidden;
+	padding: 10rpx 20rpx;
+	border-radius: 5px;
+	border: 1px solid #ebeef5;
+	box-shadow: rgba(0, 0, 0, 0.08) 0 0 3px 1px;
+	.card-icon {
+		width: 30rpx;
+		height: 30rpx;
+	}
+	.card-title {
+		font-size: 30rpx;
+		color: #000;
+	}
+	.card-desc {
+		font-size: 20rpx;
+		color: #999;
+	}
+}

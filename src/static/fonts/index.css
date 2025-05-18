@@ -1,0 +1,27 @@
+@font-face {
+	font-family: "uni";
+	src: url("./uni.ttf");
+}
+
+@font-face {
+	font-family: "thorui";
+	src: url("./thorui.ttf");
+}
+
+@font-face {
+	font-family: "iconfont";
+	src: url("./iconfont.ttf");
+}
+
+@font-face {
+	font-family: "customicons";
+	src: url("./customicons.ttf");
+}
+@font-face {
+	font-family: "SF-Pro-Rounded-Bold";
+	src: url("./SF-Pro-Rounded-Bold.ttf");
+}
+@font-face {
+	font-family: "SF-Pro-Rounded-Regular";
+	src: url("./SF-Pro-Rounded-Regular.ttf");
+}

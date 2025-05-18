@@ -1,0 +1,9 @@
+/** ------ 自定义 ------ **/
+/* 定义变量 */
+@use "./variable.scss";
+/* 三方样式重写 */
+@use "./reset-ui.scss";
+/* 原子定义，全局可用 */
+@use "./global.scss";
+/* 公共布局 */
+@use "./public.scss";

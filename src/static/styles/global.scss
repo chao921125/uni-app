@@ -1,0 +1,149 @@
+@use "./variable.scss";
+
+/**
+ @for $var from start |to,through| end
+ 从 0 开始 至 90 结束，间隔为10
+ */
+//$i: 50;
+//@while $i > 0 {
+//  .#{variable.$prefix}-m-#{$i} { margin: #{$i}px; }
+//  .#{variable.$prefix}-mt-#{$i} { margin-top: #{$i}px; }
+//  .#{variable.$prefix}-mr-#{$i} { margin-right: #{$i}px; }
+//  .#{variable.$prefix}-mb-#{$i} { margin-bottom: #{$i}px; }
+//  .#{variable.$prefix}-ml-#{$i} { margin-left: #{$i}px; }
+//
+//  .#{variable.$prefix}-p-#{$i} { padding: #{$i}px; }
+//  .#{variable.$prefix}-pt-#{$i} { padding-top: #{$i}px; }
+//  .#{variable.$prefix}-pr-#{$i} { padding-right: #{$i}px; }
+//  .#{variable.$prefix}-pb-#{$i} { padding-bottom: #{$i}px; }
+//  .#{variable.$prefix}-pl-#{$i} { padding-left: #{$i}px; }
+//  $i: $i - 5;
+//}
+@for $i from 0 through 90 {
+	.#{variable.$prefix}-z-index-#{$i} {
+		z-index: $i * 10;
+	}
+}
+
+@for $i from 1 through 100 {
+	.#{variable.$prefix}-p-#{$i} {
+		padding: #{$i}rpx;
+	}
+	.#{variable.$prefix}-pl-#{$i} {
+		padding-left: #{$i}rpx;
+	}
+	.#{variable.$prefix}-pr-#{$i} {
+		padding-right: #{$i}rpx;
+	}
+	.#{variable.$prefix}-pt-#{$i} {
+		padding-top: #{$i}rpx;
+	}
+	.#{variable.$prefix}-pb-#{$i} {
+		padding-bottom: #{$i}rpx;
+	}
+	.#{variable.$prefix}-m-#{$i} {
+		margin: #{$i}rpx;
+	}
+	.#{variable.$prefix}-ml-#{$i} {
+		margin-left: #{$i}rpx;
+	}
+	.#{variable.$prefix}-mr-#{$i} {
+		margin-right: #{$i}rpx;
+	}
+	.#{variable.$prefix}-mt-#{$i} {
+		margin-top: #{$i}rpx;
+	}
+	.#{variable.$prefix}-mb-#{$i} {
+		margin-bottom: #{$i}rpx;
+	}
+}
+
+.#{variable.$prefix}-flex {
+	display: flex;
+	display: -webkit-flex;
+}
+.#{variable.$prefix}-flex-wrap {
+	@extend .#{variable.$prefix}-flex;
+	flex-wrap: wrap;
+}
+.#{variable.$prefix}-flex-row {
+	@extend .#{variable.$prefix}-flex;
+	flex-direction: row;
+}
+.#{variable.$prefix}-flex-row-center {
+	@extend .#{variable.$prefix}-flex-row;
+	align-items: center;
+	justify-content: center;
+}
+.#{variable.$prefix}-flex-row-start {
+	@extend .#{variable.$prefix}-flex-row;
+	align-items: flex-start;
+	justify-content: flex-start;
+}
+.#{variable.$prefix}-flex-row-end {
+	@extend .#{variable.$prefix}-flex-row;
+	align-items: flex-start;
+	justify-content: flex-end;
+}
+.#{variable.$prefix}-flex-row-center-start {
+	@extend .#{variable.$prefix}-flex-row;
+	align-items: center;
+	justify-content: flex-start;
+}
+.#{variable.$prefix}-flex-row-between {
+	@extend .#{variable.$prefix}-flex-row;
+	align-items: center;
+	justify-content: space-between;
+}
+.#{variable.$prefix}-flex-row-reverse {
+	@extend .#{variable.$prefix}-flex;
+	flex-direction: row-reverse;
+}
+.#{variable.$prefix}-flex-row-reverse-start {
+	@extend .#{variable.$prefix}-flex;
+	flex-direction: row-reverse;
+	align-items: flex-start;
+	justify-content: flex-start;
+}
+.#{variable.$prefix}-flex-column {
+	@extend .#{variable.$prefix}-flex;
+	flex-direction: column;
+}
+.#{variable.$prefix}-flex-column-reverse {
+	@extend .#{variable.$prefix}-flex;
+	flex-direction: column-reverse;
+}
+.#{variable.$prefix}-flex-column-center {
+	@extend .#{variable.$prefix}-flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+}
+
+%grid {
+	display: grid;
+	display: -ms-grid;
+	display: -moz-grid;
+}
+.#{variable.$prefix}-grid {
+	@extend %grid;
+	grid-template-columns: repeat(auto-fit, 240px);
+	/*grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));*/
+	/*grid-template-rows: repeat(auto-fit, minmax(240px, 240px));*/
+	grid-gap: 1.2rem;
+	/*gap: 1.2rem;*/
+}
+
+%text-center {
+	text-align: center;
+}
+
+.#{variable.$prefix}-text-center {
+	@extend %text-center;
+}
+
+.#{variable.$prefix}-text-ellipsis {
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+}

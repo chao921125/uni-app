@@ -1,0 +1,30 @@
+{
+    "name": "u-draw 多端适用的异步 canvas 绘制（Vue2、3）",
+    "version": "4.0.2",
+    "description": "全端支持，异步绘制、表格、二维码、图片裁剪。原生开发体验，上手快，不污染组件数据",
+    "author": "hairyf",
+    "license": "ISC",
+    "keywords": [
+        "海报",
+        "绘制",
+        "分享",
+        "小程序",
+        "canvas"
+    ],
+    "main": "index.js",
+    "scripts": {
+        "build": "ptsup ./src --dts --meta --splitting --external --internal @uni-helper/uni-env"
+    },
+    "dependencies": {
+        "@uni-helper/uni-env": "^0.0.2"
+    },
+    "types": "./index.d.ts",
+    "id": "u-draw-poster",
+    "displayName": "u-draw 多端适用的异步 canvas 绘制（Vue2、3）",
+    "dcloudext": {
+        "category": [
+            "JS SDK",
+            "通用 SDK"
+        ]
+    }
+}
