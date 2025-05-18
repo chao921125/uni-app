@@ -25,33 +25,9 @@ function openMapByAndroid(origin, destination, mode) {
 	} else if (mode == "bike") {
 		bdMode = "riding";
 	}
-	var bdapp =
-		"baidumap://map/direction?destination=name:" +
-		destinationName +
-		"|latlng:" +
-		destination.latitude +
-		"," +
-		destination.longitude +
-		"&coord_type=gcj02&mode=" +
-		bdMode +
-		"&src=uniapp";
+	var bdapp = "baidumap://map/direction?destination=name:" + destinationName + "|latlng:" + destination.latitude + "," + destination.longitude + "&coord_type=gcj02&mode=" + bdMode + "&src=uniapp";
 	if (origin) {
-		bdapp =
-			"baidumap://map/direction?origin=name:" +
-			originName +
-			"|latlng:" +
-			origin.latitude +
-			"," +
-			origin.longitude +
-			"&destination=name:" +
-			destinationName +
-			"|latlng:" +
-			destination.latitude +
-			"," +
-			destination.longitude +
-			"&coord_type=gcj02&mode=" +
-			bdMode +
-			"&src=uniapp";
+		bdapp = "baidumap://map/direction?origin=name:" + originName + "|latlng:" + origin.latitude + "," + origin.longitude + "&destination=name:" + destinationName + "|latlng:" + destination.latitude + "," + destination.longitude + "&coord_type=gcj02&mode=" + bdMode + "&src=uniapp";
 	}
 	var bdappDown = "http://map.baidu.com/zt/qudao/newfengchao/1012337a/html/slide.html";
 	var amapMode = 0;
@@ -62,78 +38,18 @@ function openMapByAndroid(origin, destination, mode) {
 	} else if (mode == "bike") {
 		amapMode = 3;
 	}
-	var amapuri =
-		"amapuri://route/plan/?sourceApplication=uniapp&dlat=" +
-		destination.latitude +
-		"&dlon=" +
-		destination.longitude +
-		"&dname=" +
-		destinationName +
-		"&t=" +
-		amapMode;
+	var amapuri = "amapuri://route/plan/?sourceApplication=uniapp&dlat=" + destination.latitude + "&dlon=" + destination.longitude + "&dname=" + destinationName + "&t=" + amapMode;
 	if (origin) {
-		amapuri =
-			"amapuri://route/plan/?sourceApplication=uniapp&slat=" +
-			origin.latitude +
-			"&slon=" +
-			origin.longitude +
-			"&sname=" +
-			originName +
-			"&dlat=" +
-			destination.latitude +
-			"&dlon=" +
-			destination.longitude +
-			"&dname=" +
-			destinationName +
-			"&t=" +
-			amapMode;
+		amapuri = "amapuri://route/plan/?sourceApplication=uniapp&slat=" + origin.latitude + "&slon=" + origin.longitude + "&sname=" + originName + "&dlat=" + destination.latitude + "&dlon=" + destination.longitude + "&dname=" + destinationName + "&t=" + amapMode;
 	}
 	var amapuriDown = "http://wap.amap.com/";
 	var qqmap = "qqmap://map/routeplan?type=" + mode + "&to=" + destinationName + "&tocoord=" + destination.latitude + "," + destination.longitude;
 	if (origin) {
-		qqmap =
-			"qqmap://map/routeplan?type=" +
-			mode +
-			"&from=" +
-			originName +
-			"&fromcoord=" +
-			origin.latitude +
-			"," +
-			origin.longitude +
-			"&to=" +
-			destinationName +
-			"&tocoord=" +
-			destination.latitude +
-			"," +
-			destination.longitude;
+		qqmap = "qqmap://map/routeplan?type=" + mode + "&from=" + originName + "&fromcoord=" + origin.latitude + "," + origin.longitude + "&to=" + destinationName + "&tocoord=" + destination.latitude + "," + destination.longitude;
 	}
-	var qqmapDefault =
-		"https://apis.map.qq.com/uri/v1/routeplan?type=" +
-		mode +
-		"&to=" +
-		destinationName +
-		"&tocoord=" +
-		destination.latitude +
-		"," +
-		destination.longitude +
-		"&policy=1";
+	var qqmapDefault = "https://apis.map.qq.com/uri/v1/routeplan?type=" + mode + "&to=" + destinationName + "&tocoord=" + destination.latitude + "," + destination.longitude + "&policy=1";
 	if (origin) {
-		qqmapDefault =
-			"https://apis.map.qq.com/uri/v1/routeplan?type=" +
-			mode +
-			"&from=" +
-			originName +
-			"&fromcoord=" +
-			origin.latitude +
-			"," +
-			origin.longitude +
-			"&to=" +
-			destinationName +
-			"&tocoord=" +
-			destination.latitude +
-			"," +
-			destination.longitude +
-			"&policy=1";
+		qqmapDefault = "https://apis.map.qq.com/uri/v1/routeplan?type=" + mode + "&from=" + originName + "&fromcoord=" + origin.latitude + "," + origin.longitude + "&to=" + destinationName + "&tocoord=" + destination.latitude + "," + destination.longitude + "&policy=1";
 	}
 	// #ifdef APP-PLUS
 	plus.nativeUI.actionSheet(
@@ -204,21 +120,12 @@ function openMapByAndroid(origin, destination, mode) {
 }
 function navigationByAndroid(destination) {
 	let destinationName = destination.name ? destination.name : "终点";
-	var bdapp =
-		"baidumap://map/navi?location=" + destination.latitude + "," + destination.longitude + "&query=" + destinationName + "&coord_type=gcj02&src=uniapp";
+	var bdapp = "baidumap://map/navi?location=" + destination.latitude + "," + destination.longitude + "&query=" + destinationName + "&coord_type=gcj02&src=uniapp";
 	var bdappDown = "http://map.baidu.com/zt/qudao/newfengchao/1012337a/html/slide.html";
-	var amapuri =
-		"androidamap://navi?sourceApplication=uniapp&lat=" + destination.latitude + "&lon=" + destination.longitude + "&poiname=" + destinationName + "&dev=1";
+	var amapuri = "androidamap://navi?sourceApplication=uniapp&lat=" + destination.latitude + "&lon=" + destination.longitude + "&poiname=" + destinationName + "&dev=1";
 	var amapuriDown = "http://wap.amap.com/";
 	var qqmap = "qqmap://map/routeplan?type=drive&to=" + destinationName + "&tocoord=" + destination.latitude + "," + destination.longitude;
-	var qqmapDefault =
-		"https://apis.map.qq.com/uri/v1/routeplan?type=drive&to=" +
-		destinationName +
-		"&tocoord=" +
-		destination.latitude +
-		"," +
-		destination.longitude +
-		"&policy=1";
+	var qqmapDefault = "https://apis.map.qq.com/uri/v1/routeplan?type=drive&to=" + destinationName + "&tocoord=" + destination.latitude + "," + destination.longitude + "&policy=1";
 	// #ifdef APP-PLUS
 	plus.nativeUI.actionSheet(
 		{
@@ -290,33 +197,9 @@ function openMapByIos(origin, destination, mode) {
 	let originName = origin && origin.name ? origin.name : "起点";
 	let destinationName = destination.name ? destination.name : "终点";
 	var bdMode = "driving";
-	var bdapp =
-		"baidumap://map/direction?origin=我的位置&destination=name:" +
-		destinationName +
-		"|latlng:" +
-		destination.latitude +
-		"," +
-		destination.longitude +
-		"&coord_type=gcj02&mode=" +
-		bdMode +
-		"&src=uniapp";
+	var bdapp = "baidumap://map/direction?origin=我的位置&destination=name:" + destinationName + "|latlng:" + destination.latitude + "," + destination.longitude + "&coord_type=gcj02&mode=" + bdMode + "&src=uniapp";
 	if (origin) {
-		bdapp =
-			"baidumap://map/direction?origin=name:" +
-			originName +
-			"|latlng:" +
-			origin.latitude +
-			"," +
-			origin.longitude +
-			"&destination=name:" +
-			destinationName +
-			"|latlng:" +
-			destination.latitude +
-			"," +
-			destination.longitude +
-			"&coord_type=gcj02&mode=" +
-			bdMode +
-			"&src=uniapp";
+		bdapp = "baidumap://map/direction?origin=name:" + originName + "|latlng:" + origin.latitude + "," + origin.longitude + "&destination=name:" + destinationName + "|latlng:" + destination.latitude + "," + destination.longitude + "&coord_type=gcj02&mode=" + bdMode + "&src=uniapp";
 	}
 	var bdappDown = "https://apps.apple.com/cn/app/id452186370";
 	var amapMode = 0;
@@ -327,78 +210,18 @@ function openMapByIos(origin, destination, mode) {
 	} else if (mode == "bike") {
 		amapMode = 3;
 	}
-	var amapuri =
-		"iosamap://route/plan/?sourceApplication=uniapp&dlat=" +
-		destination.latitude +
-		"&dlon=" +
-		destination.longitude +
-		"&dname=" +
-		destinationName +
-		"&t=" +
-		amapMode;
+	var amapuri = "iosamap://route/plan/?sourceApplication=uniapp&dlat=" + destination.latitude + "&dlon=" + destination.longitude + "&dname=" + destinationName + "&t=" + amapMode;
 	if (origin) {
-		amapuri =
-			"iosamap://route/plan/?sourceApplication=uniapp&slat=" +
-			origin.latitude +
-			"&slon=" +
-			origin.longitude +
-			"&sname=" +
-			originName +
-			"&dlat=" +
-			destination.latitude +
-			"&dlon=" +
-			destination.longitude +
-			"&dname=" +
-			destinationName +
-			"&t=" +
-			amapMode;
+		amapuri = "iosamap://route/plan/?sourceApplication=uniapp&slat=" + origin.latitude + "&slon=" + origin.longitude + "&sname=" + originName + "&dlat=" + destination.latitude + "&dlon=" + destination.longitude + "&dname=" + destinationName + "&t=" + amapMode;
 	}
 	var amapuriDown = "https://apps.apple.com/cn/app/id461703208";
 	var qqmap = "qqmap://map/routeplan?type=" + mode + "&from=我的位置&to=" + destinationName + "&tocoord=" + destination.latitude + "," + destination.longitude;
 	if (origin) {
-		qqmap =
-			"qqmap://map/routeplan?type=" +
-			mode +
-			"&from=" +
-			originName +
-			"&fromcoord=" +
-			origin.latitude +
-			"," +
-			origin.longitude +
-			"&to=" +
-			destinationName +
-			"&tocoord=" +
-			destination.latitude +
-			"," +
-			destination.longitude;
+		qqmap = "qqmap://map/routeplan?type=" + mode + "&from=" + originName + "&fromcoord=" + origin.latitude + "," + origin.longitude + "&to=" + destinationName + "&tocoord=" + destination.latitude + "," + destination.longitude;
 	}
-	var qqmapDefault =
-		"https://apis.map.qq.com/uri/v1/routeplan?type=" +
-		mode +
-		"&from=我的位置&to=" +
-		destinationName +
-		"&tocoord=" +
-		destination.latitude +
-		"," +
-		destination.longitude +
-		"&policy=1";
+	var qqmapDefault = "https://apis.map.qq.com/uri/v1/routeplan?type=" + mode + "&from=我的位置&to=" + destinationName + "&tocoord=" + destination.latitude + "," + destination.longitude + "&policy=1";
 	if (origin) {
-		qqmapDefault =
-			"https://apis.map.qq.com/uri/v1/routeplan?type=" +
-			mode +
-			"&from=" +
-			originName +
-			"&fromcoord=" +
-			origin.latitude +
-			"," +
-			origin.longitude +
-			"&to=" +
-			destinationName +
-			"&tocoord=" +
-			destination.latitude +
-			"," +
-			destination.longitude +
-			"&policy=1";
+		qqmapDefault = "https://apis.map.qq.com/uri/v1/routeplan?type=" + mode + "&from=" + originName + "&fromcoord=" + origin.latitude + "," + origin.longitude + "&to=" + destinationName + "&tocoord=" + destination.latitude + "," + destination.longitude + "&policy=1";
 	}
 	var iosMode = "d";
 	if (mode == "bus") {
@@ -413,17 +236,7 @@ function openMapByIos(origin, destination, mode) {
 	}
 	var iosmap = "http://maps.apple.com/?daddr=" + destination.latitude + "," + destination.longitude + "&dirflg=" + iosMode;
 	if (origin) {
-		iosmap =
-			"http://maps.apple.com/?saddr=" +
-			origin.latitude +
-			"," +
-			origin.longitude +
-			"&daddr=" +
-			destination.latitude +
-			"," +
-			destination.longitude +
-			"&dirflg=" +
-			iosMode;
+		iosmap = "http://maps.apple.com/?saddr=" + origin.latitude + "," + origin.longitude + "&daddr=" + destination.latitude + "," + destination.longitude + "&dirflg=" + iosMode;
 	}
 	// #ifdef APP-PLUS
 	plus.nativeUI.actionSheet(
@@ -504,21 +317,12 @@ function openMapByIos(origin, destination, mode) {
 }
 function navigationByIos(destination) {
 	let destinationName = destination.name ? destination.name : "终点";
-	var bdapp =
-		"baidumap://map/navi?location=" + destination.latitude + "," + destination.longitude + "&coord_type=gcj02&query=" + destinationName + "&src=uniapp";
+	var bdapp = "baidumap://map/navi?location=" + destination.latitude + "," + destination.longitude + "&coord_type=gcj02&query=" + destinationName + "&src=uniapp";
 	var bdappDown = "https://apps.apple.com/cn/app/id452186370";
-	var amapuri =
-		"iosamap://navi?sourceApplication=uniapp&lat=" + destination.latitude + "&lon=" + destination.longitude + "&poiname=" + destinationName + "&dev=1";
+	var amapuri = "iosamap://navi?sourceApplication=uniapp&lat=" + destination.latitude + "&lon=" + destination.longitude + "&poiname=" + destinationName + "&dev=1";
 	var amapuriDown = "https://apps.apple.com/cn/app/id461703208";
 	var qqmap = "qqmap://map/routeplan?type=drive&from=我的位置&to=" + destinationName + "&tocoord=" + destination.latitude + "," + destination.longitude;
-	var qqmapDefault =
-		"https://apis.map.qq.com/uri/v1/routeplan?type=drive&from=我的位置&to=" +
-		destinationName +
-		"&tocoord=" +
-		destination.latitude +
-		"," +
-		destination.longitude +
-		"&policy=1";
+	var qqmapDefault = "https://apis.map.qq.com/uri/v1/routeplan?type=drive&from=我的位置&to=" + destinationName + "&tocoord=" + destination.latitude + "," + destination.longitude + "&policy=1";
 	var iosmap = "http://maps.apple.com/?daddr=" + destination.latitude + "," + destination.longitude + "&dirflg=d";
 	// #ifdef APP-PLUS
 	plus.nativeUI.actionSheet(
