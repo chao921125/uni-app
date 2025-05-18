@@ -31,20 +31,24 @@ function AMapWX(a) {
 					var d, e, f, g, h, i, j, k, l;
 					b.data.status && "1" == b.data.status
 						? ((d = b.data.regeocode),
-							(e = d.addressComponent),
-							(f = []),
-							(g = ""),
-							d && d.roads[0] && d.roads[0].name && (g = d.roads[0].name + "附近"),
-							(h = c.split(",")[0]),
-							(i = c.split(",")[1]),
-							d.pois && d.pois[0] && ((g = d.pois[0].name + "附近"), (j = d.pois[0].location), j && ((h = parseFloat(j.split(",")[0])), (i = parseFloat(j.split(",")[1])))),
-							e.provice && f.push(e.provice),
-							e.city && f.push(e.city),
-							e.district && f.push(e.district),
-							e.streetNumber && e.streetNumber.street && e.streetNumber.number ? (f.push(e.streetNumber.street), f.push(e.streetNumber.number)) : ((k = ""), d && d.roads[0] && d.roads[0].name && (k = d.roads[0].name), f.push(k)),
-							(f = f.join("")),
-							(l = [{ iconPath: a.iconPath, width: a.iconWidth, height: a.iconHeight, name: f, desc: g, longitude: h, latitude: i, id: 0, regeocodeData: d }]),
-							a.success(l))
+						  (e = d.addressComponent),
+						  (f = []),
+						  (g = ""),
+						  d && d.roads[0] && d.roads[0].name && (g = d.roads[0].name + "附近"),
+						  (h = c.split(",")[0]),
+						  (i = c.split(",")[1]),
+						  d.pois &&
+								d.pois[0] &&
+								((g = d.pois[0].name + "附近"), (j = d.pois[0].location), j && ((h = parseFloat(j.split(",")[0])), (i = parseFloat(j.split(",")[1])))),
+						  e.provice && f.push(e.provice),
+						  e.city && f.push(e.city),
+						  e.district && f.push(e.district),
+						  e.streetNumber && e.streetNumber.street && e.streetNumber.number
+								? (f.push(e.streetNumber.street), f.push(e.streetNumber.number))
+								: ((k = ""), d && d.roads[0] && d.roads[0].name && (k = d.roads[0].name), f.push(k)),
+						  (f = f.join("")),
+						  (l = [{ iconPath: a.iconPath, width: a.iconWidth, height: a.iconHeight, name: f, desc: g, longitude: h, latitude: i, id: 0, regeocodeData: d }]),
+						  a.success(l))
 						: a.fail({ errCode: b.data.infocode, errMsg: b.data.info });
 				},
 				fail: function (b) {
@@ -57,7 +61,7 @@ function AMapWX(a) {
 			? c(a.location)
 			: b.getWxLocation(a, function (a) {
 					c(a);
-				});
+			  });
 	}),
 	(AMapWX.prototype.getWeather = function (a) {
 		function d(d) {
@@ -81,7 +85,11 @@ function AMapWX(a) {
 							return b;
 						}
 						var d, e;
-						b.data.status && "1" == b.data.status ? (b.data.lives ? ((d = b.data.lives), d && d.length > 0 && ((d = d[0]), (e = c(d)), (e["liveData"] = d), a.success(e))) : b.data.forecasts && b.data.forecasts[0] && a.success({ forecast: b.data.forecasts[0] })) : a.fail({ errCode: b.data.infocode, errMsg: b.data.info });
+						b.data.status && "1" == b.data.status
+							? b.data.lives
+								? ((d = b.data.lives), d && d.length > 0 && ((d = d[0]), (e = c(d)), (e["liveData"] = d), a.success(e)))
+								: b.data.forecasts && b.data.forecasts[0] && a.success({ forecast: b.data.forecasts[0] })
+							: a.fail({ errCode: b.data.infocode, errMsg: b.data.info });
 					},
 					fail: function (b) {
 						a.fail({ errCode: "0", errMsg: b.errMsg || "" });
@@ -96,7 +104,9 @@ function AMapWX(a) {
 				header: { "content-type": "application/json" },
 				success: function (b) {
 					var c, e;
-					b.data.status && "1" == b.data.status ? ((e = b.data.regeocode), e.addressComponent ? (c = e.addressComponent.adcode) : e.aois && e.aois.length > 0 && (c = e.aois[0].adcode), d(c)) : a.fail({ errCode: b.data.infocode, errMsg: b.data.info });
+					b.data.status && "1" == b.data.status
+						? ((e = b.data.regeocode), e.addressComponent ? (c = e.addressComponent.adcode) : e.aois && e.aois.length > 0 && (c = e.aois[0].adcode), d(c))
+						: a.fail({ errCode: b.data.infocode, errMsg: b.data.info });
 				},
 				fail: function (b) {
 					a.fail({ errCode: "0", errMsg: b.errMsg || "" });
@@ -109,7 +119,7 @@ function AMapWX(a) {
 			? d(a.city)
 			: b.getWxLocation(a, function (a) {
 					e(a);
-				});
+			  });
 	}),
 	(AMapWX.prototype.getPoiAround = function (a) {
 		function d(d) {
@@ -152,11 +162,18 @@ function AMapWX(a) {
 			? d(a.location)
 			: b.getWxLocation(a, function (a) {
 					d(a);
-				});
+			  });
 	}),
 	(AMapWX.prototype.getStaticmap = function (a) {
 		function f(b) {
-			c.push("location=" + b), a.zoom && c.push("zoom=" + a.zoom), a.size && c.push("size=" + a.size), a.scale && c.push("scale=" + a.scale), a.markers && c.push("markers=" + a.markers), a.labels && c.push("labels=" + a.labels), a.paths && c.push("paths=" + a.paths), a.traffic && c.push("traffic=" + a.traffic);
+			c.push("location=" + b),
+				a.zoom && c.push("zoom=" + a.zoom),
+				a.size && c.push("size=" + a.size),
+				a.scale && c.push("scale=" + a.scale),
+				a.markers && c.push("markers=" + a.markers),
+				a.labels && c.push("labels=" + a.labels),
+				a.paths && c.push("paths=" + a.paths),
+				a.traffic && c.push("traffic=" + a.traffic);
 			var e = d + c.join("&");
 			a.success({ url: e });
 		}
@@ -175,7 +192,7 @@ function AMapWX(a) {
 				? f(a.location)
 				: b.getWxLocation(a, function (a) {
 						f(a);
-					});
+				  });
 	}),
 	(AMapWX.prototype.getInputtips = function (a) {
 		var b = this,

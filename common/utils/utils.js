@@ -26,7 +26,17 @@ const dateUtils = {
 		var _format = function (number) {
 			return number < 10 ? "0" + number : number;
 		};
-		return date.getFullYear() + "/" + _format(date.getMonth() + 1) + "/" + _format(date.getDate()) + "-" + _format(date.getHours()) + ":" + _format(date.getMinutes());
+		return (
+			date.getFullYear() +
+			"/" +
+			_format(date.getMonth() + 1) +
+			"/" +
+			_format(date.getDate()) +
+			"-" +
+			_format(date.getHours()) +
+			":" +
+			_format(date.getMinutes())
+		);
 	},
 	parse: function (str) {
 		//将"yyyy-mm-dd HH:MM:ss"格式的字符串，转化为一个Date对象
@@ -151,7 +161,7 @@ const utils = {
 					r: parseInt(result[1], 16),
 					g: parseInt(result[2], 16),
 					b: parseInt(result[3], 16),
-				}
+			  }
 			: null;
 	},
 };

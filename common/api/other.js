@@ -1,13 +1,13 @@
-import config from "./index.js";
-import request from "../request.js";
+import config from './index.js';
+import request from '../request.js';
 
 // 获取banner列表
 export function getBanner(data) {
-	return request({
-		url: config.basePath + "/index/getbanner",
-		method: "POST",
-		data: data,
-	});
+    return request({
+        url: config.basePath + '/index/getbanner',
+        method: 'POST',
+        data: data
+    });
 }
 
 /**
@@ -17,11 +17,11 @@ export function getBanner(data) {
  * cateid 分类id
  */
 export function getIndexCount(data) {
-	return request({
-		url: config.basePath + "/index/getresult",
-		method: "POST",
-		data: data,
-	});
+    return request({
+        url: config.basePath + '/index/getresult',
+        method: 'POST',
+        data: data
+    });
 }
 
 /**
@@ -30,11 +30,11 @@ export function getIndexCount(data) {
  * uid
  */
 export function getRank(data) {
-	return request({
-		url: config.basePath + "/index/ranklist",
-		method: "POST",
-		data: data,
-	});
+    return request({
+        url: config.basePath + '/index/ranklist',
+        method: 'POST',
+        data: data
+    });
 }
 
 /**
@@ -45,11 +45,11 @@ export function getRank(data) {
  * content
  */
 export function addFeedback(data) {
-	return request({
-		url: config.basePath + "/index/subcontent",
-		method: "POST",
-		data: data,
-	});
+    return request({
+        url: config.basePath + '/index/subcontent',
+        method: 'POST',
+        data: data
+    });
 }
 
 /**
@@ -60,11 +60,11 @@ export function addFeedback(data) {
  * content
  */
 export function getAbout(data) {
-	return request({
-		url: config.basePath + "/index/about",
-		method: "POST",
-		data: data,
-	});
+    return request({
+        url: config.basePath + '/index/about',
+        method: 'POST',
+        data: data
+    });
 }
 
 /**
@@ -77,11 +77,11 @@ export function getAbout(data) {
  * content
  */
 export function addDiscuss(data) {
-	return request({
-		url: config.basePath + "/index/addcomment",
-		method: "POST",
-		data: data,
-	});
+    return request({
+        url: config.basePath + '/index/addcomment',
+        method: 'POST',
+        data: data
+    });
 }
 
 /**
@@ -91,9 +91,9 @@ export function addDiscuss(data) {
  * tid
  */
 export function getDiscuss(data) {
-	return request({
-		url: config.basePath + "/index/getcomment",
-		method: "POST",
-		data: data,
-	});
+    return request({
+        url: config.basePath + '/index/getcomment',
+        method: 'POST',
+        data: data
+    });
 }

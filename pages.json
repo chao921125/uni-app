@@ -18,49 +18,19 @@
             "enablePullDownRefresh": true
         }
     }, {
-        "path": "pages/tab-bar/demo",
+        "path": "pages/tab-bar/user",
         "style": {
-            "navigationBarTitleText": "示例",
+            "navigationBarTitleText": "%index.api%",
             "enablePullDownRefresh": true
-        }
-    }, {
-        "path": "pages/common/blank",
-        "style": {
-            "navigationBarTitleText": "空白页",
-            "enablePullDownRefresh": false
         }
     }],
     "subPackages": [{
-        "root": "pages/product/",
+        "root": "pages/demo/",
         "pages": [{
-            "path": "detail",
+            "path": "demo",
             "style": {
                 "navigationStyle": "custom",
                 "navigationBarTitleText": "详情",
-                "enablePullDownRefresh": true
-            }
-        }]
-    }, {
-        "root": "pages/apis/",
-        "pages": [{
-            "path": "contact",
-            "style": {
-                "navigationBarTitleText": "联系人",
-                "enablePullDownRefresh": true
-            }
-        }]
-    }, {
-        "root": "pages/demo/",
-        "pages": [{
-            "path": "language",
-            "style": {
-                "navigationBarTitleText": "国际化",
-                "enablePullDownRefresh": true
-            }
-        }, {
-            "path": "lottery",
-            "style": {
-                "navigationBarTitleText": "抽奖",
                 "enablePullDownRefresh": true
             }
         }]
@@ -82,7 +52,7 @@
                 "pagePath": "pages/tab-bar/api",
                 "text": ""
             }, {
-                "pagePath": "pages/tab-bar/demo",
+                "pagePath": "pages/tab-bar/user",
                 "text": ""
             }
         ]
@@ -100,7 +70,7 @@
             "network": "all",
             "packages": ["__APP__"]
         },
-        "pages/tab-bar/demo": {
+        "pages/tab-bar/user": {
             "network": "all",
             "packages": ["__APP__"]
         }
