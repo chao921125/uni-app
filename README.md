@@ -24,7 +24,7 @@
 |----------------------------------------------------|
 | [vant weapp](https://github.com/youzan/vant-weapp) |
 | [uni-ui](https://github.com/dcloudio/uni-ui)       |
-| [uviewui](https://www.uviewui.com/)                |
+| [uviewui 不支持vue3](https://www.uviewui.com/)                |
 | [uvui](https://www.uvui.cn/)                       |
 
 | 图表                                               |
