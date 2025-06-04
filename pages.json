@@ -7,11 +7,11 @@
         "path": "pages/welcome",
         "style": {
             "navigationBarTitleText": "欢迎页",
-            "enablePullDownRefresh": true
+            "navigationStyle": "custom"
         },
 		"needLogin": false
     }, {
-        "path": "pages/tab-bar/index",
+        "path": "pages/tab-bar/home",
         "style": {
             "navigationBarTitleText": "首页",
             "enablePullDownRefresh": true
@@ -25,14 +25,14 @@
         },
 		"needLogin": false
     }, {
-        "path": "pages/tab-bar/api",
+        "path": "pages/tab-bar/demo",
         "style": {
-            "navigationBarTitleText": "API",
+            "navigationBarTitleText": "示例",
             "enablePullDownRefresh": true
         },
 		"needLogin": false
     }, {
-        "path": "pages/tab-bar/user",
+        "path": "pages/tab-bar/my",
         "style": {
             "navigationBarTitleText": "我的",
             "enablePullDownRefresh": true
@@ -52,38 +52,38 @@
     }],
 	// 设置底部 tab 的表现	
     "tabBar": {
-        "height": "1px",
-        "color": "#7A7E83", // tab 上的文字默认颜色
-        "selectedColor": "#007AFF", // tab 上的文字选中时的颜色
-        "backgroundColor": "#F8F8F8", // tab 的背景色
+        "height": "56px",
+        "color": "#000", // tab 上的文字默认颜色
+        "selectedColor": "#1296db", // tab 上的文字选中时的颜色
+        "backgroundColor": "#fff", // tab 的背景色
         "position": "bottom", // 可选值 bottom、top
         "list": [{
-                "pagePath": "pages/tab-bar/index",
-                "text": "",
-                "iconPath": "",
-                "selectedIconPath": ""
+                "pagePath": "pages/tab-bar/home",
+                "text": "首页",
+                "iconPath": "/static/images/tab/home.png",
+                "selectedIconPath": "/static/images/tab/home-sel.png"
             },
             {
                 "pagePath": "pages/tab-bar/article",
-                "text": "",
-                "iconPath": "",
-                "selectedIconPath": ""
+                "text": "文章",
+                "iconPath": "/static/images/tab/article.png",
+                "selectedIconPath": "/static/images/tab/article-sel.png"
             }, {
-                "pagePath": "pages/tab-bar/api",
-                "text": "",
-                "iconPath": "",
-                "selectedIconPath": ""
+                "pagePath": "pages/tab-bar/demo",
+                "text": "示例",
+                "iconPath": "/static/images/tab/demo.png",
+                "selectedIconPath": "/static/images/tab/demo-sel.png"
             }, {
-                "pagePath": "pages/tab-bar/user",
-                "text": "",
-                "iconPath": "",
-                "selectedIconPath": ""
+                "pagePath": "pages/tab-bar/my",
+                "text": "我的",
+                "iconPath": "/static/images/tab/my.png",
+                "selectedIconPath": "/static/images/tab/my-sel.png"
             }
         ]
     },
 	// 分包预下载规则
     "preloadRule": {
-        "pages/tab-bar/index": {
+        "pages/tab-bar/home": {
             "network": "all",
             "packages": ["__APP__"]
         },
@@ -91,11 +91,11 @@
             "network": "all",
             "packages": ["__APP__"]
         },
-        "pages/tab-bar/api": {
+        "pages/tab-bar/demo": {
             "network": "all",
             "packages": ["__APP__"]
         },
-        "pages/tab-bar/user": {
+        "pages/tab-bar/my": {
             "network": "all",
             "packages": ["__APP__"]
         }

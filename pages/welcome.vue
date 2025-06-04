@@ -13,10 +13,17 @@ const changeClick = () => {
 defineExpose({
 	changeClick,
 });
+
+const onToHome = () => {
+	uni.switchTab({
+		url: "/pages/tab-bar/home"
+	})
+}
 </script>
 
-<template>
+<template>广告
 	<view @click="changeClick">template {{ props.name }}</view>
+	<button @tap="onToHome">to home</button>
 </template>
 
 <style scoped lang="scss"></style>
