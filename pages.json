@@ -1,4 +1,4 @@
-{ // pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
+{ // pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.net.cn/collocation/pages.html
     "pages": [{
         "path": "pages/tab-bar/index",
         "style": {
