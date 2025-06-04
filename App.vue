@@ -2,43 +2,18 @@
 import { mapMutations } from "vuex";
 import { version } from "./package.json";
 import { useHeightStore } from "@/store/height.js";
-// #ifdef APP
-import checkUpdate from "@/uni_modules/uni-upgrade-center-app/utils/check-update";
-// #endif
 
 export default {
 	onLaunch: function () {
 		console.log("App Launch");
-		// #ifdef APP-PLUS
-		// App平台检测升级，服务端代码是通过uniCloud的云函数实现的，详情可参考：https://ext.dcloud.net.cn/plugin?id=4542
-		if (plus.runtime.appid !== "HBuilder") {
-			// 真机运行不需要检查更新，真机运行时appid固定为'HBuilder'，这是调试基座的appid
-			checkUpdate();
-		}
-
-		// 一键登录预登陆，可以显著提高登录速度
-		uni.preLogin({
-			provider: "univerify",
-			success: (res) => {
-				// 成功
-				this.setUniverifyErrorMsg();
-				console.log("preLogin success: ", res);
-			},
-			fail: (res) => {
-				this.setUniverifyLogin(false);
-				this.setUniverifyErrorMsg(res.errMsg);
-				// 失败
-				console.log("preLogin fail res: ", res);
-			},
-		});
-		// #endif
+		
 		// 设置小程序分享
 		wx.showShareMenu({
 			withShareTicket: true,
 			menus: ["shareAppMessage", "shareTimeline"],
 		});
-		// 隐藏原生的tabbar，太丑了
-		uni.hideTabBar();
+		// 隐藏原生的tabbar
+		// uni.hideTabBar();
 	},
 	onShow: function () {
 		uni.getSystemInfo({
@@ -56,12 +31,9 @@ export default {
 				useHeightStore().setHeightNav(customBar);
 			},
 		});
-		// 隐藏原生的tabbar，太丑了
-		uni.hideTabBar();
+		// 隐藏原生的tabbar
+		// uni.hideTabBar();
 		console.log("App Show");
-	},
-	onHide: function () {
-		console.log("App Hide");
 	},
 	// 只能在App.vue里监听应用的生命周期
 	onHide: function () {
@@ -92,5 +64,8 @@ export default {
 </script>
 
 <style lang="scss">
+// 组件
 @import "@/uni_modules/uni-scss/index.scss";
+@import "@/wxcomponents/vant/common/index.wxss";
+@import "@/static/styles/index.scss";
 </style>

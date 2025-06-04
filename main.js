@@ -1,25 +1,6 @@
 import App from "./App";
 import store from "./store";
 
-// #ifndef VUE3
-import Vue from "vue";
-Vue.config.productionTip = false;
-Vue.prototype.$store = store;
-Vue.prototype.$adpid = "0123456789";
-Vue.prototype.$backgroundAudioData = {
-	playing: false,
-	playTime: 0,
-	formatedPlayTime: "00:00:00",
-};
-App.mpType = "app";
-const app = new Vue({
-	store,
-	...App,
-});
-app.$mount();
-// #endif
-
-// #ifdef VUE3
 import { createSSRApp } from "vue";
 import * as Pinia from "pinia";
 import Vuex from "vuex";
@@ -27,7 +8,7 @@ export function createApp() {
 	const app = createSSRApp(App);
 	app.use(store);
 	app.use(Pinia.createPinia());
-	app.config.globalProperties.$adpid = "0123456789";
+	app.config.globalProperties.$adpid = "wxa52bb659b38d1ae2";
 	app.config.globalProperties.$backgroundAudioData = {
 		playing: false,
 		playTime: 0,
@@ -39,4 +20,3 @@ export function createApp() {
 		Pinia, // 此处必须将 Pinia 返回
 	};
 }
-// #endif

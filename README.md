@@ -10,6 +10,7 @@
 8. 如果无法正常打开开发者工具，请将/src/manifest.json中的微信ID删除掉即可
 9. vant-weap 无需引入 common definitions mixins wxs
 10. vant-weap 废弃 panel
+11. 目前配置按照微信小程序配置
 ```
 
 # 注意：此项目仅支持微信小程序，其他端一概没有做适配，请勿运行。
@@ -29,7 +30,7 @@
 
 | 图表                                               |
 |--------------------------------------------------|
-| [ucharts 图表 收费 未用](https://www.ucharts.cn/v2/#/) |
+| [ucharts 图表 收费](https://www.ucharts.cn/v2/#/) |
 
 # 适配暗黑模式，还未测试
 

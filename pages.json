@@ -1,31 +1,46 @@
-{ // pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.net.cn/collocation/pages.html
+{
+	// pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.net.cn/collocation/pages.html
+	"entryPagePath": "pages/welcome",
+	// I18n "navigationBarTitleText": "%index.title%"
+	// 设置页面路径及窗口表现 style 覆盖 globalStyle
     "pages": [{
+        "path": "pages/welcome",
+        "style": {
+            "navigationBarTitleText": "欢迎页",
+            "enablePullDownRefresh": true
+        },
+		"needLogin": false
+    }, {
         "path": "pages/tab-bar/index",
         "style": {
-            "navigationBarTitleText": "%index.title%",
+            "navigationBarTitleText": "首页",
             "enablePullDownRefresh": true
-        }
+        },
+		"needLogin": false
     }, {
         "path": "pages/tab-bar/article",
         "style": {
             "navigationBarTitleText": "文章",
             "enablePullDownRefresh": true
-        }
+        },
+		"needLogin": false
     }, {
         "path": "pages/tab-bar/api",
         "style": {
-            "navigationBarTitleText": "%index.api%",
+            "navigationBarTitleText": "API",
             "enablePullDownRefresh": true
-        }
+        },
+		"needLogin": false
     }, {
         "path": "pages/tab-bar/user",
         "style": {
-            "navigationBarTitleText": "%index.api%",
+            "navigationBarTitleText": "我的",
             "enablePullDownRefresh": true
-        }
+        },
+		"needLogin": false
     }],
     "subPackages": [{
-        "root": "pages/demo/",
+        "root": "pages-demo/",
         "pages": [{
             "path": "demo",
             "style": {
@@ -35,28 +50,38 @@
             }
         }]
     }],
+	// 设置底部 tab 的表现	
     "tabBar": {
         "height": "1px",
-        "color": "#7A7E83",
-        "selectedColor": "#007AFF",
-        "borderStyle": "black",
-        "backgroundColor": "#F8F8F8",
+        "color": "#7A7E83", // tab 上的文字默认颜色
+        "selectedColor": "#007AFF", // tab 上的文字选中时的颜色
+        "backgroundColor": "#F8F8F8", // tab 的背景色
+        "position": "bottom", // 可选值 bottom、top
         "list": [{
                 "pagePath": "pages/tab-bar/index",
-                "text": ""
+                "text": "",
+                "iconPath": "",
+                "selectedIconPath": ""
             },
             {
                 "pagePath": "pages/tab-bar/article",
-                "text": ""
+                "text": "",
+                "iconPath": "",
+                "selectedIconPath": ""
             }, {
                 "pagePath": "pages/tab-bar/api",
-                "text": ""
+                "text": "",
+                "iconPath": "",
+                "selectedIconPath": ""
             }, {
                 "pagePath": "pages/tab-bar/user",
-                "text": ""
+                "text": "",
+                "iconPath": "",
+                "selectedIconPath": ""
             }
         ]
     },
+	// 分包预下载规则
     "preloadRule": {
         "pages/tab-bar/index": {
             "network": "all",
@@ -75,6 +100,7 @@
             "packages": ["__APP__"]
         }
     },
+	// 自动跳转相关配置
     "uniIdRouter": {
         "loginPage": "pages/login/login",
         "needLogin": [
@@ -82,18 +108,32 @@
         ],
         "resToLogin": true
     },
+	// 组件自动引入规则
     "easycom": {
         "autoscan": true
-        // "custom": {
-        //     // uni-ui 规则如下配置
-        //     "^van-(.*)": "@/wxcomponents/vant/$1/index"
-        // }
     },
+	// 设置默认页面的窗口表现
     "globalStyle": {
-        "navigationBarTextStyle": "black",
-        "navigationBarTitleText": "uni-app",
-        "navigationBarBackgroundColor": "#F8F8F8",
-        "backgroundColor": "#F8F8F8",
+        "navigationBarTitleText": "uni-app", // 导航栏标题文字内容
+        "navigationBarTextStyle": "black", // 导航栏标题颜色及状态栏前景颜色，仅支持 black/white
+        "navigationBarBackgroundColor": "#F8F8F8", // 导航栏背景颜色（同状态栏背景色）
+        "navigationStyle": "default", // 导航栏样式，仅支持 default/custom。custom即取消默认的原生导航栏
+		
+        "backgroundColor": "#F8F8F8", // 下拉显示出来的窗口的背景色
+        "backgroundTextStyle": "dark", // 下拉 loading 的样式，仅支持 dark / light
+		
+        "enablePullDownRefresh": false, // 是否开启下拉刷新
+        "onReachBottomDistance": 50, // 页面上拉触底事件触发时距页面底部距离，单位只支持px
+        
+		"backgroundColorTop": "#ffffff", // 顶部窗口的背景色（bounce回弹区域）
+        "backgroundColorBottom": "#ffffff", // 底部窗口的背景色（bounce回弹区域）
+        
+        "pageOrientation": "portrait", // 横屏配置，屏幕旋转设置，仅支持 auto / portrait / landscape
+        
+		"renderingMode": "seperated", // 同层渲染，webrtc(实时音视频) 无法正常时尝试配置 seperated 强制关掉同层
+        
+		"mp-weixin": {}, // 设置编译到 mp-weixin 平台的特定样式
+		
         "usingComponents": {
             "van-config-provider": "/wxcomponents/vant/config-provider/index",
             "van-transition": "/wxcomponents/vant/transition/index",
