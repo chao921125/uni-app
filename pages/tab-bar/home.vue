@@ -6,6 +6,7 @@ const props = defineProps({
 		default: "",
 	},
 });
+
 const emits = defineEmits(["change"]);
 const changeClick = () => {
 	emits("change", true);

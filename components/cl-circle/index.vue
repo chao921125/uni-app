@@ -77,7 +77,7 @@ export default {
     // 将rpx转换为px，用于canvas绘制（canvas需要实际像素值）
     canvasSize() {
       // 获取屏幕宽度，微信小程序中1rpx = 屏幕宽度/750
-      const screenWidth = uni.getSystemInfoSync().screenWidth || 750;
+      const screenWidth = uni.getWindowInfo().screenWidth || 750;
       // rpx转px公式：px = rpx * 屏幕宽度 / 750
       return (this.size * screenWidth) / 750;
     }
@@ -141,7 +141,7 @@ export default {
           }
           
           // 处理高清屏显示问题
-          const dpr = uni.getSystemInfoSync().pixelRatio || 1;
+          const dpr = uni.getWindowInfo().pixelRatio || 1;
           this.canvas.width = this.canvasSize * dpr;  // 使用转换后的px值
           this.canvas.height = this.canvasSize * dpr;
           this.ctx.scale(dpr, dpr);
@@ -160,7 +160,7 @@ export default {
       
       // 转换rpx为px用于绘制
       const center = this.canvasSize / 2;
-      const strokeWidthPx = (this.strokeWidth * uni.getSystemInfoSync().screenWidth) / 750;
+      const strokeWidthPx = (this.strokeWidth * uni.getWindowInfo().screenWidth) / 750;
       const radius = center - strokeWidthPx / 2;
       
       this.ctx.beginPath();
@@ -176,7 +176,7 @@ export default {
       
       // 转换rpx为px用于绘制
       const center = this.canvasSize / 2;
-      const strokeWidthPx = (this.strokeWidth * uni.getSystemInfoSync().screenWidth) / 750;
+      const strokeWidthPx = (this.strokeWidth * uni.getWindowInfo().screenWidth) / 750;
       const radius = center - strokeWidthPx / 2;
       const startAngle = -0.5 * Math.PI;
       const endAngle = startAngle + (progress / 100) * 2 * Math.PI;

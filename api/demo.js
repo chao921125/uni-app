@@ -1,7 +1,7 @@
 /**
  * 测试接口
  */
-import config from "@/common/api/index.js";
+import config from "@/api/index.js";
 import http from "@/common/plugins/http.js";
 
 const demo = config.testPath + "/demo";

@@ -1,7 +1,7 @@
 /**
  * 用户相关
  */
-import config from "@/common/api/index.js";
+import config from "@/api/index.js";
 import http from "@/common/plugins/http.js";
 
 /**

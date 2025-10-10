@@ -2,6 +2,32 @@ import color from "@/common/config/color.js";
 import defaultConfig from "@/common/config/index.js";
 
 export default {
+	getSysInfo: async function () {
+		// 微信小程序已经不再支持
+		let res = {};
+		// #ifndef MP-WEIXIN
+		res = await uni.getSystemInfo();
+		// #endif
+		// #ifdef MP-WEIXIN
+		const device = await uni.getDeviceInfo();
+		const wind = await uni.getWindowInfo();
+		const app = await uni.getAppBaseInfo();
+		const appAuth = await uni.getAppAuthorizeSetting();
+		const sysSet = await uni.getSystemSetting();
+		res = Object.assign(device, wind, app, appAuth, sysSet);
+		// #endif
+		console.log("------", res);
+		console.log("------22222222", await uni.getSystemInfo());
+		return res;
+	},
+	openAppAuth: function () {
+		// 打开系统权限管理
+		uni.openAppAuthorizeSetting({
+		  success (res) {
+		    console.log(res)
+		  }
+		});
+	},
 	toast: function (text, duration, success) {
 		uni.showToast({
 			title: text || "出错啦~",
@@ -27,11 +53,11 @@ export default {
 		});
 	},
 	isAndroid: function () {
-		const res = uni.getSystemInfoSync();
+		const res = uni.getDeviceInfo();
 		return res.platform.toLocaleLowerCase() == "android";
 	},
 	isPhone: function () {
-		const res = uni.getSystemInfoSync();
+		const res = uni.getDeviceInfo();
 		let iphone = false;
 		const model = res.model.replace(/\s/g, "").toLowerCase();
 		if (model.includes("iphone")) {
