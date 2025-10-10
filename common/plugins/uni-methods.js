@@ -16,8 +16,6 @@ export default {
 		const sysSet = await uni.getSystemSetting();
 		res = Object.assign(device, wind, app, appAuth, sysSet);
 		// #endif
-		console.log("------", res);
-		console.log("------22222222", await uni.getSystemInfo());
 		return res;
 	},
 	openAppAuth: function () {
