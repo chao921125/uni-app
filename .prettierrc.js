@@ -1,7 +1,7 @@
-// Prettier配置文档：https://prettier.io/docs/en/options.html
+// @see https://prettier.io/
 module.exports = {
 	// 超过最大值换行
-	printWidth: 500,
+	printWidth: 220,
 	// 缩进字节数
 	tabWidth: 2,
 	// 使用制表符而不是空格缩进行
@@ -45,17 +45,8 @@ module.exports = {
 	embeddedLanguageFormatting: "auto",
 	// 每行单个属性
 	singleAttributePerLine: false,
-	overrides: [
-		{
-			files: "*.{js,ts,mjs,mts,cjs,cts,json,jsx,tsx,css,less,scss,vue,html}",
-			options: {},
-		},
-	],
-	//自定义文件后缀对应的parser
-	parsers: {
-		".nvue": "vue",
-		".ux": "vue",
-		".uvue": "vue",
-		".uts": "typescript",
-	},
+	overrides: [{
+		files: "*.{js,ts,mjs,mts,cjs,cts,json,jsx,tsx,css,less,scss,vue,html}",
+		options: {},
+	}, ],
 };

@@ -1,5 +1,5 @@
 <script setup name="">
-	import { onUnmounted } from 'vue';
+	import { onUnmounted, reactive } from 'vue';
 	import UniMethods from "@/common/plugins/uni-methods.js";
 	import BLE from "@/common/plugins/ble.js";
 	
@@ -61,12 +61,29 @@ onUnmounted(() => {
   ble.destroy(); // 页面销毁时释放资源
 });
 
+let swiperData = reactive({
+	list: [{name: "t1"}, {name: "t2"}, {name: "t3"}],
+	current: 0,
+});
+const onSwiperAdd = () => {
+	swiperData.list.push({name: `A${swiperData.current+1}`});
+}
+const onSwiperDel = () => {
+	swiperData.list = swiperData.list.slice(0,-1);
+}
 </script>
 
 <template>广告
 	<view @click="changeClick">template {{ props.name }}</view>
 	<button @tap="onToHome">to home</button>
 	<button @click="testMth">test</button>
+	<button @tap="onSwiperAdd">add swiper</button>
+	<button @tap="onSwiperDel">del swiper</button>
+	<swiper class="swiper" indicator-dots circular :current="swiperData.current">
+		<swiper-item v-for="item in swiperData.list" :key="item.name">
+			<view class="swiper-item uni-bg-red">{{item.name}}</view>
+		</swiper-item>
+	</swiper>
 </template>
 
 <style scoped lang="scss"></style>
