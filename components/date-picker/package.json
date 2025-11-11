@@ -1,0 +1,16 @@
+{
+    "id": "dragon-datePicker",
+    "name": "年月日 日期选择器，高性能选择器",
+    "displayName": "年月日 日期选择器，高性能选择器",
+    "version": "1.0.0",
+    "description": "年月日 日期选择器，支持H5、小程序，可自定义选中样式",
+    "keywords": [
+        "日期选择器"
+    ],
+    "dcloudext": {
+        "category": [
+            "前端组件",
+            "通用组件"
+        ]
+    }
+}

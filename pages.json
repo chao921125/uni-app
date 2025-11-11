@@ -74,7 +74,7 @@
 		"position": "bottom", // 可选值 bottom、top
 		"color": "#000", // tab 上的文字默认颜色
 		"selectedColor": "#1296db", // tab 上的文字选中时的颜色
-		"borderStyle": "#fff", // tabbar 上边框的颜色
+		// "borderStyle": "#fff", // tabbar 上边框的颜色
 		"backgroundColor": "#fff", // tab 的背景色
 		"blurEffect": "light", // 高斯模糊效果
 

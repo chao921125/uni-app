@@ -58,7 +58,7 @@ const testMth = async() => {
 	await bleManager.disconnectAll();
 }
 onUnmounted(() => {
-  ble.destroy(); // 页面销毁时释放资源
+  bleManager.destroy(); // 页面销毁时释放资源
 });
 
 let swiperData = reactive({
@@ -73,7 +73,8 @@ const onSwiperDel = () => {
 }
 </script>
 
-<template>广告
+<template>
+	<view @click="changeClick">广告</view>
 	<view @click="changeClick">template {{ props.name }}</view>
 	<button @tap="onToHome">to home</button>
 	<button @click="testMth">test</button>
