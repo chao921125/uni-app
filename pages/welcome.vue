@@ -1,5 +1,5 @@
 <script setup name="">
-	import { onUnmounted, reactive } from 'vue';
+	import { onUnmounted, reactive, ref } from 'vue';
 	import UniMethods from "@/common/plugins/uni-methods.js";
 	import BLE from "@/common/plugins/ble.js";
 	
@@ -71,6 +71,14 @@ const onSwiperAdd = () => {
 const onSwiperDel = () => {
 	swiperData.list = swiperData.list.slice(0,-1);
 }
+
+const images = ref(["https://huaxiang.jingtianxia.com/prod-api/profile/iot/40/2025-1113-155317.jpg", "https://huaxiang.jingtianxia.com/prod-api/profile/iot/40/2025-1113-155317.jpg", "https://huaxiang.jingtianxia.com/prod-api/profile/iot/40/2025-1113-155317.jpg", "https://huaxiang.jingtianxia.com/prod-api/profile/iot/40/2025-1113-155317.jpg"]);
+const previewImg = (index, urls) => {
+	uni.previewImage({
+		current: index,
+		urls: urls,
+	})
+}
 </script>
 
 <template>
@@ -85,6 +93,10 @@ const onSwiperDel = () => {
 			<view class="swiper-item uni-bg-red">{{item.name}}</view>
 		</swiper-item>
 	</swiper>
+	
+	<view>
+		<image v-for="(item, index) in images" :key="index" :src="item" @tap="previewImg(index, images)"></image>
+	</view>
 </template>
 
 <style scoped lang="scss"></style>
