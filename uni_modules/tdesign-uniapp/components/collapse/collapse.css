@@ -1,0 +1,5 @@
+.t-collapse--card {
+  margin: 0 16px;
+  border-radius: var(--td-radius-large, 9px);
+  overflow: hidden;
+}

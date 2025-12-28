@@ -1,0 +1,4 @@
+.t-date-time-picker__item--roomly {
+  width: var(--td-data-time-picker-year-width, 64px);
+  flex: 0 0 var(--td-data-time-picker-year-width, 64px);
+}
