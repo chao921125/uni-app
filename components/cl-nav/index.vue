@@ -12,7 +12,7 @@
 </template>
 
 <script>
-import Constant from "@/common/constants.js";
+import Constant from "@/common/constant.js";
 export default {
 	name: "nav",
 	props: {

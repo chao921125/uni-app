@@ -1,8 +1,7 @@
 <script setup name="">
 import { onMounted, onUnmounted, reactive, ref } from "vue";
-import UniMethods from "@/common/plugins/uni-methods.js";
 import { storeHeight } from "@/store/navHeight.js";
-import constants from "@/common/utils/constants.js";
+import Constants from "@/common/utils/constant.js";
 import { onShow } from "@dcloudio/uni-app";
 
 const data = reactive({
@@ -44,7 +43,7 @@ onShow(() => {
 		<view v-else class="btn-ct re-flex-center" @click="onToHome">跳过</view>
 	</view>
 	<view class="re-fill re-flex-center">
-		<image class="" :src="constants.img.welcome"></image>
+		<image class="" :src="Constants.img.welcome"></image>
 	</view>
 </template>
 

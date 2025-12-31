@@ -3,7 +3,7 @@ import { mapMutations } from "vuex";
 import { version } from "./package.json";
 import { storeHeight } from "@/store/navHeight.js";
 import Storage from "@/common/plugins/storage.js";
-import Constants from "@/common/utils/constants.js";
+import Constants from "@/common/utils/constant.js";
 
 export default {
 	onLaunch: function () {

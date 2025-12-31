@@ -57,360 +57,327 @@ $z-index-9: 9000;
 
 // 禁止用户选中
 @mixin unable-select {
-  user-select: none;
+	user-select: none;
 }
 
 // 填满父元素 position: relative | absolute;
 @mixin full {
-  position: absolute;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
+	position: absolute;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;
 }
 
 // 文字 居中 左 右
 @mixin text-center {
-  text-align: center;
+	text-align: center;
 }
 @mixin text-left {
-  text-align: left;
+	text-align: left;
 }
 @mixin text-right {
-  text-align: right;
+	text-align: right;
 }
 
 // 填充 宽高
 @mixin wh-full {
-  width: 100%;
-  height: 100%;
+	width: 100%;
+	height: 100%;
 }
 @mixin width-full {
-  width: 100%;
+	width: 100%;
 }
 @mixin height-full {
-  height: 100%;
+	height: 100%;
 }
 @mixin wh-fill {
-  width: 100vw;
-  height: 100vh;
+	width: 100vw;
+	height: 100vh;
 }
 @mixin width-fill {
-  width: 100vw;
+	width: 100vw;
 }
 @mixin height-fill {
-  height: 100vh;
+	height: 100vh;
 }
 
 // flex 垂直水平居中 两端对齐
 @mixin flex {
-  display: flex;
+	display: flex;
 }
 @mixin flex-col {
-  flex-direction: column;
+	flex-direction: column;
 }
 
 // 将元素模拟成卡片外观
 @mixin card {
-  //border: 1px solid $color-border-white;
-  background: #fff;
-  border-radius: 4px;
-  font-size: 14px;
-  position: relative;
+	//border: 1px solid $color-border-white;
+	background: #fff;
+	border-radius: 4px;
+	font-size: 14px;
+	position: relative;
 }
-
 
 // 占位符
 .#{$prefix}-place {
-  width: 1px;
-  height: 1px;
+	width: 1px;
+	height: 1px;
 }
 
 // 元素展示隐藏
 .#{$prefix}-show {
-  display: initial;
+	display: initial;
 }
 .#{$prefix}-hidden {
-  display: none !important;
+	display: none !important;
 }
 
 /**
  * Flex 基础布局
  */
 .#{$prefix}-flex {
-  @include flex;
+	@include flex;
 }
 .#{$prefix}-flex-auto {
-  @include flex;
-  flex: 1;
-  overflow: hidden;
+	@include flex;
+	flex: 1;
+	overflow: hidden;
 }
 .#{$prefix}-flex-center {
-  @include flex;
-  justify-content: center;
-  align-items: center;
+	@include flex;
+	justify-content: center;
+	align-items: center;
 }
 .#{$prefix}-flex-ch {
-  @include flex;
-  justify-content: center;
+	@include flex;
+	justify-content: center;
 }
 .#{$prefix}-flex-cv {
-  @include flex;
-  align-items: center;
+	@include flex;
+	align-items: center;
 }
 .#{$prefix}-flex-between {
-  @include flex;
-  justify-content: space-between;
-  align-items: center;
+	@include flex;
+	justify-content: space-between;
+	align-items: center;
 }
 .#{$prefix}-flex-end {
-  @include flex;
-  justify-content: flex-end;
-  align-items: center;
+	@include flex;
+	justify-content: flex-end;
+	align-items: center;
 }
 .#{$prefix}-flex-reverse {
-  @include flex;
-  flex-direction: row-reverse;
-  align-items: center;
+	@include flex;
+	flex-direction: row-reverse;
+	align-items: center;
 }
 .#{$prefix}-flex-col {
-  @include flex;
-  @include flex-col;
+	@include flex;
+	@include flex-col;
 }
 .#{$prefix}-flex-col-center {
-  @include flex;
-  @include flex-col;
-  align-items: center;
-  justify-content: center;
+	@include flex;
+	@include flex-col;
+	align-items: center;
+	justify-content: center;
 }
 
 /**
  * 填充
  */
 .#{$prefix}-fill {
-  @include wh-fill;
+	@include wh-fill;
 }
 .#{$prefix}-full {
-  @include wh-full;
+	@include wh-full;
 }
 .#{$prefix}-auto-w {
-  width: auto;
+	width: auto;
 }
 .#{$prefix}-fill-w {
-  @include width-fill;
+	@include width-fill;
 }
 .#{$prefix}-fill-w-min {
-  min-width: 100vw;
+	min-width: 100vw;
 }
 .#{$prefix}-fill-w-max {
-  max-width: 100vh;
+	max-width: 100vh;
 }
 .#{$prefix}-full-w {
-  @include width-full;
+	@include width-full;
 }
 .#{$prefix}-full-w-min {
-  min-width: 100%;
+	min-width: 100%;
 }
 .#{$prefix}-full-w-max {
-  max-width: 100%;
+	max-width: 100%;
 }
 .#{$prefix}-auto-h {
-  height: auto;
+	height: auto;
 }
 .#{$prefix}-fill-h {
-  @include height-fill;
+	@include height-fill;
 }
 .#{$prefix}-fill-h-min {
-  min-height: 100vh;
+	min-height: 100vh;
 }
 .#{$prefix}-fill-h-max {
-  max-height: 100vh;
+	max-height: 100vh;
 }
 .#{$prefix}-full-h {
-  @include height-full;
+	@include height-full;
 }
 .#{$prefix}-full-h-min {
-  min-height: 100%;
+	min-height: 100%;
 }
 .#{$prefix}-full-h-max {
-  max-height: 100%;
+	max-height: 100%;
 }
 
 /**
  * 文字
  */
 .#{$prefix}-tc {
-  @include text-center;
+	@include text-center;
 }
 .#{$prefix}-tl {
-  @include text-left;
+	@include text-left;
 }
 .#{$prefix}-tr {
-  @include text-right;
+	@include text-right;
 }
 
 /**
  * 鼠标
  */
 .#{$prefix}-c {
-  cursor: default;
+	cursor: default;
 }
 .#{$prefix}-cp {
-  cursor: pointer;
+	cursor: pointer;
 }
 .#{$prefix}-ch {
-  cursor: help;
+	cursor: help;
 }
 .#{$prefix}-cm {
-  cursor: move;
+	cursor: move;
 }
 
 /**
  * 浮动
  */
 .#{$prefix}-fl {
-  float: left;
+	float: left;
 }
 .#{$prefix}-fr {
-  float: right;
+	float: right;
 }
 .#{$prefix}-clearfix:before,
 .#{$prefix}-clearfix:after {
-  display: table;
-  content: "";
+	display: table;
+	content: "";
 }
 .#{$prefix}-clearfix:after {
-  clear: both;
+	clear: both;
 }
 
 /**
  * 边距
  */
 @for $i from 1 to 500 {
-  // 宽高
-  .#{$prefix}-wh-#{$i} {
-    width: #{$i}px;
-    height: #{$i}px;
-  }
-  .#{$prefix}-w-#{$i} {
-    width: #{$i}px;
-  }
-  .#{$prefix}-h-#{$i} {
-    height: #{$i}px;
-  }
-  // 外边距
-  .#{$prefix}-m-#{$i} {
-    margin: #{$i}px;
-  }
-  .#{$prefix}-my-#{$i} {
-    margin-top: #{$i}px;
-    margin-bottom: #{$i}px;
-  }
-  .#{$prefix}-mx-#{$i} {
-    margin-left: #{$i}px;
-    margin-right: #{$i}px;
-  }
-  .#{$prefix}-mt-#{$i} {
-    margin-top: #{$i}px;
-  }
-  .#{$prefix}-mr-#{$i} {
-    margin-right: #{$i}px;
-  }
-  .#{$prefix}-mb-#{$i} {
-    margin-bottom: #{$i}px;
-  }
-  .#{$prefix}-ml-#{$i} {
-    margin-left: #{$i}px;
-  }
-  // 内边距
-  .#{$prefix}-p-#{$i} {
-    padding: #{$i}px;
-  }
-  .#{$prefix}-py-#{$i} {
-    padding-top: #{$i}px;
-    padding-bottom: #{$i}px;
-  }
-  .#{$prefix}-px-#{$i} {
-    padding-left: #{$i}px;
-    padding-right: #{$i}px;
-  }
-  .#{$prefix}-pt-#{$i} {
-    padding-top: #{$i}px;
-  }
-  .#{$prefix}-pr-#{$i} {
-    padding-right: #{$i}px;
-  }
-  .#{$prefix}-pb-#{$i} {
-    padding-bottom: #{$i}px;
-  }
-  .#{$prefix}-pl-#{$i} {
-    padding-left: #{$i}px;
-  }
+	// 宽高
+	.#{$prefix}-wh-#{$i} {
+		width: #{$i}px;
+		height: #{$i}px;
+	}
+	.#{$prefix}-w-#{$i} {
+		width: #{$i}px;
+	}
+	.#{$prefix}-h-#{$i} {
+		height: #{$i}px;
+	}
+	// 外边距
+	.#{$prefix}-m-#{$i} {
+		margin: #{$i}px;
+	}
+	.#{$prefix}-my-#{$i} {
+		margin-top: #{$i}px;
+		margin-bottom: #{$i}px;
+	}
+	.#{$prefix}-mx-#{$i} {
+		margin-left: #{$i}px;
+		margin-right: #{$i}px;
+	}
+	.#{$prefix}-mt-#{$i} {
+		margin-top: #{$i}px;
+	}
+	.#{$prefix}-mr-#{$i} {
+		margin-right: #{$i}px;
+	}
+	.#{$prefix}-mb-#{$i} {
+		margin-bottom: #{$i}px;
+	}
+	.#{$prefix}-ml-#{$i} {
+		margin-left: #{$i}px;
+	}
+	// 内边距
+	.#{$prefix}-p-#{$i} {
+		padding: #{$i}px;
+	}
+	.#{$prefix}-py-#{$i} {
+		padding-top: #{$i}px;
+		padding-bottom: #{$i}px;
+	}
+	.#{$prefix}-px-#{$i} {
+		padding-left: #{$i}px;
+		padding-right: #{$i}px;
+	}
+	.#{$prefix}-pt-#{$i} {
+		padding-top: #{$i}px;
+	}
+	.#{$prefix}-pr-#{$i} {
+		padding-right: #{$i}px;
+	}
+	.#{$prefix}-pb-#{$i} {
+		padding-bottom: #{$i}px;
+	}
+	.#{$prefix}-pl-#{$i} {
+		padding-left: #{$i}px;
+	}
 }
 
 /**
  * 定位
  */
 .#{$prefix}-pf-t {
-  position: fixed;
-  top: 0;
+	position: fixed;
+	top: 0;
 }
 .#{$prefix}-pf-b {
-  position: fixed;
-  bottom: 0;
+	position: fixed;
+	bottom: 0;
 }
 .#{$prefix}-pf-l {
-  position: fixed;
-  left: 0;
+	position: fixed;
+	left: 0;
 }
 .#{$prefix}-pf-r {
-  position: fixed;
-  right: 0;
+	position: fixed;
+	right: 0;
 }
 .#{$prefix}-zi-max {
-  z-index: 99999;
+	z-index: 99999;
 }
 .#{$prefix}-zi-min {
-  z-index: -1;
+	z-index: -1;
 }
 
-$zindexs: (
-  0,
-  5,
-  9,
-  10,
-  15,
-  19,
-  20,
-  25,
-  29,
-  30,
-  35,
-  39,
-  40,
-  45,
-  49,
-  50,
-  55,
-  59,
-  60,
-  65,
-  69,
-  70,
-  75,
-  79,
-  80,
-  85,
-  89,
-  90,
-  95,
-  99,
-  100
-);
+$zindexs: (0, 5, 9, 10, 15, 19, 20, 25, 29, 30, 35, 39, 40, 45, 49, 50, 55, 59, 60, 65, 69, 70, 75, 79, 80, 85, 89, 90, 95, 99, 100);
 @each $zindex in $zindexs {
-  .#{$prefix}-zi-#{$zindex} {
-    z-index: #{$zindex};
-  }
+	.#{$prefix}-zi-#{$zindex} {
+		z-index: #{$zindex};
+	}
 }
 
 //@function scale-below($value, $base, $ratio: 1.618) {

@@ -1,5 +1,5 @@
-import constants from "@/co@/common/utils/constants.js;
-import utils from "@/common/plugins/uni-methods.js";
+import Constants from "@/common/utils/constant.js";
+import UM from "@/common/plugins/uni-methods.js";
 // 文档参考：https://uniapp.dcloud.net.cn/api/request/request.html
 let ajaxTimes = 1;
 let defaultHeader = {
@@ -8,12 +8,12 @@ let defaultHeader = {
 	"Access-Control-Max-Age": "3600",
 	Access: "application/json",
 	accept: "application/json",
-	token: utils.getToken(),
-	Authorization: utils.getToken(),
+	token: UM.getToken(),
+	Authorization: UM.getToken(),
 };
 let defaultHeaderFile = {
-	token: utils.getToken(),
-	Authorization: utils.getToken(),
+	token: UM.getToken(),
+	Authorization: UM.getToken(),
 	"Content-Type": "application/x-www-form-urlencoded",
 };
 export default {
@@ -30,7 +30,7 @@ export default {
 		let loadding = false;
 		if (!hideLoading) {
 			loadding = true;
-			utils.showLoading();
+			UM.showLoading();
 		}
 		if (isForm) {
 			Object.assign(defaultHeader, {
@@ -38,13 +38,13 @@ export default {
 			});
 		}
 		Object.assign(defaultHeader, {
-			token: utils.getToken(),
-			Authorization: utils.getToken(),
+			token: UM.getToken(),
+			Authorization: UM.getToken(),
 		});
 
 		return new Promise((resolve, reject) => {
 			uni.request({
-				url: constants.baseUrl + url,
+				url: Constants.baseUrl + url,
 				data: params,
 				header: defaultHeader,
 				method: method, //"GET","POST"
@@ -56,21 +56,21 @@ export default {
 					}
 					switch (res.data.code) {
 						case 1111:
-							utils.removeUserInfo();
-							utils.gotoUrl(constants.routePath.login, false);
+							UM.removeUserInfo();
+							UM.gotoUrl(Constants.routePath.login, false);
 							break;
 						case 301:
-							utils.toast(res.data.msg);
+							UM.toast(res.data.msg);
 							break;
 						case 500:
-							utils.toast(res.data.msg);
+							UM.toast(res.data.msg);
 							break;
 						default:
 							resolve(res.data);
 							break;
 					}
-					/* if (res.code === constants.httpCode.unLogin) {
-                        utils.href(constants.routePath.loginPermission, false);
+					/* if (res.code === Constants.httpCode.unLogin) {
+                        UM.href(Constants.routePath.loginPermission, false);
                     } else {
                         resolve(res.data);
                     } */
@@ -78,7 +78,7 @@ export default {
 				fail: (res) => {
 					uni.stopPullDownRefresh();
 					uni.hideLoading();
-					utils.toast("网络不给力，请稍后再试~");
+					UM.toast("网络不给力，请稍后再试~");
 					reject(res);
 				},
 				complete: () => {
@@ -104,7 +104,7 @@ export default {
 		let loadding = false;
 		if (!hideLoading) {
 			loadding = true;
-			utils.showLoading();
+			UM.showLoading();
 		}
 		let filePath = "";
 		let fileArray = [];
@@ -114,12 +114,12 @@ export default {
 			fileArray = files;
 		}
 		Object.assign(defaultHeaderFile, {
-			token: utils.getToken(),
-			Authorization: utils.getToken(),
+			token: UM.getToken(),
+			Authorization: UM.getToken(),
 		});
 		return new Promise((resolve, reject) => {
 			uni.uploadFile({
-				url: constants.baseUrl + url,
+				url: Constants.baseUrl + url,
 				files: fileArray,
 				filePath: filePath,
 				name: name,
@@ -136,12 +136,12 @@ export default {
 						let fileObj = d.data;
 						resolve(fileObj);
 					} else {
-						utils.toast(res.msg);
+						UM.toast(res.msg);
 					}
 				},
 				fail: function (res) {
 					uni.hideLoading();
-					utils.toast(res.msg);
+					UM.toast(res.msg);
 					reject(res);
 				},
 				complete: () => {
