@@ -6,6 +6,9 @@ export default {
 	// NoData: NoData,
 	// UserAvatar: UserAvatar,
 	// PaySuccess: PaySuccess,
+
+	welcome: "https://gitee.com/chao921125/assets/raw/master/welcome.jpg",
+
 	getImg: (url) => {
 		// const path = `../assets/images/home/${url}`;
 		// const modules = import.meta.globEager("../assets/images/home/*");

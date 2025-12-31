@@ -45,8 +45,10 @@ module.exports = {
 	embeddedLanguageFormatting: "auto",
 	// 每行单个属性
 	singleAttributePerLine: false,
-	overrides: [{
-		files: "*.{js,ts,mjs,mts,cjs,cts,json,jsx,tsx,css,less,scss,vue,html}",
-		options: {},
-	}, ],
+	overrides: [
+		{
+			files: "*.{js,ts,mjs,mts,cjs,cts,json,jsx,tsx,css,less,scss,vue,html}",
+			options: {},
+		},
+	],
 };

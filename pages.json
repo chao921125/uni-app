@@ -3,15 +3,15 @@
 	"entryPagePath": "pages/welcome",
 	// 模式配置，仅开发期间生效
 	"condition": {
-		"current": 0, // 当前激活的模式（list 的索引项）
+		"current": 1, // 当前激活的模式（list 的索引项）
 		"list": [{
-				"name": "welcome", //模式名称
-				"path": "pages/welcome", // 启动页面，必选
+				"name": "首页", //模式名称
+				"path": "pages/tab-home", // 启动页面，必选
 				"query": "interval=4000&autoplay=false" // 启动参数，在页面的onLoad函数里面得到。
 			},
 			{
-				"name": "index",
-				"path": "pages/tabBar/index",
+				"name": "文章",
+				"path": "pages/tab-article",
 				"query": ""
 			}
 		]
@@ -26,28 +26,28 @@
 		},
 		"needLogin": false
 	}, {
-		"path": "pages/tab-bar/home",
+		"path": "pages/tab-home",
 		"style": {
 			"navigationBarTitleText": "首页",
 			"enablePullDownRefresh": true
 		},
 		"needLogin": false
 	}, {
-		"path": "pages/tab-bar/article",
+		"path": "pages/tab-article",
 		"style": {
 			"navigationBarTitleText": "文章",
 			"enablePullDownRefresh": true
 		},
 		"needLogin": false
 	}, {
-		"path": "pages/tab-bar/demo",
+		"path": "pages/tab-demo",
 		"style": {
 			"navigationBarTitleText": "示例",
 			"enablePullDownRefresh": true
 		},
 		"needLogin": false
 	}, {
-		"path": "pages/tab-bar/my",
+		"path": "pages/tab-my",
 		"style": {
 			"navigationBarTitleText": "我的",
 			"enablePullDownRefresh": true
@@ -55,28 +55,51 @@
 		"needLogin": false
 	}],
 	"subPackages": [{
-		"root": "pages-demo/",
+		"root": "pages-auth/",
 		"pages": [{
-			"path": "demo",
+			"path": "login",
 			"style": {
 				"navigationStyle": "custom",
-				"navigationBarTitleText": "详情",
+				"navigationBarTitleText": "登录",
+				"enablePullDownRefresh": true
+			}
+		}]
+	}, {
+		"root": "pages-user/",
+		"pages": [{
+			"path": "my",
+			"style": {
+				"navigationStyle": "custom",
+				"navigationBarTitleText": "个人中心",
 				"enablePullDownRefresh": true
 			}
 		}]
 	}],
+	// 分包预下载规则
+	"preloadRule": {
+		"pages-auth/login": {
+			"network": "all",
+			"packages": ["__APP__"]
+		},
+		"pages-user/my": {
+			"network": "all",
+			"packages": ["__APP__"]
+		}
+	},
 	// 设置底部 tab 的表现	
 	"tabBar": {
-		"height": "60px",
+		"color": "#000", // tab 上的文字默认颜色
+		"selectedColor": "#1296db", // tab 上的文字选中时的颜色
+		"backgroundColor": "#fff", // tab 的背景色
+		"borderStyle": "white", // tabbar 上边框的颜色
+		"blurEffect": "light", // 高斯模糊效果
+		"height": "70px",
 		"fontSize": "10px",
 		"iconWidth": "24px",
 		"spacing": "3px",
 		"position": "bottom", // 可选值 bottom、top
-		"color": "#000", // tab 上的文字默认颜色
-		"selectedColor": "#1296db", // tab 上的文字选中时的颜色
-		// "borderStyle": "#fff", // tabbar 上边框的颜色
-		"backgroundColor": "#fff", // tab 的背景色
-		"blurEffect": "light", // 高斯模糊效果
+		"custom": true,
+		"customize": true,
 
 		// "iconfontSrc": "", // list设置 iconfont 属性时，需要指定字体文件路径
 		// "backgroundImage": "", // 设置背景图片，优先级高于 backgroundColor
@@ -84,73 +107,58 @@
 		// "redDotColor": "", // tabbar上红点颜色
 
 		"list": [{
-				"pagePath": "pages/tab-bar/home",
+				"pagePath": "pages/tab-home",
 				"text": "首页",
 				"iconPath": "/static/images/tab/home.png",
 				"selectedIconPath": "/static/images/tab/home-sel.png"
 			},
 			{
-				"pagePath": "pages/tab-bar/article",
+				"pagePath": "pages/tab-article",
 				"text": "文章",
 				"iconPath": "/static/images/tab/article.png",
 				"selectedIconPath": "/static/images/tab/article-sel.png"
 			}, {
-				"pagePath": "pages/tab-bar/demo",
+				"pagePath": "pages/tab-demo",
 				"text": "示例",
 				"iconPath": "/static/images/tab/demo.png",
 				"selectedIconPath": "/static/images/tab/demo-sel.png"
 			}, {
-				"pagePath": "pages/tab-bar/my",
+				"pagePath": "pages/tab-my",
 				"text": "我的",
 				"iconPath": "/static/images/tab/my.png",
 				"selectedIconPath": "/static/images/tab/my-sel.png"
 			}
 		]
 	},
-	// 分包预下载规则
-	"preloadRule": {
-		"pages/tab-bar/home": {
-			"network": "all",
-			"packages": ["__APP__"]
-		},
-		"pages/tab-bar/article": {
-			"network": "all",
-			"packages": ["__APP__"]
-		},
-		"pages/tab-bar/demo": {
-			"network": "all",
-			"packages": ["__APP__"]
-		},
-		"pages/tab-bar/my": {
-			"network": "all",
-			"packages": ["__APP__"]
-		}
-	},
 	// 自动跳转相关配置
 	"uniIdRouter": {
-		"loginPage": "pages/login/login", // 登录页面路径
-		"needLogin": [
-			"pages/user/.*" // 需要登录才可访问的页面列表，可以使用正则语法
+		"loginPage": "pages-auth/login", // 登录页面路径
+		"needLogin": [ // 需要登录才可访问的页面列表，可以使用正则语法
+			"pages-auth/.*",
+			"pages-user/.*"
 		],
 		"resToLogin": true // 自动解析云对象及clientDB的错误码，如果是客户端token不正确或token过期则自动跳转配置的登录页面，配置为false则关闭此行为，默认true
 	},
 	// 组件自动引入规则
 	"easycom": {
-		"autoscan": true
-		// "custom": true,
+		"autoscan": true,
+		"custom": {
+			"^u--(.*)": "@/uni_modules/uview-plus/components/u-$1/u-$1.vue",
+			"^up-(.*)": "@/uni_modules/uview-plus/components/u-$1/u-$1.vue",
+			"^u-([^-].*)": "@/uni_modules/uview-plus/components/u-$1/u-$1.vue"
+		}
 	},
 	// 设置默认页面的窗口表现
 	"globalStyle": {
 		"pageOrientation": "portrait", // 横屏配置，屏幕旋转设置，仅支持 auto / portrait / landscape
 		
-		"navigationBarTitleText": "uni-app", // 导航栏标题文字内容
+		"navigationBarTitleText": "CCNET", // 导航栏标题文字内容
 		"navigationBarTextStyle": "black", // 导航栏标题颜色及状态栏前景颜色，仅支持 black/white
 		"navigationBarBackgroundColor": "#F8F8F8", // 导航栏背景颜色（同状态栏背景色）
 		"navigationStyle": "default", // 导航栏样式，仅支持 default/custom。custom即取消默认的原生导航栏
 
 		"backgroundColor": "#F8F8F8", // 下拉显示出来的窗口的背景色
 		"backgroundTextStyle": "dark", // 下拉 loading 的样式，仅支持 dark / light
-		"backgroundColorContent": "#ffffff",
 		"backgroundColorTop": "#ffffff", // 顶部窗口的背景色（bounce回弹区域）
 		"backgroundColorBottom": "#ffffff", // 底部窗口的背景色（bounce回弹区域）
 
@@ -163,9 +171,6 @@
 		// "transparentTitle": "" // 导航栏整体（前景、背景）透明设置。支持 always 一直透明 / auto 滑动自适应 / none 不透明
 		// "titlePenetrate": "" // 导航栏点击穿透 'YES' | 'NO'
 
-		// "hideStatusBar": "" // 是否隐藏系统顶部状态栏
-		// "hideBottomNavigationIndicator": "" // 是否隐藏系统底部导航栏
-
 		// "animationType": "" // 窗口显示的动画效果 'slide-in-right' | 'slide-in-left' | 'slide-in-top' | 'slide-in-bottom' | 'fade-in' | 'zoom-out' | 'zoom-fade-out' | 'pop-in'
 		// "animationDuration": 300 // 窗口显示动画的持续时间，单位为 ms
 
@@ -175,29 +180,9 @@
 		// "rpxCalcBaseDeviceWidth": 300 // rpx 计算使用的基准设备宽度，设备实际宽度超出 rpx 计算所支持的最大设备宽度时将按基准宽度计算，单位 px
 		// "rpxCalcIncludeWidth": 300 // rpx 计算特殊处理的值，始终按实际的设备宽度计算，单位 rpx
 
-		// "dynamicRpx": false // 动态 rpx，屏幕大小变化会重新渲染 rpx
+		"dynamicRpx": true, // 动态 rpx，屏幕大小变化会重新渲染 rpx
 		"mp-weixin": {}, // 设置编译到 mp-weixin 平台的特定样式
 
-		"usingComponents": {
-			"van-config-provider": "/wxcomponents/vant/config-provider/index",
-			"van-transition": "/wxcomponents/vant/transition/index",
-			"van-loading": "/wxcomponents/vant/loading/index",
-			"van-row": "/wxcomponents/vant/row/index",
-			"van-col": "/wxcomponents/vant/col/index",
-			"van-cell": "/wxcomponents/vant/cell/index",
-			"van-cell-group": "/wxcomponents/vant/cell-group/index",
-			"van-popup": "/wxcomponents/vant/popup/index",
-			"van-button": "/wxcomponents/vant/button/index",
-			"van-icon": "/wxcomponents/vant/icon/index",
-			"van-image": "/wxcomponents/vant/image/index",
-			"van-field": "/wxcomponents/vant/field/index",
-			"van-toast": "/wxcomponents/vant/toast/index",
-			"van-nav-bar": "/wxcomponents/vant/nav-bar/index",
-			"van-tabbar": "/wxcomponents/vant/tabbar/index",
-			"van-tabbar-item": "/wxcomponents/vant/tabbar-item/index",
-			"van-sidebar": "/wxcomponents/vant/sidebar/index",
-			"van-sidebar-item": "/wxcomponents/vant/sidebar-item/index",
-			"van-notice-bar": "/wxcomponents/vant/notice-bar/index"
-		}
+		"usingComponents": {}
 	}
 }

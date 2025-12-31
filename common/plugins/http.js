@@ -1,4 +1,4 @@
-import defaultConfig from "@/common/config/index.js";
+import constants from "@/co@/common/utils/constants.js;
 import utils from "@/common/plugins/uni-methods.js";
 // 文档参考：https://uniapp.dcloud.net.cn/api/request/request.html
 let ajaxTimes = 1;
@@ -44,7 +44,7 @@ export default {
 
 		return new Promise((resolve, reject) => {
 			uni.request({
-				url: defaultConfig.baseUrl + url,
+				url: constants.baseUrl + url,
 				data: params,
 				header: defaultHeader,
 				method: method, //"GET","POST"
@@ -57,7 +57,7 @@ export default {
 					switch (res.data.code) {
 						case 1111:
 							utils.removeUserInfo();
-							utils.gotoUrl(defaultConfig.routePath.login, false);
+							utils.gotoUrl(constants.routePath.login, false);
 							break;
 						case 301:
 							utils.toast(res.data.msg);
@@ -69,8 +69,8 @@ export default {
 							resolve(res.data);
 							break;
 					}
-					/* if (res.code === defaultConfig.httpCode.unLogin) {
-                        utils.href(defaultConfig.routePath.loginPermission, false);
+					/* if (res.code === constants.httpCode.unLogin) {
+                        utils.href(constants.routePath.loginPermission, false);
                     } else {
                         resolve(res.data);
                     } */
@@ -119,7 +119,7 @@ export default {
 		});
 		return new Promise((resolve, reject) => {
 			uni.uploadFile({
-				url: defaultConfig.baseUrl + url,
+				url: constants.baseUrl + url,
 				files: fileArray,
 				filePath: filePath,
 				name: name,

@@ -1,10 +1,10 @@
 export default {
 	whiteList: ["/pages/permission/login", "/pages/permission/register", "/pages/permission/forgotpwd", "/pages/permission/permission"],
 
-	tabbarHome: "/pages/tab-bar/home",
-	tabbarOrder: "/pages/tab-bar/order",
-	tabbarUser: "/pages/tab-bar/user",
-	tabbarDistribute: "/pages/tab-bar/distribute",
+	tabbarHome: "/pages/tab-home",
+	tabbarOrder: "/pages/tab-order",
+	tabbarUser: "/pages/tab-user",
+	tabbarDistribute: "/pages/tab-distribute",
 
 	login: "/pages/permission/login",
 	register: "/pages/permission/register",

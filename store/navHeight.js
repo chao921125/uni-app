@@ -1,5 +1,5 @@
 import { defineStore } from "pinia";
-export const useHeightStore = defineStore("height", {
+export const storeHeight = defineStore("height", {
 	state: () => ({
 		heightStatus: 0,
 		heightNav: 0,

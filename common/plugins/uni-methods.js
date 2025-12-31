@@ -1,5 +1,4 @@
-import color from "@/common/config/color.js";
-import defaultConfig from "@/common/config/index.js";
+import constants from "@/common/utils/constants.js";
 
 export default {
 	getSysInfo: async function () {
@@ -21,9 +20,9 @@ export default {
 	openAppAuth: function () {
 		// 打开系统权限管理
 		uni.openAppAuthorizeSetting({
-		  success (res) {
-		    console.log(res)
-		  }
+			success(res) {
+				console.log(res);
+			},
 		});
 	},
 	toast: function (text, duration, success) {
@@ -38,8 +37,8 @@ export default {
 			title: title || "提示",
 			content: content,
 			showCancel: showCancel,
-			cancelColor: color.modalBtnCancel,
-			confirmColor: confirmColor || color.modalBtnConfirm,
+			cancelColor: constants.color.modalBtnCancel,
+			confirmColor: confirmColor || constants.color.modalBtnConfirm,
 			confirmText: confirmText || "确定",
 			success(res) {
 				if (res.confirm) {
@@ -71,40 +70,40 @@ export default {
 	},
 	//设置用户信息
 	setUserInfo: function (userInfo, token) {
-		uni.setStorageSync(defaultConfig.tokenKey, token);
-		uni.setStorageSync(defaultConfig.userKey, userInfo);
+		uni.setStorageSync(constants.tokenKey, token);
+		uni.setStorageSync(constants.userKey, userInfo);
 	},
 	removeUserInfo: function () {
-		uni.removeStorageSync(defaultConfig.tokenKey);
-		uni.removeStorageSync(defaultConfig.userKey);
+		uni.removeStorageSync(constants.tokenKey);
+		uni.removeStorageSync(constants.userKey);
 	},
 	//设置token
 	setToken: function (token) {
-		uni.setStorageSync(defaultConfig.tokenKey, token);
+		uni.setStorageSync(constants.tokenKey, token);
 	},
 	//获取token
 	getToken: function () {
-		return uni.getStorageSync(defaultConfig.tokenKey);
+		return uni.getStorageSync(constants.tokenKey);
 	},
 	//登录拦截
 	checkPermiss: function () {
-		if (!uni.getStorageSync(defaultConfig.tokenKey)) {
+		if (!uni.getStorageSync(constants.tokenKey)) {
 			uni.reLaunch({
-				url: defaultConfig.routePath.login,
+				url: constants.routePath.login,
 			});
 		}
 	},
 	//判断是否登录
 	isLogin: function () {
-		return uni.getStorageSync(defaultConfig.tokenKey) ? true : false;
+		return uni.getStorageSync(constants.tokenKey) ? true : false;
 	},
 	//跳转页面，校验登录状态，如果为了做APP那么需要做一些处理 使用 redirectTo
 	// animationType https://uniapp.dcloud.io/api/router.html#animation
 	// animationDuration 300
 	gotoPage: function (url, isVerify = true) {
-		if (isVerify && !uni.getStorageSync(defaultConfig.tokenKey)) {
+		if (isVerify && !uni.getStorageSync(constants.tokenKey)) {
 			uni.navigateTo({
-				url: defaultConfig.routePath.login,
+				url: constants.routePath.login,
 			});
 		} else {
 			uni.navigateTo({
@@ -113,9 +112,9 @@ export default {
 		}
 	},
 	gotoPageClose: function (url, isVerify = true) {
-		if (isVerify && !uni.getStorageSync(defaultConfig.tokenKey)) {
+		if (isVerify && !uni.getStorageSync(constants.tokenKey)) {
 			uni.redirectTo({
-				url: defaultConfig.routePath.login,
+				url: constants.routePath.login,
 			});
 		} else {
 			uni.redirectTo({
@@ -124,9 +123,9 @@ export default {
 		}
 	},
 	gotoPageCloseAll: function (url, isVerify = true) {
-		if (isVerify && !uni.getStorageSync(defaultConfig.tokenKey)) {
+		if (isVerify && !uni.getStorageSync(constants.tokenKey)) {
 			uni.reLaunch({
-				url: defaultConfig.routePath.login,
+				url: constants.routePath.login,
 			});
 		} else {
 			uni.reLaunch({
@@ -135,9 +134,9 @@ export default {
 		}
 	},
 	gotoPageTab: function (url, isVerify = true) {
-		if (isVerify && !uni.getStorageSync(defaultConfig.tokenKey)) {
+		if (isVerify && !uni.getStorageSync(constants.tokenKey)) {
 			uni.switchTab({
-				url: defaultConfig.routePath.login,
+				url: constants.routePath.login,
 			});
 		} else {
 			uni.switchTab({

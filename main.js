@@ -4,10 +4,14 @@ import store from "./store";
 import { createSSRApp } from "vue";
 import * as Pinia from "pinia";
 import Vuex from "vuex";
+
+import uviewPlus from "@/uni_modules/uview-plus";
+
 export function createApp() {
 	const app = createSSRApp(App);
 	app.use(store);
 	app.use(Pinia.createPinia());
+	app.use(uviewPlus);
 	app.config.globalProperties.$adpid = "wxa52bb659b38d1ae2";
 	app.config.globalProperties.$backgroundAudioData = {
 		playing: false,

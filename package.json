@@ -1,25 +1,24 @@
 {
-	"id": "uni-mini",
-	"name": "uni-mini",
-	"displayName": "uni-mini 示例工程",
+	"id": "CCNET",
+	"name": "CCNET",
+	"displayName": "CCNET 小程序",
 	"version": "3.4.8",
-	"description": "uni-app 框架示例，一套代码，同时发行到iOS、Android、H5、小程序等多个平台，请使用手机扫码快速体验 uni-app 的强大功能",
+	"description": "CCNET 小程序",
 	"scripts": {
 		"test": "echo \"Error: no test specified\" && exit 1"
 	},
-	"repository": "https://github.com/dcloudio/uni-mini.git",
+	"repository": "https://github.com/chao921125/ccnet-mini.git",
 	"keywords": [
-		"uni-mini",
+		"CCNET",
 		"uni-app",
-		"uni-ui",
-		"示例工程"
+		"uni-ui"
 	],
 	"author": "",
 	"license": "MIT",
 	"bugs": {
-		"url": "https://github.com/dcloudio/uni-mini/issues"
+		"url": "https://github.com/chao921125/ccnet-mini/issues"
 	},
-	"homepage": "https://github.com/dcloudio/uni-mini#readme",
+	"homepage": "https://github.com/chao921125/ccnet-mini#readme",
 	"dependencies": {},
 	"dcloudext": {
 		"sale": {
@@ -114,8 +113,8 @@
 					"MP-DINGTALK": true
 				}
 			},
-			"uni-mini-demo": {
-				"title": "uni-mini 演示网站",
+			"CCNET-demo": {
+				"title": "CCNET 演示网站",
 				"env": {
 					"UNI_PLATFORM": "h5"
 				},
