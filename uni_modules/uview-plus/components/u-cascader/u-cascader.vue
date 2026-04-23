@@ -1,12 +1,14 @@
 <template>
 	<up-popup :show="popupShow" mode="bottom" :popup="false"
-		:mask="true" :closeable="true" :safe-area-inset-bottom="true"
-		close-icon-color="#ffffff" :z-index="uZIndex"
+		:mask="true" :closeable="closeable" :safe-area-inset-bottom="true"
+		:close-icon-color="closeIconColor" :z-index="uZIndex"
 		:maskCloseAble="maskCloseAble" @close="close">
-		<view class="up-p-t-30 up-p-l-20 up-m-b-10" v-if="headerDirection =='column'">
+		<view class="up-p-t-30 up-p-l-20 up-m-b-10" v-if="headerDirection ==='column'">
 			<up-steps v-if="popupShow" dot direction="column" v-model:current="tabsIndex">
-				<up-steps-item  v-for="(item, index) in genTabsList"
-					@click="tabsIndex = index" :title="item.name"></up-steps-item>
+                <view  v-for="(item, index) in genTabsList"  @click="toFatherIndex(index)">
+                    <up-steps-item
+                        :title="item.name"/>
+                </view>
 			</up-steps>
 		</view>
 		<view class="up-p-t-20 up-m-b-10" v-else>
@@ -19,7 +21,7 @@
 				<template v-for="(levelData, levelIndex) in levelList" :key="levelIndex">
 					<view v-if="optionsCols == 2 || levelIndex == tabsIndex" class="area-item"
 						:style="{ width: optionsCols == 2 ? '33.33333%' : '750rpx'}">
-						<view class="u-padding-10 u-bg-gray" style="height: 100%;">
+						<view class="u-padding-10" :style="[levelPaneStyle, { height: '100%' }]">
 							<scroll-view :scroll-y="true" style="height: 100%">
 								<up-cell-group v-if="levelIndex === 0 || selectedValueIndexs[levelIndex - 1] !== undefined">
 									<up-cell v-for="(item,index) in levelData"
@@ -61,6 +63,7 @@
 	 * @property {String} labelKey 指定选项标签为选项对象中的哪个属性值
 	 * @property {String} childrenKey 指定选项的子选项为选项对象中的哪个属性值
 	 * @property {Boolean} autoClose 是否在选择最后一级时自动关闭并触发confirm（默认false）
+	 * @property {Boolean} closeable 是否显示关闭图标（默认true）
 	 */
 	import { t } from '../../libs/i18n'
 	export default {
@@ -124,6 +127,11 @@
 			optionsCols: {
 				type: [Number],
 				default: 2
+			},
+			// 是否显示关闭图标
+			closeable: {
+				type: Boolean,
+				default: true
 			}
 		},
 		data() {
@@ -142,6 +150,7 @@
 			data: {
 				handler() {
 					this.initLevelList();
+					this.setDefaultValue();
 				},
 				immediate: true
 			},
@@ -150,7 +159,8 @@
 			},
 			modelValue: {
 				handler() {
-					this.init();
+					// 初始化选中值
+					this.setDefaultValue();
 				},
 				immediate: true
 			}
@@ -163,7 +173,7 @@
 				let tabsList = [{
 					name: "请选择"
 				}];
-				
+
 				// 根据选中的值动态生成tabs
 				for (let i = 0; i < this.selectedValueIndexs.length; i++) {
 					if (this.selectedValueIndexs[i] !== undefined && this.levelList[i]) {
@@ -173,8 +183,8 @@
 								name: selectedItem[this.labelKey]
 							};
 							// 如果还有下一级，则添加"请选择"
-							if (i === this.selectedValueIndexs.length - 1 && 
-								selectedItem[this.childrenKey] && 
+							if (i === this.selectedValueIndexs.length - 1 &&
+								selectedItem[this.childrenKey] &&
 								selectedItem[this.childrenKey].length > 0) {
 								tabsList.push({
 									name: "请选择"
@@ -183,23 +193,35 @@
 						}
 					}
 				}
-				
+
 				return tabsList;
 			},
 			uZIndex() {
 				// 如果用户有传递z-index值，优先使用
 				return this.zIndex ? this.zIndex : this.$u.zIndex.popup;
+			},
+			closeIconColor() {
+				return 'var(--up-main-color, #303133)';
+			},
+			levelPaneStyle() {
+				return {
+					backgroundColor: 'var(--up-bg-color, #f7f7f7)'
+				};
 			}
 		},
 		// 新增confirm事件
-		emits: ['update:modelValue', 'change', 'confirm'],
+		emits: ['update:modelValue', 'update:show', 'change', 'confirm', 'cancel'],
 		methods: {
 			t,
-			init() {
-				// 初始化选中值
-				if (this.modelValue && this.modelValue.length > 0) {
-					this.setDefaultValue();
+			getSelectedValues() {
+				const result = [];
+				for (let i = 0; i < this.selectedValueIndexs.length; i++) {
+					const selectedIndex = this.selectedValueIndexs[i];
+					if (selectedIndex === undefined) continue;
+					if (!this.levelList[i] || !this.levelList[i][selectedIndex]) continue;
+					result.push(this.levelList[i][selectedIndex][this.valueKey]);
 				}
+				return result;
 			},
 			initLevelList() {
 				// 初始化第一级数据
@@ -209,15 +231,24 @@
 				}
 			},
 			setDefaultValue() {
+				// 检查data是否为空
+				if (!this.data || this.data.length == 0) return;
+				// 检查modelValue是否为空
+				if (!this.modelValue || this.modelValue.length == 0) {
+					this.confirmValues = [];
+					return;
+				}
 				// 根据默认值设置选中项
 				// 根据modelValue获取indexs给selectedValueIndexs
 				this.selectedValueIndexs = [];
+				this.levelList = []; // 设置层级数据为空
 				let currentLevelData = this.data;
-				
+
 				for (let i = 0; i < this.modelValue.length; i++) {
 					const value = this.modelValue[i];
 					const index = currentLevelData.findIndex(item => item[this.valueKey] === value);
-					
+					this.levelList[i] = currentLevelData; // 设置每一层级的数据
+
 					if (index !== -1) {
 						this.selectedValueIndexs.push(index);
 						// 更新下一级的数据
@@ -232,8 +263,11 @@
 						break;
 					}
 				}
+				// 同步确认值，避免“仅回显未改动时确认返回空数组”
+				this.confirmValues = this.getSelectedValues();
 			},
 			close() {
+				this.$emit('cancel');
 				this.$emit('update:show', false);
 			},
 			tabsChange(item) {
@@ -241,17 +275,17 @@
 			levelChange(levelIndex, index) {
 				// 设置当前级的选中值
 				this.$set(this.selectedValueIndexs, levelIndex, index);
-				
+
 				// 清除后续级别的选中值
 				this.selectedValueIndexs.splice(levelIndex + 1);
 				this.tabsIndex = Math.min(this.tabsIndex, levelIndex);
-				
+
 				// 清除后续级别的列表
 				this.levelList.splice(levelIndex + 1);
-				
+
 				// 获取当前选中项
 				const currentItem = this.levelList[levelIndex][index];
-				
+
 				// 如果有子级数据，则初始化下一级
 				if (currentItem && currentItem[this.childrenKey] && currentItem[this.childrenKey].length > 0) {
 					// 确保levelList数组足够长
@@ -267,6 +301,7 @@
 					if (this.autoClose) {
 						// 如果启用自动关闭，则触发change事件并关闭
 						this.emitChange();
+						this.handleConfirm();
 					} else {
 						// 否则只触发change事件，不关闭
 						this.emitChange(false);
@@ -276,19 +311,14 @@
 			// 修改emitChange方法，增加closePopup参数
 			emitChange(closePopup = true) {
 				// 构造选中结果
-				const result = [];
-				for (let i = 0; i < this.selectedValueIndexs.length; i++) {
-					if (this.selectedValueIndexs[i] !== undefined && this.levelList[i]) {
-						result.push(this.levelList[i][this.selectedValueIndexs[i]][this.valueKey]);
-					}
-				}
-				
+				const result = this.getSelectedValues();
+
 				// 更新confirmValues
 				this.confirmValues = [...result];
-				
+
 				// 触发change事件，返回value数组
 				this.$emit('change', this.confirmValues);
-				
+
 				// 根据参数决定是否关闭弹窗
 				if (closePopup) {
 					this.close();
@@ -298,11 +328,17 @@
 				this.close();
 			},
 			handleConfirm() {
+				const values = this.confirmValues.length ? this.confirmValues : this.getSelectedValues();
+				this.confirmValues = [...values];
 				// 确认时触发confirm事件
-				this.$emit('update:modelValue', this.confirmValues);
-				this.$emit('confirm', this.confirmValues);
+				this.$emit('update:modelValue', values);
+				this.$emit('confirm', values);
 				this.close();
-			}
+			},
+            // 跳转父节点
+            toFatherIndex(index){
+                this.tabsIndex = index;
+            },
 		}
 	}
 </script>
@@ -327,9 +363,9 @@
 			height: 800rpx;
 		}
 	}
-	
+
 	// 添加按钮区域样式
 	.u-cascader-action {
-		border-top: 1px solid #eee;
+		border-top: 1px solid var(--up-border-color, #eee);
 	}
 </style>
