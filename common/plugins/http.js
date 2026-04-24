@@ -1,4 +1,4 @@
-import Constants from "@/common/utils/constant.js";
+import Constants from "@/common/utils/constants.js";
 import UM from "@/common/plugins/uni-methods.js";
 // 文档参考：https://uniapp.dcloud.net.cn/api/request/request.html
 let ajaxTimes = 1;

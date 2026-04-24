@@ -1,4 +1,4 @@
-import Constants from "@/common/utils/constant.js";
+import Constants from "@/common/utils/constants.js";
 
 export default {
 	getSysInfo: async function () {

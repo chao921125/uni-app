@@ -1,5 +1,6 @@
 <template>
 	<view class="">
+		<image v-if="isShowBg" class="bg-img" :src="icoBg" mode="aspectFit"></image>
 		<view class="nav" :style="{ height: `${statusHeight + boundHeight}px` }">
 			<view class="status" :style="{ height: `${statusHeight}px` }"></view>
 			<view class="navigate" :style="{ height: `${boundHeight}px` }">
@@ -12,10 +13,14 @@
 </template>
 
 <script>
-import Constant from "@/common/constant.js";
+import Constant from "@/common/utils/constants.js";
 export default {
 	name: "nav",
 	props: {
+		isShowBack: {
+			type: Boolean,
+			default: true,
+		},
 		isShowBg: {
 			type: Boolean,
 			default: true,
@@ -31,6 +36,7 @@ export default {
 	},
 	data() {
 		return {
+			icoBg: Constant.IcoBg,
 			statusHeight: uni.getStorageSync("statusBar"),
 			boundHeight: uni.getStorageSync("customHeight"),
 		};
@@ -66,6 +72,14 @@ export default {
 	padding-bottom: 10rpx;
 	z-index: 9;
 	background: transparent;
+}
+.bg-img {
+	width: 100%;
+	height: 326rpx;
+	position: absolute;
+	z-index: 9;
+	top: 0;
+	left: 0;
 }
 .status {
 	width: 100%;

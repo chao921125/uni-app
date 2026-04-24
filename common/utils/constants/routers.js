@@ -1,10 +1,21 @@
 export default {
-	whiteList: ["/pages/permission/login", "/pages/permission/register", "/pages/permission/forgotpwd", "/pages/permission/permission"],
+	whiteList: ["/pages/permission/login", "/pages/permission/register", "/pages/permission/forgotpwd",
+		"/pages/permission/permission"
+	],
 
 	tabbarHome: "/pages/tab-home",
 	tabbarOrder: "/pages/tab-order",
 	tabbarUser: "/pages/tab-user",
 	tabbarDistribute: "/pages/tab-distribute",
+	tabbarList: [{
+		path: "",
+		name: "首页",
+		icon: ""
+	}, {
+		path: "",
+		name: "文章",
+		icon: ""
+	}, ],
 
 	login: "/pages/permission/login",
 	register: "/pages/permission/register",

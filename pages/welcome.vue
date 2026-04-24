@@ -1,7 +1,7 @@
 <script setup name="">
 import { onMounted, onUnmounted, reactive, ref } from "vue";
 import { storeHeight } from "@/store/navHeight.js";
-import Constants from "@/common/utils/constant.js";
+import Constants from "@/common/utils/constants.js";
 import { onShow } from "@dcloudio/uni-app";
 
 const data = reactive({
@@ -27,8 +27,8 @@ const onStartTime = () => {
 
 const onToHome = () => {
 	clearInterval(data.skip.timer);
-	uni.switchTab({
-		url: "/pages/tab-home",
+	uni.redirectTo({
+		url: "/pages/tabbar",
 	});
 };
 

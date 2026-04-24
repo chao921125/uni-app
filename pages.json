@@ -1,21 +1,21 @@
 {
 	// pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.net.cn/collocation/pages.html
-	"entryPagePath": "pages/welcome",
+	"entryPagePath": "pages/tabbar",
 	// 模式配置，仅开发期间生效
-	"condition": {
-		"current": 1, // 当前激活的模式（list 的索引项）
-		"list": [{
-				"name": "首页", //模式名称
-				"path": "pages/tab-home", // 启动页面，必选
-				"query": "interval=4000&autoplay=false" // 启动参数，在页面的onLoad函数里面得到。
-			},
-			{
-				"name": "文章",
-				"path": "pages/tab-article",
-				"query": ""
-			}
-		]
-	},
+	// "condition": {
+	// 	"current": 1, // 当前激活的模式（list 的索引项）
+	// 	"list": [{
+	// 			"name": "首页", //模式名称
+	// 			"path": "pages/tab-home", // 启动页面，必选
+	// 			"query": "interval=4000&autoplay=false" // 启动参数，在页面的onLoad函数里面得到。
+	// 		},
+	// 		{
+	// 			"name": "文章",
+	// 			"path": "pages/tab-article",
+	// 			"query": ""
+	// 		}
+	// 	]
+	// },
 	// I18n "navigationBarTitleText": "%index.title%"
 	// 设置页面路径及窗口表现 style 覆盖 globalStyle
 	"pages": [{
@@ -26,30 +26,9 @@
 		},
 		"needLogin": false
 	}, {
-		"path": "pages/tab-home",
+		"path": "pages/tabbar",
 		"style": {
 			"navigationBarTitleText": "首页",
-			"enablePullDownRefresh": true
-		},
-		"needLogin": false
-	}, {
-		"path": "pages/tab-article",
-		"style": {
-			"navigationBarTitleText": "文章",
-			"enablePullDownRefresh": true
-		},
-		"needLogin": false
-	}, {
-		"path": "pages/tab-demo",
-		"style": {
-			"navigationBarTitleText": "示例",
-			"enablePullDownRefresh": true
-		},
-		"needLogin": false
-	}, {
-		"path": "pages/tab-my",
-		"style": {
-			"navigationBarTitleText": "我的",
 			"enablePullDownRefresh": true
 		},
 		"needLogin": false
@@ -77,59 +56,61 @@
 	}],
 	// 分包预下载规则
 	"preloadRule": {
-		"pages-auth/login": {
+		"pages/welcome": {
 			"network": "all",
 			"packages": ["__APP__"]
 		},
+		"pages-auth/login": {
+			"network": "all",
+			"packages": ["pages-auth"]
+		},
 		"pages-user/my": {
 			"network": "all",
-			"packages": ["__APP__"]
+			"packages": ["pages-user"]
 		}
 	},
 	// 设置底部 tab 的表现	
-	"tabBar": {
-		"color": "#000", // tab 上的文字默认颜色
-		"selectedColor": "#1296db", // tab 上的文字选中时的颜色
-		"backgroundColor": "#fff", // tab 的背景色
-		"borderStyle": "white", // tabbar 上边框的颜色
-		"blurEffect": "light", // 高斯模糊效果
-		"height": "70px",
-		"fontSize": "10px",
-		"iconWidth": "24px",
-		"spacing": "3px",
-		"position": "bottom", // 可选值 bottom、top
-		"custom": true,
-		"customize": true,
-
-		// "iconfontSrc": "", // list设置 iconfont 属性时，需要指定字体文件路径
-		// "backgroundImage": "", // 设置背景图片，优先级高于 backgroundColor
-		// "backgroundRepeat": "", // 设置标题栏的背景图平铺方式
-		// "redDotColor": "", // tabbar上红点颜色
-
-		"list": [{
-				"pagePath": "pages/tab-home",
-				"text": "首页",
-				"iconPath": "/static/images/tab/home.png",
-				"selectedIconPath": "/static/images/tab/home-sel.png"
-			},
-			{
-				"pagePath": "pages/tab-article",
-				"text": "文章",
-				"iconPath": "/static/images/tab/article.png",
-				"selectedIconPath": "/static/images/tab/article-sel.png"
-			}, {
-				"pagePath": "pages/tab-demo",
-				"text": "示例",
-				"iconPath": "/static/images/tab/demo.png",
-				"selectedIconPath": "/static/images/tab/demo-sel.png"
-			}, {
-				"pagePath": "pages/tab-my",
-				"text": "我的",
-				"iconPath": "/static/images/tab/my.png",
-				"selectedIconPath": "/static/images/tab/my-sel.png"
-			}
-		]
-	},
+	// "tabBar": {
+	// 	"color": "#999999",
+	// 	"selectedColor": "#007AFF",
+	// 	"backgroundColor": "#F8F8F8",
+	// 	"borderStyle": "black",
+	// 	"blurEffect": "none",
+	// 	"list": [{
+	// 			"pagePath": "pages/tabbar",
+	// 			"text": "",
+	// 			"iconPath": "/static/images/tab/home.png",
+	// 			"selectedIconPath": "/static/images/tab/home-sel.png"
+	// 		}
+	// 	],
+	// 	"position": "bottom",
+	// 	"fontSize": "10px",
+	// 	"iconWidth": "24px",
+	// 	"spacing": "3px",
+	// 	"height": "50px",
+	// 	// "midButton": {
+	// 	// 	"width": "80px",
+	// 	// 	"height": "50px",
+	// 	// 	"text": "",
+	// 	// 	"iconPath": "",
+	// 	// 	"iconWidth": "24px",
+	// 	// 	"backgroundImage": "",
+	// 	// 	"iconfont": {
+	// 	// 		"text": "",
+	// 	// 		"selectedText": "",
+	// 	// 		"fontSize": "",
+	// 	// 		"color": "",
+	// 	// 		"selectedColor": ""
+	// 	// 	}
+	// 	// },
+	// 	// "iconfontSrc": "",
+	// 	// "backgroundImage": "",
+	// 	// "backgroundRepeat": "no-repeat",
+	// 	// "redDotColor": "#FF0000",
+	// 	"custom": true,
+	// 	"customize": true,
+	// 	"overlay": false
+	// },
 	// 自动跳转相关配置
 	"uniIdRouter": {
 		"loginPage": "pages-auth/login", // 登录页面路径
@@ -139,7 +120,6 @@
 		],
 		"resToLogin": true // 自动解析云对象及clientDB的错误码，如果是客户端token不正确或token过期则自动跳转配置的登录页面，配置为false则关闭此行为，默认true
 	},
-	// 组件自动引入规则
 	"easycom": {
 		"autoscan": true,
 		"custom": {
@@ -148,41 +128,188 @@
 			"^u-([^-].*)": "@/uni_modules/uview-plus/components/u-$1/u-$1.vue"
 		}
 	},
-	// 设置默认页面的窗口表现
+	// "leftWindow": {
+	// 	"path": "",
+	// 	"style": {
+	// 		"navigationBarTitleText": ""
+	// 	},
+	// 	"matchMedia": {
+	// 		"minWidth": 768
+	// 	}
+	// },
+	// "topWindow": {
+	// 	"path": "",
+	// 	"style": {
+	// 		"navigationBarTitleText": ""
+	// 	},
+	// 	"matchMedia": {
+	// 		"minWidth": 768
+	// 	}
+	// },
+	// "rightWindow": {
+	// 	"path": "",
+	// 	"style": {
+	// 		"navigationBarTitleText": ""
+	// 	},
+	// 	"matchMedia": {
+	// 		"minWidth": 768
+	// 	}
+	// },
 	"globalStyle": {
-		"pageOrientation": "portrait", // 横屏配置，屏幕旋转设置，仅支持 auto / portrait / landscape
-		
-		"navigationBarTitleText": "CCNET", // 导航栏标题文字内容
-		"navigationBarTextStyle": "black", // 导航栏标题颜色及状态栏前景颜色，仅支持 black/white
-		"navigationBarBackgroundColor": "#F8F8F8", // 导航栏背景颜色（同状态栏背景色）
-		"navigationStyle": "default", // 导航栏样式，仅支持 default/custom。custom即取消默认的原生导航栏
-
-		"backgroundColor": "#F8F8F8", // 下拉显示出来的窗口的背景色
-		"backgroundTextStyle": "dark", // 下拉 loading 的样式，仅支持 dark / light
-		"backgroundColorTop": "#ffffff", // 顶部窗口的背景色（bounce回弹区域）
-		"backgroundColorBottom": "#ffffff", // 底部窗口的背景色（bounce回弹区域）
-
-		"enablePullDownRefresh": false, // 是否开启下拉刷新
-		"onReachBottomDistance": 50, // 页面上拉触底事件触发时距页面底部距离，单位只支持px
-
-		"renderingMode": "seperated", // 同层渲染，webrtc(实时音视频) 无法正常时尝试配置 seperated 强制关掉同层
-
-		// "titleImage": "" // 导航栏图片地址（替换当前文字标题），支付宝小程序内必须使用https的图片链接地址
-		// "transparentTitle": "" // 导航栏整体（前景、背景）透明设置。支持 always 一直透明 / auto 滑动自适应 / none 不透明
-		// "titlePenetrate": "" // 导航栏点击穿透 'YES' | 'NO'
-
-		// "animationType": "" // 窗口显示的动画效果 'slide-in-right' | 'slide-in-left' | 'slide-in-top' | 'slide-in-bottom' | 'fade-in' | 'zoom-out' | 'zoom-fade-out' | 'pop-in'
-		// "animationDuration": 300 // 窗口显示动画的持续时间，单位为 ms
-
-		// "allowsBounceVertical": "" // 是否允许向下拉拽。默认 YES。如果需要下拉刷新，值必须为YES
-
-		// "rpxCalcMaxDeviceWidth": 300 // rpx 计算所支持的最大设备宽度，单位 px
-		// "rpxCalcBaseDeviceWidth": 300 // rpx 计算使用的基准设备宽度，设备实际宽度超出 rpx 计算所支持的最大设备宽度时将按基准宽度计算，单位 px
-		// "rpxCalcIncludeWidth": 300 // rpx 计算特殊处理的值，始终按实际的设备宽度计算，单位 rpx
-
-		"dynamicRpx": true, // 动态 rpx，屏幕大小变化会重新渲染 rpx
-		"mp-weixin": {}, // 设置编译到 mp-weixin 平台的特定样式
-
-		"usingComponents": {}
+		"navigationBarBackgroundColor": "#F8F8F8",
+		"navigationBarTextStyle": "black",
+		"navigationBarTitleText": "CCNET",
+		"navigationStyle": "custom",
+		"backgroundColor": "#ffffff",
+		"backgroundTextStyle": "dark",
+		"enablePullDownRefresh": false,
+		"onReachBottomDistance": 50,
+		"backgroundColorTop": "#ffffff",
+		"backgroundColorBottom": "#ffffff",
+		"titleImage": "",
+		"transparentTitle": "none",
+		"titlePenetrate": "NO",
+		"allowsBounceVertical": "YES",
+		"pageOrientation": "portrait",
+		"animationType": "pop-in",
+		"animationDuration": 300,
+		"usingComponents": {},
+		"renderingMode": "seperated",
+		"leftWindow": true,
+		"topWindow": true,
+		"rightWindow": true,
+		"rpxCalcMaxDeviceWidth": 960,
+		"rpxCalcBaseDeviceWidth": 375,
+		"rpxCalcIncludeWidth": 750,
+		"dynamicRpx": true,
+		"maxWidth": 960,
+		"app-plus": {
+			// "background": "#FFFFFF",
+			// "titleNView": {
+			// 	"backgroundColor": "#F7F7F7",
+			// 	"buttons": [],
+			// 	"titleColor": "#000000",
+			// 	"titleOverflow": "ellipsis",
+			// 	"titleText": "",
+			// 	"titleSize": "",
+			// 	"type": "default",
+			// 	"tags": [],
+			// 	"searchInput": {
+			// 		"autoFocus": false,
+			// 		"align": "center",
+			// 		"backgroundColor": "rgba(255,255,255,0.5)",
+			// 		"borderRadius": "0px",
+			// 		"placeholder": "",
+			// 		"placeholderColor": "#CCCCCC",
+			// 		"disabled": false
+			// 	},
+			// 	"homeButton": false,
+			// 	"autoBackButton": true,
+			// 	"backButton": {
+			// 		"background": "none",
+			// 		"badgeText": "",
+			// 		"color": "#000000",
+			// 		"colorPressed": "",
+			// 		"fontWeight": "normal",
+			// 		"fontSize": "",
+			// 		"redDot": false,
+			// 		"title": "",
+			// 		"titleWeight": "normal"
+			// 	},
+			// 	"backgroundImage": "",
+			// 	"backgroundRepeat": "",
+			// 	"titleAlign": "auto",
+			// 	"blurEffect": "none",
+			// 	"coverage": "132px",
+			// 	"splitLine": false,
+			// 	"subtitleColor": "",
+			// 	"subtitleSize": "auto",
+			// 	"subtitleOverflow": "ellipsis",
+			// 	"subtitleText": "",
+			// 	"titleIcon": "",
+			// 	"titleIconRadius": "0px"
+			// },
+			// "subNVues": [],
+			// "bounce": "",
+			// "popGesture": "close",
+			// "softinputNavBar": "auto",
+			// "softinputMode": "adjustPan",
+			// "pullToRefresh": {
+			// 	"support": false,
+			// 	"color": "#2BD009",
+			// 	"style": "default",
+			// 	"height": "",
+			// 	"range": "",
+			// 	"offset": "0px",
+			// 	"contentdown": {
+			// 		"caption": ""
+			// 	},
+			// 	"contentover": {
+			// 		"caption": ""
+			// 	},
+			// 	"contentrefresh": {
+			// 		"caption": ""
+			// 	}
+			// },
+			// "scrollIndicator": "",
+			// "animationType": "pop-in",
+			// "animationDuration": 300
+		},
+		"app-harmony": {
+			"softinputMode": "adjustPan"
+		},
+		"h5": {
+			// "titleNView": {
+			// 	"backgroundColor": "#F7F7F7",
+			// 	"buttons": [],
+			// 	"titleColor": "#000000",
+			// 	"titleText": "",
+			// 	"titleSize": "",
+			// 	"type": "default",
+			// 	"searchInput": {
+			// 		"autoFocus": false,
+			// 		"align": "center",
+			// 		"backgroundColor": "rgba(255,255,255,0.5)",
+			// 		"borderRadius": "0px",
+			// 		"placeholder": "",
+			// 		"placeholderColor": "#CCCCCC",
+			// 		"disabled": false
+			// 	}
+			// },
+			// "pullToRefresh": {
+			// 	"color": "#2BD009",
+			// 	"offset": "0px"
+			// }
+		},
+		"mp-alipay": {
+			// "allowsBounceVertical": "YES",
+			// "titleImage": "",
+			// "transparentTitle": "none",
+			// "titlePenetrate": "NO",
+			// "showTitleLoading": "NO",
+			// "backgroundImageUrl": "",
+			// "backgroundImageColor": "",
+			// "gestureBack": "NO",
+			// "enableScrollBar": "YES"
+		},
+		"mp-weixin": {
+			// "homeButton": false,
+			// "backgroundColorTop": "#ffffff",
+			// "backgroundColorBottom": "#ffffff",
+			// "restartStrategy": "homePage",
+			// "initialRenderingCache": "",
+			// "visualEffectInBackground": "none",
+			// "handleWebviewPreload": "static"
+		},
+		"mp-baidu": {
+			"textSizeAdjust": "auto"
+		},
+		"mp-toutiao": {},
+		"mp-lark": {},
+		"mp-qq": {},
+		"mp-kuaishou": {},
+		"mp-jd": {},
+		"mp-xhs": {},
+		"mp-harmony": {}
 	}
 }

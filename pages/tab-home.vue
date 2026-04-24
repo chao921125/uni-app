@@ -17,7 +17,7 @@ defineExpose({
 </script>
 
 <template>
-	<view @click="changeClick">template {{ props.name }}</view>
+	<view @click="changeClick">home template {{ props.name }}</view>
 </template>
 
 <style scoped lang="scss"></style>

@@ -147,7 +147,7 @@
 	$u-cell-label-line-height: 18px !default;
 	$u-cell-value-font-size: 14px !default;
 	$u-cell-value-color: $u-content-color !default;
-	$u-cell-clickable-color: $u-bg-color !default;
+	$u-cell-clickable-color: var(--up-hover-bg-color, #f1f1f1) !default;
 	$u-cell-disabled-color: $u-disabled-color !default;
 	$u-cell-padding-top-large: 13px !default;
 	$u-cell-padding-bottom-large: 13px !default;
