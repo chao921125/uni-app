@@ -2,6 +2,7 @@
 import { storeHeight } from "@/store/navHeight.js";
 import Storage from "@/common/plugins/storage.js";
 import Constants from "@/common/utils/constants.js";
+import { injectSystemVars, watchSystemChange } from "@/common/plugins/system.js";
 
 export default {
 	onLaunch: function () {
@@ -19,23 +20,11 @@ export default {
 		const custom = uni.getMenuButtonBoundingClientRect();
 		// #endif
 
-		uni.getSystemInfo({
-			success: (e) => {
-				let statusBar = 0;
-				let custom = 0;
-				let customBar = 0;
-				// #ifdef MP-WEIXIN
-				statusBar = e.statusBarHeight;
-				custom = wx.getMenuButtonBoundingClientRect();
-				customBar = custom.bottom + custom.top - e.statusBarHeight;
-				// #endif
-				storeHeight().setHeightStatus(statusBar);
-				storeHeight().setHeightBound(custom.height || 0);
-				storeHeight().setHeightNav(customBar);
-				Storage.setStorageSync(Constants.key.heightStatus, statusBar);
-				Storage.setStorageSync(Constants.key.heightBound, custom.height || 0);
-				Storage.setStorageSync(Constants.key.heightNav, customBar);
-			},
+		// 启动时注入 CSS 变量
+		injectSystemVars(); // 监听屏幕变化（可选）
+		watchSystemChange((metrics) => {
+			console.log("📱 屏幕变化:", metrics.windowWidth, metrics.windowHeight);
+			// 可在此触发页面重布局
 		});
 	},
 	onShow: function () {

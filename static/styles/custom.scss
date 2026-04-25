@@ -1,0 +1,17 @@
+:root {
+  /* 1️⃣ 原生安全区域变量 */
+  --safe-top: env(safe-area-inset-top, 0px);
+  --safe-bottom: env(safe-area-inset-bottom, 0px);
+  --safe-left: env(safe-area-inset-left, 0px);
+  --safe-right: env(safe-area-inset-right, 0px);
+
+  /* 2️⃣ 跨平台固定约定值 */
+  --nav-content-height: 44px;       /* 导航栏内容区（微信/APP 标准） */
+  --tab-bar-height: 50px;           /* 底部 TabBar 标准高度 */
+  --status-bar-fallback: 24px;      /* 纯CSS无法获取真实状态栏，此为Android保守值 */
+
+  /* 3️⃣ 组合计算变量 */
+  --header-total: calc(var(--safe-top) + var(--nav-content-height));
+  --bottom-pad: calc(var(--safe-bottom) + 20rpx);
+  --content-max-width: calc(var(--window-width, 100vw) - 40rpx);
+}

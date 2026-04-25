@@ -4,7 +4,7 @@ import imgPath from "./constants/images.js";
 import request from "./constants/request.js";
 import color from "./constants/color.js";
 import emoji from "./constants/emoji.js";
-import storage from "./constants/storage.js";
+import key from "./constants/key.js";
 
 export default {
 	baseUrl: request.getBaseUrl(),
@@ -18,7 +18,7 @@ export default {
 	// 路由去需要添加 / 作为根路径
 	page: routerPath,
 	img: imgPath,
-	key: storage,
+	key: key,
 	color: color,
 	emoji: emoji,
 };

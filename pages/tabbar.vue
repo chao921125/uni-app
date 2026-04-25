@@ -7,7 +7,9 @@ import constatn from "@/common/utils/constants.js";
 
 <template>
 	<!-- <ReVpNav title="Home" :border="false" leftText="LT"></ReVpNav> -->
-	<CcNav title="Home" :border="false" leftText="LT"></CcNav>
+	<CcNav title="" :border="false" leftText="LT">
+		<template #center>LLL</template>
+	</CcNav>
 	<TabHome></TabHome>
 </template>
 
