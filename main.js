@@ -6,6 +6,7 @@ import {
 import * as Pinia from "pinia";
 
 import UI from "@/common/plugins/ui.js";
+import errorHandler from "@/common/plugins/error-handler.js";
 
 import uviewPlus from "@/uni_modules/uview-plus";
 
@@ -13,6 +14,9 @@ export function createApp() {
 	const app = createSSRApp(App);
 	app.use(Pinia.createPinia());
 	app.use(uviewPlus);
+	
+	// 初始化全局错误处理
+	errorHandler.init();
 	
 	app.config.globalProperties.$adpid = "wxa52bb659b38d1ae2";
 	app.config.globalProperties.$backgroundAudioData = {

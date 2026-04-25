@@ -26,6 +26,24 @@ export default {
 			console.log("📱 屏幕变化:", metrics.windowWidth, metrics.windowHeight);
 			// 可在此触发页面重布局
 		});
+
+		// 全局未捕获的Promise错误处理
+		// #ifndef H5
+		if (typeof Promise !== "undefined") {
+			Promise.prototype.catch = (function (originalCatch) {
+				return function (onRejected) {
+					return originalCatch.call(this, function (reason) {
+						// 记录错误但不阻止传播
+						console.error("[Global] Unhandled Promise Rejection:", reason);
+						if (onRejected) {
+							return onRejected(reason);
+						}
+						throw reason;
+					});
+				};
+			})(Promise.prototype.catch);
+		}
+		// #endif
 	},
 	onShow: function () {
 		// #ifndef H5 || APP-PLUS
@@ -67,17 +85,41 @@ export default {
 	onHide: function () {
 		console.log("App Hide");
 	},
-	onError: function () {
-		console.log("App Error");
+	onError: function (err) {
+		console.error("[App Error]", err);
+		// 可以在这里上报错误到监控系统
+		// reportError(err);
 	},
 	onUniNViewMessage: function () {
 		console.log("App UniNViewMessage");
 	},
-	onUnhandledRejection: function () {
-		console.log("App UnhandledRejection");
+	onUnhandledRejection: function (res) {
+		// res 包含 reason 和 promise 属性
+		console.error("[UnhandledRejection]", res?.reason || res);
+		
+		// 开发环境显示详细错误
+		// #ifdef DEV
+		if (res?.reason) {
+			console.error("错误详情:", res.reason);
+			console.error("错误堆栈:", res.reason?.stack);
+		}
+		// #endif
+		
+		// 生产环境可以上报错误日志
+		// reportError(res?.reason);
+		
+		// 给用户友好提示（可选）
+		// uni.showToast({
+		//   title: '程序出现异常',
+		//   icon: 'none'
+		// });
 	},
-	onPageNotFound: function () {
-		console.log("App PageNotFound");
+	onPageNotFound: function (res) {
+		console.warn("[PageNotFound]", res);
+		// 页面不存在时的处理
+		uni.redirectTo({
+			url: "/pages/tabbar",
+		});
 	},
 	onThemeChange: function () {
 		console.log("App ThemeChange");
