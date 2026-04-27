@@ -1,19 +1,18 @@
 {
-  "id": "uview-plus",
-  "name": "uview-plus",
-  "displayName": "零云®uview-plus3.0重磅发布，全面的Vue3鸿蒙跨端移动组件库，组件丰富维护更新稳定。",
-  "version": "3.8.14",
-  "description": "零云®uview-plus已兼容vue3支持多语言，120+全面的组件和便捷的工具会让您信手拈来。近期新增拖动排序、条码、图片裁剪、下拉刷新、虚拟列表、签名、Markdown等。",
+  "id": "ly-charts",
+  "name": "ly-charts",
+  "displayName": "零云®lyCharts26.0重磅发布，新一代跨端uni-app图标库，以兼容ECharts的API为目标。",
+  "version": "26.1.4",
+  "description": "目前支持折线图、柱状图、山峰图、饼图、雷达图、散点图、仪表盘，将会增加更多类型，API接口尽量兼容ECharts，但是出于体积和移动端实际用途不会100%覆盖。",
   "keywords": [
-    "uview",
     "uview-plus",
-    "ui",
+    "lyCharts",
+    "图表",
     "echarts",
-    "ui",
-    "可视化"
+    "可视化设计"
 ],
   "main": "index.js",
-  "repository": "https://github.com/ijry/uview-plus",
+  "repository": "https://github.com/ijry/lyCharts",
   "engines": {
     "HBuilderX": "^3.1.0",
     "uni-app": "^4.66",
@@ -32,14 +31,14 @@
       "qq": "598821125"
     },
     "declaration": {
-      "ads": "请注意本插件开发文档包含弹窗广告每日展示一次，源码纯净无广告。",
+      "ads": "无",
       "data": "无",
       "permissions": "无"
     },
-    "npmurl": "https://www.npmjs.com/package/uview-plus",
+    "npmurl": "https://www.npmjs.com/package/ly-charts",
     "type": "component-vue",
     "darkmode": "x",
-    "i18n": "√",
+    "i18n": "x",
     "widescreen": "x"
   },
   "uni_modules": {
@@ -49,12 +48,12 @@
       "cloud": {
         "tcb": "√",
         "aliyun": "√",
-        "alipay": "√"
+        "alipay": "x"
       },
       "client": {
         "uni-app": {
           "vue": {
-            "vue2": "-",
+            "vue2": "√",
             "vue3": "√"
           },
           "web": {
@@ -77,8 +76,7 @@
             "jd": "-",
             "harmony": "√",
             "qq": "√",
-            "lark": "-",
-            "xhs": "-"
+            "lark": "-"
           },
           "quickapp": {
             "huawei": "-",
