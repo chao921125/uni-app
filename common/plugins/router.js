@@ -1,3 +1,4 @@
+// AI生成
 /**
  * UniApp 路由模块封装
  * 功能：页面跳转/返回/事件通信/页面栈管理/登录拦截/路径处理
@@ -256,12 +257,6 @@ export const Router = {
 			complete: (res) => safeCallback(complete, res),
 		};
 
-		// App 端动画配置
-		if (Platform.isApp()) {
-			navOptions.animationType = animationType || CONFIG.animation.type;
-			navOptions.animationDuration = animationDuration ?? CONFIG.animation.duration;
-		}
-
 		// 事件通信配置（2.8.9+）
 		if (Object.keys(events).length > 0) {
 			navOptions.events = events;
@@ -402,12 +397,6 @@ export const Router = {
 		const safeDelta = Math.min(delta, Math.max(1, pages.length - 1));
 
 		const navOptions = { delta: safeDelta };
-
-		// App 端动画配置
-		if (Platform.isApp()) {
-			navOptions.animationType = animationType || "pop-out";
-			navOptions.animationDuration = animationDuration ?? CONFIG.animation.duration;
-		}
 
 		return new Promise((resolve, reject) => {
 			uni.navigateBack({

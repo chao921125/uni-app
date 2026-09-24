@@ -1,6 +1,8 @@
 import { defineMixin } from '../../libs/vue'
-import defProps from '../../libs/config/props.js'
+import TabbarDefaultProps from './tabbar'
+import { registerComponentProps } from '../../libs/config/props.js'
 
+const defProps = registerComponentProps(TabbarDefaultProps)
 export const props = defineMixin({
     props: {
         // 当前匹配项的name
@@ -52,6 +54,41 @@ export const props = defineMixin({
         backgroundColor: {
             type: String,
             default: () => defProps.tabbar.backgroundColor
+        },
+        // 风格类型
+        styleType: {
+            type: String,
+            default: () => defProps.tabbar.styleType
+        },
+        // 激活动画类型
+        animationType: {
+            type: String,
+            default: () => defProps.tabbar.animationType
+        },
+        // 选中项背景色
+        activeBackgroundColor: {
+            type: String,
+            default: () => defProps.tabbar.activeBackgroundColor
+        },
+        // 未选中项背景色
+        inactiveBackgroundColor: {
+            type: String,
+            default: () => defProps.tabbar.inactiveBackgroundColor
+        },
+        // item 形状
+        itemShape: {
+            type: String,
+            default: () => defProps.tabbar.itemShape
+        },
+        // 图标缩放比例
+        iconScale: {
+            type: [String, Number],
+            default: () => defProps.tabbar.iconScale
+        },
+        // 文本显示模式
+        textMode: {
+            type: String,
+            default: () => defProps.tabbar.textMode
         }
     }
 })

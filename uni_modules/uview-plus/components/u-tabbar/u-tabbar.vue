@@ -4,10 +4,20 @@
 		    class="u-tabbar__content"
 		    ref="u-tabbar__content"
 		    @touchmove.stop.prevent="noop"
-		    :class="[border && 'u-border-top', fixed && 'u-tabbar--fixed']"
+		    :class="[
+				fixed && 'u-tabbar--fixed',
+				`u-tabbar--${styleType}`,
+				textMode === 'active' && 'u-tabbar--text-active'
+			]"
 		    :style="[tabbarStyle]"
 		>
-			<view class="u-tabbar__content__item-wrapper">
+			<view
+				class="u-tabbar__content__item-wrapper"
+				:class="[
+					`u-tabbar__content__item-wrapper--${styleType}`,
+					itemShape !== 'default' && `u-tabbar__content__item-wrapper--shape-${itemShape}`
+				]"
+			>
 				<slot />
 			</view>
 			<u-safe-bottom v-if="safeAreaInsetBottom"></u-safe-bottom>
@@ -56,22 +66,52 @@
 			}
 		},
 		computed: {
+			// 顶部边框颜色，未指定borderColor时回退到主题边框色
+			tabbarBorderColor() {
+				return this.borderColor || this.upThemeVar('--up-border-color', '#dadbde')
+			},
 			tabbarStyle() {
 				const style = {
 					zIndex: this.zIndex,
-					backgroundColor: this.backgroundColor || this.upThemeVar('--up-card-bg-color', this.upThemeIsDark ? '#1c1c1e' : '#ffffff')
+					backgroundColor: this.backgroundColor || this.upThemeVar('--up-card-bg-color', this.upThemeIsDark ? '#1c1c1e' : '#ffffff'),
+					'--up-tabbar-active-bg': this.activeBackgroundColor || 'transparent',
+					'--up-tabbar-inactive-bg': this.inactiveBackgroundColor || 'transparent',
+					'--up-tabbar-icon-scale': `${this.iconScale}`
 				}
-				if (this.borderColor) {
-					style.borderColor = this.borderColor + ' !important'
-				} else {
-					style.borderColor = this.upThemeVar('--up-border-color', '#dadbde')
+				// 顶部边框由组件自身内联样式绘制，不再依赖全局的u-border-top工具类。
+				// 小程序自定义组件存在样式隔离，全局类名是否能作用到组件内部节点取决于宿主项目
+				// 引入全局样式的方式，会出现同一个tabbar在部分页面有边框、切换页面后边框丢失的问题。
+				if (this.border) {
+					style.borderTopWidth = '0.5px'
+					style.borderTopStyle = 'solid'
+					style.borderTopColor = this.tabbarBorderColor
+				}
+				if (['pill', 'card', 'glow', 'convex'].includes(this.styleType)) {
+					style.padding = '8rpx 12rpx 12rpx'
 				}
 				// 合并来自父组件的customStyle样式
 				return deepMerge(style, addStyle(this.customStyle))
 			},
 			// 监听多个参数的变化，通过在computed执行对应的操作
 			updateChild() {
-				return [this.value, this.activeColor, this.inactiveColor]
+				return [
+					this.value,
+					this.activeColor,
+					this.inactiveColor,
+					this.styleType,
+					this.animationType,
+					this.activeBackgroundColor,
+					this.inactiveBackgroundColor,
+					this.itemShape,
+					this.iconScale,
+					this.textMode,
+					this.borderColor,
+					this.border,
+					this.customStyle
+				]
+			},
+			midButtonBorderTopOffset() {
+				return this.border ? 0.25 : 0
 			},
 			updatePlaceholder() {
 				return [this.fixed, this.placeholder]
@@ -138,7 +178,57 @@
 				height: 50px;
 				@include flex(row);
 				justify-content: space-around;
+
+				&--pill,
+				&--card,
+				&--glow,
+				&--convex {
+					gap: 8rpx;
+				}
+
+				&--pill {
+					height: 50px;
+				}
+
+				&--shape-round {
+					border-radius: 999px;
+				}
+
+				&--shape-square {
+					border-radius: 16rpx;
+				}
 			}
+		}
+
+		&--default,
+		&--minimal,
+		&--underline,
+		&--dot {
+			padding: 0;
+		}
+
+		&--pill,
+		&--glow {
+			border-radius: 72rpx;
+			background: #ffffff;
+			margin-left: 24rpx;
+			margin-right: 24rpx;
+		}
+
+		&--card {
+			border-radius: 24rpx;
+			box-shadow: 0 10rpx 30rpx rgba(15, 23, 42, 0.06);
+		}
+
+		&--lift {
+			overflow: visible;
+		}
+
+		&--convex {
+			overflow: visible;
+			border-radius: 32rpx 32rpx 0 0;
+			background: #ffffff;
+			box-shadow: 0 -2rpx 18rpx rgba(148, 163, 184, 0.08);
 		}
 
 		&--fixed {

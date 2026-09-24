@@ -1,7 +1,22 @@
+/* #ifdef MP-WEIXIN */
+:host {
+	--up-navbar-bg-color: #ffffff;
+}
+
+@media (prefers-color-scheme: dark) {
+	:host {
+		--up-navbar-bg-color: #1c1c1e;
+	}
+}
+/* #endif */
+
+/* #ifndef MP-WEIXIN */
 :root,
 page,
 body {
 	--up-navbar-bg-color: #ffffff;
+	--up-navbar-glass-bg-color: rgba(255, 255, 255, 0.82);
+	--up-navbar-glass-blur: 20px;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -9,13 +24,17 @@ body {
 	page,
 	body {
 		--up-navbar-bg-color: #1c1c1e;
+		--up-navbar-glass-bg-color: rgba(28, 28, 30, 0.82);
 	}
 }
 
 [data-up-theme='light'] {
 	--up-navbar-bg-color: #ffffff;
+	--up-navbar-glass-bg-color: rgba(255, 255, 255, 0.82);
 }
 
 [data-up-theme='dark'] {
 	--up-navbar-bg-color: #1c1c1e;
+	--up-navbar-glass-bg-color: rgba(28, 28, 30, 0.82);
 }
+/* #endif */

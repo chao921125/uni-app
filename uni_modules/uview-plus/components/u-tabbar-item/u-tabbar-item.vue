@@ -1,50 +1,63 @@
 <template>
 	<view
 	    class="u-tabbar-item"
-	    :style="[addStyle(customStyle)]"
-	    :class="[isMidButton ? 'u-tabbar-item--mid-button' : '']"
+	    :style="[itemInlineStyle, addStyle(customStyle)]"
+	    :class="itemClassNames"
 	    @tap="clickHandler"
 	>
-		<view 
-			class="u-tabbar-item__icon"
-			:class="[isMidButton ? 'u-tabbar-item__icon--mid-button' : '']"
-		>
-			<view class="u-tabbar-item--mid-button-cover" v-if="isMidButton">
+		<view class="u-tabbar-item__content" :class="contentClassNames">
+			<view class="u-tabbar-item__bubble" :class="bubbleClassNames">
+				<view
+					ref="u-tabbar-item__icon--mid-button"
+					class="u-tabbar-item__icon"
+					:class="iconClassNames"
+				>
+					<view v-if="isMidButton" class="u-tabbar-item__mid-button-border" :style="midButtonBorderStyle">
+						<view class="u-tabbar-item__mid-button-border-circle" :style="midButtonBorderCircleStyle"></view>
+					</view>
+					<view v-if="isMidButton" class="u-tabbar-item__mid-button-inner"></view>
+					<view class="u-tabbar-item__icon-content" :class="iconContentClassNames">
+						<up-icon
+							v-if="resolvedIconName"
+							:name="resolvedIconName"
+							:color="isMidButton ? resolvedMidButtonIconColor : (isActive ? resolvedActiveColor : resolvedInactiveColor)"
+							:size="isMidButton ? midButtonIconSize : 24"
+							:customStyle="midButtonIconStyle"
+						></up-icon>
+						<template v-else>
+							<slot
+								v-if="isActive"
+								name="active-icon"
+							/>
+							<slot
+								v-else
+								name="inactive-icon"
+							/>
+						</template>
+						<u-badge
+							absolute
+							:offset="[0, dot ? '34rpx' : badge > 9 ? '14rpx' : '20rpx']"
+							:customStyle="badgeStyle"
+							:isDot="dot"
+							:value="badge || (dot ? 1 : null)"
+							:show="dot || badge > 0"
+						></u-badge>
+					</view>
+				</view>
+
+				<slot name="text">
+					<text
+						class="u-tabbar-item__text"
+						:class="textClassNames"
+						:style="{
+							color: isActive ? resolvedActiveColor : resolvedInactiveColor
+						}"
+					>{{ text }}</text>
+				</slot>
 			</view>
-			<up-icon
-			    v-if="icon"
-			    :name="icon"
-			    :color="isActive ? resolvedActiveColor : resolvedInactiveColor"
-			    :size="isMidButton ? 26 : 20"
-			></up-icon>
-			<template v-else>
-				<slot
-				    v-if="isActive"
-				    name="active-icon"
-				/>
-				<slot
-				    v-else
-				    name="inactive-icon"
-				/>
-			</template>
-			<u-badge
-				absolute
-				:offset="[0, dot ? '34rpx' : badge > 9 ? '14rpx' : '20rpx']"
-			    :customStyle="badgeStyle"
-			    :isDot="dot"
-			    :value="badge || (dot ? 1 : null)"
-			    :show="dot || badge > 0"
-			></u-badge>
 		</view>
-		
-		<slot name="text">
-			<text
-			    class="u-tabbar-item__text"
-			    :style="{
-					color: isActive ? resolvedActiveColor : resolvedInactiveColor
-				}"
-			>{{ text }}</text>
-		</slot>
+		<view v-if="resolvedStyleType === 'underline'" class="u-tabbar-item__underline"></view>
+		<view v-if="resolvedStyleType === 'dot'" class="u-tabbar-item__active-dot"></view>
 	</view>
 </template>
 
@@ -52,7 +65,8 @@
 	import { props } from './props';
 	import { mpMixin } from '../../libs/mixin/mpMixin';
 	import { mixin } from '../../libs/mixin/mixin';
-	import { addStyle, error } from '../../libs/function/index';
+	import { addStyle, error, sleep } from '../../libs/function/index';
+	import { calculateMidButtonBorderClipHeight } from './midButtonGeometry';
 	/**
 	 * TabbarItem 底部导航栏子组件
 	 * @description 此组件提供了自定义tabbar的能力。
@@ -63,6 +77,13 @@
 	 * @property {Boolean}			dot			是否显示圆点，将会覆盖badge参数（默认 false ）
 	 * @property {String}			text		描述文本
 	 * @property {Object | String}	badgeStyle	控制徽标的位置，对象或者字符串形式，可以设置top和right属性（默认 'top: 6px;right:2px;' ）
+	 * @property {String}			mode		模式，默认普通模式，midButton中间按钮模式
+	 * @property {String}			midButtonBgColor	中间按钮背景色
+	 * @property {String}			midButtonIconColor	中间按钮图标颜色
+	 * @property {String | Number}	midButtonIconSize	中间按钮图标大小（默认 26 ）
+	 * @property {String}			midButtonBoxShadow	中间按钮外层阴影
+	 * @property {String}			midButtonInnerBoxShadow	中间按钮内层阴影
+	 * @property {String | Number}	midButtonOffsetY	中间按钮垂直偏移，负值为上移（默认 -10 ）
 	 * @property {Object}			customStyle	定义需要用到的外部样式
 	 * 
 	 * @example <u-tabbar :value="value2" :placeholder="false" @change="name => value2 = name" :fixed="false" :safeAreaInsetBottom="false"><u-tabbar-item text="首页" icon="home" dot ></u-tabbar-item></u-tabbar>
@@ -73,10 +94,21 @@
 		data() {
 			return {
 				isActive: false, // 是否处于激活状态
+				midButtonBorderClipHeightValue: 0,
 				parentData: {
 					value: null,
 					activeColor: '',
-					inactiveColor: ''
+					inactiveColor: '',
+					styleType: 'default',
+					animationType: 'none',
+					activeBackgroundColor: '',
+					inactiveBackgroundColor: '',
+					itemShape: 'default',
+					iconScale: 1.1,
+					textMode: 'always',
+					borderColor: '',
+					border: true,
+					midButtonBorderTopOffset: 0.25
 				}
 			}
 		},
@@ -98,10 +130,127 @@
 				return !this.parentData.inactiveColor || this.parentData.inactiveColor === '#7d7e80'
 					? this.upThemeVar('--up-content-color', '#7d7e80')
 					: this.parentData.inactiveColor
+			},
+			resolvedStyleType() {
+				return this.parentData.styleType || 'default'
+			},
+			resolvedAnimationType() {
+				return this.parentData.animationType || 'none'
+			},
+			resolvedItemShape() {
+				return this.parentData.itemShape || 'default'
+			},
+			resolvedIconName() {
+				if (this.$slots['active-icon'] || this.$slots['inactive-icon']) return ''
+				if (this.isActive) return this.activeIcon || this.icon
+				return this.inactiveIcon || this.icon
+			},
+			resolvedMidButtonIconColor() {
+				if (this.midButtonIconColor) return this.midButtonIconColor
+				return this.isMidButton ? '#3c9cff' : this.resolvedActiveColor
+			},
+			midButtonIconStyle() {
+				return this.isMidButton
+					? {
+						position: 'relative',
+						zIndex: 2
+					}
+					: {}
+			},
+			hasMidButtonText() {
+				return !!this.$slots.text || String(this.text || '').length > 0
+			},
+			resolvedMidButtonOffsetY() {
+				const offset = Number.parseFloat(this.midButtonOffsetY)
+				return Number.isFinite(offset) ? offset : -10
+			},
+			midButtonTranslateY() {
+				return `${this.resolvedMidButtonOffsetY}px`
+			},
+			midButtonBorderClipHeight() {
+				return `${this.midButtonBorderClipHeightValue}px`
+			},
+			midButtonBorderStyle() {
+				return {
+					height: this.midButtonBorderClipHeight
+				}
+			},
+			midButtonBorderCircleStyle() {
+				return this.isMidButton && this.parentData.borderColor
+					? {
+						borderColor: this.parentData.borderColor
+					}
+					: {}
+			},
+			itemClassNames() {
+				return [
+					this.isActive ? 'u-tabbar-item--active' : 'u-tabbar-item--inactive',
+					this.isMidButton ? 'u-tabbar-item--mid-button' : '',
+					this.isMidButton && !this.hasMidButtonText ? 'u-tabbar-item--mid-button-no-text' : '',
+					`u-tabbar-item--${this.resolvedStyleType}`,
+					this.resolvedAnimationType !== 'none' && this.isActive ? `u-tabbar-item--anim-${this.resolvedAnimationType}` : '',
+					this.resolvedItemShape !== 'default' ? `u-tabbar-item--shape-${this.resolvedItemShape}` : '',
+					this.isActive ? this.activeClass : this.inactiveClass
+				]
+			},
+			iconClassNames() {
+				return [
+					this.isMidButton ? 'u-tabbar-item__icon--mid-button' : '',
+					`u-tabbar-item__icon--${this.resolvedStyleType}`,
+					this.isActive && this.resolvedAnimationType !== 'none' && !this.isMidButton ? `u-tabbar-item__icon--anim-${this.resolvedAnimationType}` : ''
+				]
+			},
+			iconContentClassNames() {
+				return [
+					this.isMidButton ? 'u-tabbar-item__icon-content--mid-button' : '',
+					this.isMidButton && this.isActive && this.resolvedAnimationType !== 'none'
+						? `u-tabbar-item__icon-content--anim-${this.resolvedAnimationType}`
+						: ''
+				]
+			},
+			contentClassNames() {
+				return [
+					`u-tabbar-item__content--${this.resolvedStyleType}`,
+					this.isMidButton ? 'u-tabbar-item__content--mid-button' : ''
+				]
+			},
+			bubbleClassNames() {
+				return [
+					`u-tabbar-item__bubble--${this.resolvedStyleType}`,
+					this.isActive ? 'u-tabbar-item__bubble--active' : '',
+					this.isMidButton ? 'u-tabbar-item__bubble--mid-button' : ''
+				]
+			},
+			textClassNames() {
+				return [
+					`u-tabbar-item__text--${this.resolvedStyleType}`,
+					this.parentData.textMode === 'active' && !this.isActive ? 'u-tabbar-item__text--muted' : ''
+				]
+			},
+			itemInlineStyle() {
+				return {
+					backgroundColor: this.isActive
+						? (this.parentData.activeBackgroundColor || 'transparent')
+						: (this.parentData.inactiveBackgroundColor || 'transparent')
+				}
 			}
 		},
 		created() {
 			this.init()
+		},
+		mounted() {
+			this.scheduleMidButtonBorderMeasure()
+		},
+		watch: {
+			mode() {
+				this.scheduleMidButtonBorderMeasure()
+			},
+			text() {
+				this.scheduleMidButtonBorderMeasure()
+			},
+			midButtonOffsetY() {
+				this.scheduleMidButtonBorderMeasure()
+			}
 		},
 		emits: ["click", "change"],
 		methods: {
@@ -125,6 +274,28 @@
 			updateFromParent() {
 				// 重新初始化
 				this.init()
+				this.scheduleMidButtonBorderMeasure()
+			},
+			scheduleMidButtonBorderMeasure() {
+				if (!this.isMidButton) return
+				this.$nextTick(() => this.updateMidButtonBorderClip())
+			},
+			async updateMidButtonBorderClip() {
+				if (!this.isMidButton || !this.parent) return
+				await sleep(20)
+				const [contentRect, circleRect] = await Promise.all([
+					this.parent.$uGetRect('.u-tabbar__content'),
+					this.$uGetRect('.u-tabbar-item__icon--mid-button')
+				])
+				if ([contentRect, circleRect].some(rect => !rect || !Number.isFinite(rect.top) || rect.height <= 0)) return
+				const clipHeight = calculateMidButtonBorderClipHeight({
+					contentTop: contentRect.top,
+					circleTop: circleRect.top,
+					borderTopOffset: this.parentData.border ? this.parentData.midButtonBorderTopOffset : 0
+				})
+				if (clipHeight !== this.midButtonBorderClipHeightValue) {
+					this.midButtonBorderClipHeightValue = clipHeight
+				}
 			},
 			clickHandler() {
 				this.$nextTick(() => {
@@ -147,6 +318,7 @@
 		align-items: center;
 		justify-content: center;
 		flex: 1;
+		position: relative;
 		/* #ifndef APP-NVUE */
 		width: 100%;
 		height: 100%;
@@ -160,42 +332,259 @@
 			position: relative;
 			width: 150rpx;
 			justify-content: center;
+			min-height: 46rpx;
+			transition: transform 0.22s ease, opacity 0.22s ease;
+
+			&--pill,
+			&--card,
+			&--glow,
+			&--convex {
+				width: 100%;
+			}
+
+			&-content {
+				@include flex;
+				align-items: center;
+				justify-content: center;
+
+				&--mid-button {
+					position: relative;
+					z-index: 2;
+					width: 100%;
+					height: 100%;
+				}
+			}
+
+			&--anim-scale {
+				transform: scale(var(--up-tabbar-icon-scale, 1.1));
+			}
+
+			&--anim-lift {
+				transform: translateY(-6rpx) scale(var(--up-tabbar-icon-scale, 1.08));
+			}
+
+			&--anim-swing {
+				transform: rotate(-10deg) scale(var(--up-tabbar-icon-scale, 1.08));
+			}
+
+			&--anim-pulse {
+				transform: scale(var(--up-tabbar-icon-scale, 1.14));
+			}
+		}
+
+		&__content {
+			@include flex(column);
+			align-items: center;
+			justify-content: center;
+			width: 100%;
+			height: 100%;
+
+			&--mid-button {
+				justify-content: center;
+				position: relative;
+				z-index: 1;
+				/* #ifndef APP-NVUE */
+				transform: translateY(v-bind('midButtonTranslateY'));
+				/* #endif */
+			}
+		}
+
+		&__bubble {
+			@include flex(column);
+			align-items: center;
+			justify-content: center;
+			min-width: 0;
+			padding: 0;
+			max-width: 100rpx;
+			border-radius: 999px;
+			transition: background-color 0.22s ease, transform 0.22s ease;
+
+			&--pill.u-tabbar-item__bubble--active {
+				background-color: transparent;
+			}
+
+			&--glow.u-tabbar-item__bubble--active {
+				background-color: var(--up-tabbar-active-bg, rgba(125, 211, 252, 0.12));
+			}
+
+			&--mid-button {
+				padding: 0;
+				background-color: transparent !important;
+			}
 		}
 
 		&__text {
 			margin-top: 2px;
 			font-size: 12px;
 			color: $u-content-color;
+			transition: transform 0.22s ease, opacity 0.22s ease;
+
+			&--muted {
+				opacity: 0.68;
+				transform: scale(0.94);
+			}
 		}
+
+		&__underline {
+			position: absolute;
+			left: 50%;
+			bottom: 2rpx;
+			width: 34rpx;
+			height: 6rpx;
+			border-radius: 999px;
+			background-color: currentColor;
+			transform: translateX(-50%);
+		}
+
+		&__active-dot {
+			position: absolute;
+			left: 50%;
+			bottom: 8rpx;
+			width: 10rpx;
+			height: 10rpx;
+			border-radius: 50%;
+			background-color: currentColor;
+			transform: translateX(-50%);
+		}
+	}
+
+	.u-tabbar-item--active {
+		color: inherit;
+	}
+
+	.u-tabbar-item--pill,
+	.u-tabbar-item--glow,
+	.u-tabbar-item--card {
+		margin: 0;
+		border-radius: 999px;
+	}
+
+	.u-tabbar-item--card {
+		border-radius: 24rpx;
+	}
+
+	.u-tabbar-item--active.u-tabbar-item--pill,
+	.u-tabbar-item--active.u-tabbar-item--card {
+		box-shadow: none;
+	}
+
+	.u-tabbar-item--active.u-tabbar-item--glow {
+		box-shadow: none;
+	}
+
+	.u-tabbar-item--lift.u-tabbar-item--active {
+		transform: none;
+	}
+
+	.u-tabbar-item--lift.u-tabbar-item--active .u-tabbar-item__icon:not(.u-tabbar-item__icon--mid-button) {
+		transform: translateY(-6rpx) scale(1.04);
+	}
+
+	.u-tabbar-item--underline,
+	.u-tabbar-item--dot {
+		padding-bottom: 10rpx;
+	}
+
+	.u-tabbar-item--convex.u-tabbar-item--active:not(.u-tabbar-item--mid-button) {
+		transform: none;
 	}
 	
 	// 中间按钮样式
 	.u-tabbar-item--mid-button {
-		/* #ifndef APP-NVUE */
-		transform: translateY(-10px);
-		/* #endif */
-	}
-	
-	.u-tabbar-item--mid-button-cover {
-		background-color: var(--up-card-bg-color, #fff);
-		position: absolute;
-		top: 22px;
-		left: -10px;
-		// right: -10px;
-		width: 90px;
-		bottom: 0;
+		z-index: 2;
+		flex: 1;
 	}
 	
 	.u-tabbar-item__icon--mid-button {
-		width: 70px;
-		height: 70px;
-		border-radius: 100px;
-		background-color: var(--up-card-bg-color, #ffffff);
-		box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-		border: 1px solid var(--up-border-color, rgba(0, 0, 0, 0.08));
+		width: 64px;
+		height: 64px;
+		border-radius: 999px;
+		background: #ffffff;
+		box-shadow: v-bind('midButtonBoxShadow || "none"');
 		display: flex;
 		align-items: center;
 		justify-content: center;
+		position: relative;
+		overflow: visible;
+	}
+
+	.u-tabbar-item__mid-button-border {
+		position: absolute;
+		left: 0;
+		top: 0;
+		width: 64px;
+		height: 0;
+		box-sizing: border-box;
+		background: transparent;
+		overflow: hidden;
+		pointer-events: none;
+		z-index: 0;
+	}
+
+	.u-tabbar-item__icon-content--anim-scale {
+		transform: scale(var(--up-tabbar-icon-scale, 1.1));
+	}
+
+	.u-tabbar-item__icon-content--anim-lift {
+		transform: translateY(-6rpx) scale(var(--up-tabbar-icon-scale, 1.08));
+	}
+
+	.u-tabbar-item__icon-content--anim-swing {
+		transform: rotate(-10deg) scale(var(--up-tabbar-icon-scale, 1.08));
+	}
+
+	.u-tabbar-item__mid-button-border-circle {
+		width: 64px;
+		height: 64px;
+		box-sizing: border-box;
+		background: transparent;
+		border: 1px solid var(--up-border-color, rgba(0, 0, 0, 0.08));
+		border-radius: 999px;
+	}
+
+	.u-tabbar-item__mid-button-inner {
+		position: absolute;
+		left: 6px;
+		top: 6px;
+		right: 6px;
+		bottom: 6px;
+		border-radius: 999px;
+		background: v-bind('midButtonBgColor || "#ffffff"');
+		box-shadow: v-bind('midButtonInnerBoxShadow');
+		z-index: 1;
+	}
+
+	.u-tabbar-item__icon--mid-button :deep(.u-icon),
+	.u-tabbar-item__icon--mid-button :deep(.u-badge) {
+		position: relative;
+		z-index: 2;
+	}
+
+	.u-tabbar-item--mid-button .u-tabbar-item__text {
+		margin-top: 0;
+		transform: translateY(-4px);
+	}
+
+	.u-tabbar-item--lift .u-tabbar-item__bubble {
+		background-color: transparent !important;
+	}
+
+	.u-tabbar-item--lift.u-tabbar-item--active .u-tabbar-item__text {
+		transform: translateY(-4rpx);
+	}
+
+	.u-tabbar-item--anim-pulse .u-tabbar-item__icon:not(.u-tabbar-item__icon--mid-button),
+	.u-tabbar-item__icon-content--anim-pulse {
+		animation: u-tabbar-item-pulse 1.4s ease-in-out infinite;
+	}
+
+	@keyframes u-tabbar-item-pulse {
+		0%, 100% {
+			transform: scale(var(--up-tabbar-icon-scale, 1.1));
+		}
+		50% {
+			transform: scale(calc(var(--up-tabbar-icon-scale, 1.1) + 0.08));
+		}
 	}
 
 	/* #ifdef MP */

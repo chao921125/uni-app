@@ -1,5 +1,5 @@
 import { defineMixin } from '../vue'
-import { deepMerge, $parent, sleep } from '../function/index'
+import { deepMerge, $parent, upGetRect } from '../function/index'
 import test from '../function/test'
 import route from '../util/route'
 import {
@@ -12,13 +12,6 @@ import {
     getThemeVarsForStyle,
     syncThemeRuntimeFromStorage
 } from '../theme/runtime'
-// #ifdef APP-NVUE
-// 由于weex为阿里的KPI业绩考核的产物，所以不支持百分比单位，这里需要通过dom查询组件的宽度
-const dom = (typeof uni !== 'undefined' && uni && typeof uni.requireNativePlugin === 'function')
-    ? uni.requireNativePlugin('dom')
-    : null
-// #endif
-
 export const mixin = defineMixin({
     // 定义每个组件都可能需要用到的外部样式以及类名
     props: {
@@ -49,7 +42,7 @@ export const mixin = defineMixin({
         }
     },
     onLoad() {
-        // getRect挂载到$u上，因为这方法需要使用in(this)，所以无法把它独立成一个单独的文件导出
+        // 保留 uni.$u.getRect 兼容入口
         this.upBindGetRect()
         this.upInitThemeVersion()
         if (this.upIsPageScope()) {
@@ -74,7 +67,7 @@ export const mixin = defineMixin({
         if (typeof uni !== 'undefined' && typeof uni.$on === 'function') {
             this.__uThemeChangeHandler = (payload = {}) => {
                 this.upSyncThemeVersion(payload)
-                this.chacheU = null
+                this.upClearUCache()
                 if (typeof this.$forceUpdate === 'function') {
                     this.$forceUpdate()
                 }
@@ -89,6 +82,10 @@ export const mixin = defineMixin({
         $u() {
             this.upThemeVersion
             // #ifndef APP-NVUE
+            const instance = this.$
+            if (instance?.__upUCache) {
+                return instance.__upUCache
+            }
             // 在非nvue端，移除props，http，mixin等对象，避免在小程序setData时数据过大影响性能
             let mergeU = deepMerge(uni.$u, {
                 props: undefined,
@@ -96,10 +93,11 @@ export const mixin = defineMixin({
                 mixin: undefined
             })
 			// 缓存结果避免每次计算
-			if (!this.chacheU) {
-				this.chacheU = mergeU
+			if (instance) {
+				instance.__upUCache = mergeU
+				return instance.__upUCache
 			}
-			return this.chacheU
+			return mergeU
             // #endif
             // #ifdef APP-NVUE
             return uni.$u
@@ -156,6 +154,11 @@ export const mixin = defineMixin({
         }
     },
     methods: {
+        upClearUCache() {
+            if (this.$) {
+                this.$.__upUCache = null
+            }
+        },
         upBindGetRect() {
             const upU = this.$u || (typeof uni !== 'undefined' ? uni.$u : null)
             if (upU) {
@@ -213,47 +216,8 @@ export const mixin = defineMixin({
         navTo(url = '', linkType = 'navigateTo') {
             route({ type: this.linkType, url })
         },
-        // 查询节点信息
-        // 目前此方法在支付宝小程序中无法获取组件跟接点的尺寸，为支付宝的bug(2020-07-21)
-        // 解决办法为在组件根部再套一个没有任何作用的view元素
-        $uGetRect(selector, all) {
-            return new Promise((resolve) => {
-                // #ifndef APP-NVUE
-                uni.createSelectorQuery()
-                    .in(this)[all ? 'selectAll' : 'select'](selector)
-                    .boundingClientRect((rect) => {
-                        if (all && Array.isArray(rect) && rect.length) {
-                            resolve(rect)
-                        }
-                        if (!all && rect) {
-                            resolve(rect)
-                        }
-                    })
-                    .exec()
-                // #endif
-                
-                // #ifdef APP-NVUE
-                sleep(30).then(() => {
-                    let selectorNvue = selector.substring(1) // 去掉开头的#或者.
-                    let selectorRef = this.$refs[selectorNvue]
-                    if (!selectorRef) {
-                        // console.log('不存在元素，请检查是否设置了ref属性' + selectorNvue + '。')
-                        resolve({
-                            with: 0,
-                            height: 0,
-                            left: 0,
-                            right: 0,
-                            top: 0,
-                            bottom: 0
-                        }) 
-                    }
-                    dom.getComponentRect(selectorRef, res => {
-                        // console.log(res)
-                        resolve(res.size)
-                    })
-                })
-                // #endif
-            })
+        $uGetRect(selector, all = false) {
+            return upGetRect(selector, all, this)
         },
         getParentData(parentName = '') {
             // 避免在created中去定义parent变量
@@ -287,6 +251,9 @@ export const mixin = defineMixin({
         uni.$emit('uOnReachBottom')
 	},
 	beforeUnmount() {
+        // mixin 的钩子先于组件自身钩子同步执行，比 Vue 内部的 $.isUnmounted
+        // （在 post-render 队列里异步置位）更早，异步回调据此拦截节点查询
+        this.__upUnmounted = true
         // 判断当前页面是否存在parent和chldren，一般在checkbox和checkbox-group父子联动的场景会有此情况
         // 组件销毁时，移除子组件在父组件children数组中的实例，释放资源，避免数据混乱
         if (this.parent && test.array(this.parent.children)) {

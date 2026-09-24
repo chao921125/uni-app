@@ -1,3 +1,777 @@
+## 3.8.125
+fix: 修复签名组件在 App 端无法绘制、笔迹画出后闪退的问题
+
+u-signature 在 App 端（APP-PLUS 旧版 canvas）存在无法落笔、笔迹一闪即消失的问题，根因是画布上下文异步就绪未做握手、触摸坐标未换算到画布坐标系、以及每次 draw 都会刷新绘图命令队列导致已画笔迹被清空。
+
+- 修复笔迹画出后立即消失：touchMove 改为「增量线段」绘制（beginPath + moveTo 上一点 + lineTo 当前点 + stroke），并使用 draw(true) 保留已绘制内容，不再每次 draw(false) 清空命令队列
+- 修复 App 端坐标错乱、笔迹落到画布外：getCanvasPoint 优先使用画布相对坐标，缺失时用视口坐标减去画布位置进行换算
+- 修复画布上下文异步就绪时首笔丢失：新增画布 ready / initCanvas 握手，缓存画布位置并在画布就绪后再响应绘制
+- 收尾不再 closePath，避免手写笔迹出现回连直线；撤销回放逻辑保持兼容
+- 覆盖 APP-PLUS / APP-HARMONY / APP-NVUE，微信小程序与 H5 行为保持不变
+
+## 3.8.124
+fix: App 端图标字体默认使用本地字体，新增通用 Vite 插件入口 UpVite
+
+u-icon 的 useAppStaticIconFont 原先写死 false，只有启用 UniUpRoot 的项目才会在构建期被改成 true；未启用 Root 组件的 App 项目仍然走远程 CDN 字体，弱网或离线时图标会丢失。本地字体是随包能力，不该由是否使用 Root 组件决定。
+
+- App / App-nvue 默认优先加载随包分发的 _www/static/app-plus/uview-plus/upicon.ttf
+- App-Vue 在 uni.loadFontFace 失败后回退 config.iconUrl，每个页面只回退一次；App-nvue 因 dom.addRule 没有失败回调，注册前用 plus.io.resolveLocalFileSystemURL 探测字体文件，缺失时回退远程
+- 新增通用 Vite 插件入口 UpVite（libs/vite/index.js），App 本地图标字体是它的第一个 feature；后续组件库新增构建期能力只需在插件内追加，业务项目不需要再改自己的 vite.config
+- UniUpRoot 复用同一份图标字体 feature 并新增 appStaticIconFont: false 选项，只装 Root 插件的项目行为完全不变
+- 不使用 Root 组件的项目单独引入 UpVite() 即可复制字体并移除 App 远程 @font-face
+- 新增 verify:app-local-icon-font 回归校验，覆盖 static 路径、两端兜底、插件复制行为与关闭开关
+- H5 与小程序行为不变，仍使用 config.iconUrl
+
+## 3.8.123
+fix: 修复 u-slider 区间模式 v-model:rangeValue 不生效 (#554)
+
+u-slider 区间模式（isRange）拖动滑块时只抛出 update:modelValue，未抛出 update:rangeValue，导致 v-model:rangeValue 双向绑定无法更新。此外 rangeValue 的 default 为数组字面量，所有实例共用同一引用。
+
+- 拖动结束时正确抛出 update:rangeValue 事件，同时兼容此前监听 update:modelValue 获取区间值的用法
+- 值未变化时跳过事件抛出，避免父级对数组做拷贝或归一化时形成更新回环
+- rangeValue 的 default 改为工厂函数，避免实例间共享数组引用
+- 补充 isRange、rangeValue 及 onUpdate:rangeValue 类型声明
+- 新增 verify:slider-range-value-model 回归校验脚本
+
+## 3.8.122
+fix: 修复 u-row-notice 横向滚动空格丢失
+
+u-row-notice 每 20 个字符切分渲染到独立的 text 标签，若第 21 个字符为空格，会落在第二段行首被 CSS 折叠空白吃掉，导致横向滚动时两个字粘连。现将滚动文本 white-space 改为 pre，在保留原文空格的同时禁止换行，避免行首行尾空白被丢弃，并通过回归校验覆盖分段空格边界场景。
+
+## 3.8.121
+fix: 修复 up-button 真机首次点击后失效
+
+默认 throttleTime 为 0 时直接同步执行点击回调，不再依赖异步 setTimeout 释放全局节流锁，避免真机定时器未释放时后续点击被拦截。新增零延迟连续调用回归校验。
+
+## 3.8.120
+fix(types): 组件类型可直接从包名导入，模板提示补齐 u-/u-- 前缀
+
+本版仅完善 TypeScript 类型与 IDE 模板提示，不改变组件运行时行为和 API。
+
+- `uview-plus` 包入口重新导出 126 个公开组件类型，Props、Slots、Ref 可直接从包名导入，不再依赖 `uview-plus/types/comps/*` 内部路径
+- Ref 类型统一按 `typeof` 导出，避免将源文件中的 const 声明当作类型使用时报 TS2749
+- `GlobalComponents` 同时登记 `up-`、`u-`、`u--` 三种 easycom 前缀，模板中的 `u-button`、`u--button` 写法也能获得组件类型提示
+- 保留一份组件清单，通过模板字面量键改写生成三种前缀，避免清单重复维护
+- 新增 `verify:types-barrel-exports` 回归校验，防止入口类型导出与模板组件登记清单漂移
+
+## 3.8.119
+fix: 修复 datetime-picker format 兼容性与 tabbar 边框切页丢失
+
+本版修复两个独立问题，均不涉及组件 API 变更。
+
+fix: datetime-picker format 兼容库自身的 yyyy-mm-dd 写法，字符串绑定值不再退回 minDate (#537)
+
+库内置的日期格式化工具 `timeFormat` 支持 `yyyy-mm-dd` 写法（全小写），但 u-datetime-picker 的 format 解析只识别 `YYYY-MM-DD`（全大写），导致用户按文档示例传入小写 format 时，传入的字符串绑定值无法被正确解析，组件退回到 minDate 而非用户期望的日期。
+
+- format 解析逻辑补充小写月日模式 `mm` / `dd`，与库自身的 timeFormat 对齐
+- 保持对原有大写 `MM` / `DD` 的兼容
+- 新增 `verify:datetime-picker-format` 回归校验
+
+fix: tabbar 顶部边框改为组件内联绘制，修复切换页面后边框丢失 (#873)
+
+u-tabbar 的顶部边框原先靠模板上的全局工具类 `u-border-top` 绘制，组件自身 scoped 样式表没有任何 border 声明。该类只存在于宿主项目的全局样式表，而小程序自定义组件有样式隔离，能否命中取决于宿主引入全局样式的方式，于是出现同一个 tabbar 在首页有边框、切到另一个 tab 页边框消失。
+
+- 改为在 tabbarStyle 里内联 borderTopWidth/Style/Color，边框跟着组件走
+- 去掉 borderColor 上用来压全局类 !important 的 hack（nvue/weex 无法解析）
+- 让 borderColor 为空时的主题边框色回退真正生效
+- 新增 `verify:tabbar-border` 回归校验
+
+## 3.8.118
+修复 u-waterfall 在强制解锁后旧分配循环误释放新循环分发锁的问题。
+
+旧循环在 await 后恢复时，现仅当前运行令牌的持有者可释放分发锁，避免接管循环与旧循环并发分配造成数据重复、列高错乱及回调重复触发。
+
+## 3.8.117
+fix: 修复瀑布流分发锁死、u-image 置于 u-swiper 内无法滑动、u-list-item 挂载竞态
+
+本版为三个问题的集中修复，均不涉及组件 API 变更。
+
+fix: 修复 u-waterfall 在 App 切换 tabbar 后不再消费新数据（#1056）
+
+App 端切换 tabbar 时，原生层会挂起隐藏页面的 setTimeout，`await sleep()` 永不 resolve，`runDistributionQueue` 的 finally 块无法执行，`distributionRunning` 永久为 true；切回页面后新数据只能入队，永远不会被分发。
+
+- `clear()` 强制重置 `distributionRunning` 与 `distributionPromise`
+- `redistributeData()` 在调用 clear 之前先解锁
+- 新增 `verify:waterfall-lock-reset` 回归校验
+
+fix: 修复 u-image 置于 u-swiper 内导致手势滑动失效（#894）
+
+u-transition 根节点绑定的 `@touchmove="noop"` 会执行 `e.stopPropagation()`，使 touchmove 无法冒泡到父级；u-image 以 u-transition 作为根节点，放进 u-swiper 的 slot 后 swiper 收不到 touchmove，滑动手势失效。该拦截对淡入、滑入等过渡动画本身没有作用，仅会阻断父组件的正常手势，故直接移除。
+
+fix: 修复 u-list-item 在 parent 未初始化时调用 updateOffsetFromChild 报错（#875）
+
+列表数据由后台异步返回、u-list-item 数量随之变化时，`uList.innerScrollTop` 的 watch 可能在 `mounted()` 之前触发；此时 `this.parent` 仍是 `created()` 中赋值的空对象，调用 `this.parent.updateOffsetFromChild` 会抛出 "is not a function"。
+
+- watch 回调中增加守卫，parent 未就绪时直接返回
+- 新增 `verify:list-item-parent-race` 回归校验
+
+## 3.8.116
+fix: 修复组件卸载后查询节点导致 APP 与鸿蒙端报错（#1057）
+
+页面切换时 APP 与鸿蒙端会出现大面积 `Uncaught TypeError: Cannot read properties of undefined (reading '$') at uni-app-view.umd.js`，功能不受影响但日志被淹没，H5 端不出现。
+
+原因是组件卸载后仍在执行的异步回调继续发起节点查询：APP 端 service 层取的是已失效的 `$el.nodeId`，视图层按该 id 查映射表时，对应条目在元素移除时已被删除，读到 undefined 再取 `.$` 即抛错。H5 端直接取 `$el`，没有这层 nodeId 映射，因此不复现。
+
+- 在 `upGetRect` 与 `upCreateIntersectionObserver` 中集中拦截，覆盖全部三十余处调用方，卸载后不再把组件交给原生查询
+- 卸载后 `upGetRect` 返回零尺寸节点信息，`upCreateIntersectionObserver` 返回空观察器，均保持原有调用形态，不需要调用方改写
+- 卸载标记由公共 mixin 的 `beforeUnmount` 同步置位，早于 Vue 内部异步置位的 `isUnmounted`；未套用公共 mixin 的组件退回 Vue 自身标记
+- 守卫置于条件编译之外，确保 app-harmony 端同样生效
+- 新增 `verify:unmounted-node-query` 回归校验，同时断言挂载期间必须正常发起查询、卸载后必须完全不发起，并逐平台校验守卫存在
+
+该问题在 tabs、sticky、subsection、waterfall、index-list 等所有依赖节点测量的组件上成因相同，本次为统一修复。
+
+## 3.8.115
+feat: u-select 遮罩默认可见并支持点击遮罩关闭开关
+
+- overlayOpacity 默认由 0.01 调整为 0.3，遮罩真正可见，仍比 up-overlay 自身的 0.5 更浅
+- overlayOpacity 类型放宽为 String / Number，可直接以普通属性方式传值
+- 展开状态下把触发区抬到遮罩之上，避免下拉面板亮着而它的锚点被压暗
+- 新增 closeOnClickOverlay 属性（默认 true），与 u-popup 命名一致；此前点击遮罩关闭为硬编码行为，现在可显式禁用
+- 遮罩标签统一为 up-overlay，并补充 verify:select-overlay 回归校验
+
+nvue 端对 z-index 支持有限，若被忽略则触发区可能落在遮罩之下，该端建议按需关闭 overlay。
+
+## 3.8.114
+fix: 修复 tabbar 中间按钮圆弧越界（#1052）
+
+- 根据 tabbar 与中间按钮的实际位置计算圆弧裁剪高度
+- 兼容文字、偏移、边框和动画场景，并补充回归校验
+
+## 3.8.113（2026-08-27）
+fix: 修复启用uniUpRoot，在root组件存在components选项时组件插入错误
+
+fix: 修复打包APK运行时icon组件未正确获取字体路径
+
+
+## 3.8.112
+feat: navbar 新增 iOS 大标题模式
+
+新增 `mode` 属性，`ios` 值提供现代 iOS 系统应用的导航栏体验：进入页面时导航栏背景透明、标题以 34px 左对齐显示；向下滚动时大标题被压缩进导航栏，标题过渡为常规居中形态，同时出现毛玻璃磨砂背景。
+
+- 新增 `mode` 属性，可选 `default`（默认）与 `ios`，非法值按 `default` 处理
+- 新增 `scrollTop` 属性接收页面滚动距离，需由页面 `onPageScroll` 传入；不传时停留在大标题展开态
+- 大标题渲染在 in-flow 层靠原生滚动位移，不经过 JS，小程序端不会因 setData 回程产生拖影
+- 磨砂采用 0.82 不透明底色叠加 `backdrop-filter`：支持的端得到真实毛玻璃，不支持的端仍有 82% 不透明底色兜住文字可读性
+- 玻璃与居中标题的透明度曲线分段递进（0-0.5 与 0.75-1），确保任何滚动位置都不出现两段标题文字互相透出
+- 居中标题在淡入的同时由下方 12px 上浮就位，并带 0.15s 过渡补齐离散滚动事件之间的空隙
+- 新增 `--up-navbar-glass-bg-color` 与 `--up-navbar-glass-blur` 主题变量，跟随明暗模式切换
+- 新增 verify:navbar-ios-mode 校验脚本
+
+已知边界：`ios` 模式下 `fixed` 与 `placeholder` 被忽略——固定层恒定固定，in-flow 层恒定渲染，因为该层承载的是大标题这一实际内容而非可选占位。nvue 端因缺少 filter 管线、页面非原生滚动容器、`onPageScroll` 不可靠三项约束，传入 `mode="ios"` 时整体降级为 `default`。
+
+`default` 模式的结构、样式与属性语义完全不变。
+
+## 3.8.111
+fix: 修复小程序端使用交叉观察器组件时控制台报枚举实例键告警（#864）
+
+小程序端 `uni.createIntersectionObserver(this)` 会把 Vue 实例代理直接透传给原生 API，原生内部的 `Object.keys(vm)` 命中 Vue 开发模式下的 ownKeys 拦截，从而输出告警：
+`[Vue warn]: Avoid app logic that relies on enumerating keys on a component instance.`
+根因是 uni-app 只为 `createSelectorQuery` 做了 `$scope` 解包，一直没有为 `createIntersectionObserver` 做同样处理。
+
+- 新增 `upCreateIntersectionObserver(comp, options)` 公共方法：优先调用组件实例上的同名方法（内部已完成实例解包，不会外泄代理），APP 端实例上没有该方法时回退到全局 API
+- u-lazy-load、u-sticky、u-cate-tab 三个组件改用该方法，小程序端不再产生告警
+- u-sticky 的 `thresholds: [0.95, 0.98, 1]` 原样透传。注意不能改传 `comp.$scope`：APP 端页面的 `$scope` 仅为 `{ $getAppWebview }`，会被全局 API 误判成 options 参数，导致真实配置被静默丢弃
+- u-parse/node 的观察器位于 `#ifdef H5 || APP-PLUS` 条件编译块内，不会编译进小程序，故保持不变
+- 补充 `upCreateIntersectionObserver` 类型定义，新增 verify:up-create-intersection-observer 校验脚本
+
+组件对外行为不变，APP 端调用路径与配置均保持原样。
+
+## 3.8.110
+feat: cropper 支持外部图片路径直接裁剪（#897）
+
+- `chooseImage` 第二个参数新增 `imageSrc`，可传业务拍照或选图得到的本地临时路径并直接开始裁剪
+- 有效 `imageSrc` 会跳过组件内置 `uni.chooseImage`；未传、空字符串或非字符串仍保持原选图行为
+- 外部路径与系统选图复用同一套图片信息读取、裁剪框初始化和绘制流程
+- “重选”按钮仍打开系统图片选择器；远程地址继续受目标平台读取能力和 H5 跨域限制
+
+## 3.8.109
+feat: popup 关闭事件补齐，新增 closed 事件（#902）
+
+close 此前只在点击遮罩、点击关闭图标时发出。外部直接把 show 置为 false 时组件内部没有走过关闭动作，不会发出任何事件，业务侧就少了一个"弹窗已关闭"的统一监听点。
+
+- u-popup: show 由 true 变 false 时补发 close，任意关闭方式都能被监听到。内部关闭走 emitClose()，它先同步置位去重标记再 emit，因此下游在 close 的同步 handler 里修改 show 数据源不会被误判成外部关闭而重复发出
+- u-popup: 新增 closed 事件，接 u-transition 已有但一直无人监听的 afterLeave，在离场动画结束、弹窗真正消失后发出。close 是"开始关闭"，closed 是"已关闭"
+- pageInline 模式下 transition 的 show 恒为 true、不执行离场动画，收不到 afterLeave，改由 watch 补发 closed
+- closed 透传到 u-picker、u-datetime-picker、u-action-sheet、u-keyboard、u-calendar、u-color-picker、u-picker-data、u-goods-sku。其中 u-datetime-picker、u-picker-data 包裹的是 u-picker，属二级透传；u-calendar 只从主体 popup 转发，关闭内部时间选择器不会误报
+- 补充 popup/picker/datetimePicker/actionSheet/keyboard/calendar 的 onClosed 类型定义
+- 新增 verify:popup-close-events 校验脚本
+
+组件保持纯受控，渲染只依赖 show prop，未引入内部副本，老用户行为不变。
+
+已知取舍：业务在 close 里跨 nextTick 才把 show 置为 false 时，close 会发两次。去重标记只在当次更新周期内有效是刻意的，否则残留标记会吞掉后续真实的关闭事件。这类异步确认场景应改用 closed，它只在弹窗真正消失时发出一次。
+
+## 3.8.108（2026-08-18）
+fix: 修复鸿蒙二维码不显示、海报文字不换行等绘图问题
+
+鸿蒙 CanvasContext.measureText 同步返回值恒为 0，真实宽度只通过可选 callback 经 evalJSAsync 异步回传；
+而 uni-app-plus 走 evalJSSync 同步就能拿到真值。这是同样代码在安卓
+正常、鸿蒙异常的根因。
+
+宽度 0 会让 drawTextWithLineClamp 里 `0 <= maxWidth` 恒成立，整段
+文本被当成一行放得下直接输出，标题横穿并压到二维码上。
+
+- u-canvas: 新增 #ifdef APP-HARMONY 的 callback 测量分支；measureText
+  不再把 0 当有效值外传；新增 estimateTextWidth 兜底
+- u-poster: measureTextWidth 拿到非正数宽度时改用估算，不再 `|| 0` 静默吞掉
+- 兜底估算区分全角/半角（全角 1.0、半角 0.56、空白 0.28）。原先的
+  length * fontSize * 0.6 会让中文短算约 40%，仍然不换行
+- callback 超时从 1000ms 降到 300ms，并用 _harmonyMeasureUnavailable
+  锁存状态：一次换行要二分测量十几次，逐次干等会把导出拖成十几秒
+- 新增 verify:harmony-poster-text-wrap 校验脚本
+
+
+## 3.8.107（2026-08-18）
+fix: 修复empty示例页面
+
+## 3.8.106
+feat: 让 App 原生 nvue 页面完整复用 App.up.vue 根容器
+
+- 原生 App nvue 页面统一导入并包裹项目 App.up.vue，保留页面主题、导航栏和 Root 能力。
+- App.up.vue 在 App Vue 和 App nvue 中分别显示 VUE、NVUE 渲染标识，并补充 nvue 根容器尺寸适配。
+- Toast/Notify 根宿主改为本地注册，兼容 nvue 独立页面实例。
+- 增加 Root、nvue 页面和 App.up.vue 的回归验证。
+
+## 3.8.105
+feat: 完善 APP-NVUE 海报与通用画布能力
+
+- 修复 APP-NVUE 海报生成时图片、文字和二维码无法完整导出的问题
+- 增加基于 WebView 的通用画布运行时，统一提供绘制、文本、图片、二维码和导出能力
+- 完善 u-canvas 跨端接口，支持后续扩展自定义图形绘制与图表场景
+- 修复 GCanvas 背景设置异常并移除发布版本中的调试日志
+
+fix: 修复跨端字体图标与字体加载问题
+
+- 修复 App Vue 模式下图标字体不显示的问题
+- 修复微信小程序字体加载失败后无法再次加载的问题
+- 支持 App nvue 页面按 Vue 模式编译，改善组件兼容性
+
+fix: 完善 Tabs、二维码与小说阅读器示例
+
+- 修复 Tabs 自定义样式颜色回退，并完善点击事件参数
+- 修复二维码在 APP-NVUE 海报场景中的绘制与导出兼容性
+- 统一小说阅读器示例的根容器、主题、工具栏、设置、目录和正文布局
+- 将小说阅读器示例调整为全屏布局，改善不同设备下的显示效果
+
+## 3.8.104
+fix: 修复 DatetimePicker 动态修改 minMinute 等边界值导致已选值重置及重复触发 change
+
+- 修复 mode=time/timesecond 下，切换时间时动态改变 minMinute（及其他 min/max 边界）会把已选值重置为初始值的问题：改为保留当前已选值并按新边界重新校正，未点确认前不再回退到 modelValue。
+- 修复边界变化时程序化重建各列在部分原生端再次派发 change 的问题：新增 lastEmitValue 去重，值未变化不再上抛 change。
+- 已选值低于新的 minMinute（或高于 maxMinute）时会被自动夹取到合法范围并补发一次 change。
+- 示例页新增「只能选当前时间之后（动态 minMinute）」演示。
+
+## 3.8.103
+feat: 增加小说阅读器组件
+
+- 新增 `up-novel-reader` 小说阅读组件，支持纵向滚动与横向分页两种阅读模式。
+- 增加顶部工具栏、返回按钮、目录、书签、章节切换、阅读设置和五种内置主题。
+- 增加字号、行高、段距、正文宽度、字体、粗体和翻页动画配置。
+- 增加章节预加载、阅读进度、阅读时长、本地持久化和损坏状态恢复。
+- 增加顶部状态栏与底部安全区适配，返回按钮仅随顶部工具栏显示。
+- 增加组件示例页面、组件文档和小说阅读器静态校验脚本。
+
+## 3.8.102
+feat: 新增组合式 API 节点查询方法
+
+- 将节点查询逻辑迁移到公共 upGetRect，并保留旧 $uGetRect 兼容入口
+- 补充跨端空结果处理与类型声明，保持 Vue 与组合式 API 的查询能力一致
+
+fix: 修复 u-text 设置无单位行高时文字不可见
+
+- 修复 lineHeight=1.2 被转换为 1.2px 后与单行省略裁剪叠加导致文字显示为虚线的问题
+- 保留 20 等尺寸值的像素语义，并支持 px、rpx、百分比等显式单位
+- 同步补充 u-text 的 TypeScript 行高说明
+
+## 3.8.101
+fix: 修复 H5 overlay 内二维码重复 HiDPI 缩放导致绘制不完整
+
+- H5 使用 uni-h5 内置 HiDPI 尺寸和绘制缩放，避免 up-canvas 再次设置画布尺寸与变换矩阵
+- 保留小程序端 DPR 适配，避免影响已有跨端绘制行为
+- 增加 DPR=2 初始化回归校验，并静态检查 H5 不再重复执行手动缩放
+
+## 3.8.100
+修复 H5 中 up-qrcode 嵌入 up-overlay 时二维码可能绘制不完整或空白的问题。
+
+通过合并同一 up-canvas 实例的并发初始化，避免重复设置画布尺寸和清屏覆盖已绘制内容；新增 Overlay 二维码示例与初始化竞态回归验证。
+
+## 3.8.99（2026-08-05）
+feat: 增加up-tab-pro封装组件
+
+## 3.8.98
+fix: 修复 u-waterfall 快速更新时并发分配错乱
+
+- 修复多批数据快速到达时异步分配循环并发交错，改为共享队列串行消费
+- clear 或全量重排时取消过期分配任务，避免旧数据继续写回已清空的列
+- 检测中间插入、重排和列表缩短等非纯追加变化并执行全量重排，避免数据错列、重复或丢失
+- 增加并发、清空和中间插入回归校验，覆盖 issue #1047
+
+## 3.8.97
+fix: 修复 u-dragsort 微信小程序拖动排序兼容问题
+
+- 修复拖动并松手后列表项覆盖，保持原生拖动节点身份稳定
+- 修复自定义拖动句柄在微信小程序中不显示，补充作用域插槽示例
+- 修复横向和多行多列模式右侧出现额外白色区域
+- 增加拖动排序稳定身份与跨端句柄回归校验
+
+## 3.8.96（2026-08-03）
+fix: 更新示例工程
+
+## 3.8.95（2026-08-03）
+fix: 优化App端字体图标不显示先支持本地模式（依赖Root组件）和远程模式及IOS编译报错问题
+
+- 修复启用 UniUpRoot 后 iOS App 下 `u-icon` 字体从 `/assets` 加载失败的问题，App 构建时自动复制 `upicon.ttf` 到 `static/app-plus/uview-plus/upicon.ttf`
+- 未启用 UniUpRoot 的 App 项目继续保留远程 CSS 字体兼容；启用 UniUpRoot 后内置图标字体改用 `_www/static/app-plus/uview-plus/upicon.ttf` 并通过 `plus.io.convertLocalFileSystemURL` 转为平台路径
+- 修复启用 UniUpRoot 后 App nvue 子构建页面 chunk 被 tree-shaking 移除默认导出，导致 `No matching export ... for import "default"` 的问题
+
+## 3.8.94
+fix: 修复 slider 设置 height 时初始化报错
+
+- 修复非空 height 触发 `ReferenceError: val is not defined` 的问题
+- 保留 height 优先、未设置时回退 size 的滑块厚度兼容行为
+- 增加 slider height mounted 初始化回归校验，覆盖 issue #1046
+
+## 3.8.93
+fix: 修复自定义 action-sheet 插槽点击不关闭
+
+- 修复 closeOnClickAction 在自定义 slot 内容中的关闭行为
+- 兼容 up-cell 阻止事件冒泡时的 action-sheet 关闭场景
+- 增加对应的 action-sheet 插槽关闭验证脚本
+
+## 3.8.92
+feat: swipe-action-item 新增 scrolling / v-model:scrolling，用于横向滑动时联动暂停页面或 scroll-view 容器滚动。
+fix: 补充 touchcancel、关闭、禁用和卸载释放逻辑，避免外部滚动锁状态卡住。
+docs: 更新防止页面或容器滚动示例，说明 page-meta 与 scroll-view 用法。
+
+## 3.8.91
+fix: 调整文本默认伸展与字体加载配置
+
+- u-text 默认不再占满剩余空间，未显式开启 flex1 时避免影响父级布局
+- 默认只加载一次字体资源，减少重复加载
+- 补充 tabbar 示例 borderColor 展示，便于验证顶部边框颜色
+
+## 3.8.90
+fix: 修复 plain 按钮默认白底
+
+- plain 镂空按钮默认背景改为透明，避免深色背景下出现白色或卡片色底块
+- 保留显式背景变量覆盖能力，已有主动配置背景色的场景不受影响
+- 补充验证脚本，覆盖 plain 按钮默认背景兜底
+
+## 3.8.89
+fix: 修复 tabbar 中间按钮圆弧边框颜色
+
+- 中间按钮上半圆边框跟随 tabbar 的 `borderColor` 属性，避免圆弧与顶部边框颜色不一致
+- `borderColor` 为空时继续使用主题边框色 fallback，保持默认表现不变
+- uview-ultra 同步 Vue 与 uvue 实现，保证两个组件库样式一致
+
+## 3.8.88
+fix: 修复 tabbar 中间按钮上半圆边框
+
+- 中间按钮改为 64px 圆形边框裁剪方案，透明或半透明 tabbar 背景下不再依赖纯色遮罩
+- 根据 `midButtonOffsetY` 自动计算上半圆边框裁剪高度，兼容有文字和无文字布局
+- 修复微信小程序中间按钮图标层级，避免被内层圆形背景遮住
+
+## 3.8.87
+feat: swiper 支持 vertical 纵向滑动（#936）
+
+- up-swiper 新增 `vertical` 属性并透传原生 swiper，默认 `false` 保持横向兼容
+- 补充 TypeScript 类型定义、纵向滑动示例与自动校验
+
+## 3.8.86
+fix: 为 .w-full 补充 box-sizing，并补充插件 tsconfig
+
+- 在 components.scss 中为 .w-full 增加 box-sizing: border-box，避免宽度计算受边框/内边距影响
+- 新增 uni_modules/uview-plus/tsconfig.json，统一插件内 TypeScript/Vue 类型检查配置
+
+## 3.8.85
+fix: slider 支持自定义模式小数步长
+
+- 自定义 slider 的 `step` 支持 `0.1`、`0.5` 等小数和字符串数字，避免旧逻辑将小数步长格式化为 `NaN`
+- 普通滑块、区间双滑块和垂直滑块统一按 `min + n * step` 对齐步进值
+- `useNative=true` 仍透传给 uni-app 原生 slider，具体小数表现取决于目标平台
+
+## 3.8.84
+feat!: i18n 语言包改为按需注册，默认仅内置 zh-Hans（#908）
+
+- 重大变更：不再默认打包 en/es/fr/de/ko/ja/ru/zh-Hant 等语言包，主包体积可明显下降
+- 语言包由 json 调整为 js 模块，并从包入口导出 en/ja/.../allLocales，业务无需手写深层路径
+- 迁移：非中文项目需在应用启动时 registerLocale 注册所需语言；可用 allLocales 一键恢复旧行为
+- 兼容：t()、uni.getLocale/onLocaleChange 用法不变；未注册语言回退 zh-Hans
+- 文档：i18n 指南补充按需注册与重大变更说明
+
+## 3.8.83
+feat: cropper 支持并文档化 inner 限制裁剪框在图片内
+
+- 暴露 `inner` 属性：开启后拖动/缩放保持裁剪框在图片内，并禁用旋转（#921）
+- 修复 `chooseImage` 开启 `inner` 时未同步禁用旋转的问题
+- `inner + canChangeSize` 时调整裁剪框也限制在图片显示范围内
+- 补充组件示例
+
+## 3.8.82
+fix: App 端内置图标字体改为包内本地加载
+
+- App / App-nvue 内置 u-icon 字体改为从包内 upicon.ttf 加载，不再依赖 alicdn 网络请求（#1044）
+- 使用 upicon.ttf?url 由构建产物发射本地字体资源，配合 uni.loadFontFace / weex addRule，避免弱网阻塞页面渲染
+- 无需手动拷贝到 static，也无需 npm postinstall hook
+
+## 3.8.81
+fix: 修复全局 mixin 的 $u 缓存未声明导致 Vue3 开发警告
+
+- 将 $u 计算属性缓存从未声明的 chacheU 改为内部实例非响应式缓存，避免全局 mixin 注入后每个组件实例渲染都触发警告（#1045）
+- 主题变化时同步清空新的 $u 缓存，保持运行时主题刷新行为不变
+
+## 3.8.80
+fix: 修复 swipeAction 关闭态右侧删除按钮露边
+
+- H5 关闭态内容层与容器之间可能出现 1px 亚像素缝隙，右侧删除按钮红色底会透出（#843）
+- 为内容层补全覆盖与同色 box-shadow 封边，并强化容器合成层裁剪
+
+## 3.8.79
+fix: 适配鸿蒙 platform/UA 检测，并修复 u-image flex 压缩
+
+- u-sticky / gcanvas bridge-weex 显式识别 harmony/harmonyos/ohos，消除鸿蒙静态检查告警（#1028）
+- u-image 在 flex 布局下增加防压缩尺寸策略，修正 radius 字符串判断
+
+## 3.8.78
+fix: 完善 u-dragsort 禁用拖拽逻辑
+
+- 全局 draggable 为 false 时，onTouchStart 不再写入 dragIndex
+- 避免 Android 禁用场景下出现小范围漂浮与阴影（关联 #854）
+
+## 3.8.77
+修复 index.js 在 H5 环境下组件自动注册逻辑，移除对 import.meta.glob 的运行时函数判断。
+确保 Vite 编译期宏可以正常展开，避免全局组件注册被误跳过。
+
+## 3.8.76
+统一 up-canvas 画布承载，迁移二维码、条形码、裁剪、海报、上传等组件的直接 canvas 使用。
+补充 up-canvas 跨端绘制、导出、像素读写能力，并增加对应组件文档。
+
+## 3.8.75
+fix: 调整 up-button 默认宽度语义
+
+- 将非 nvue 普通按钮默认宽度从 100% 改为 auto，避免在横向布局中挤压相邻内容。
+- size="large" 仍保持全宽表现；需要普通按钮全宽时请显式设置 custom-style 或外层容器宽度。
+- 同步更新 Button 文档提示默认宽度语义变化。
+
+## 3.8.74
+fix: 修复waterfall组件在列高未稳定时可能只渲染左侧一列的问题
+fix: 调整markdown组件marked依赖为mjs模块导入，提升打包解析兼容性
+
+## 3.8.73
+修复 u-calendar 页面内模式弹层安全区配置不足
+
+- u-calendar 新增 overlay、duration、overlayStyle、overlayOpacity、zIndex、safeAreaInsetBottom、safeAreaInsetTop、bgColor 等常用 u-popup 透传属性
+- pageInline 模式可通过 safeAreaInsetBottom=false 关闭底部安全区，默认行为保持不变
+- 同步补充 TypeScript 类型声明与静态校验
+
+## 3.8.72
+修复 pagination 总数和每页条数选择展示问题
+
+- total 布局项改为展示总记录数，移除误显示当前页的调试文本
+- 恢复 sizes 布局项的每页条数选择器，并兼容数字数组与 { label, value } 配置
+
+## 3.8.71
+修复 line-progress 默认参数错配导致默认进度宽度异常
+
+- 修正 inactiveColor 与 percentage 默认值读取字段，避免默认渲染计算出 NaNpx
+- 补充 fromRight 类型声明，完善从右往左加载能力提示
+- 补充 line-progress 示例默认配置场景，并同步文档说明
+
+## 3.8.70
+feat: u-tooltip 新增 singleton 单例打开能力
+
+- 新增 singleton 属性，开启该属性的 tooltip 同一页面同时只显示一个
+- 默认值为 false，保持现有多 tooltip 同时展示行为不变
+- close 时同步触发 update:show，便于 manual 模式外部状态保持一致
+
+## 3.8.69
+修复 navbar 全局左侧点击拦截器无法获取组件实例
+
+## 3.8.68
+修复 action-sheet 描述文本边距不生效问题
+
+## 3.8.67
+fix: 修复 pageInline 在 nvue 下不显示
+
+## 3.8.66
+fix: 修复 u-number-box 在 integer=false 时无法调出小数点键盘
+
+- integer=false 时 input type 使用 digit，integer=true 时仍使用 number
+- 同步覆盖微信小程序与 APP/H5 等非微信端
+
+## 3.8.64
+fix: 修复 up-textarea 开启 count 时 v-model 为空值导致报错
+
+- 字数统计改为安全取值，避免 null/undefined 访问 length
+- 外部绑定值与输入值统一做字符串归一化
+
+## 3.8.63
+chore: 给radio和checkbox组件添加选中样式名及插槽变量
+
+## 3.8.62（2026-07-07）
+fix: 修复avatar语法问题
+
+## 3.8.61（2026-07-06）
+fix:(up-avbar) : 优化安全区背景渲染
+fix(up-color-picker): 增加box-sizing解决content padding撑开宽度问题
+
+保留up-status-bar作为透明占位，将navbar背景统一设置到外层容器，并让内容区透明以支持渐变和图片背景连续覆盖。
+
+## 3.8.60（2026-06-30）
+fix: 添加 uni API shim 防止支付宝等平台缺失 onWindowResize 导致报错
+
+支付宝小程序等平台不支持 uni.onWindowResize / uni.offWindowResize，导致 u-tabs、u-subsection 等组件运行时报错。新增 uni-api-shims.js 模块，在库初始化时按能力检测并自动补齐缺失 API 为空实现，确保所有平台均可正常加载。
+
+## 3.8.59（2026-06-29）
+feat: 优化组件 props 默认配置按需加载
+
+- 将全局 props 默认配置从“集中静态导入所有组件”改为懒注册机制，避免单个组件 props 加载时拉入全部组件默认配置。
+- 各组件 `props.js` 改为只导入并注册自身默认 props，降低按需使用场景下的依赖体积。
+- `setConfig({ props })` 改为写入共享懒加载 props store，继续兼容组件加载前后的全局默认值覆盖。
+- 恢复并保留 `uni.$u.props` 运行时访问与直接赋值能力。
+- 新增 props lazy-loading 验证脚本，覆盖全量导入检查、默认值补齐、用户覆盖优先和入口配置接入。
+
+## 3.8.58（2026-06-23）
+feat: forward markdown parse link events
+
+## 3.8.57（2026-06-21）
+fix: 修复 table2 超出隐藏失效并补齐表格属性行为
+
+为 table2 单元格内容增加稳定宽度约束和默认文本截断包装，兼容 H5、小程序及 nvue 下 showOverflowTooltip 的单行省略表现。
+同时补齐 rowStyle、defaultExpandAll、lazy/load、排序配置和 context 透传等表格属性的实际行为。
+
+## 3.8.56（2026-06-16）
+fix 修复 table2 超出隐藏失效问题
+
+## 3.8.55（2026-06-12）
+fix: 完善日历今天按钮的区间模式表现及修复小程序多输入框切换时 blur 格式化视图不刷新
+
+- 问题出现在小程序真机多个输入框切换场景中，A 输入框在 blur 回调里完成格式化后，点击 B 输入框会导致数据已更新但 A 的显示值未及时同步。本次修改在 u-input 内部记录 blur 时的原始值，并在 modelValue 回流阶段识别 blur 后的外部格式化结果，允许该结果覆盖 innerValue，避免被 changeFromInner 保护逻辑拦截。这样在点击其他输入框触发 blur 时，格式化结果也能正确更新到视图。
+- 避免日期区间模式点击今天时清空已有选中范围，同时提供今天日期的独立高亮能力。新增 todayColor 配置、组件透传与类型声明，并调整 range 模式下今天按钮仅定位不选中。single 模式保持点击今天直接选中，range 模式保留原区间并定位到今天。
+
+## 3.8.54（2026-06-11）
+fix(calendar): 修复今天按钮点击后未选中日期的问题
+
+今天按钮在跳转到今天所在月份后，会复用日历原有日期点击逻辑选中今天，并按 showConfirm 配置保持确认行为一致。
+
+## 3.8.53（2026-06-11）
+feat(calendar): 日历顶部增加时分秒选择能力
+
+新增 enableTime、timePrecision、defaultTime 配置，支持单选与区间首尾模式在顶部点击时间区域后弹出居中 picker 进行时间编辑。
+确认返回仍为字符串数组：单选与区间首尾模式返回日期时间字符串；区间 all 模式按约定不展示时间选择并保持原日期数组返回；同日区间增加结束时间不能早于开始时间的校验。
+
+## 3.8.52（2026-06-10）
+fix(table2): 修复微信小程序中重复 slot name="cell" 导致的报错 (#839)
+
+在固定列浮动视图（u-table-fixed-shadow）的 MP-WEIXIN 条件编译块中，
+将 <slot name="cell"> 改为直接内联渲染，消除同组件内同名 slot 的冲突。
+微信小程序不允许单个组件实例中出现多个同名 slot，而主表体已占用 "cell"，
+固定列视图区仅用于视觉叠加，直接渲染 item.row[col.key] 即可满足需求。
+
+## 3.8.51（2026-06-09）
+fix(picker): 修复异步columns加载时defaultIndex位置不更新的问题 (#841)
+
+问题：当columns从接口动态返回时（初始为空数组，延迟后赋值），
+defaultIndex已提前设置好innerIndex，columns变化时innerIndex值未改变，
+picker-view的:value绑定不触发重新渲染，导致滚动位置停留在第0项。
+
+修复：在setColumns中检测是否有列从空变为有数据，若是则先清空innerIndex，
+再在$nextTick中恢复目标值，强制picker-view重新滚动到defaultIndex指定位置。
+
+## 3.8.50（2026-06-08）
+fix: 修复 pageInline 日历隐藏挂载时首日偏移异常
+
+问题原因：u-calendar 在隐藏容器中挂载时可能获取到 width=0，导致首日 margin-left 计算为 0。
+改动内容：
+1) 非 APP-NVUE 场景首日偏移改为百分比计算，避免依赖运行时宽度。
+2) 宽度获取增加 windowWidth 兜底，降低隐藏挂载导致的布局异常风险。
+影响范围：仅调整 u-calendar/month.vue 的首日偏移与宽度兜底逻辑，不改变选择交互行为。
+
+## 3.8.49（2026-06-05）
+fix(datetime-picker): 修复hasInput模式下点击遮罩无法关闭弹窗的问题
+
+- 在close()方法中补充将showByClickInput置为false的逻辑，
+- 与cancel()和confirm()的处理保持一致，修复issue #759
+
+## 3.8.48（2026-06-04）
+feat(calendar): 新增区间模式返回值格式配置
+
+- 新增 rangeResultMode 配置项，支持 range 模式在 confirm 时返回全部区间日期或仅返回起止日期。
+- 本次改动覆盖默认配置、组件 props、确认回调返回逻辑与 TypeScript 类型声明，默认值为 all 以保持现有行为兼容。
+
+## 3.8.47（2026-06-03）
+扩展 u-datetime-picker 支持小时与秒级时间选择
+
+- 新增 datehour、timesecond、datetimesecond 三种模式，覆盖年月日时与秒级场景\n- 增加 minSecond/maxSecond 配置，并同步列生成、边界计算、回显与变更事件处理\n- 更新 TypeScript 类型定义，确保新模式和秒级属性在项目中可被正确约束
+
+## 3.8.46（2026-06-02）
+fix: 修复DatetimePicker在pageInline模式下无法滚动到默认值问题 #941
+
+pageInline模式下picker-view原生组件常驻显示，Android/HarmonyOS端
+原生组件尚未完成初始化时已渲染为索引0位置，后续更新无法可靠触发滚动。
+
+- updateColumnValue改用$nextTick+条件延时：pageInline时等待100ms
+- mounted新增pageInline兜底：200ms后再次设置索引确保原生组件就绪
+
+## 3.8.45（2026-06-01）
+fix: 修复NumberBox最小值限制导致无法输入新值问题 #914
+
+## 3.8.44（2026-05-31）
+fix: 修复up-tooltip未暴露open/close方法及manual模式失效问题 #1021
+
+- 新增 show prop，支持 triggerMode="manual" 时通过 :show 控制显示
+- 新增 open() / close() 方法并对外暴露
+- 监听 show prop 变化，manual 模式下自动调用 open/close
+- 新增 open / close emit 事件，u-popover 的 @open @close 监听可正常工作
+- 统一内部显示/隐藏逻辑均走 open()/close() 方法
+
+## 3.8.43（2026-05-30）
+fix: 修复小程序中 tabbar midButton 模式图标不显示问题
+
+- 使用 :deep() 选择器替代普通后代选择器，解决 virtualHost:true 导致
+- 父组件 scoped 样式无法传播到子组件根元素的问题。
+
+## 3.8.42（2026-05-29）
+feat: 新增单行日历组件并支持下拉展开完整月历及修复签名组件 clear 方法实现
+
+-新增 up-calendar-strip 组件，支持单行横向滚动日期、前后切月、选中态与今天高亮，并受 minDate/maxDate 约束。
+-完整模式复用内嵌 up-calendar（pageInline + monthSwitch），支持下拉展开、上拉收起与完整月历选中回写，降低重复代码与维护复杂度。
+-同步接入全局默认 props 与 TypeScript 类型声明，并在 calendar 示例页增加可直接验证的演示入口。
+- 修复 Signature 组件对外 clear 方法缺失导致 ref 调用报错的问题。
+- 在 u-signature 中新增 clear 公共方法，统一重置路径与绘制状态并清空画布，同时触发 clear 事件，保持工具栏清空与外部调用行为一致。
+
+## 3.8.41（2026-05-29）
+feat: tabs新增多形态模式并优化示例页吸顶展示
+
+- 新增shapeMode能力，支持capsule/card/pill-arrow/tag四种模式，并补齐props默认配置与类型声明。
+- 完善各模式样式细节与尺寸，优化圆角矩形箭头视觉表现，卡片模式使用轻量阴影增强层次。
+
+## 3.8.40（2026-05-28）
+feat: 新增 up-guide 首屏全屏引导组件，支持开箱即用的一次性引导能力。
+
+## 3.8.39（2026-05-27）
+feat: 新增 tabbar 风格体系与动态图标表现
+
+- 为 tabbar 增加多种内置风格、轻量选中动画与双态图标支持。
+- 扩展示例页覆盖普通场景、NVUE 场景及中间按钮组合用法。
+
+## 3.8.38（2026-05-25）
+add: uni-ku/root上游组建的协议原文
+
+## 3.8.37（2026-05-22）
+feat: 日历组件新增今天按钮并支持快速回到当月
+
+在日历头部增加今天按钮与禁用态，点击后可跳转到今天所在月份；为今天日期增加独立高亮样式且不覆盖用户当前已选日期。同时补充 showToday 配置、类型声明与多语言文案键，保证不同语言和模式下行为一致。
+
+## 3.8.36（2026-05-20）
+fix: 修复 u-parse 链接点击在 iOS 端可能闪退的问题
+
+- 在 u-parse 的两个链接点击入口统一增加 href 规范化与外链判断，避免空值或非法值传入 plus.runtime.openWeb/openURL。
+- 同时将原生外链打开封装为受保护调用并添加异常兜底，降低 APP-PLUS 与 APP-HARMONY 下点击链接导致崩溃的风险。
+
+## 3.8.35（2026-05-19）
+fix: 修复up-input在confirm阶段可能丢失扫码内容
+
+- 问题背景：issue #1011 反馈外接扫码枪场景下，up-input 的 confirm 回调偶发丢码，连续0更明显。
+- 原因分析：组件 onConfirm 直接返回 innerValue，当扫码输入与回车触发节奏接近时，confirm 可能早于最后一次 input 同步，导致取到旧值。
+- 改动说明：onConfirm 优先使用 event.detail.value，若平台未提供该字段再回退到 innerValue，兼容原有行为并降低扫码场景丢码风险。
+## 3.8.34（2026-05-18）
+fix: 仅在 TabBar 页面同步 TabBar 样式
+
+- 在 libs/theme/runtime.js 新增 isTabBarPage 与 trySetTabBarStyle，统一封装 TabBar 页面判断与安全调用。
+- 在 runtime/theme/common mixin 的原生主题同步路径中，全部改为调用 trySetTabBarStyle，不再直接调用 uni.setTabBarStyle。
+
+## 3.8.33（2026-05-17）
+fix: 修复主题变量桥接与 nvue 按钮取色问题
+
+- 调整主题 bridge 的导出位置，避免 legacy light 变量在样式注入后覆盖用户自定义 CSS 变量。
+- 修复 up-button 在 nvue 下的主题取色与 info/plain 样式问题，补充运行时取色兜底，避免按钮颜色错误或主题方法缺失时报错。
+- 同步更新示例接入、版本号与变更记录，保持主题改造后的行为与文档一致。
+
+## 3.8.32（2026-05-14）
+feat: 新增二维码静区配置
+
+- 为 up-qrcode 增加 quietZone 属性，默认值调整为 0。
+- 同步更新二维码绘制逻辑与类型声明，支持按静区宽度控制外层留白。
+
+## 3.8.31（2026-05-14）
+fix: 修复toast组件overlay设置为false时不显示toast的问题 (#1016)
+
+
+## 3.8.30（2026-05-14）
+fix(tooltip): 修复tooltip组件字体大小(size)属性未生效的问题
+
+## 3.8.29（2026-05-13）
+style: 将 Toast 组件硬编码颜色替换为主题变量
+
+- 替换 primary、success、error、warning 类型的背景与边框硬编码颜色
+- 统一接入 $u-{type}-light 与 $u-{type}-disabled 主题变量
+- 增强组件在不同主题下的样式一致性与可维护性
+
+## 3.8.28（2026-05-12）
+style: 优化 up-textarea 组件主题变量与边框样式
+
+- 字数统计区域新增文本颜色主题变量支持
+- 输入框区域重构样式计算，补充背景色、文本色与光标色主题变量
+- 移除原有边框 CSS 类名依赖，改为通过计算属性动态注入边框样式
+- 新增边框颜色计算逻辑，根据亮暗色模式自动适配主题色
+- 修复 H5 端 uni-app 默认包装器样式冲突，统一背景、边框与占位符颜色
+
+## 3.8.27（2026-05-11）
+feat: 新增 nativeThemeSync 配置控制原生UI主题同步
+
+- 在 config 中新增 nativeThemeSync 选项，默认值为 false
+- 在 theme.js 与 runtime.js 的 applyNativeThemeUI 中增加配置拦截，未开启时跳过原生导航栏、页面背景及 tabBar 的样式同步
+- 补充 TypeScript 类型定义，明确默认关闭以避免升级覆盖项目已有的 pages.json 或 theme.json 全局样式
+- 更新验证脚本，增加对该配置开关行为的断言测试
+## 3.8.26（2026-05-11）
+fix: 修复海报组件多行文本截断与省略号渲染问题
+
+- 提取省略号宽度计算与截断逻辑为独立辅助函数，提升代码可维护性
+- 修正达到最大行数时的截断流程，确保末行正确计算宽度并添加省略号
+- 调整换行后当前行字符的赋值时机，避免首字符丢失或渲染状态错乱
+- 补充文件末尾缺失的换行符以符合代码规范
+
+## 3.8.25（2026-05-10）
+fix: 修复H5安装时写入页面背景
+
+- 移除主题初始化时对html、body和#app背景色的内联写入，避免use(uviewPlus)覆盖业务页面背景。
+- 补充运行时主题回归断言，确保H5仍同步data-up-theme但不再改写宿主页面背景样式。
+
+## 3.8.24（2026-05-09）
+fix: 合并 up-slider 组件重复的 mounted 生命周期钩子
+
+- 将原本分散的两个 mounted 钩子合并为单个 async mounted
+- 确保高度/尺寸赋值与滑块 DOM 尺寸获取逻辑在同一钩子内顺序执行
+- 移除底部重复的生命周期代码块，修复因 Vue 钩子执行顺序不确定导致的 init 初始化异常
+
+## 3.8.23（2026-05-09）
+style: 弹窗组件支持主题变量动态设置指示器与关闭图标颜色
+
+- 将底部横条指示器背景色替换为 --up-light-color 主题变量
+- 将关闭图标颜色替换为 --up-content-color 主题变量
+- 新增 indicatorStyle 与 closeIconColor 计算属性实现动态绑定
+- 同步更新 CSS 与内联样式，移除硬编码颜色值以提升多主题适配能力
+
+## 3.8.22（2026-05-08）
+style: 优化 up-input 组件边框样式与主题变量适配
+
+- 移除原有的 u-border 和 u-border-bottom 工具类，改为通过内联样式动态控制边框
+- 新增 inputBorderColor 计算属性，支持通过 --up-input-border-color 主题变量自定义边框颜色
+- 适配深色模式，默认边框颜色根据主题状态自动切换为半透明白色或浅色边框
+- 统一将边框宽度设置为 0.5px，提升多端显示的一致性
+
+## 3.8.21（2026-05-07）
+fix: 修正索引锚点默认背景色识别逻辑
+
+- 扩展默认背景色判断条件，兼容 #f1f1f1 与 #dedede
+- 更新主题变量回退默认值为 #f1f1f1 以匹配新版设计
+
+## 3.8.20（2026-05-06）
+feat: 表单标签颜色支持主题变量动态适配
+
+- 新增 labelDynamicStyle 计算属性，动态读取 --up-main-color 主题变量
+- 将动态样式注入标签元素，实现表单标签颜色随主题配置自动切换
+
 ## 3.8.19（2026-04-30）
 feat: 为日期时间选择器遮罩层添加暗色模式自适应样式
 
@@ -2003,3 +2777,17 @@ fix: #261u-input在直接修改v-model的绑定值时，每隔一次会无法出
 增加插件市场地址
 ## 3.0.0（2022-07-09）
 # uview-plus(vue3)初步发布
+## 3.8.39
+
+- feat: tabbar 新增多种风格预设、动态图标切换与轻量选中动画
+- improvment: tabbar 补充高颜值本地图标示例并优化发布型底栏视觉
+## 3.8.121
+fix: 修复 up-button 真机首次点击后失效
+
+用户反馈 up-button 在网页端正常，但在真机上点击一次后无法再次触发 click 事件。组件默认 throttleTime 为 0，原节流实现仍会先将全局节流标志置为 true，再依赖 setTimeout 回调异步释放；当真机运行环境没有按预期执行该定时回调时，全局标志会一直保持锁定状态，后续所有使用节流的点击都会被拦截。
+
+- throttle 的 wait 小于等于 0 时直接同步执行回调并返回，不再挂起全局锁
+- 保留大于 0 时原有的立即节流与非立即节流行为，API 不变
+- 新增 `verify:button-throttle` 回归校验，覆盖零延迟连续调用场景
+
+## 3.8.120

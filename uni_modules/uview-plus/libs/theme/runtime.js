@@ -12,6 +12,8 @@ const FALLBACK_THEME_VARS = {
         '--up-page-bg-color': '#f3f4f6',
         '--up-card-bg-color': '#ffffff',
         '--up-navbar-bg-color': '#ffffff',
+        '--up-navbar-glass-bg-color': 'rgba(255, 255, 255, 0.82)',
+        '--up-navbar-glass-blur': '20px',
         '--up-table2-header-bg-color': '#f5f7fa',
         '--up-table2-zebra-bg-color': '#fafafa',
         '--up-table2-highlight-bg-color': '#f5f7fa',
@@ -54,6 +56,8 @@ const FALLBACK_THEME_VARS = {
         '--up-page-bg-color': '#1f1f1f',
         '--up-card-bg-color': '#1c1c1e',
         '--up-navbar-bg-color': '#1c1c1e',
+        '--up-navbar-glass-bg-color': 'rgba(28, 28, 30, 0.82)',
+        '--up-navbar-glass-blur': '20px',
         '--up-table2-header-bg-color': '#2a2d33',
         '--up-table2-zebra-bg-color': '#23262b',
         '--up-table2-highlight-bg-color': '#2f3440',
@@ -133,6 +137,37 @@ function getRuntimeU(upU) {
     return null
 }
 
+function normalizeRuntimeRoute(route) {
+    if (typeof route !== 'string') return ''
+    return route.replace(/^\//, '').split('?')[0]
+}
+
+function getCurrentRuntimeRoute() {
+    try {
+        if (typeof getCurrentPages !== 'function') return ''
+        const pages = getCurrentPages()
+        if (!Array.isArray(pages) || pages.length === 0) return ''
+        const page = pages[pages.length - 1] || {}
+        return normalizeRuntimeRoute(page.route || page.path || '')
+    } catch (e) {}
+    return ''
+}
+
+function getRuntimeTabBarRoutes() {
+    const routes = []
+    try {
+        const runtimeConfig = typeof __uniConfig !== 'undefined' ? __uniConfig : null
+        const tabBarList = runtimeConfig?.tabBar?.list
+        if (Array.isArray(tabBarList)) {
+            tabBarList.forEach((item) => {
+                const route = normalizeRuntimeRoute(item?.pagePath || '')
+                if (route) routes.push(route)
+            })
+        }
+    } catch (e) {}
+    return routes
+}
+
 function hasActiveRuntimePage() {
     try {
         if (typeof getCurrentPages === 'function') {
@@ -148,6 +183,25 @@ function trySetNavigationBarColor(options) {
     if (!hasActiveRuntimePage()) return
     try {
         const result = uni.setNavigationBarColor(options)
+        if (result && typeof result.catch === 'function') {
+            result.catch(() => {})
+        }
+    } catch (e) {}
+}
+
+export function isTabBarPage() {
+    const route = getCurrentRuntimeRoute()
+    if (!route) return false
+    const tabBarRoutes = getRuntimeTabBarRoutes()
+    if (!tabBarRoutes.length) return false
+    return tabBarRoutes.includes(route)
+}
+
+export function trySetTabBarStyle(options) {
+    if (typeof uni === 'undefined' || typeof uni.setTabBarStyle !== 'function') return
+    if (!isTabBarPage()) return
+    try {
+        const result = uni.setTabBarStyle(options)
         if (result && typeof result.catch === 'function') {
             result.catch(() => {})
         }
@@ -349,6 +403,7 @@ export function getThemeTabBarStyle(upU) {
 export function applyNativeThemeUI(upU) {
     if (typeof uni === 'undefined') return
     const runtimeU = getRuntimeU(upU)
+    if (runtimeU?.config?.nativeThemeSync !== true) return
     const isDark = getThemeIsDark(runtimeU)
     const fallbackBg = isDark ? '#1f1f1f' : (runtimeU?.color?.bgColor || '#f3f4f6')
     const pageBg = getThemeVar(
@@ -376,9 +431,7 @@ export function applyNativeThemeUI(upU) {
             backgroundColorBottom: pageBg
         })
     }
-    if (typeof uni.setTabBarStyle === 'function') {
-        uni.setTabBarStyle(getThemeTabBarStyle(runtimeU))
-    }
+    trySetTabBarStyle(getThemeTabBarStyle(runtimeU))
 }
 
 export function applyNativeThemeUIDeferred(upU, delay = 30) {

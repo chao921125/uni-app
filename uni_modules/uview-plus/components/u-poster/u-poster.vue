@@ -1,24 +1,31 @@
 <template>
 	<view class="up-poster">
 		<!-- canvas用于绘制海报 -->
-		<canvas 
-			v-if="showCanvas" 
-			class="up-poster__hidden-canvas" 
-			:canvas-id="canvasId" 
-			:id="canvasId"
-			:style="{ width: canvasWidth + 'px', height: canvasHeight + 'px' }">
-		</canvas>
+		<view v-if="showCanvas" class="up-poster__renderer">
+			<up-canvas
+				ref="posterCanvas"
+				class="up-poster__hidden-canvas"
+				:canvas-id="canvasId"
+				:width="canvasWidth"
+				:height="canvasHeight"
+				bg-color="transparent"
+				:style="{ width: canvasWidth + 'px', height: canvasHeight + 'px' }">
+			</up-canvas>
+		</view>
 		<!-- 隐藏的二维码组件，用于生成二维码图片 -->
-		<up-qrcode 
-			ref="qrCode" 
-			:val="qrCodeValue" 
-			:size="qrCodeSize" 
-			:margin="0" 
-            :loadMake="false"
-			background="#ffffff"
-			foreground="#000000"
-			:class="['up-poster__hidden-qrcode', qrCodeShow ? '' : 'up-poster__hidden-qrcode--hidden']"
-		/>
+		<view class="up-poster__renderer">
+			<up-qrcode
+				ref="qrCode"
+				:val="qrCodeValue"
+				:size="qrCodeSize"
+				:margin="0"
+				:loadMake="false"
+				:onval="false"
+				background="#ffffff"
+				foreground="#000000"
+				:class="['up-poster__hidden-qrcode', qrCodeShow ? '' : 'up-poster__hidden-qrcode--hidden']"
+			/>
+		</view>
 	</view>
 </template>
 
@@ -86,79 +93,88 @@ export default {
 		 * @author jry ijry@qq.com
 		 */
 		async exportImage() {
-			return new Promise(async(resolve, reject) => {
-                try {
-                    // 获取海报尺寸信息
-                    const posterSize = this.json.css;
-                    // 将rpx转换为px
-                    const width = this.convertRpxToPx(posterSize.width || '750rpx');
-                    const height = this.convertRpxToPx(posterSize.height || '1114rpx');
-                    
-                    // 设置canvas尺寸
-                    this.canvasWidth = width;
-                    this.canvasHeight = height;
-                    this.showCanvas = true;
-                    
-                    // 等待DOM更新
-                    await this.$nextTick();
-                    
-                    // 创建canvas上下文
-                    const ctx = uni.createCanvasContext(this.canvasId, this);
-                    
-                    // 绘制背景
-                    if (posterSize.background) {
-                        // 支持渐变背景色
+			let timeoutId = null;
+			try {
+				const timeoutPromise = new Promise((resolve, reject) => {
+					timeoutId = setTimeout(() => reject(new Error('导出图片超时')), 20000);
+				});
+				const exportPromise = (async () => {
+					// 获取海报尺寸信息
+					const posterSize = this.json.css || {};
+					const width = this.convertRpxToPx(posterSize.width || '750rpx');
+					const height = this.convertRpxToPx(posterSize.height || '1114rpx');
+
+					this.canvasWidth = width;
+					this.canvasHeight = height;
+					this.showCanvas = true;
+					await this.$nextTick();
+
+					const posterCanvas = await this.getPosterCanvas();
+					const ctx = posterCanvas;
+					if (posterSize.background) {
 						if (posterSize.background.includes('linear-gradient') || posterSize.background.includes('radial-gradient')) {
 							this.drawGradientBackground(ctx, posterSize, 0, 0, width, height);
 						} else {
 							ctx.setFillStyle(posterSize.background);
-                            ctx.fillRect(0, 0, width, height);
+							ctx.fillRect(0, 0, width, height);
 						}
-                    }
-                    
-                    // 绘制所有元素
-                    for (const item of this.json.views) {
-                        await this.drawItem(ctx, item, width, height);
-                    }
-                    
-                    // 绘制到canvas
-                    ctx.draw(false, () => {
-                        // 等待绘制完成
-                        setTimeout(() => {
-                            // 导出图片
-                            uni.canvasToTempFilePath({
-                                canvasId: this.canvasId,
-                                success: (res) => {
-                                    // 隐藏canvas
-                                    this.showCanvas = false;
-                                    // 返回图片路径
-                                    resolve({
-                                        width: width,
-                                        height: height,
-                                        path: res.tempFilePath,
-                                        // H5下添加blob格式
-                                        blob: this.dataURLToBlob(res.tempFilePath)
-                                    });
-                                },
-                                fail: (err) => {
-                                    // 隐藏canvas
-                                    this.showCanvas = false;
-                                    reject(new Error('导出图片失败: ' + JSON.stringify(err)));
-                                }
-                            }, this);
-                        }, 300);
-                    });
-                    
-                    // 超时处理
-                    setTimeout(() => {
-                        this.showCanvas = false;
-                        reject(new Error('导出图片超时'));
-                    }, 10000);
-                } catch (error) {
-                    this.showCanvas = false;
-                    reject(error);
-                }
+					}
+
+					for (const item of this.json.views || []) {
+						await this.drawItem(ctx, item, width, height);
+					}
+
+					await this.flushPosterCanvas(posterCanvas);
+					const res = await posterCanvas.toTempFilePath({ width, height });
+					const path = res && (res.tempFilePath || res.apFilePath);
+					if (!path) {
+						throw new Error('导出图片未返回文件路径');
+					}
+					return {
+						width,
+						height,
+						path,
+						blob: this.dataURLToBlob(path)
+					};
+				})();
+				return await Promise.race([exportPromise, timeoutPromise]);
+			} finally {
+				if (timeoutId) clearTimeout(timeoutId);
+				this.showCanvas = false;
+			}
+		},
+
+		flushPosterCanvas(posterCanvas) {
+			return new Promise((resolve, reject) => {
+				let settled = false;
+				const finish = (error) => {
+					if (settled) return;
+					settled = true;
+					if (error) reject(error);
+					else resolve();
+				};
+				try {
+					const result = posterCanvas.draw(false, () => finish());
+					if (result && typeof result.then === 'function') {
+						result.then(() => finish(), finish);
+					}
+				} catch (error) {
+					finish(error);
+				}
 			});
+		},
+
+		async getPosterCanvas() {
+			await this.$nextTick();
+			const posterCanvas = this.$refs.posterCanvas;
+			if (!posterCanvas) {
+				throw new Error('无法获取海报画布实例');
+			}
+			const initialized = await posterCanvas.initCanvas();
+			if (!initialized || !posterCanvas.getRawContext()) {
+				throw new Error('无法初始化海报画布');
+			}
+			return posterCanvas;
 		},
 		
 		/**
@@ -200,7 +216,7 @@ export default {
 					
 				case 'text':
 					// 设置文本样式
-					if (css.color) ctx.setFillStyle(css.color);
+					ctx.setFillStyle(css.color || '#000000');
 					if (css.fontSize) {
 						const fontSize = this.convertRpxToPx(css.fontSize);
 						ctx.setFontSize(fontSize);
@@ -211,7 +227,7 @@ export default {
 					
 					// 处理文本换行
 					if (css.lineClamp) {
-						this.drawTextWithLineClamp(ctx, item.text, left, top, width, css);
+						await this.drawTextWithLineClamp(ctx, item.text, left, top, width, css);
 					} else {
 						// 修复：文本垂直居中对齐问题
 						const textBaseLine = css.fontSize ? this.convertRpxToPx(css.fontSize) / 2 : 10;
@@ -221,28 +237,27 @@ export default {
 					
 				case 'image':
 					// 绘制图片
-					return new Promise((resolve) => {
+					return new Promise((resolve, reject) => {
 						uni.getImageInfo({
 							src: item.src,
-							success: (res) => {
-								// console.log('图片加载成功: ' + item.src, res);
-								// 处理圆角
-								if (css.radius) {
-									const radius = this.convertRpxToPx(css.radius);
-									this.clipRoundRect(ctx, left, top, width, height, radius);
+							success: async (res) => {
+								let clipped = false;
+								try {
+									if (css.radius) {
+										const radius = this.convertRpxToPx(css.radius);
+										this.clipRoundRect(ctx, left, top, width, height, radius);
+										clipped = true;
+									}
+									await ctx.drawImage(res.path, left, top, width, height);
+									resolve();
+								} catch (error) {
+									reject(new Error(`海报图片绘制失败: ${error && error.message ? error.message : error}`));
+								} finally {
+									if (clipped) ctx.restore();
 								}
-								// 不能用item.src，要用res.path。
-								ctx.drawImage(res.path, left, top, width, height);
-								// 恢复剪切区域
-								ctx.restore();
-								resolve();
 							},
 							fail: (e) => {
-								// 图片加载失败时绘制占位符
-								ctx.setFillStyle('#f5f5f5');
-								ctx.fillRect(left, top, width, height);
-								console.log('图片加载失败: ' + item.src, e);
-								resolve();
+								reject(new Error(`海报图片加载失败: ${e && e.errMsg ? e.errMsg : e}`));
 							}
 						});
 					});
@@ -252,26 +267,10 @@ export default {
 					if (item.text) {
 						// 使用u-qrcode生成二维码图片
 						const qrCodeImageUrl = await this.generateQRCode(item.text, width, height);
-						return new Promise((resolve) => {
-							uni.getImageInfo({
-								src: qrCodeImageUrl,
-								success: (res) => {
-									ctx.drawImage(res.path, left, top, width, height);
-									resolve();
-								},
-								fail: () => {
-									// 二维码加载失败时绘制占位符
-									ctx.setFillStyle('#f5f5f5');
-									ctx.fillRect(left, top, width, height);
-									ctx.setFillStyle('#999');
-									ctx.setFontSize(12);
-									ctx.setTextAlign('center');
-									ctx.fillText('QR', left + width/2, top + height/2);
-									ctx.setTextAlign('left');
-									resolve();
-								}
-							});
-						});
+						const drawn = await ctx.drawImage(qrCodeImageUrl, left, top, width, height);
+						if (drawn === false) {
+							throw new Error('二维码图片无法绘制到海报画布');
+						}
 					} else {
 						// 绘制二维码占位符
 						ctx.setFillStyle('#f5f5f5');
@@ -354,49 +353,86 @@ export default {
 		 * @param {Object} css 样式配置
 		 * @author jry ijry@qq.com
 		 */
-		drawTextWithLineClamp(ctx, text, x, y, maxWidth, css) {
-            const lineClamp = parseInt(css.lineClamp) || 1;
-            const lineHeight = css.lineHeight ? this.convertRpxToPx(css.lineHeight) : 20;
-            const lines = [];
-            let currentLine = '';
-            
-            for (let i = 0; i < text.length; i++) {
-                const char = text[i];
-                const testLine = currentLine + char;
-                const metrics = ctx.measureText(testLine);
-                
-                if (metrics.width > maxWidth && currentLine !== '') {
-                    lines.push(currentLine);
-                    currentLine = char;
-                    
-                    // 如果已达最大行数，添加省略号并结束
-                    if (lines.length === lineClamp) {
-                        if (metrics.width > maxWidth) {
-                            // 添加省略号
-                            let fitLine = currentLine.substring(0, currentLine.length - 1);
-                            while (ctx.measureText(fitLine + '...').width > maxWidth && fitLine.length > 0) {
-                                fitLine = fitLine.substring(0, fitLine.length - 1);
-                            }
-                            lines[lines.length - 1] = fitLine + '...';
-                        }
-                        break;
-                    }
-                } else {
-                    currentLine = testLine;
-                }
-                
-                // 处理最后一行
-                if (i === text.length - 1 && lines.length < lineClamp) {
-                    lines.push(currentLine);
-                }
-            }
-            
-            // 绘制每一行
-            for (let i = 0; i < lines.length; i++) {
-                // 修复：正确计算文本垂直位置
-                const textBaseLine = css.fontSize ? this.convertRpxToPx(css.fontSize) / 2 : 10;
-                ctx.fillText(lines[i], x, y + (i * lineHeight) + textBaseLine);
-            }
+		async drawTextWithLineClamp(ctx, text, x, y, maxWidth, css) {
+			const lineClamp = Math.max(1, parseInt(css.lineClamp, 10) || 1);
+			const lineHeight = css.lineHeight ? this.convertRpxToPx(css.lineHeight) : 20;
+			const characters = Array.from(String(text || ''));
+			const lines = [];
+			const ellipsis = '...';
+			const measurementCache = new Map();
+			const fontSize = css.fontSize ? this.convertRpxToPx(css.fontSize) : 20;
+			// 兜底估算：全角字符约占一个字号，半角约 0.56。测量失败时若按半角估算，
+			// 中文会短算 40% 而不换行，所以必须区分宽度。
+			const estimateWidth = (value) => Array.from(String(value)).reduce((width, char) => {
+				if (/[ᄀ-ᅟ⺀-〾぀-㏿㐀-䶿一-鿿ꀀ-꓏가-힣豈-﫿︰-﹯＀-｠￠-￦]/.test(char)) {
+					return width + fontSize;
+				}
+				if (/\s/.test(char)) return width + fontSize * 0.28;
+				return width + fontSize * 0.56;
+			}, 0);
+			const measureTextWidth = async (value) => {
+				if (measurementCache.has(value)) {
+					return measurementCache.get(value);
+				}
+				let metrics;
+				if (ctx && typeof ctx.measureTextAsync === 'function') {
+					metrics = await ctx.measureTextAsync(value);
+				} else {
+					metrics = ctx.measureText(value);
+				}
+				let measuredWidth = Number(metrics && metrics.width) || 0;
+				// 测量不可用时(鸿蒙同步 measureText 恒返回 0)必须改用估算：
+				// 把 0 当作真实宽度会让下面的 <= maxWidth 恒成立，整段文本挤成一行。
+				if (!(measuredWidth > 0) && value) {
+					measuredWidth = estimateWidth(value);
+				}
+				measurementCache.set(value, measuredWidth);
+				return measuredWidth;
+			};
+			const findTextFitLength = async (values, suffix = '') => {
+				let low = 0;
+				let high = values.length;
+				while (low < high) {
+					const middle = Math.ceil((low + high) / 2);
+					const candidate = values.slice(0, middle).join('') + suffix;
+					if (await measureTextWidth(candidate) <= maxWidth) {
+						low = middle;
+					} else {
+						high = middle - 1;
+					}
+				}
+				return low;
+			};
+
+			let offset = 0;
+			while (offset < characters.length && lines.length < lineClamp) {
+				const remaining = characters.slice(offset);
+				const remainingText = remaining.join('');
+				if (await measureTextWidth(remainingText) <= maxWidth) {
+					lines.push(remainingText);
+					break;
+				}
+
+				const isLastLine = lines.length === lineClamp - 1;
+				if (isLastLine) {
+					let suffix = ellipsis;
+					while (suffix && await measureTextWidth(suffix) > maxWidth) {
+						suffix = suffix.slice(0, -1);
+					}
+					const fitLength = await findTextFitLength(remaining, suffix);
+					lines.push(remaining.slice(0, fitLength).join('') + suffix);
+					break;
+				}
+
+				const fitLength = Math.max(1, await findTextFitLength(remaining));
+				lines.push(remaining.slice(0, fitLength).join(''));
+				offset += fitLength;
+			}
+
+			const textBaseLine = css.fontSize ? this.convertRpxToPx(css.fontSize) / 2 : 10;
+			for (let i = 0; i < lines.length; i++) {
+				ctx.fillText(lines[i], x, y + (i * lineHeight) + textBaseLine);
+			}
         },
 		
 		/**
@@ -408,54 +444,41 @@ export default {
 		 * @returns {Promise<String>} 二维码图片URL
 		 * @author jry ijry@qq.com
 		 */
-		generateQRCode(text, width, height) {
-			return new Promise((resolve) => {
-				// 为每个二维码生成唯一标识
-				const qrCodeKey = `${text}_${width}_${height}`;
-				
-				// 检查是否已经生成过该二维码
-				if (this.qrCodeMap.has(qrCodeKey)) {
-					resolve(this.qrCodeMap.get(qrCodeKey));
-					return;
+		async generateQRCode(text, width, height) {
+			const qrCodeKey = `${text}_${width}_${height}`;
+			if (this.qrCodeMap.has(qrCodeKey)) {
+				return this.qrCodeMap.get(qrCodeKey);
+			}
+
+			this.qrCodeValue = text;
+			this.qrCodeSize = Math.max(width, height);
+			this.qrCodeShow = true;
+
+			try {
+				await this.$nextTick();
+				const qrCode = this.$refs.qrCode;
+				if (!qrCode) {
+					throw new Error('无法获取二维码组件实例');
 				}
-				
-				// 使用 u-qrcode 组件生成二维码
-				try {
-					// 设置二维码参数
-					this.qrCodeValue = text;
-					this.qrCodeSize = Math.max(width, height);
-					this.qrCodeShow = true;
-					
-					// 等待DOM更新
-					this.$nextTick(() => {
-						// 获取二维码组件实例并导出图片
-						if (this.$refs.qrCode) {
-							// 延迟一点时间确保二维码渲染完成
-							setTimeout(() => {
-								// 调用 u-qrcode 的 toTempFilePath 方法导出图片
-								this.$refs.qrCode.toTempFilePath({
-									success: (res) => {
-										// 缓存二维码图片路径
-										this.qrCodeMap.set(qrCodeKey, res.tempFilePath);
-										this.qrCodeShow = false;
-										resolve(res.tempFilePath);
-									},
-									fail: (err) => {
-										console.error('二维码生成失败:', err);
-										this.qrCodeShow = false;
-									}
-								});
-							}, 300);
-						} else {
-							// 如果没有 u-qrcode 组件，返回占位符
-							this.qrCodeShow = false;
-						}
-					});
-				} catch (error) {
-					console.error('生成二维码出错:', error);
-					this.qrCodeShow = false;
+				if (typeof qrCode.refreshCanvas === 'function') {
+					await qrCode.refreshCanvas();
 				}
-			});
+				const generatedPath = await qrCode._makeCode();
+				let tempFilePath = typeof generatedPath === 'string' ? generatedPath : '';
+				if (!tempFilePath) {
+					const res = await qrCode.toTempFilePath();
+					tempFilePath = res && (res.tempFilePath || res.apFilePath);
+				}
+				if (!tempFilePath) {
+					throw new Error('二维码组件未返回图片路径');
+				}
+				this.qrCodeMap.set(qrCodeKey, tempFilePath);
+				return tempFilePath;
+			} catch (error) {
+				throw new Error(`二维码生成失败: ${error && error.message ? error.message : error}`);
+			} finally {
+				this.qrCodeShow = false;
+			}
 		},
 		
 		/**
@@ -467,14 +490,32 @@ export default {
 		 */
 		convertRpxToPx(rpxValue) {
 			if (typeof rpxValue === 'number') return rpxValue;
-			
+
 			// 使用rpx2px方法
 			if (typeof rpxValue === 'string' && rpxValue.endsWith('rpx')) {
 				const value = parseFloat(rpxValue);
-				return rpx2px(value);
+				return value * this.getRpxRatio();
 			}
-			
+
 			return parseFloat(rpxValue) || 0;
+		},
+
+		/**
+		 * 获取 rpx -> px 的统一换算比例
+		 * @description uni.upx2px 对每个值单独判断设备宽度：当 windowWidth 超过
+		 *   rpxCalcMaxDeviceWidth(默认960)时，只有恰好等于 750 的值使用真实设备宽度，
+		 *   其余值回退到 rpxCalcBaseDeviceWidth(默认375)。海报需要所有尺寸共用同一
+		 *   比例，逐值换算会让宽高用上不同基准而破坏宽高比：鸿蒙 windowWidth 上报为
+		 *   物理像素1084，750rpx算得1084、1114rpx算得557，海报因此变成横向。
+		 *   这里只取一次比例，且刻意用非 750 的值探测，避开上面的特例分支，
+		 *   使超宽设备统一走 baseWidth，避免画布被放大到数十MB。
+		 * @returns {Number} 每 1rpx 对应的 px 值
+		 * @author jry ijry@qq.com
+		 */
+		getRpxRatio() {
+			const PROBE = 1000; // 不能用 750，750 是 upx2px 的特例值
+			const ratio = rpx2px(PROBE) / PROBE;
+			return ratio > 0 ? ratio : 1;
 		},
 		
 		/**
@@ -608,6 +649,31 @@ export default {
 		overflow: hidden;
 	}
 	
+	/* #ifdef APP-NVUE */
+	&__renderer {
+		position: fixed;
+		top: -1px;
+		left: -1px;
+		width: 1px;
+		height: 1px;
+		overflow: hidden;
+		z-index: -1;
+		opacity: 0.01;
+		pointer-events: none;
+	}
+	/* #endif */
+
+	/* #ifndef APP-NVUE */
+	&__renderer {
+		position: fixed;
+		top: -10000px;
+		left: -10000px;
+		width: 1px;
+		height: 1px;
+		overflow: hidden;
+		z-index: -1;
+	}
+
 	&__hidden-canvas {
 		position: fixed;
 		top: -10000px;
@@ -625,5 +691,6 @@ export default {
 			display: none;
 		}
 	}
+	/* #endif */
 }
 </style>

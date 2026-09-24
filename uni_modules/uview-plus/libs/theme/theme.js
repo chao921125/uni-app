@@ -1,6 +1,7 @@
 import config from '../config/config.js'
 import color from '../config/color.js'
 import index from '../function/index.js'
+import { trySetTabBarStyle } from './runtime.js'
 
 const DEFAULT_LIGHT_THEME_COLORS = Object.freeze({
     primary: '#3c9cff',
@@ -72,7 +73,9 @@ const DEFAULT_THEME_EXTRA_VARS = Object.freeze({
         '--up-skeleton-shimmer-color': '#e6e6e6',
         '--up-swipe-action-button-bg-color': '#c7c6cd',
         '--up-index-list-indicator-bg-color': '#c9c9c9',
-        '--up-calendar-month-mark-color': 'rgba(231, 232, 234, 0.83)'
+        '--up-calendar-month-mark-color': 'rgba(231, 232, 234, 0.83)',
+        '--up-navbar-glass-bg-color': 'rgba(255, 255, 255, 0.82)',
+        '--up-navbar-glass-blur': '20px'
     }),
     dark: Object.freeze({
         '--up-table2-header-bg-color': '#2a2d33',
@@ -83,7 +86,9 @@ const DEFAULT_THEME_EXTRA_VARS = Object.freeze({
         '--up-skeleton-shimmer-color': 'rgba(255, 255, 255, 0.12)',
         '--up-swipe-action-button-bg-color': '#4b5563',
         '--up-index-list-indicator-bg-color': '#4b5563',
-        '--up-calendar-month-mark-color': 'rgba(255, 255, 255, 0.04)'
+        '--up-calendar-month-mark-color': 'rgba(255, 255, 255, 0.04)',
+        '--up-navbar-glass-bg-color': 'rgba(28, 28, 30, 0.82)',
+        '--up-navbar-glass-blur': '20px'
     })
 })
 
@@ -512,11 +517,6 @@ function syncThemeToH5(mode) {
     // #ifdef H5
     if (typeof document !== 'undefined' && document.documentElement) {
         document.documentElement.setAttribute('data-up-theme', mode)
-        const bg = color.bgColor || (mode === 'dark' ? '#1f1f1f' : '#f3f4f6')
-        document.documentElement.style.backgroundColor = bg
-        if (document.body) document.body.style.backgroundColor = bg
-        const appRoot = document.getElementById('app')
-        if (appRoot) appRoot.style.backgroundColor = bg
     }
     // #endif
 }
@@ -544,6 +544,7 @@ function trySetNavigationBarColor(options) {
 
 function applyNativeThemeUI(mode, themeColors, themeVars = {}) {
     if (typeof uni === 'undefined') return
+    if (config.nativeThemeSync !== true) return
     const isDark = normalizeThemeMode(mode) === 'dark'
     const pageBg = themeColors?.bgColor || (isDark ? '#1f1f1f' : '#f3f4f6')
     const navBg = themeVars?.['--up-navbar-bg-color']
@@ -566,14 +567,12 @@ function applyNativeThemeUI(mode, themeColors, themeVars = {}) {
             backgroundColorBottom: pageBg
         })
     }
-    if (typeof uni.setTabBarStyle === 'function') {
-        uni.setTabBarStyle({
-            color: isDark ? '#8e8e93' : '#909399',
-            selectedColor: isDark ? '#f2f2f7' : '#303133',
-            backgroundColor: isDark ? '#111111' : '#ffffff',
-            borderStyle: isDark ? 'white' : 'black'
-        })
-    }
+    trySetTabBarStyle({
+        color: isDark ? '#8e8e93' : '#909399',
+        selectedColor: isDark ? '#f2f2f7' : '#303133',
+        backgroundColor: isDark ? '#111111' : '#ffffff',
+        borderStyle: isDark ? 'white' : 'black'
+    })
 }
 
 function applyTheme(mode = 'light') {

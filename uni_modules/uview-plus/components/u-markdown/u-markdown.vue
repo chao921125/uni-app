@@ -1,14 +1,28 @@
 <template>
   <view class="up-markdown" :class="theme">
-    <up-parse :content="parsedContent" :previewImg="previewImg"></up-parse>
+    <up-parse
+      :content="parsedContent"
+      :previewImg="previewImg"
+      :copyLink="copyLink"
+      :domain="domain"
+      @load="emitLoad"
+      @ready="emitReady"
+      @imgtap="emitImgtap"
+      @linktap="emitLinktap"
+      @play="emitPlay"
+      @error="emitError"
+    ></up-parse>
   </view>
 </template>
 
 <script>
-import { marked } from './marked.esm.js';
+import { marked } from './marked.esm.mjs';
 
 export default {
   name: 'up-markdown',
+  // #ifdef VUE3
+  emits: ['load', 'ready', 'imgtap', 'linktap', 'play', 'error'],
+  // #endif
   props: {
     // markdown内容
     content: {
@@ -19,6 +33,16 @@ export default {
     previewImg: {
       type: Boolean,
       default: true
+    },
+    // 是否允许外部链接被点击时自动打开
+    copyLink: {
+      type: [Boolean, String],
+      default: true
+    },
+    // 主域名，用于 up-parse 处理相对链接
+    domain: {
+      type: String,
+      default: ''
     },
     // 是否显示代码块行号
     showLineNumber: {
@@ -93,6 +117,24 @@ export default {
     applyTheme(html) {
       // 可以根据theme属性添加不同的样式类
       return html;
+    },
+    emitLoad(event) {
+      this.$emit('load', event)
+    },
+    emitReady(event) {
+      this.$emit('ready', event)
+    },
+    emitImgtap(event) {
+      this.$emit('imgtap', event)
+    },
+    emitLinktap(event) {
+      this.$emit('linktap', event)
+    },
+    emitPlay(event) {
+      this.$emit('play', event)
+    },
+    emitError(event) {
+      this.$emit('error', event)
     }
   }
 };

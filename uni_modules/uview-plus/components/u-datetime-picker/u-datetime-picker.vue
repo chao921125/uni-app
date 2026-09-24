@@ -33,6 +33,7 @@
 			:maskClass="maskClass"
 			:maskStyle="resolvedMaskStyle"
             @close="close"
+            @closed="$emit('closed')"
             @cancel="cancel"
             @confirm="confirm"
             @change="change"
@@ -62,8 +63,7 @@
 	import { mpMixin } from '../../libs/mixin/mpMixin';
 	import { mixin } from '../../libs/mixin/mixin';
 	import dayjs from './dayjs.esm.min.js';
-	import { range, error, padZero } from '../../libs/function/index';
-	import test from '../../libs/function/test';
+	import { range, error, padZero, timeFormat } from '../../libs/function/index';
 	/**
 	 * DatetimePicker 时间日期选择器
 	 * @description 此选择器用于时间日期
@@ -71,14 +71,18 @@
 	 * @property {Boolean}			show				用于控制选择器的弹出与收起 ( 默认 false )
 	 * @property {Boolean}			showToolbar			是否显示顶部的操作栏  ( 默认 true )
 	 * @property {String | Number}	modelValue		    绑定值
+	 * @property {Boolean}			hasInput			是否自带input输入框  ( 默认 false )
+	 * @property {String}			format				hasInput模式下输入框的日期显示格式，同时支持 yyyy-mm-dd(uview-plus timeFormat 写法) 与 YYYY-MM-DD(dayjs 写法)
 	 * @property {String}			title				顶部标题
-	 * @property {String}			mode				展示格式 mode=date为日期选择，mode=time为时间选择，mode=year-month为年月选择，mode=datetime为日期时间选择  ( 默认 ‘datetime )
+	 * @property {String}			mode				展示格式 mode=date为日期选择，mode=time为时间选择，mode=year-month为年月选择，mode=datetime为日期时间选择，mode=datehour为日期小时选择，mode=timesecond为时分秒选择，mode=datetimesecond为日期时分秒选择  ( 默认 ‘datetime )
 	 * @property {Number}			maxDate				可选的最大时间  默认值为后10年
 	 * @property {Number}			minDate				可选的最小时间  默认值为前10年
-	 * @property {Number}			minHour				可选的最小小时，仅mode=time有效   ( 默认 0 )
-	 * @property {Number}			maxHour				可选的最大小时，仅mode=time有效	  ( 默认 23 )
-	 * @property {Number}			minMinute			可选的最小分钟，仅mode=time有效	  ( 默认 0 )
-	 * @property {Number}			maxMinute			可选的最大分钟，仅mode=time有效   ( 默认 59 )
+	 * @property {Number}			minHour				可选的最小小时，仅mode=time/timesecond有效   ( 默认 0 )
+	 * @property {Number}			maxHour				可选的最大小时，仅mode=time/timesecond有效	  ( 默认 23 )
+	 * @property {Number}			minMinute			可选的最小分钟，仅mode=time/timesecond有效	  ( 默认 0 )
+	 * @property {Number}			maxMinute			可选的最大分钟，仅mode=time/timesecond有效   ( 默认 59 )
+	 * @property {Number}			minSecond			可选的最小秒，仅mode=timesecond有效   ( 默认 0 )
+	 * @property {Number}			maxSecond			可选的最大秒，仅mode=timesecond有效   ( 默认 59 )
 	 * @property {Function}			filter				选项过滤函数
 	 * @property {Function}			formatter			选项格式化函数
 	 * @property {Boolean}			loading				是否显示加载中状态   ( 默认 false )
@@ -91,6 +95,7 @@
 	 * @property {Boolean}			closeOnClickOverlay	是否允许点击遮罩关闭选择器  ( 默认 false )
 	 * @property {Array}			defaultIndex		各列的默认索引
 	 * @event {Function} close 关闭选择器时触发
+	 * @event {Function} closed 选择器已关闭（离场动画结束、弹窗真正消失后）触发
 	 * @event {Function} confirm 点击确定按钮，返回当前选择的值
 	 * @event {Function} change 当选择值变化时触发
 	 * @event {Function} cancel 点击取消按钮
@@ -106,7 +111,10 @@
                 showByClickInput: false, // 是否在hasInput模式下显示日期选择弹唱
 				columns: [],
 				innerDefaultIndex: [],
-				innerFormatter: (type, value) => value
+				innerFormatter: (type, value) => value,
+				// 记录最近一次通过change上抛给外部的值，用于去重，
+				// 避免边界(min/max)变化导致程序化重建列时再次触发change
+				lastEmitValue: null
 			}
 		},
 		watch: {
@@ -122,6 +130,8 @@
 					this.innerValue = this.correctValue(this.value)
 					// #endif
 					this.updateColumnValue(this.innerValue)
+					// 打开时以外部值为基准，重置去重基准
+					this.lastEmitValue = this.innerValue
 				}
 			},
 			// #ifdef VUE3
@@ -136,14 +146,20 @@
 				// this.getInputValue(newValue)
 			},
 			// #endif
-			propsChange() {
+			// mode变化会改变已选值的语义(时间串<->时间戳)，需要完整重新初始化
+			mode() {
 				this.init()
+			},
+			propsChange() {
+				// 边界(min/max、filter)变化时，保留当前已选值，仅重新校正并重建各列，
+				// 不回退到外部 modelValue，避免未确认前丢失用户已滚动的值
+				this.reInitColumns()
 			}
 		},
 		computed: {
-			// 如果以下这些变量发生了变化，意味着需要重新初始化各列的值
+			// 如果以下这些变量发生了变化，意味着需要重新计算各列范围，但应保留当前已选值
 			propsChange() {
-				return [this.mode, this.maxDate, this.minDate, this.minHour, this.maxHour, this.minMinute, this.maxMinute, this.filter, this.modelValue]
+				return [this.maxDate, this.minDate, this.minHour, this.maxHour, this.minMinute, this.maxMinute, this.minSecond, this.maxSecond, this.filter]
 			},
 			resolvedMaskStyle() {
 				if (this.upHasProp('maskStyle')) {
@@ -169,9 +185,16 @@
 		},
 		mounted() {
 			this.init()
+			// pageInline模式下picker-view常驻显示，在原生端(Android/HarmonyOS)需要
+			// 等待原生picker-view组件完成初始化后再重新设置选中值，否则滚动位置可能不生效
+			if (this.pageInline) {
+				setTimeout(() => {
+					this.updateIndexs(this.innerValue)
+				}, 200)
+			}
 		},
 		// #ifdef VUE3
-		emits: ['close', 'cancel', 'confirm', 'change', 'update:modelValue'],
+		emits: ['close', 'closed', 'cancel', 'confirm', 'change', 'update:modelValue'],
 		// #endif
 		methods: {
 			toInt(value, fallback = 0) {
@@ -188,16 +211,26 @@
 				const value = column[index]
 				return value == null ? fallback : value
 			},
+			// format 有两种写法：uview-plus 自身 timeFormat($u.timeFormat) 的规则(yyyy-mm-dd hh:MM:ss，
+			// 小写 y 表示年、MM 表示分钟)，以及 dayjs 的规则(YYYY-MM-DD HH:mm:ss)。
+			// dayjs 没有小写 y 的 token，以此区分两者：否则按库里通用写法传 'yyyy-mm-dd'，
+			// dayjs 只认得其中的 mm(分钟)与 dd(星期)，会得到 'yyyy-00-Th' 这种结果(issue #537)
+			formatByPattern(value, pattern) {
+				if (/y/.test(pattern)) {
+					return timeFormat(value, pattern)
+				}
+				return dayjs(value).format(pattern)
+			},
 			getInputValue(newValue) {
 				if (newValue == '' || !newValue || newValue == undefined) {
 					this.inputValue = ''
 					return
 				}
-				if (this.mode == 'time') {
+				if (this.mode === 'time' || this.mode === 'timesecond') {
 					this.inputValue = newValue
 				} else {
 					if (this.format) {
-						this.inputValue = dayjs(newValue).format(this.format)
+						this.inputValue = this.formatByPattern(newValue, this.format)
 					} else {
 						let format = ''
 						switch (this.mode) {
@@ -213,8 +246,14 @@
 							case 'datetime':
 								format = 'YYYY-MM-DD HH:mm'
 								break;
+							case 'datetimesecond':
+								format = 'YYYY-MM-DD HH:mm:ss'
+								break;
 							case 'time':
 								format = 'HH:mm'
+								break;
+							case 'timesecond':
+								format = 'HH:mm:ss'
 								break;
 							default:
 								break;
@@ -234,6 +273,38 @@
 
 				// 初始化hasInput展示
 				this.getInputValue(this.innerValue)
+				// 以外部值为基准，重置去重基准
+				this.lastEmitValue = this.innerValue
+			},
+			// 边界(minMinute等)变化时调用：以当前已选值(innerValue)为基准，
+			// 按新的边界重新校正并重建各列，而不是回退到外部modelValue。
+			// 这样在未点击确认前也不会丢失/重置用户已经滚动选择的值。
+			reInitColumns() {
+				let base = this.innerValue
+				if (base === undefined || base === null || base === '') {
+					// #ifdef VUE3
+					base = this.modelValue
+					// #endif
+					// #ifdef VUE2
+					base = this.value
+					// #endif
+				}
+				// correctValue会把小于新minMinute(或大于maxMinute)的值夹取到合法范围内，
+				// 例如原选中15:30、minMinute变为51时会被夹取为15:51
+				const corrected = this.correctValue(base)
+				const changed = corrected !== this.innerValue
+				this.innerValue = corrected
+				this.updateColumnValue(corrected)
+				this.getInputValue(corrected)
+				// 仅当已选值确实因边界收紧而被夹取变化时，才补发一次change通知外部；
+				// 值未变化则不上抛，避免边界变化引起的重复change
+				if (changed && this.lastEmitValue !== corrected) {
+					this.lastEmitValue = corrected
+					this.$emit('change', {
+						value: corrected,
+						mode: this.mode
+					})
+				}
 			},
 			// 在微信小程序中，不支持将函数当做props参数，故只能通过ref形式调用
 			setFormatter(e) {
@@ -241,6 +312,9 @@
 			},
 			// 关闭选择器
 			close() {
+				if (this.hasInput) {
+					this.showByClickInput = false
+				}
 				if (this.closeOnClickOverlay) {
 					if (this.hasInput) {
 						this.showByClickInput = false
@@ -299,15 +373,21 @@
 				const { indexs, values } = e
 				const safeValues = Array.isArray(values) ? values : []
 				let selectValue = ''
-				if(this.mode === 'time') {
+				if (this.mode === 'time' || this.mode === 'timesecond') {
 					// 根据value各列索引，从各列数组中，取出当前时间的选中值
 					const hourText = this.safeColumnValue(safeValues, 0, indexs[0], padZero(this.minHour))
 					const minuteText = this.safeColumnValue(safeValues, 1, indexs[1], padZero(this.minMinute))
 					let hour = this.toInt(this.intercept(hourText), this.minHour)
 					let minute = this.toInt(this.intercept(minuteText), this.minMinute)
+					let second = this.minSecond
 					hour = range(this.minHour, this.maxHour, hour)
 					minute = range(this.minMinute, this.maxMinute, minute)
 					selectValue = `${padZero(hour)}:${padZero(minute)}`
+					if (this.mode === 'timesecond') {
+						const secondText = this.safeColumnValue(safeValues, 2, indexs[2], padZero(this.minSecond))
+						second = range(this.minSecond, this.maxSecond, this.toInt(this.intercept(secondText), this.minSecond))
+						selectValue = `${selectValue}:${padZero(second)}`
+					}
 				} else {
 					const validCurrent = dayjs(this.innerValue).isValid() ? dayjs(this.innerValue) : dayjs(this.minDate)
 					const currentYear = validCurrent.year()
@@ -315,13 +395,14 @@
 					const currentDate = validCurrent.date()
 					const currentHour = validCurrent.hour()
 					const currentMinute = validCurrent.minute()
+					const currentSecond = validCurrent.second()
 
 					const yearText = this.safeColumnValue(safeValues, 0, indexs[0], `${currentYear}`)
 					const monthText = this.safeColumnValue(safeValues, 1, indexs[1], padZero(currentMonth))
 					// 将选择的值转为数值，比如'03'转为数值的3，'2019'转为数值的2019
 					let year = this.toInt(this.intercept(yearText, 'year'), currentYear)
 					let month = this.toInt(this.intercept(monthText), currentMonth)
-					let hour = 0, minute = 0
+					let hour = 0, minute = 0, second = 0
 					month = range(1, 12, month)
 					// 此月份的最大天数
 					const maxDate = dayjs(`${year}-${month}`).daysInMonth()
@@ -333,22 +414,34 @@
 					}
 					// 不允许超过maxDate值
 					date = range(1, maxDate, date)
-					if (this.mode === 'datetime') {
+					if (this.mode === 'datehour' || this.mode === 'datetime' || this.mode === 'datetimesecond') {
 						const hourText = this.safeColumnValue(safeValues, 3, indexs[3], padZero(currentHour))
-						const minuteText = this.safeColumnValue(safeValues, 4, indexs[4], padZero(currentMinute))
 					    hour = range(0, 23, this.toInt(this.intercept(hourText), currentHour))
+					}
+					if (this.mode === 'datetime' || this.mode === 'datetimesecond') {
+						const minuteText = this.safeColumnValue(safeValues, 4, indexs[4], padZero(currentMinute))
 					    minute = range(0, 59, this.toInt(this.intercept(minuteText), currentMinute))
 					}
+					if (this.mode === 'datetimesecond') {
+						const secondText = this.safeColumnValue(safeValues, 5, indexs[5], padZero(currentSecond))
+					    second = range(0, 59, this.toInt(this.intercept(secondText), currentSecond))
+					}
 					// 转为时间模式
-					selectValue = Number(new Date(year, month - 1, date, hour, minute))
+					selectValue = Number(new Date(year, month - 1, date, hour, minute, second))
 					if (!Number.isFinite(selectValue)) {
 						selectValue = this.correctValue(this.innerValue)
 					}
 				}
 				// 取出准确的合法值，防止超越边界的情况
 				selectValue = this.correctValue(selectValue)
+				// 边界变化会程序化重建各列并回填索引，picker-view在部分原生端会再次派发change，
+				// 若此时算出的值与上一次已上抛的值一致，说明并非用户真实操作，直接忽略，避免重复触发change
+				if (selectValue === this.lastEmitValue && selectValue === this.innerValue) {
+					return
+				}
 				this.innerValue = selectValue
 				this.updateColumnValue(selectValue)
+				this.lastEmitValue = selectValue
 				// 发出change时间，value为当前选中的时间戳
 				this.$emit('change', {
 					value: selectValue,
@@ -364,33 +457,44 @@
 				this.innerValue = value
 				this.updateColumns()
 				// 延迟执行,等待u-picker组件列数据更新完后再设置选中值索引
-				setTimeout(() => {
-				this.updateIndexs(value)
-				}, 0);
+				// pageInline模式下picker-view常驻显示，需额外等待原生组件滚动到位
+				this.$nextTick(() => {
+					setTimeout(() => {
+						this.updateIndexs(value)
+					}, this.pageInline ? 100 : 0)
+				})
 			},
 			// 更新索引
 			updateIndexs(value) {
 				let values = []
 				const formatter = this.formatter || this.innerFormatter
-				if (this.mode === 'time') {
+				if (this.mode === 'time' || this.mode === 'timesecond') {
 					// 将time模式的时间用:分隔成数组
 				    const timeArr = value.split(':')
 					// 使用formatter格式化方法进行管道处理
 				    values = [formatter('hour', timeArr[0]), formatter('minute', timeArr[1])]
+					if (this.mode === 'timesecond') {
+						values.push(formatter('second', timeArr[2]))
+					}
 				} else {
-				    const date = new Date(value)
 				    values = [
 				        formatter('year', `${dayjs(value).year()}`),
 						// 月份补0
 				        formatter('month', padZero(dayjs(value).month() + 1))
 				    ]
-				    if (this.mode === 'date') {
+				    if (this.mode === 'date' || this.mode === 'datehour' || this.mode === 'datetime' || this.mode === 'datetimesecond') {
 						// date模式，需要添加天列
 				        values.push(formatter('day', padZero(dayjs(value).date())))
 				    }
-				    if (this.mode === 'datetime') {
+				    if (this.mode === 'datehour' || this.mode === 'datetime' || this.mode === 'datetimesecond') {
+				        values.push(formatter('hour', padZero(dayjs(value).hour())))
+				    }
+				    if (this.mode === 'datetime' || this.mode === 'datetimesecond') {
 						// 数组的push方法，可以写入多个参数
-				        values.push(formatter('day', padZero(dayjs(value).date())), formatter('hour', padZero(dayjs(value).hour())), formatter('minute', padZero(dayjs(value).minute())))
+				        values.push(formatter('minute', padZero(dayjs(value).minute())))
+				    }
+				    if (this.mode === 'datetimesecond') {
+				        values.push(formatter('second', padZero(dayjs(value).second())))
 				    }
 				}
 
@@ -436,25 +540,62 @@
 			generateArray(start, end) {
 				return Array.from(new Array(end + 1).keys()).slice(start)
 			},
+			// 把绑定值统一解析成毫秒时间戳，识别不出日期时返回null
+			// 支持毫秒时间戳(number或纯数字字符串)，以及'2024-10-24'、'2024/10/24 15:08:09'这类
+			// 文档里写明支持的String绑定值
+			parseDateValue(value) {
+				if (value === '' || value === null || value === undefined) {
+					return null
+				}
+				if (typeof value === 'number') {
+					return Number.isFinite(value) ? value : null
+				}
+				const text = String(value).trim()
+				if (!text) {
+					return null
+				}
+				// 纯数字按时间戳处理，避免dayjs把'1729699200000'当成日期字符串去解析
+				if (/^-?\d+$/.test(text)) {
+					const timestamp = Number(text)
+					return Number.isFinite(timestamp) ? timestamp : null
+				}
+				const parsed = dayjs(text)
+				return parsed.isValid() ? parsed.valueOf() : null
+			},
 			// 得出合法的时间
 			correctValue(value) {
-				const isDateMode = this.mode !== 'time'
-				// if (isDateMode && !test.date(value)) {
-				if (isDateMode && !dayjs.unix(value).isValid()) {
-					// 如果是日期类型，但是又没有设置合法的当前时间的话，使用最小时间为当前时间
-					value = this.minDate
-				} else if (!isDateMode && !value) {
+				const isDateMode = !['time', 'timesecond'].includes(this.mode)
+				if (isDateMode) {
+					// 日期类型统一解析成毫秒时间戳，没有设置合法的当前时间时才使用最小时间。
+					// 这里不能用dayjs.unix(value).isValid()判断：dayjs.unix只接受秒级数字，
+					// 日期字符串乘1000后是NaN，'2024-10-24'这类合法值会被判为非法并被替换成
+					// minDate(默认当前年份-10)，选择器于是停在十年前(issue #537)
+					const timestamp = this.parseDateValue(value)
+					value = timestamp === null ? this.minDate : timestamp
+				} else if (!value) {
 					// 如果是时间类型，而又没有默认值的话，就用最小时间
-					value = `${padZero(this.minHour)}:${padZero(this.minMinute)}`
+					value = this.mode === 'timesecond'
+						? `${padZero(this.minHour)}:${padZero(this.minMinute)}:${padZero(this.minSecond)}`
+						: `${padZero(this.minHour)}:${padZero(this.minMinute)}`
 				}
 				// 时间类型
 				if (!isDateMode) {
 					if (String(value).indexOf(':') === -1) return error('时间错误，请传递如12:24的格式')
-					let [hour, minute] = value.split(':')
+					const timeArr = String(value).split(':')
+					let hour = timeArr[0]
+					let minute = timeArr[1]
+					let second = timeArr[2]
 					// 对时间补零，同时控制在最小值和最大值之间
-					hour = padZero(range(this.minHour, this.maxHour, Number(hour)))
-					minute = padZero(range(this.minMinute, this.maxMinute, Number(minute)))
-					return `${ hour }:${ minute }`
+					const hourNum = Number(hour)
+					const minuteNum = Number(minute)
+					hour = padZero(range(this.minHour, this.maxHour, Number.isNaN(hourNum) ? this.minHour : hourNum))
+					minute = padZero(range(this.minMinute, this.maxMinute, Number.isNaN(minuteNum) ? this.minMinute : minuteNum))
+					if (this.mode === 'timesecond') {
+						const secondNum = Number(second)
+						second = padZero(range(this.minSecond, this.maxSecond, Number.isNaN(secondNum) ? this.minSecond : secondNum))
+						return `${hour}:${minute}:${second}`
+					}
+					return `${hour}:${minute}`
 				} else {
 					// 如果是日期格式，控制在最小日期和最大日期之间
 					value = dayjs(value).isBefore(dayjs(this.minDate)) ? this.minDate : value
@@ -464,20 +605,27 @@
 			},
 			// 获取每列的最大和最小值
 			getRanges() {
-			    if (this.mode === 'time') {
-			        return [
-			            {
-			                type: 'hour',
-			                range: [this.minHour, this.maxHour],
-			            },
-			            {
-			                type: 'minute',
-			                range: [this.minMinute, this.maxMinute],
-			            },
-			        ];
+			    if (this.mode === 'time' || this.mode === 'timesecond') {
+					const timeColumns = [
+						{
+							type: 'hour',
+							range: [this.minHour, this.maxHour],
+						},
+						{
+							type: 'minute',
+							range: [this.minMinute, this.maxMinute],
+						}
+					]
+					if (this.mode === 'timesecond') {
+						timeColumns.push({
+							type: 'second',
+							range: [this.minSecond, this.maxSecond],
+						})
+					}
+			        return timeColumns
 			    }
-			    const { maxYear, maxDate, maxMonth, maxHour, maxMinute, } = this.getBoundary('max', this.innerValue);
-			    const { minYear, minDate, minMonth, minHour, minMinute, } = this.getBoundary('min', this.innerValue);
+			    const { maxYear, maxDate, maxMonth, maxHour, maxMinute, maxSecond } = this.getBoundary('max', this.innerValue);
+			    const { minYear, minDate, minMonth, minHour, minMinute, minSecond } = this.getBoundary('min', this.innerValue);
 			    const result = [
 			        {
 			            type: 'year',
@@ -499,6 +647,10 @@
 			            type: 'minute',
 			            range: [minMinute, maxMinute],
 			        },
+			        {
+			            type: 'second',
+			            range: [minSecond, maxSecond],
+			        },
 			    ];
 				// 兜底：防止边界计算异常导致日列出现空范围（快速滚动场景）
 				if (result[2] && result[2].type === 'day') {
@@ -510,9 +662,13 @@
 					}
 				}
 			    if (this.mode === 'date')
-			        result.splice(3, 2);
+			        result.splice(3, 3);
+			    if (this.mode === 'datehour')
+			        result.splice(4, 2);
+			    if (this.mode === 'datetime')
+			        result.splice(5, 1);
 			    if (this.mode === 'year-month')
-			        result.splice(2, 3);
+			        result.splice(2, 4);
 			    return result;
 			},
 			// 根据minDate、maxDate、minHour、maxHour等边界值，判断各列的开始和结束边界值
@@ -527,12 +683,14 @@
 			    let date = 1
 			    let hour = 0
 			    let minute = 0
+			    let second = 0
 			    if (type === 'max') {
 			        month = 12
 					// 月份的天数
 			        date = dayjs(value).daysInMonth()
 			        hour = 23
 			        minute = 59
+			        second = 59
 			    }
 				// 获取边界值，逻辑是：当年达到了边界值(最大或最小年)，就检查月允许的最大和最小值，以此类推
 			    if (dayjs(value).year() === year) {
@@ -543,6 +701,9 @@
 			                hour = dayjs(boundary).hour()
 			                if (dayjs(value).hour() === hour) {
 			                    minute = dayjs(boundary).minute()
+			                    if (dayjs(value).minute() === minute) {
+			                        second = dayjs(boundary).second()
+			                    }
 			                }
 			            }
 			        }
@@ -552,7 +713,8 @@
 			        [`${type}Month`]: month,
 			        [`${type}Date`]: date,
 			        [`${type}Hour`]: hour,
-			        [`${type}Minute`]: minute
+			        [`${type}Minute`]: minute,
+			        [`${type}Second`]: second
 			    }
 			},
 			onShowByClickInput(){

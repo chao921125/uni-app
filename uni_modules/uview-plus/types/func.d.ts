@@ -1,3 +1,5 @@
+import type { ComponentInternalInstance, ComponentPublicInstance } from "vue";
+
 export interface RouteParam {
   type: "navigateTo" | "redirect" | "switchTab" | "reLaunch" | "navigateBack";
   /** 路由地址 */
@@ -100,6 +102,38 @@ export interface Func {
    * @param value rpx 值
    */
   rpx2px(value: number): number;
+
+  /** 查询当前组件作用域内的单个节点信息 */
+  upGetRect(
+    selector: string,
+    all?: false,
+    comp?: ComponentPublicInstance | ComponentInternalInstance | null
+  ): Promise<UniNamespace.NodeInfo>;
+
+  /** 查询当前组件作用域内的全部匹配节点信息 */
+  upGetRect(
+    selector: string,
+    all: true,
+    comp?: ComponentPublicInstance | ComponentInternalInstance | null
+  ): Promise<UniNamespace.NodeInfo[]>;
+
+  /** 使用动态布尔值查询节点信息 */
+  upGetRect(
+    selector: string,
+    all?: boolean,
+    comp?: ComponentPublicInstance | ComponentInternalInstance | null
+  ): Promise<UniNamespace.NodeInfo | UniNamespace.NodeInfo[]>;
+
+  /**
+   * 创建交叉观察器，优先使用组件实例上的同名方法，
+   * 避免小程序端因枚举 Vue 实例代理的键而产生告警
+   * @param comp 组件实例
+   * @param options 交叉观察器配置
+   */
+  upCreateIntersectionObserver(
+    comp?: ComponentPublicInstance | ComponentInternalInstance | null,
+    options?: UniNamespace.CreateIntersectionObserverOptions
+  ): UniNamespace.IntersectionObserver;
 
   /**
    * 进行延时，以达到可以简写代码的目的 比如: await uni.$u.sleep(20)将会阻塞20ms

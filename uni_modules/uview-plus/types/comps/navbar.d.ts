@@ -43,12 +43,12 @@ declare interface NavbarProps {
    */
   title?: string
   /**
-   * 导航栏背景设置
-   * @default"#fff
+   * 导航栏背景设置，支持颜色、渐变或背景图
+   * @default "#fff"
    */
   bgColor?: string
   /**
-   * 状态栏背景颜色 不写同导航栏背景设置
+   * 状态栏背景颜色，保留兼容；导航栏内部统一使用 bgColor 作为整体背景
    * @default bgColor
    */
   statusBarBgColor?: string
@@ -81,6 +81,19 @@ declare interface NavbarProps {
    * 标题的样式
    */
   titleStyle?: unknown
+  /**
+   * 导航栏模式。ios 模式下初始背景透明、标题左对齐大字号显示，
+   * 下滑压缩后过渡为居中标题并呈现磨砂背景。
+   * ios 模式下 fixed 与 placeholder 被忽略。nvue 端降级为 default。
+   * @default "default"
+   */
+  mode?: 'default' | 'ios'
+  /**
+   * 页面滚动距离，仅 ios 模式使用，需由页面 onPageScroll 传入。
+   * 不传时导航栏停留在大标题展开态。
+   * @default 0
+   */
+  scrollTop?: string | number
   /**
    * 点击左侧区域
    */

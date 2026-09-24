@@ -95,7 +95,13 @@
                 // 用于标记是否已经初始化
                 initialized: false,
                 windowWidth: 375,
-                windowHeight: 0
+                windowHeight: 0,
+                distributionQueue: [],
+                distributionRunning: false,
+                distributionPromise: null,
+                distributionGeneration: 0,
+                // 每个分配循环持有独立令牌：锁被强制重置后新循环接管，旧循环恢复时只能安静退出
+                distributionRunToken: 0
             }
         },
         watch: {
@@ -107,9 +113,13 @@
                         if (this.columnList.length == 1) {
                             this.initColumnList()
                         }
+                        if (!this.isPureAppend(nVal, oVal)) {
+                            this.redistributeData(nVal);
+                            return;
+                        }
                         // 取差值，即这一次数组变化新增的部分
-                        let startIndex = Array.isArray(oVal) && oVal.length > 0 ? oVal.length : 0;
-                        // 直接处理数据，不再使用tempList和splitData
+                        const startIndex = Array.isArray(oVal) && oVal.length > 0 ? oVal.length : 0;
+                        // 纯追加时只将新增数据加入共享分配队列
                         this.handleData(nVal.slice(startIndex));
                     }
                 },
@@ -117,10 +127,11 @@
             },
             columns: {
                 handler() {
-                    this.initColumnList();
                     // 重新分配数据
                     if (this.copyFlowList.length > 0) {
-                        this.redistributeData();
+                        this.redistributeData(this.copyFlowList);
+                    } else {
+                        this.clear(false);
                     }
                 },
                 immediate: false
@@ -212,89 +223,144 @@
                     
                     // 只有列数发生变化时才重新分配数据
                     if (newColumnsCount !== oldColumnsCount) {
-                        this.redistributeData();
+                        this.redistributeData(this.copyFlowList);
                     }
                 }, 300);
             },
-            
+
             // 重新分配所有数据
-            async redistributeData() {
-                // 清空所有列
-                this.initColumnList();
+            redistributeData(data = this.copyFlowList) {
+                // 强制重置锁状态，确保能重新开始分配
+                this.distributionRunning = false;
+                this.distributionPromise = null;
+                this.clear(false);
                 // 保存所有数据
-                const allData = this.cloneData(this.copyFlowList);
+                const allData = this.cloneData(data || []);
                 // 重新分配数据
-                this.handleData(allData);
+                return this.handleData(allData);
             },
-            
-            // 处理新增数据
-            async handleData(newData) {
-                if (!newData || newData.length === 0) return;
-                
-                // 初始化列高度数组
+
+            // 判断新数据是否只在原数组末尾追加
+            isPureAppend(newData, oldData) {
+                if (!Array.isArray(oldData) || oldData.length === 0) return true;
+                if (!Array.isArray(newData) || newData.length < oldData.length) return false;
+                return oldData.every((item, index) => {
+                    return JSON.stringify(item) === JSON.stringify(newData[index]);
+                });
+            },
+
+            // 将新增数据加入共享队列，确保只有一个分配循环运行
+            handleData(newData) {
+                if (!newData || newData.length === 0) {
+                    return this.distributionPromise || Promise.resolve();
+                }
+                this.distributionQueue.push({
+                    generation: this.distributionGeneration,
+                    data: this.cloneData(newData)
+                });
+                if (!this.distributionRunning) {
+                    this.distributionPromise = this.runDistributionQueue();
+                }
+                return this.distributionPromise;
+            },
+
+            // 串行消费所有待分配数据
+            async runDistributionQueue() {
+                if (this.distributionRunning) return;
+                this.distributionRunning = true;
+                const runToken = ++this.distributionRunToken;
+                try {
+                    while (this.distributionQueue.length > 0) {
+                        if (runToken !== this.distributionRunToken) return;
+                        const task = this.distributionQueue.shift();
+                        if (task.generation !== this.distributionGeneration) continue;
+                        await this.distributeData(task.data, task.generation, runToken);
+                    }
+                } finally {
+                    // 仅当自己仍是当前循环时才释放锁，否则会清掉接管者的运行状态
+                    if (runToken === this.distributionRunToken) {
+                        this.distributionRunning = false;
+                        this.distributionPromise = null;
+                        if (this.distributionQueue.length > 0) {
+                            this.distributionPromise = this.runDistributionQueue();
+                        }
+                    }
+                }
+            },
+
+            // 数据被重置或分配循环被接管时，当前循环应立即停止写入
+            isStaleDistribution(generation, runToken) {
+                return generation !== this.distributionGeneration
+                    || runToken !== this.distributionRunToken;
+            },
+
+            // 逐项测量并分配数据，代数或令牌变化时立即退出
+            async distributeData(newData, generation, runToken) {
+                let columnHeights = new Array(this.columnList.length).fill(0);
+                for (const item of newData) {
+                    if (this.isStaleDistribution(generation, runToken)) return;
+                    columnHeights = await this.getColumnHeights();
+                    if (this.isStaleDistribution(generation, runToken)) return;
+
+                    const minHeightIndex = this.getMinHeightColumnIndex(columnHeights);
+                    this.columnList[minHeightIndex].push(item);
+
+                    await sleep(this.addTime);
+                    if (this.isStaleDistribution(generation, runToken)) return;
+                    await this.$nextTick();
+                    if (this.isStaleDistribution(generation, runToken)) return;
+                    try {
+                        const rect = await this.$uGetRect(`#u-column-${minHeightIndex}`);
+                        if (this.isStaleDistribution(generation, runToken)) return;
+                        if (rect.height) {
+                            columnHeights[minHeightIndex] = rect.height;
+                            this.$emit('after-add-one', {
+                                ...item,
+                                height: rect.height
+                            });
+                        }
+                    } catch (e) {
+                        // 获取不到列高时，下一个元素会重新测量所有列
+                    }
+                }
+                if (this.isStaleDistribution(generation, runToken)) return;
+                this.$emit('after-add-all', {
+                    columnHeights: columnHeights,
+                    newData: newData
+                });
+            },
+
+            // 获取当前所有列的真实高度
+            async getColumnHeights() {
                 const columnHeights = new Array(this.columnList.length).fill(0);
-                
-                // 获取各列当前高度
                 for (let i = 0; i < this.columnList.length; i++) {
                     try {
                         const rect = await this.$uGetRect(`#u-column-${i}`);
-                        // console.log(`#u-column-${i}`, rect.height)
                         columnHeights[i] = rect.height || 0;
                     } catch (e) {
                         columnHeights[i] = 0;
                     }
                 }
-                
-                // 分配新数据到最短的列
-                for (let item of newData) {
-                    const minHeightIndex = columnHeights.indexOf(Math.min(...columnHeights));
-                    // console.log('this.columnList', this.columnList)
-                    this.columnList[minHeightIndex].push(item);
-                    
-                    // 获取实际渲染后的元素高度而不是估算
-                    await sleep(this.addTime)
-                    await this.$nextTick(async () => {
-                        try {
-                            const rect = await this.$uGetRect(`#u-column-${minHeightIndex}`);
-                            // console.log(`#u-column-${minHeightIndex}`, rect.height)
-                            if (rect.height) {
-                                columnHeights[minHeightIndex] = rect.height;
-                                // 加载一个后置事件
-                                this.$emit('after-add-one', {
-                                    ...item,
-                                    height: rect.height
-                                });
-                            }
-                        } catch (e) {
-                            // console.log(e)
-                            // columnHeights[i] = 0;
+                return columnHeights;
+            },
+
+            // 获取最短列；高度相同或暂不可测时按列数据量打散，避免全部落到第一列
+            getMinHeightColumnIndex(columnHeights) {
+                let minIndex = 0;
+                for (let i = 1; i < columnHeights.length; i++) {
+                    const currentHeight = Number(columnHeights[i]) || 0;
+                    const minHeight = Number(columnHeights[minIndex]) || 0;
+                    if (currentHeight < minHeight) {
+                        minIndex = i;
+                    } else if (currentHeight === minHeight) {
+                        const currentLength = this.columnList[i] ? this.columnList[i].length : 0;
+                        const minLength = this.columnList[minIndex] ? this.columnList[minIndex].length : 0;
+                        if (currentLength < minLength) {
+                            minIndex = i;
                         }
-                    });
-                    // this.$nextTick(async () => {
-                    //     try {
-                    //         // 等待DOM更新后获取实际高度
-                    //         const lastIndex = this.columnList[minHeightIndex].length - 1;
-                    //         const el = this.$refs[`u-column-${minHeightIndex}`][0].children[lastIndex];
-                    //         if (el) {
-                    //             const rect = await this.$uGetRect(el);
-                    //             const actualHeight = rect.height || 100;
-                    //             columnHeights[minHeightIndex] += actualHeight;
-                    //         } else {
-                    //             // 备用方案：如果无法获取实际高度，则使用默认值
-                    //             columnHeights[minHeightIndex] += 100;
-                    //         }
-                    //     } catch (e) {
-                    //         // 出错时使用默认高度
-                    //         console.log(e)
-                    //         columnHeights[minHeightIndex] += 100;
-                    //     }
-                    // });
+                    }
                 }
-                // 加载所有后置事件
-                this.$emit('after-add-all', {
-                    columnHeights: columnHeights,
-                    newData: newData
-                });
+                return minIndex;
             },
 
             // 复制而不是引用对象和数组
@@ -304,6 +370,11 @@
             
             // 清空数据列表
             clear(bak = true) {
+                this.distributionGeneration += 1;
+                this.distributionQueue.splice(0);
+                // 强制重置分配锁状态，避免页面隐藏导致的永久锁死
+                this.distributionRunning = false;
+                this.distributionPromise = null;
                 this.initColumnList();
                 // 同时清除父组件列表中的数据
                 if (bak) {

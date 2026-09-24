@@ -1,3 +1,7 @@
+// 补齐部分平台缺失的 uni API（如支付宝小程序的 onWindowResize）
+import { applyUniApiShims } from './libs/function/uni-api-shims.js'
+applyUniApiShims()
+
 // 看到此报错，是因为没有配置vite.config.js的【transpileDependencies】
 // const pleaseSetTranspileDependencies = {}, babelTest = pleaseSetTranspileDependencies?.test
 
@@ -27,7 +31,7 @@ import index, { rpx2px } from './libs/function/index.js'
 // 配置信息
 import config from './libs/config/config.js'
 // props配置信息
-import props from './libs/config/props.js'
+import props, { setPropsConfig } from './libs/config/props.js'
 // 各个需要fixed的地方的z-index配置文件
 import zIndex from './libs/config/zIndex.js'
 // 关于颜色的配置，特殊场景使用
@@ -42,7 +46,26 @@ import http from './libs/function/http.js'
 import fontUtil from './components/u-icon/util.js';
 
 // i18n
-import i18n, { t } from './libs/i18n/index.js'
+import i18n, {
+    t,
+    registerLocale,
+    hasLocale,
+    getLocale,
+    setLocale
+} from './libs/i18n/index.js'
+import {
+    en,
+    es,
+    fr,
+    de,
+    ko,
+    ja,
+    ru,
+    th,
+    zhHans,
+    zhHant,
+    all as allLocales
+} from './libs/i18n/locale-packs.js'
 import {
     themeState,
     setTheme,
@@ -135,7 +158,41 @@ function rootNotify(options = {}) {
 
 // 导出
 let themeType = ['primary', 'success', 'error', 'warning', 'info'];
-export { route, http, debounce, throttle, calc, digit, platform, themeType, mixin, mpMixin, props, color, test, zIndex, fontUtil, i18n , rpx2px, t}
+export {
+    route,
+    http,
+    debounce,
+    throttle,
+    calc,
+    digit,
+    platform,
+    themeType,
+    mixin,
+    mpMixin,
+    props,
+    color,
+    test,
+    zIndex,
+    fontUtil,
+    i18n,
+    rpx2px,
+    t,
+    registerLocale,
+    hasLocale,
+    getLocale,
+    setLocale,
+    en,
+    es,
+    fr,
+    de,
+    ko,
+    ja,
+    ru,
+    th,
+    zhHans,
+    zhHant,
+    allLocales
+}
 export * from './libs/function/index.js'
 export * from './libs/function/colorGradient.js'
 
@@ -149,7 +206,7 @@ export * from './libs/function/colorGradient.js'
 export function setConfig(configs) {
     const settings = configs || {}
 	index.shallowMerge(config, settings.config || {})
-	index.shallowMerge(props, settings.props || {})
+	setPropsConfig(settings.props || {})
 	index.shallowMerge(color, settings.color || {})
 	index.shallowMerge(zIndex, settings.zIndex || {})
     syncThemeColorOverrideState({
@@ -182,7 +239,7 @@ const $u = {
 	calc,
     mixin,
     mpMixin,
-    // props,
+    props,
     ...index,
     color,
     platform,
@@ -253,8 +310,8 @@ let components = []
 function resolveComponents() {
     if (components.length) return components
     // #ifdef H5
-    const canUseGlob = typeof import.meta !== 'undefined' && typeof import.meta.glob === 'function'
-    if (!canUseGlob) return components
+    // import.meta.glob is a Vite compile-time macro; the runtime guard would
+    // always fail in the browser and block component registration.
     const importFn = import.meta.glob('./components/u-*/u-*.vue', { eager: true })
     for (const key in importFn) {
         const component = importFn[key]?.default

@@ -1,5 +1,8 @@
 import { defineMixin } from '../../libs/vue'
-import defProps from '../../libs/config/props.js'
+import SwiperDefaultProps from './swiper'
+import { registerComponentProps } from '../../libs/config/props.js'
+
+const defProps = registerComponentProps(SwiperDefaultProps)
 export const props = defineMixin({
     props: {
         // 列表数组，元素可为字符串，如为对象可通过keyName指定目标属性名
@@ -61,6 +64,11 @@ export const props = defineMixin({
         circular: {
             type: Boolean,
             default: () => defProps.swiper.circular
+        },
+        // 滑动方向是否为纵向
+        vertical: {
+            type: Boolean,
+            default: () => defProps.swiper.vertical
         },
         // 前边距，可用于露出前一项的一小部分，nvue和支付宝不支持
         previousMargin: {

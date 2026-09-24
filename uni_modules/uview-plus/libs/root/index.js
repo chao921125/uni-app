@@ -1,4 +1,5 @@
 import { dirname, relative, resolve } from 'node:path'
+import { fileURLToPath } from 'node:url'
 import process from 'node:process'
 import { existsSync, mkdirSync, statSync, writeFileSync } from 'node:fs'
 
@@ -7,6 +8,10 @@ import { createFilter, normalizePath } from 'vite'
 import { transformNvuePage, transformPage } from './page.js'
 import { rebuildUpApp, registerUpApp } from './root.js'
 import { loadPagesJson, normalizePlatformPath, toArray } from './utils.js'
+import { createAppIconFontFeature } from '../vite/app-icon-font.js'
+import { detectProjectRoot } from '../vite/utils.js'
+
+const rootLibPath = normalizePath(dirname(fileURLToPath(import.meta.url)))
 
 export default function UniUpRoot(options = {}) {
   const rootOptions = {
@@ -14,50 +19,19 @@ export default function UniUpRoot(options = {}) {
     enabledGlobalRef: false,
     rootFileName: 'App.up',
     autoCreateRootFile: true,
-    autoCreateViteConfig: true,
     excludePages: [],
     ...options,
   }
   const rootFileName = String(rootOptions.rootFileName || 'App.up').replace(/\.vue$/i, '')
 
-  const detectProjectRoot = () => {
-    const cwd = normalizePath(process.env.INIT_CWD || process.cwd())
-    const envInputDir = process.env.UNI_INPUT_DIR ? normalizePath(process.env.UNI_INPUT_DIR) : ''
-    const cliRootPath = normalizePath(resolve(cwd, 'src'))
-    const hbuilderRootPath = cwd
-
-    const isPageRoot = (path) => existsSync(resolve(path, 'pages.json'))
-
-    if (envInputDir && isPageRoot(envInputDir)) {
-      const projectType = envInputDir.endsWith('/src') ? 'cli' : 'hbuilder'
-      return { rootPath: envInputDir, projectType }
-    }
-
-    if (isPageRoot(cliRootPath)) {
-      return { rootPath: cliRootPath, projectType: 'cli' }
-    }
-
-    if (isPageRoot(hbuilderRootPath)) {
-      return { rootPath: hbuilderRootPath, projectType: 'hbuilder' }
-    }
-
-    return {
-      rootPath: envInputDir || cliRootPath,
-      projectType: envInputDir && !envInputDir.endsWith('/src') ? 'hbuilder' : 'cli',
-    }
-  }
-
   const projectInfo = detectProjectRoot()
   const rootPath = normalizePath(projectInfo.rootPath)
+  // App 本地图标字体与 Root 组件无关，这里复用 UniUp 的同一个 feature，保持老项目行为不变
+  const appIconFont = createAppIconFontFeature({ enabled: rootOptions.appStaticIconFont !== false })
   const appUpPath = normalizePath(resolve(rootPath, `${rootFileName}.vue`))
-  const nvueRootPath = normalizePath(resolve(rootPath, 'uni_modules/uview-plus/libs/root/nvue-root.vue'))
+  const rootToastHostPath = normalizePath(resolve(rootLibPath, 'root-toast-host.vue'))
   const themeRuntimePath = normalizePath(resolve(rootPath, 'uni_modules/uview-plus/libs/theme/runtime.js'))
   const pagesPath = normalizePath(resolve(rootPath, 'pages.json'))
-  const projectBasePath = normalizePath(
-    projectInfo.projectType === 'cli' ? resolve(rootPath, '..') : rootPath
-  )
-  const viteConfigTsPath = normalizePath(resolve(projectBasePath, 'vite.config.ts'))
-  const viteConfigJsPath = normalizePath(resolve(projectBasePath, 'vite.config.js'))
   const excludedPaths = toArray(rootOptions.excludePages)
     .filter(Boolean)
     .map(path => normalizePath(resolve(rootPath, path)))
@@ -92,27 +66,6 @@ export default function UniUpRoot(options = {}) {
     writeFileSync(appUpPath, defaultRootSfc, 'utf-8')
   }
 
-  const ensureViteConfigFile = () => {
-    if (!rootOptions.autoCreateViteConfig) return
-    if (existsSync(viteConfigTsPath) || existsSync(viteConfigJsPath)) return
-
-    const template = `import { defineConfig } from "vite";
-import uni from "@dcloudio/vite-plugin-uni";
-import UniUpRoot from "./src/uni_modules/uview-plus/libs/root/index.js";
-
-export default defineConfig({
-  plugins: [
-    UniUpRoot({
-      rootFileName: "${rootFileName}",
-    }),
-    uni(),
-  ],
-});
-`
-
-    writeFileSync(viteConfigTsPath, template, 'utf-8')
-  }
-
   const refreshPagesJson = () => {
     if (!existsSync(pagesPath)) return
     const mtimeMs = statSync(pagesPath).mtimeMs
@@ -124,11 +77,16 @@ export default defineConfig({
   return {
     name: 'vite-plugin-uni-up-root',
     enforce: 'pre',
-    configResolved({ plugins }) {
+    configResolved(config) {
+      const { plugins } = config
       hasPlatformPlugin = plugins.some(v => v.name === 'vite-plugin-uni-platform')
+      if (plugins.some(v => v.name === 'uni:app-nvue')) {
+        config.build.rollupOptions = config.build.rollupOptions || {}
+        config.build.rollupOptions.treeshake = false
+      }
     },
     buildStart() {
-      ensureViteConfigFile()
+      appIconFont.ensure()
       ensureRootFile()
       refreshPagesJson()
     },
@@ -137,14 +95,24 @@ export default defineConfig({
       const isSfcBlock = id.includes('?')
       const cleanId = normalizePath(id.split('?')[0])
 
+      const iconFontCode = appIconFont.transform(code, cleanId)
+      if (iconFontCode) {
+        return {
+          code: iconFontCode,
+          map: null,
+        }
+      }
+
       const filterMain = createFilter(mainFiles)
       if (filterMain(cleanId)) {
-        ms = await registerUpApp(code, rootFileName)
+        ms = await registerUpApp(code, rootFileName, getRelativeImportPath(cleanId, rootToastHostPath))
       }
 
       const filterUpRoot = createFilter(appUpPath)
       if (filterUpRoot(cleanId)) {
-        ms = await rebuildUpApp(code, rootOptions.enabledVirtualHost)
+        ms = await rebuildUpApp(code, rootOptions.enabledVirtualHost, {
+          rootToastHostImportPath: getRelativeImportPath(cleanId, rootToastHostPath)
+        })
       }
 
       refreshPagesJson()
@@ -154,7 +122,7 @@ export default defineConfig({
         if (cleanId.endsWith('.nvue')) {
           ms = await transformNvuePage(
             code,
-            getRelativeImportPath(cleanId, nvueRootPath),
+            getRelativeImportPath(cleanId, appUpPath),
             getRelativeImportPath(cleanId, themeRuntimePath),
             rootOptions.enabledGlobalRef
           )
@@ -170,6 +138,9 @@ export default defineConfig({
         }
       }
       return null
+    },
+    generateBundle(_, bundle) {
+      appIconFont.generateBundle(bundle)
     },
   }
 }

@@ -1,5 +1,8 @@
 import { defineMixin } from '../../libs/vue'
-import defProps from '../../libs/config/props.js'
+import TabsDefaultProps from './tabs'
+import { registerComponentProps } from '../../libs/config/props.js'
+
+const defProps = registerComponentProps(TabsDefaultProps)
 export const props = defineMixin({
     props: {
         // 滑块的移动过渡时间，单位ms
@@ -66,6 +69,11 @@ export const props = defineMixin({
         iconStyle: {
             type: [String, Object],
             default: () => defProps.tabs.iconStyle
+        },
+        // 形态模式，可选：capsule/card/pill-arrow/tag
+        shapeMode: {
+            type: String,
+            default: () => defProps.tabs.shapeMode
         }
     }
 })

@@ -3,6 +3,7 @@
 	    :show="show"
 	    mode="bottom"
 	    @close="closeHandler"
+	    @closed="$emit('closed')"
 	    :safeAreaInsetBottom="safeAreaInsetBottom"
 	    :round="round"
 	>
@@ -36,7 +37,14 @@
 				}, descriptionDynamicStyle]"
 			    v-if="description"
 			>{{description}}</text>
-			<slot>
+			<view
+				class="u-action-sheet__slot"
+				v-if="$slots.default"
+				@tap="slotClickHandler"
+			>
+				<slot></slot>
+			</view>
+			<template v-else>
 				<!-- 分割线 -->
 				<u-line v-if="description" :color="dividerColor"></u-line>
 				<!-- 操作项列表 -->
@@ -96,7 +104,7 @@
 						<u-line v-if="index !== actions.length - 1" :color="dividerColor"></u-line>
 					</view>
 				</scroll-view>
-			</slot>
+			</template>
 			<!-- 取消按钮前的分割区域 -->
 			<u-gap
 			    :bgColor="cancelGapColor"
@@ -149,6 +157,7 @@
 	 * 
 	 * @event {Function} select			点击ActionSheet列表项时触发 
 	 * @event {Function} close			点击取消按钮时触发
+	 * @event {Function} closed			弹窗已关闭（离场动画结束、弹窗真正消失后）触发
 	 * @event {Function} getuserinfo	用户点击该按钮时，会返回获取到的用户信息，回调的 detail 数据与 wx.getUserInfo 返回的一致，openType="getUserInfo"时有效
 	 * @event {Function} contact		客服消息回调，openType="contact"时有效
 	 * @event {Function} getphonenumber	获取用户手机号回调，openType="getPhoneNumber"时有效
@@ -161,6 +170,11 @@
 		name: "u-action-sheet",
 		// 一些props参数和methods方法，通过mixin混入，因为其他文件也会用到
 		mixins: [openType, buttonMixin, mixin, props],
+		provide() {
+			return {
+				uActionSheet: this,
+			}
+		},
 		data() {
 			return {
 
@@ -212,7 +226,7 @@
 				})
 			}
 		},
-		emits: ["close", "select", "update:show"],
+		emits: ["close", "closed", "select", "update:show"],
 		methods: {
 			// 关闭操作菜单事件处理
 			closeHandler() {
@@ -226,6 +240,13 @@
 			cancel() {
 				this.$emit('update:show', false)
 				this.$emit('close')
+			},
+			// 点击自定义内容时，按菜单项点击配置关闭弹窗
+			slotClickHandler() {
+				if (this.closeOnClickAction) {
+					this.$emit('update:show', false)
+					this.$emit('close')
+				}
 			},
 			// 选择操作项处理
 			selectHandler(index) {
@@ -296,6 +317,7 @@
 		}
 
 		&__description {
+			display: block;
 			font-size: $u-action-sheet-description-font-size;
 			color: $u-action-sheet-description-color;
 			margin: $u-action-sheet-description-margin;

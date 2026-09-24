@@ -5,6 +5,121 @@ import {
 } from './test.js'
 import { round } from './digit.js'
 import config from '../config/config.js'
+
+function emptyNodeInfo() {
+	return {
+		width: 0,
+		height: 0,
+		left: 0,
+		right: 0,
+		top: 0,
+		bottom: 0
+	}
+}
+
+// 组件卸载后仍把它交给原生查询，APP 端会拿已失效的 nodeId 去查视图层映射表，
+// 读到 undefined 再取 .$ 就抛 Cannot read properties of undefined (reading '$')
+function isCompUnmounted(comp) {
+	if (!comp) {
+		return false
+	}
+	// 公共 mixin 的 beforeUnmount 里同步置位
+	if (comp.__upUnmounted) {
+		return true
+	}
+	// 未应用公共 mixin 时退回 Vue 自身标记：公开实例挂在 $ 上，内部实例直接持有
+	return !!(comp.$ ? comp.$.isUnmounted : comp.isUnmounted)
+}
+
+// #ifdef APP-NVUE
+const dom = (typeof uni !== 'undefined' && uni && typeof uni.requireNativePlugin === 'function')
+	? uni.requireNativePlugin('dom')
+	: null
+
+function getNvueRect(ref) {
+	return new Promise((resolve) => {
+		if (!dom || !ref) {
+			resolve(emptyNodeInfo())
+			return
+		}
+		dom.getComponentRect(ref, (res) => {
+			resolve(res && res.size ? res.size : emptyNodeInfo())
+		})
+	})
+}
+// #endif
+
+// 查询节点信息
+export function upGetRect(selector, all = false, comp = null) {
+	// 判定必须放在条件编译之外，否则 app-harmony 上整段会被裁掉
+	if (isCompUnmounted(comp)) {
+		return Promise.resolve(all ? [] : emptyNodeInfo())
+	}
+	return new Promise((resolve) => {
+		// #ifndef APP-NVUE
+		const query = uni.createSelectorQuery()
+		const scopedQuery = comp ? query.in(comp) : query
+		scopedQuery[all ? 'selectAll' : 'select'](selector)
+			.boundingClientRect((rect) => {
+				if (all) {
+					resolve(Array.isArray(rect) ? rect : [])
+					return
+				}
+				resolve(rect || emptyNodeInfo())
+			})
+			.exec()
+		// #endif
+
+		// #ifdef APP-NVUE
+		sleep(30).then(async () => {
+			const refs = comp?.$refs || comp?.proxy?.$refs || comp?.refs || {}
+			const selectorRef = refs[selector.substring(1)]
+			if (all) {
+				const selectorRefs = Array.isArray(selectorRef)
+					? selectorRef
+					: selectorRef ? [selectorRef] : []
+				resolve(await Promise.all(selectorRefs.map(ref => getNvueRect(ref))))
+				return
+			}
+			const ref = Array.isArray(selectorRef) ? selectorRef[0] : selectorRef
+			resolve(await getNvueRect(ref))
+		})
+		// #endif
+	})
+}
+
+// 卸载后替代真实观察器，保持链式调用不报错
+function noopIntersectionObserver() {
+	const observer = {
+		relativeTo: () => observer,
+		relativeToViewport: () => observer,
+		observe: () => {},
+		disconnect: () => {}
+	}
+	return observer
+}
+
+// 创建交叉观察器
+// 小程序端 uni.createIntersectionObserver(vm) 会把 Vue 实例代理直接透传给原生 API，
+// 原生内部的 Object.keys(vm) 会触发告警：
+// Avoid app logic that relies on enumerating keys on a component instance
+// （uni-app 只给 createSelectorQuery 做了 $scope 解包，没给 createIntersectionObserver 做）
+// 组件实例上的同名方法内部使用 $scope（原生组件实例），不会把代理外泄，因此优先使用
+export function upCreateIntersectionObserver(comp, options) {
+	// 和 upGetRect 同理：APP 端 addIntersectionObserver 也走 window.__$__(id).$ 查表
+	if (isCompUnmounted(comp)) {
+		return noopIntersectionObserver()
+	}
+	// 各家小程序与 H5 都在组件实例上暴露了该方法，内部已完成实例解包
+	if (comp && typeof comp.createIntersectionObserver === 'function') {
+		return options ? comp.createIntersectionObserver(options) : comp.createIntersectionObserver()
+	}
+	// APP 端未在实例上暴露该方法，退回全局 API，其内部会自行解析实例，本身不产生告警
+	// 注意：不能传 comp.$scope，APP 端页面的 $scope 仅为 { $getAppWebview }，
+	// 会被全局 API 误判成 options 参数从而丢失真实配置
+	return options ? uni.createIntersectionObserver(comp, options) : uni.createIntersectionObserver(comp)
+}
+
 /**
  * @description 如果value小于min，取min；如果value大于max，取max
  * @param {number} min 
@@ -841,6 +956,8 @@ function hslToHex(h, s, l) {
 }
 
 export default {
+	upGetRect,
+	upCreateIntersectionObserver,
 	range,
 	getPx,
 	sleep,

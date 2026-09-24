@@ -1,3 +1,4 @@
+// AI生成
 import Constants from "@/common/utils/constants.js";
 import UM from "@/common/plugins/uni-methods.js";
 // 文档参考：https://uniapp.dcloud.net.cn/api/request/request.html
@@ -154,14 +155,4 @@ export default {
 			});
 		});
 	},
-	httpJsonp: function (url, callback, callbackname) {
-		// #ifdef H5
-		window[callbackname] = callback;
-		let httpScript = document.createElement("script");
-		httpScript.src = url;
-		httpScript.type = "text/javascript";
-		document.head.appendChild(httpScript);
-		document.head.removeChild(httpScript);
-		// #endif
-	},
-};
+	};

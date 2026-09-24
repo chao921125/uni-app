@@ -15,7 +15,7 @@
                     <!-- 将slot与默认内容用if/else分开主要是因为微信小程序不支持slot嵌套传递，这样才能解决collapse组件的slot不失效问题，label暂时未用到。 -->
 					<slot name="title" v-if="$slots.title || !title">
 					</slot>
-                    <text v-else class="u-cell__title-text" :style="[titleTextStyle, cellTitleDynamicStyle]"
+                    <text v-else class="u-cell__title-text" :style="[cellTitleDynamicStyle, titleTextStyle]"
                         :class="[required && 'u-cell--required', disabled && 'u-cell--disabled', size === 'large' && 'u-cell__title-text--large']">{{ title }}</text>
 					<slot name="label">
 						<text class="u-cell__label" v-if="label"
@@ -90,6 +90,11 @@
 			}
 		},
 		mixins: [mpMixin, mixin, props],
+		inject: {
+			uActionSheet: {
+				default: null
+			}
+		},
 		computed: {
 			titleTextStyle() {
 				return addStyle(this.titleStyle)
@@ -123,6 +128,9 @@
 				this.$emit('click', {
 					name: this.name
 				})
+				if (this.stop && typeof this.uActionSheet?.slotClickHandler === 'function') {
+					this.uActionSheet.slotClickHandler()
+				}
 				// 如果配置了url(此props参数通过mixin引入)参数，跳转页面
 				this.openPage()
 				// 是否阻止事件传播

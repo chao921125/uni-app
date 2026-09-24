@@ -23,6 +23,8 @@ export default {
         showToast: true,
         popupBgColor: '',
         triggerMode: 'longpress',
-        forcePosition: {}
+        forcePosition: {},
+        show: false,
+        singleton: false
     }
 }

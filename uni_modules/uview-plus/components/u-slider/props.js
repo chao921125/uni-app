@@ -1,6 +1,8 @@
 import { defineMixin } from '../../libs/vue'
-import defProps from '../../libs/config/props.js'
+import SliderDefaultProps from './slider'
+import { registerComponentProps } from '../../libs/config/props.js'
 
+const defProps = registerComponentProps(SliderDefaultProps)
 export const props = defineMixin({
     props: {
         // 最小可选值
@@ -40,7 +42,8 @@ export const props = defineMixin({
         // 双滑块时值
         rangeValue: {
             type: [Array],
-            default: [0, 0]
+            // 必须用工厂函数，否则所有实例共用同一个数组
+            default: () => [0, 0]
         },
         // 滑块右侧已选择部分的背景色
         activeColor: {

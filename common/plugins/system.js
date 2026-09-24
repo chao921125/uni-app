@@ -1,3 +1,4 @@
+// AI生成
 /**
  * UniApp 系统指标工具模块（全平台兼容版）
  * 修复：process is not defined 问题
@@ -13,9 +14,6 @@ let resizeListener = null;
  */
 function getPlatform() {
 	// 1. 优先使用 UniApp 条件编译（编译时替换，最安全）
-	// #ifdef H5
-	return "h5";
-	// #endif
 	// #ifdef MP-WEIXIN
 	return "mp-weixin";
 	// #endif
@@ -31,10 +29,6 @@ function getPlatform() {
 	// #ifdef MP-QQ
 	return "mp-qq";
 	// #endif
-	// #ifdef APP-PLUS
-	return "app-plus";
-	// #endif
-
 	// 2. 运行时降级方案（当条件编译未生效时）
 	if (typeof process !== "undefined" && process.env?.UNI_PLATFORM) {
 		return process.env.UNI_PLATFORM;

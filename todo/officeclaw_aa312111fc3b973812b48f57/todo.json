@@ -1,0 +1,80 @@
+
+[
+  {
+    "id": "investigate",
+    "content": "排查所有含 H5/App/快应用相关代码的文件",
+    "activeForm": "排查非小程序相关代码",
+    "description": "grep 搜索 #ifdef H5、#ifdef APP-PLUS、#ifdef H5-WEIXIN、app-plus、quickapp 等条件编译和配置，列出所有需修改的文件",
+    "status": "completed",
+    "depends_on": [],
+    "result_summary": null,
+    "meta_data": null,
+    "selected_model_id": null
+  },
+  {
+    "id": "delete-files",
+    "content": "删除仅用于 H5/App 的独立文件和目录",
+    "activeForm": "删除非小程序文件",
+    "description": "template.h5.html、index.html、hybrid/ 等纯 H5/App 文件",
+    "status": "completed",
+    "depends_on": [],
+    "result_summary": null,
+    "meta_data": null,
+    "selected_model_id": null
+  },
+  {
+    "id": "clean-manifest",
+    "content": "清理 manifest.json 非小程序配置",
+    "activeForm": "清理 manifest.json",
+    "description": "移除 app-plus、quickapp、h5 等非小程序平台配置段",
+    "status": "completed",
+    "depends_on": [],
+    "result_summary": null,
+    "meta_data": null,
+    "selected_model_id": null
+  },
+  {
+    "id": "clean-pages",
+    "content": "清理 pages.json 非小程序配置",
+    "activeForm": "清理 pages.json",
+    "description": "移除 globalStyle 中的 app-plus、h5、leftWindow/topWindow/rightWindow 等非小程序配置",
+    "status": "completed",
+    "depends_on": [],
+    "result_summary": null,
+    "meta_data": null,
+    "selected_model_id": null
+  },
+  {
+    "id": "clean-package",
+    "content": "清理 package.json 非小程序配置",
+    "activeForm": "清理 package.json",
+    "description": "移除 H5/App 平台声明和 uni-app scripts 中的 H5 条件",
+    "status": "completed",
+    "depends_on": [],
+    "result_summary": null,
+    "meta_data": null,
+    "selected_model_id": null
+  },
+  {
+    "id": "clean-source",
+    "content": "清理源码中的条件编译和平台特定代码",
+    "activeForm": "清理源码平台特定代码",
+    "description": "App.vue、common/plugins/*.js 中移除 H5/App 专属代码块，保留小程序代码",
+    "status": "completed",
+    "depends_on": [],
+    "result_summary": null,
+    "meta_data": null,
+    "selected_model_id": null
+  },
+  {
+    "id": "verify",
+    "content": "验证清理后项目结构完整性",
+    "activeForm": "验证项目结构",
+    "description": "检查无残留 H5/App 引用，确认小程序配置完整",
+    "status": "completed",
+    "depends_on": [],
+    "result_summary": null,
+    "meta_data": null,
+    "selected_model_id": null
+  }
+]

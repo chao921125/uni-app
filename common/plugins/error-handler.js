@@ -1,3 +1,4 @@
+// AI生成
 /**
  * UniApp 全局错误处理工具
  * 功能：捕获未处理的Promise错误、统一错误上报
@@ -8,8 +9,7 @@ export const errorHandler = {
 	 * 初始化全局错误处理
 	 */
 	init() {
-		// #ifndef H5
-		// 小程序和App环境
+		// 小程序环境
 		if (typeof Promise !== "undefined") {
 			const originalThen = Promise.prototype.then;
 			const originalCatch = Promise.prototype.catch;
@@ -40,20 +40,6 @@ export const errorHandler = {
 				});
 			};
 		}
-		// #endif
-
-		// #ifdef H5
-		// H5环境使用 window.onerror 和 unhandledrejection
-		window.addEventListener("unhandledrejection", (event) => {
-			errorHandler.log("Unhandled Rejection (H5)", event.reason);
-			// 阻止默认行为（控制台错误）
-			event.preventDefault();
-		});
-
-		window.addEventListener("error", (event) => {
-			errorHandler.log("Global Error (H5)", event.error || event.message);
-		});
-		// #endif
 
 		console.log("[ErrorHandler] Global error handler initialized");
 	},

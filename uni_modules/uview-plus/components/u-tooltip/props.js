@@ -1,5 +1,8 @@
 import { defineMixin } from '../../libs/vue'
-import defProps from '../../libs/config/props.js'
+import TooltipDefaultProps from './tooltip'
+import { registerComponentProps } from '../../libs/config/props.js'
+
+const defProps = registerComponentProps(TooltipDefaultProps)
 export const props = defineMixin({
     props: {
         // 需要显示的提示文字
@@ -71,6 +74,16 @@ export const props = defineMixin({
         forcePosition: {
             type: Object,
             default: () => defProps.tooltip.forcePosition
+        },
+        // 是否显示，triggerMode为manual时使用
+        show: {
+            type: Boolean,
+            default: () => defProps.tooltip.show
+        },
+        // 是否开启单例模式，开启该属性的tooltip同一页面同时只显示一个
+        singleton: {
+            type: Boolean,
+            default: () => defProps.tooltip.singleton
         }
     }
 })

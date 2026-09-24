@@ -1,5 +1,8 @@
 import { defineMixin } from '../../libs/vue'
-import defProps from '../../libs/config/props.js'
+import LineProgressDefaultProps from './lineProgress'
+import { registerComponentProps } from '../../libs/config/props.js'
+
+const defProps = registerComponentProps(LineProgressDefaultProps)
 export const props = defineMixin({
     props: {
         // 激活部分的颜色
@@ -9,12 +12,12 @@ export const props = defineMixin({
         },
         inactiveColor: {
             type: String,
-            default: () => defProps.lineProgress.color
+            default: () => defProps.lineProgress.inactiveColor
         },
         // 进度百分比，数值
         percentage: {
             type: [String, Number],
-            default: () => defProps.lineProgress.inactiveColor
+            default: () => defProps.lineProgress.percentage
         },
         // 是否在进度条内部显示百分比的值
         showText: {

@@ -19,6 +19,7 @@
 					:selectable="false"
 					:style="{
 						color: color,
+						fontSize: $u.addUnit(size),
 						backgroundColor: bgColor && showTooltip && tooltipTop !== -10000 ? bgColor : 'transparent'
 					}"
 				>{{ text }}</text>
@@ -107,6 +108,7 @@
 	// #ifdef APP-NVUE 
 	const dom = uni.requireNativePlugin('dom')
 	// #endif
+	let activeSingletonTooltip = null
 	/**
 	 * Tooltip 
 	 * @description 
@@ -122,9 +124,12 @@
 	 * @property {Boolean}			showCopy	 是否显示复制按钮（默认 true ）
 	 * @property {Array}			buttons		 扩展的按钮组
 	 * @property {Boolean}			overlay		 是否显示透明遮罩以防止触摸穿透（默认 true ）
+	 * @property {Boolean}			singleton	 是否开启单例模式，开启该属性的tooltip同一页面同时只显示一个（默认 false ）
 	 * @property {Object}			customStyle	 定义需要用到的外部样式
 	 * 
-	 * @event {Function} 
+	 * @event {Function}			open		 打开时触发
+	 * @event {Function}			close		 关闭时触发
+	 * @event {Function}			update:show 显示状态变化时触发
 	 * @example 
 	 */
 	export default {
@@ -163,6 +168,15 @@
 			async propsChange() {
 				await this.getElRect()
 				// this.getTooltipStyle();
+			},
+			show(val) {
+				if (this.triggerMode === 'manual') {
+					if (val) {
+						this.open()
+					} else {
+						this.close()
+					}
+				}
 			}
 		},
 		computed: {
@@ -230,7 +244,13 @@
 		mounted() {
 			this.init()
 		},
-		emits: ["click"],
+		beforeUnmount() {
+			this.clearActiveTooltip()
+		},
+		beforeDestroy() {
+			this.clearActiveTooltip()
+		},
+		emits: ["click", "open", "close", "update:show"],
 		methods: {
 			addStyle,
 			addUnit,
@@ -240,27 +260,52 @@
 			},
 			// 点击触发事件
 			async clickHander() {
-				// this.getTooltipStyle();
 				if (this.triggerMode == 'click') {
-					this.tooltipTop = 0
-					this.showTooltip = true
+					this.open()
 				}
 			},
 			// 长按触发事件
 			async longpressHandler() {
-				// this.getTooltipStyle();
 				if (this.triggerMode == 'longpress') {
-					this.tooltipTop = 0
-					this.showTooltip = true
+					this.open()
+				}
+			},
+			// 打开tooltip
+			open() {
+				if (this.singleton && activeSingletonTooltip && activeSingletonTooltip !== this) {
+					activeSingletonTooltip.close()
+				}
+				if (this.singleton) {
+					activeSingletonTooltip = this
+				}
+				if (this.showTooltip && this.tooltipTop === 0) return
+				this.tooltipTop = 0
+				this.showTooltip = true
+				this.$emit('update:show', true)
+				this.$emit('open')
+			},
+			// 关闭tooltip
+			close() {
+				if (activeSingletonTooltip === this) {
+					activeSingletonTooltip = null
+				}
+				if (!this.showTooltip) return
+				this.showTooltip = false
+				this.$emit('update:show', false)
+				this.$emit('close')
+			},
+			clearActiveTooltip() {
+				if (activeSingletonTooltip === this) {
+					activeSingletonTooltip = null
 				}
 			},
 			// 点击透明遮罩
 			overlayClickHandler() {
-				this.showTooltip = false
+				this.close()
 			},
 			// 点击弹出按钮
 			btnClickHandler(index) {
-				this.showTooltip = false
+				this.close()
 				// 如果需要展示复制按钮，此处index需要加1，因为复制按钮在第一个位置
 				this.$emit('click', this.showCopy ? index + 1 : index)
 			},
@@ -307,7 +352,7 @@
 			// 复制文本到粘贴板
 			setClipboardData() {
 				// 关闭组件
-				this.showTooltip = false
+				this.close()
 				this.$emit('click', 0)
 				uni.setClipboardData({
 					// 优先使用copyText字段，如果没有，则默认使用text字段当做复制的内容
@@ -317,9 +362,6 @@
 					},
 					fail: () => {
 						this.showToast && toast('复制失败')
-					},
-					complete: () => {
-						this.showTooltip = false
 					}
 				})
 			}

@@ -1,3 +1,4 @@
+// AI生成
 /**
  * UniApp UI交互模块封装
  * 功能：Toast/Modal/Loading/ActionSheet/Picker等UI组件
@@ -142,14 +143,7 @@ export const UI = {
 		} = options;
 
 		return new Promise((resolve) => {
-			// #ifdef H5
-			// H5端使用原生prompt
-			const result = window.prompt(`${title}\n${placeholder}`, defaultValue);
-			resolve(result);
-			// #endif
-
-			// #ifndef H5
-			// 小程序和App端使用自定义弹窗
+			// 小程序端使用自定义弹窗
 			uni.showModal?.({
 				title,
 				content: placeholder,
@@ -164,7 +158,6 @@ export const UI = {
 				},
 				fail: () => resolve(null),
 			});
-			// #endif
 		});
 	},
 

@@ -1,5 +1,8 @@
 import { defineMixin } from '../../libs/vue'
-import defProps from '../../libs/config/props.js'
+import SwipeActionItemDefaultProps from './swipeActionItem'
+import { registerComponentProps } from '../../libs/config/props.js'
+
+const defProps = registerComponentProps(SwipeActionItemDefaultProps)
 export const props = defineMixin({
     props: {
         // 控制打开或者关闭
@@ -25,6 +28,11 @@ export const props = defineMixin({
         autoClose: {
             type: Boolean,
             default: () => defProps.swipeActionItem.autoClose
+        },
+        // 是否正在横向滑动，用于外部通过v-model:scrolling暂停页面或容器滚动
+        scrolling: {
+            type: Boolean,
+            default: () => defProps.swipeActionItem.scrolling
         },
         // 滑动距离阈值，只有大于此值，才被认为是要打开菜单
         threshold: {

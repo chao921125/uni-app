@@ -60,7 +60,6 @@ export default {
 		});
 
 		// 全局未捕获的Promise错误处理
-		// #ifndef H5
 		if (typeof Promise !== "undefined") {
 			Promise.prototype.catch = (function (originalCatch) {
 				return function (onRejected) {
@@ -75,10 +74,8 @@ export default {
 				};
 			})(Promise.prototype.catch);
 		}
-		// #endif
 	},
 	onShow: function () {
-		// #ifndef H5 || APP-PLUS
 		if (uni.canIUse("getUpdateManager")) {
 			const updateManager = uni.getUpdateManager();
 
@@ -110,7 +107,6 @@ export default {
 				}
 			});
 		}
-		// #endif
 		console.log("App Show");
 	},
 	// 只能在App.vue里监听应用的生命周期
@@ -127,7 +123,12 @@ export default {
 	},
 	onUnhandledRejection: function (res) {
 		// res 包含 reason 和 promise 属性
-		console.error("[UnhandledRejection]", res?.reason || res);
+		const reason = res?.reason || res;
+		// uview-plus 主题模块在页面挂载时调用 setTabBarStyle，页面未就绪时会失败，属库内部时序问题且无害，忽略
+		if (reason?.errMsg && /setTabBarStyle:fail not TabBar page/.test(reason.errMsg)) {
+			return;
+		}
+		console.error("[UnhandledRejection]", reason);
 
 		// 开发环境显示详细错误
 		// #ifdef DEV

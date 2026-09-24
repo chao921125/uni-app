@@ -1,6 +1,8 @@
 import { defineMixin } from '../../libs/vue'
-import defProps from '../../libs/config/props.js'
+import CalendarDefaultProps from './calendar'
+import { registerComponentProps } from '../../libs/config/props.js'
 
+const defProps = registerComponentProps(CalendarDefaultProps)
 export const props = defineMixin({
     props: {
         // 日历顶部标题
@@ -98,6 +100,46 @@ export const props = defineMixin({
             type: Boolean,
             default: () => defProps.calendar.show
         },
+        // 是否显示遮罩
+        overlay: {
+            type: Boolean,
+            default: () => defProps.calendar.overlay
+        },
+        // 动画时长，单位ms
+        duration: {
+            type: [String, Number],
+            default: () => defProps.calendar.duration
+        },
+        // 自定义遮罩的样式
+        overlayStyle: {
+            type: [Object, String],
+            default: () => defProps.calendar.overlayStyle
+        },
+        // 遮罩的透明度，0-1之间
+        overlayOpacity: {
+            type: [Number, String],
+            default: () => defProps.calendar.overlayOpacity
+        },
+        // 层级
+        zIndex: {
+            type: [String, Number],
+            default: () => defProps.calendar.zIndex
+        },
+        // 是否为iPhoneX留出底部安全距离
+        safeAreaInsetBottom: {
+            type: Boolean,
+            default: () => defProps.calendar.safeAreaInsetBottom
+        },
+        // 是否留出顶部安全距离（状态栏高度）
+        safeAreaInsetTop: {
+            type: Boolean,
+            default: () => defProps.calendar.safeAreaInsetTop
+        },
+        // 弹窗背景色，设置为transparent可去除白色背景
+        bgColor: {
+            type: String,
+            default: () => defProps.calendar.bgColor
+        },
         // 是否允许点击遮罩关闭日历
         closeOnClickOverlay: {
             type: Boolean,
@@ -133,6 +175,26 @@ export const props = defineMixin({
             type: Boolean,
             default: () => defProps.calendar.allowSameDay
         },
+        // 区间模式下确认返回值格式，all-返回区间内所有日期，boundary-仅返回起止日期
+        rangeResultMode: {
+            type: String,
+            default: () => defProps.calendar.rangeResultMode
+        },
+        // 是否开启时分秒选择
+        enableTime: {
+            type: Boolean,
+            default: () => defProps.calendar.enableTime
+        },
+        // 时间精度：hour-仅时，minute-时分，second-时分秒
+        timePrecision: {
+            type: String,
+            default: () => defProps.calendar.timePrecision
+        },
+        // 默认时间，格式支持 HH / HH:mm / HH:mm:ss
+        defaultTime: {
+            type: String,
+            default: () => defProps.calendar.defaultTime
+        },
 		// 圆角值
 		round: {
 		    type: [Boolean, String, Number],
@@ -147,6 +209,16 @@ export const props = defineMixin({
 		monthSwitch: {
 			type: Boolean,
 			default: () => defProps.calendar.monthSwitch
+		},
+		// 是否显示今天按钮
+		showToday: {
+			type: Boolean,
+			default: () => defProps.calendar.showToday
+		},
+		// 今天日期的独立高亮颜色，默认跟随主题色
+		todayColor: {
+			type: String,
+			default: () => defProps.calendar.todayColor
 		},
         // 星期文案
         weekText: {

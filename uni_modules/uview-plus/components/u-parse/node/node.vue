@@ -53,14 +53,14 @@
       <!-- #endif -->
       <view v-else-if="(n.name==='table'&&n.c)||n.name==='li'" :id="n.attrs.id" :class="'_'+n.name+' '+n.attrs.class" :style="n.attrs.style">
         <node v-if="n.name==='li'" :childs="n.children" :opts="opts" />
-        <view v-else v-for="(tbody, x) in n.children" v-bind:key="x" :class="'_'+tbody.name+' '+tbody.attrs.class" :style="tbody.attrs.style">
+        <view v-else v-for="(tbody, x) in (n && n.children || [])" v-bind:key="x" :class="'_'+tbody.name+' '+tbody.attrs.class" :style="tbody.attrs.style">
           <node v-if="tbody.name==='td'||tbody.name==='th'" :childs="tbody.children" :opts="opts" />
-          <block v-else v-for="(tr, y) in tbody.children" v-bind:key="y">
+          <block v-else v-for="(tr, y) in (tbody && tbody.children || [])" v-bind:key="y">
             <view v-if="tr.name==='td'||tr.name==='th'" :class="'_'+tr.name+' '+tr.attrs.class" :style="tr.attrs.style">
               <node :childs="tr.children" :opts="opts" />
             </view>
             <view v-else :class="'_'+tr.name+' '+tr.attrs.class" :style="tr.attrs.style">
-              <view v-for="(td, z) in tr.children" v-bind:key="z" :class="'_'+td.name+' '+td.attrs.class" :style="td.attrs.style">
+              <view v-for="(td, z) in (tr && tr.children || [])" v-bind:key="z" :class="'_'+td.name+' '+td.attrs.class" :style="td.attrs.style">
                 <node :childs="td.children" :opts="opts" />
               </view>
             </view>
@@ -70,7 +70,7 @@
       <!-- insert -->
       <!-- 富文本 -->
       <!-- #ifdef H5 || ((MP-WEIXIN || MP-QQ || APP-PLUS || MP-360) && VUE2) -->
-      <rich-text v-else-if="!n.c&&!handler.isInline(n.name, n.attrs.style)" :id="n.attrs.id" :style="n.f" :user-select="opts[4]" :nodes="[n]" />
+      <rich-text v-else-if="!n.c&&!isInlineTag(n.name, n.attrs.style)" :id="n.attrs.id" :style="n.f" :user-select="opts[4]" :nodes="[n]" />
       <!-- #endif -->
       <!-- #ifndef H5 || ((MP-WEIXIN || MP-QQ || APP-PLUS || MP-360) && VUE2) -->
       <rich-text v-else-if="!n.c" :id="n.attrs.id" :style="'display:inline;'+n.f" :preview="false" :selectable="opts[4]" :user-select="opts[4]" :nodes="[n]" />
@@ -185,6 +185,72 @@ export default {
     // #ifdef MP-WEIXIN
     toJSON () { return this },
     // #endif
+    isInlineTag (tagName, style) {
+      return {
+        abbr: true,
+        b: true,
+        big: true,
+        code: true,
+        del: true,
+        em: true,
+        i: true,
+        ins: true,
+        label: true,
+        q: true,
+        small: true,
+        span: true,
+        strong: true,
+        sub: true,
+        sup: true
+      }[tagName] || (style || '').indexOf('display:inline') !== -1
+    },
+    /**
+     * @description 规范化链接地址
+     * @param {any} href
+     * @return {String}
+     */
+    normalizeHref (href) {
+      return typeof href === 'string' ? href.trim() : ''
+    },
+
+    /**
+     * @description 判断是否为外部链接
+     * @param {String} href
+     * @return {Boolean}
+     */
+    isExternalLink (href) {
+      return href.split('?')[0].includes('://')
+    },
+
+    /**
+     * @description 打开外部链接
+     * @param {String} href
+     */
+    openExternalLink (href) {
+      // #ifdef H5
+      window.open(href)
+      // #endif
+      // #ifdef MP
+      uni.setClipboardData({
+        data: href,
+        success: () =>
+          uni.showToast({
+            title: '链接已复制'
+          })
+      })
+      // #endif
+      // #ifdef APP-PLUS
+      try {
+        plus.runtime.openWeb(href)
+      } catch (e) { }
+      // #endif
+      // #ifdef APP-HARMONY
+      try {
+        plus.runtime.openURL(href)
+      } catch (e) { }
+      // #endif
+    },
+
     /**
      * @description 播放视频事件
      * @param {Event} e
@@ -341,7 +407,7 @@ export default {
     linkTap (e) {
       const node = e.currentTarget ? this.childs[e.currentTarget.dataset.i] : {}
       const attrs = node.attrs || e
-      const href = attrs.href
+      const href = this.normalizeHref(attrs.href)
       this.root.$emit('linktap', Object.assign({
         innerText: this.root.getText(node.children || []) // 链接内的文本内容
       }, attrs))
@@ -349,27 +415,10 @@ export default {
         if (href[0] === '#') {
           // 跳转锚点
           this.root.navigateTo(href.substring(1)).catch(() => { })
-        } else if (href.split('?')[0].includes('://')) {
+        } else if (this.isExternalLink(href)) {
           // 复制外部链接
           if (this.root.copyLink) {
-            // #ifdef H5
-            window.open(href)
-            // #endif
-            // #ifdef MP
-            uni.setClipboardData({
-              data: href,
-              success: () =>
-                uni.showToast({
-                  title: '链接已复制'
-                })
-            })
-            // #endif
-            // #ifdef APP-PLUS
-            plus.runtime.openWeb(href)
-            // #endif
-            // #ifdef APP-HARMONY
-            plus.runtime.openURL(href)
-            // #endif
+            this.openExternalLink(href)
           }
         } else {
           // 跳转页面

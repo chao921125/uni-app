@@ -17,7 +17,7 @@
 	import { props } from './props';
 	import { mpMixin } from '../../libs/mixin/mpMixin';
 	import { mixin } from '../../libs/mixin/mixin';
-	import { addUnit, addStyle, deepMerge, getPx, guid, getDeviceInfo, os } from '../../libs/function/index';
+	import { addUnit, addStyle, deepMerge, getPx, guid, getDeviceInfo, os, upCreateIntersectionObserver } from '../../libs/function/index';
 	import zIndex from '../../libs/config/zIndex';
 	/**
 	 * sticky 吸顶
@@ -119,7 +119,7 @@
 			observeContent() {
 				// 先断掉之前的观察
 				this.disconnectObserver('contentObserver')
-				const contentObserver = uni.createIntersectionObserver(this,{
+				const contentObserver = upCreateIntersectionObserver(this, {
 					// 检测的区间范围
 					thresholds: [0.95, 0.98, 1]
 				})
@@ -156,6 +156,17 @@
 
 				// 如果安卓版本高于8.0，依然认为是支持css sticky的(因为安卓7在某些机型，可能不支持sticky)
 				if (os() === 'android' && Number(getDeviceInfo().system) > 8) {
+					this.cssSticky = true
+				}
+
+				// 鸿蒙系统现代 WebView 支持 css sticky；显式判断以避免静态检查告警
+				// platform 可能为 harmony / harmonyos / ohos
+				const platformName = os()
+				if (
+					platformName === 'harmony' ||
+					platformName === 'harmonyos' ||
+					platformName === 'ohos'
+				) {
 					this.cssSticky = true
 				}
 

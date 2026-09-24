@@ -95,6 +95,44 @@ declare interface CalendarProps {
    */
   show?: boolean
   /**
+   * 是否显示遮罩
+   * @default true
+   */
+  overlay?: boolean
+  /**
+   * 动画时长，单位ms
+   * @default 300
+   */
+  duration?: number | string
+  /**
+   * 自定义遮罩的样式
+   */
+  overlayStyle?: unknown
+  /**
+   * 遮罩透明度，0-1之间，勿与overlayStyle共用
+   * @default 0.5
+   */
+  overlayOpacity?: number | string
+  /**
+   * 弹出层的z-index值
+   * @default 10075
+   */
+  zIndex?: number | string
+  /**
+   * 是否留出底部安全距离
+   * @default true
+   */
+  safeAreaInsetBottom?: boolean
+  /**
+   * 是否留出顶部安全距离（状态栏高度）
+   * @default false
+   */
+  safeAreaInsetTop?: boolean
+  /**
+   * 背景色，一般用于特殊弹窗内容场景，设置为transparent可去除默认的白色背景
+   */
+  bgColor?: string
+  /**
    * 是否允许点击遮罩关闭日历 （注意：关闭事件需要自行处理，只会在开启closeOnClickOverlay后点击遮罩层执行close回调）
    * @default false
    */
@@ -125,6 +163,26 @@ declare interface CalendarProps {
    */
   allowSameDay?: boolean
   /**
+   * 区间模式下确认返回值格式，`all`返回区间内所有日期，`boundary`仅返回起止日期
+   * @default "all"
+   */
+  rangeResultMode?: 'all' | 'boundary'
+  /**
+   * 是否开启时分秒选择
+   * @default false
+   */
+  enableTime?: boolean
+  /**
+   * 时间精度：`hour`仅时、`minute`时分、`second`时分秒
+   * @default "minute"
+   */
+  timePrecision?: 'hour' | 'minute' | 'second'
+  /**
+   * 默认时间，支持 `HH` / `HH:mm` / `HH:mm:ss`
+   * @default ""
+   */
+  defaultTime?: string
+  /**
    * 圆角值，默认无圆角
    * @default 0
    */
@@ -135,6 +193,15 @@ declare interface CalendarProps {
    */
   monthNum?: string | number
   /**
+   * 是否显示今天按钮
+   * @default true
+   */
+  showToday?: boolean
+  /**
+   * 今天日期的独立高亮颜色，默认跟随主题色
+   */
+  todayColor?: string
+  /**
    * 日期选择完成后触发，若`show-confirm`为`true`，则点击确认按钮后触发
    */
   onConfirm?: (...args: any) => any
@@ -142,6 +209,10 @@ declare interface CalendarProps {
    * 日历关闭时触发
    */
   onClose?: () => any
+  /**
+   * 日历已关闭（离场动画结束、弹窗真正消失后）触发
+   */
+  onClosed?: () => any
 }
 
 declare interface _Calendar {

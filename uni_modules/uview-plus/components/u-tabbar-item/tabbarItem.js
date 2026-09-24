@@ -12,10 +12,20 @@ export default {
     tabbarItem: {
         name: null,
         icon: '',
+        activeIcon: '',
+        inactiveIcon: '',
         badge: null,
         dot: false,
         text: '',
         badgeStyle: 'top: 6px;right:2px;',
-        mode: ''
+        mode: '',
+        activeClass: '',
+        inactiveClass: '',
+        midButtonBgColor: '',
+        midButtonIconColor: '',
+        midButtonIconSize: 26,
+        midButtonBoxShadow: '',
+        midButtonInnerBoxShadow: '',
+        midButtonOffsetY: -10
     }
 }

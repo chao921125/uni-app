@@ -72,10 +72,19 @@
 	export default {
 		name: 'u-icon',
 		beforeCreate() {
-			if (!fontUtil.params.loaded) {
+			// #ifndef APP-VUE
+			if (!fontUtil.isLoaded()) {
 				fontUtil.loadFont();
 			}
+			// #endif
     	},
+		mounted() {
+			// #ifdef APP-VUE
+			if (!fontUtil.isLoaded()) {
+				fontUtil.loadFont();
+			}
+			// #endif
+		},
 		data() {
 			return {
 			}
@@ -162,7 +171,7 @@
 	$u-icon-label-line-height:1 !default;
 
 	/* #ifdef APP || MP-QQ || MP-TOUTIAO || MP-BAIDU || MP-KUAISHOU || MP-XHS */
-	// 2025/04/09在App/微信/支付宝/鸿蒙元服务已改用uni.loadFontFace加载字体
+	// 默认保留App端CSS字体，兼容未启用UniUpRoot的老项目；启用UniUpRoot后构建插件会移除App条件并改用本地字体。
 	@font-face {
 		font-family: 'uicon-iconfont';
 		src: url('https://at.alicdn.com/t/font_2225171_8kdcwk4po24.ttf') format('truetype');

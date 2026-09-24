@@ -1,3 +1,4 @@
+// AI生成
 /**
  * UniApp 媒体模块封装
  * 功能：图片/视频/音频/相机/文件管理
@@ -95,24 +96,7 @@ media.image = {
 
 			let filePaths = chooseRes.tempFilePaths;
 
-			// 2. 压缩图片（如果需要）
-			if (compress && Platform.isApp()) {
-				filePaths = await Promise.all(
-					filePaths.map(async (path) => {
-						try {
-							const compressRes = await media.compressImage({
-								src: path,
-								quality: 80,
-							});
-							return compressRes.tempFilePath;
-						} catch {
-							return path; // 压缩失败返回原图
-						}
-					}),
-				);
-			}
-
-			// 3. 上传到服务器（如果提供上传接口）
+			// 2. 上传到服务器（如果提供上传接口）
 			if (uploadUrl) {
 				const uploadPromises = filePaths.map((path) =>
 					new Promise((resolve, reject) => {
@@ -162,18 +146,7 @@ media.image = {
 	 */
 	async saveToAlbum(url) {
 		try {
-			// App端需要先下载网络图片
 			let filePath = url;
-			if (url.startsWith("http") && Platform.isApp()) {
-				const downloadRes = await new Promise((resolve, reject) => {
-					uni.downloadFile({
-						url,
-						success: resolve,
-						fail: reject,
-					});
-				});
-				filePath = downloadRes.tempFilePath;
-			}
 
 			await media.saveImageToPhotosAlbum({
 				filePath,
@@ -218,24 +191,7 @@ media.image = {
 	 */
 	async toBase64(path) {
 		return new Promise((resolve, reject) => {
-			// #ifdef H5
-			// H5端使用Canvas转换
-			const img = new Image();
-			img.crossOrigin = "anonymous";
-			img.onload = () => {
-				const canvas = document.createElement("canvas");
-				canvas.width = img.width;
-				canvas.height = img.height;
-				const ctx = canvas.getContext("2d");
-				ctx.drawImage(img, 0, 0);
-				resolve(canvas.toDataURL("image/png"));
-			};
-			img.onerror = reject;
-			img.src = path;
-			// #endif
-
-			// #ifndef H5
-			// 小程序和App端使用FileSystemManager
+			// 小程序端使用FileSystemManager
 			const fs = uni.getFileSystemManager?.();
 			if (!fs) {
 				reject(new Error("FileSystemManager not supported"));
@@ -250,7 +206,6 @@ media.image = {
 				},
 				fail: reject,
 			});
-			// #endif
 		});
 	},
 };

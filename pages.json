@@ -69,7 +69,7 @@
 			"packages": ["pages-user"]
 		}
 	},
-	// 设置底部 tab 的表现	
+	// 设置底部 tab 的表现
 	// "tabBar": {
 	// 	"color": "#999999",
 	// 	"selectedColor": "#007AFF",
@@ -128,33 +128,6 @@
 			"^u-([^-].*)": "@/uni_modules/uview-plus/components/u-$1/u-$1.vue"
 		}
 	},
-	// "leftWindow": {
-	// 	"path": "",
-	// 	"style": {
-	// 		"navigationBarTitleText": ""
-	// 	},
-	// 	"matchMedia": {
-	// 		"minWidth": 768
-	// 	}
-	// },
-	// "topWindow": {
-	// 	"path": "",
-	// 	"style": {
-	// 		"navigationBarTitleText": ""
-	// 	},
-	// 	"matchMedia": {
-	// 		"minWidth": 768
-	// 	}
-	// },
-	// "rightWindow": {
-	// 	"path": "",
-	// 	"style": {
-	// 		"navigationBarTitleText": ""
-	// 	},
-	// 	"matchMedia": {
-	// 		"minWidth": 768
-	// 	}
-	// },
 	"globalStyle": {
 		"navigationBarBackgroundColor": "#F8F8F8",
 		"navigationBarTextStyle": "black",
@@ -175,131 +148,14 @@
 		"animationDuration": 300,
 		"usingComponents": {},
 		"renderingMode": "seperated",
-		"leftWindow": true,
-		"topWindow": true,
-		"rightWindow": true,
 		"rpxCalcMaxDeviceWidth": 960,
 		"rpxCalcBaseDeviceWidth": 375,
 		"rpxCalcIncludeWidth": 750,
 		"dynamicRpx": true,
 		"maxWidth": 960,
-		"app-plus": {
-			// "background": "#FFFFFF",
-			// "titleNView": {
-			// 	"backgroundColor": "#F7F7F7",
-			// 	"buttons": [],
-			// 	"titleColor": "#000000",
-			// 	"titleOverflow": "ellipsis",
-			// 	"titleText": "",
-			// 	"titleSize": "",
-			// 	"type": "default",
-			// 	"tags": [],
-			// 	"searchInput": {
-			// 		"autoFocus": false,
-			// 		"align": "center",
-			// 		"backgroundColor": "rgba(255,255,255,0.5)",
-			// 		"borderRadius": "0px",
-			// 		"placeholder": "",
-			// 		"placeholderColor": "#CCCCCC",
-			// 		"disabled": false
-			// 	},
-			// 	"homeButton": false,
-			// 	"autoBackButton": true,
-			// 	"backButton": {
-			// 		"background": "none",
-			// 		"badgeText": "",
-			// 		"color": "#000000",
-			// 		"colorPressed": "",
-			// 		"fontWeight": "normal",
-			// 		"fontSize": "",
-			// 		"redDot": false,
-			// 		"title": "",
-			// 		"titleWeight": "normal"
-			// 	},
-			// 	"backgroundImage": "",
-			// 	"backgroundRepeat": "",
-			// 	"titleAlign": "auto",
-			// 	"blurEffect": "none",
-			// 	"coverage": "132px",
-			// 	"splitLine": false,
-			// 	"subtitleColor": "",
-			// 	"subtitleSize": "auto",
-			// 	"subtitleOverflow": "ellipsis",
-			// 	"subtitleText": "",
-			// 	"titleIcon": "",
-			// 	"titleIconRadius": "0px"
-			// },
-			// "subNVues": [],
-			// "bounce": "",
-			// "popGesture": "close",
-			// "softinputNavBar": "auto",
-			// "softinputMode": "adjustPan",
-			// "pullToRefresh": {
-			// 	"support": false,
-			// 	"color": "#2BD009",
-			// 	"style": "default",
-			// 	"height": "",
-			// 	"range": "",
-			// 	"offset": "0px",
-			// 	"contentdown": {
-			// 		"caption": ""
-			// 	},
-			// 	"contentover": {
-			// 		"caption": ""
-			// 	},
-			// 	"contentrefresh": {
-			// 		"caption": ""
-			// 	}
-			// },
-			// "scrollIndicator": "",
-			// "animationType": "pop-in",
-			// "animationDuration": 300
-		},
-		"app-harmony": {
-			"softinputMode": "adjustPan"
-		},
-		"h5": {
-			// "titleNView": {
-			// 	"backgroundColor": "#F7F7F7",
-			// 	"buttons": [],
-			// 	"titleColor": "#000000",
-			// 	"titleText": "",
-			// 	"titleSize": "",
-			// 	"type": "default",
-			// 	"searchInput": {
-			// 		"autoFocus": false,
-			// 		"align": "center",
-			// 		"backgroundColor": "rgba(255,255,255,0.5)",
-			// 		"borderRadius": "0px",
-			// 		"placeholder": "",
-			// 		"placeholderColor": "#CCCCCC",
-			// 		"disabled": false
-			// 	}
-			// },
-			// "pullToRefresh": {
-			// 	"color": "#2BD009",
-			// 	"offset": "0px"
-			// }
-		},
 		"mp-alipay": {
-			// "allowsBounceVertical": "YES",
-			// "titleImage": "",
-			// "transparentTitle": "none",
-			// "titlePenetrate": "NO",
-			// "showTitleLoading": "NO",
-			// "backgroundImageUrl": "",
-			// "backgroundImageColor": "",
-			// "gestureBack": "NO",
-			// "enableScrollBar": "YES"
 		},
 		"mp-weixin": {
-			// "homeButton": false,
-			// "backgroundColorTop": "#ffffff",
-			// "backgroundColorBottom": "#ffffff",
-			// "restartStrategy": "homePage",
-			// "initialRenderingCache": "",
-			// "visualEffectInBackground": "none",
-			// "handleWebviewPreload": "static"
 		},
 		"mp-baidu": {
 			"textSizeAdjust": "auto"
