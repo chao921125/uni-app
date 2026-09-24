@@ -28,7 +28,7 @@ const onStartTime = () => {
 const onToHome = () => {
 	clearInterval(data.skip.timer);
 	uni.redirectTo({
-		url: "/pages/tabbar",
+		url: "/pages/home",
 	});
 };
 
