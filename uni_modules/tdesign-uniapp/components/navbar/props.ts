@@ -20,8 +20,12 @@ export default {
     type: Boolean,
     default: true,
   },
+  /** 【实验】是否销毁导航栏，仅场景值为 1433、1434、1177、1175 时有效 */
+  isHiddenInSpecialScene: Boolean,
   /** 是否展示左侧箭头 */
   leftArrow: Boolean,
+  /** 固定在顶部时是否开启占位 */
+  placeholder: Boolean,
   /** 是否开启顶部安全区适配 */
   safeAreaInsetTop: {
     type: Boolean,
@@ -40,6 +44,11 @@ export default {
     type: Boolean,
     default: true,
   },
+  /** 导航栏栏层级 */
+  zIndex: {
+    type: Number,
+    default: 1,
+  },
   /** navigateBack 执行完成后触发（失败或成功均会触发） */
   onComplete: {
     type: Function,
@@ -52,6 +61,11 @@ export default {
   },
   /** 点击左侧箭头时触发 */
   onGoBack: {
+    type: Function,
+    default: () => ({}),
+  },
+  /** 点击右侧图标时触发 */
+  onRightClick: {
     type: Function,
     default: () => ({}),
   },

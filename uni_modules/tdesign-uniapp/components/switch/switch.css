@@ -13,8 +13,8 @@
   align-items: center;
   justify-content: center;
   flex-wrap: nowrap;
-  font-size: var(--td-switch-label-font-size, 14px);
-  color: var(--td-switch-label-color, var(--td-bg-color-secondarycontainer-active, var(--td-gray-color-4, #dcdcdc)));
+  font-size: var(--td-switch-label-font-size, 28rpx);
+  color: var(--td-switch-label-color, var(--td-bg-color-secondarycontainer-active, var(--td-gray-color-4, #dddddd)));
   overflow: hidden;
 }
 .t-switch__label--checked {
@@ -27,32 +27,32 @@
   color: var(--td-switch-checked-disabled-color, var(--td-brand-color-disabled, var(--td-primary-color-3, #b5c7ff)));
 }
 .t-switch__label--large {
-  font-size: var(--td-switch-label-large-font-size, 16px);
+  font-size: var(--td-switch-label-large-font-size, 32rpx);
 }
 .t-switch__label--small {
-  font-size: var(--td-switch-label-small-font-size, 12px);
+  font-size: var(--td-switch-label-small-font-size, 24rpx);
 }
 .t-switch__label:empty {
   display: none;
 }
 .t-switch__icon {
-  font-size: var(--td-switch-icon-size, 20px);
+  font-size: var(--td-switch-icon-size, 40rpx);
 }
 .t-switch__icon--large {
-  font-size: var(--td-switch-icon-large-size, 24px);
+  font-size: var(--td-switch-icon-large-size, 48rpx);
 }
 .t-switch__icon--small {
-  font-size: var(--td-switch-icon-small-size, 16px);
+  font-size: var(--td-switch-icon-small-size, 32rpx);
 }
 .t-switch__loading {
   --td-loading-color: var(--td-switch-loading-color, var(--td-brand-color, var(--td-primary-color-7, #0052d9)));
 }
 .t-switch__body {
   vertical-align: middle;
-  width: var(--td-switch-width, 45px);
-  height: var(--td-switch-height, 28px);
-  border-radius: var(--td-switch-radius, calc(var(--td-switch-height, 28px) / 2));
-  background-color: var(--td-switch-unchecked-color, var(--td-bg-color-secondarycontainer-active, var(--td-gray-color-4, #dcdcdc)));
+  width: var(--td-switch-width, 90rpx);
+  height: var(--td-switch-height, 56rpx);
+  border-radius: var(--td-switch-radius, calc(var(--td-switch-height, 56rpx) / 2));
+  background-color: var(--td-switch-unchecked-color, var(--td-bg-color-secondarycontainer-active, var(--td-gray-color-4, #dddddd)));
   position: relative;
   transition: all 0.3s ease;
   overflow: hidden;
@@ -67,21 +67,21 @@
   background-color: var(--td-switch-checked-disabled-color, var(--td-brand-color-disabled, var(--td-primary-color-3, #b5c7ff)));
 }
 .t-switch__body--large {
-  width: var(--td-switch-large-width, 52px);
-  height: var(--td-switch-large-height, 32px);
-  border-radius: var(--td-switch-large-radius, calc(var(--td-switch-large-height, 32px) / 2));
+  width: var(--td-switch-large-width, 104rpx);
+  height: var(--td-switch-large-height, 64rpx);
+  border-radius: var(--td-switch-large-radius, calc(var(--td-switch-large-height, 64rpx) / 2));
 }
 .t-switch__body--small {
-  width: var(--td-switch-small-width, 39px);
-  height: var(--td-switch-small-height, 24px);
-  border-radius: var(--td-switch-small-radius, calc(var(--td-switch-small-height, 24px) / 2));
+  width: var(--td-switch-small-width, 78rpx);
+  height: var(--td-switch-small-height, 48rpx);
+  border-radius: var(--td-switch-small-radius, calc(var(--td-switch-small-height, 48rpx) / 2));
 }
 .t-switch__dot {
   position: absolute;
-  left: var(--td-switch-dot-horizontal-margin, 3px);
+  left: var(--td-switch-dot-horizontal-margin, 6rpx);
   top: 50%;
-  width: var(--td-switch-dot-size, 22px);
-  height: var(--td-switch-dot-size, 22px);
+  width: var(--td-switch-dot-size, 44rpx);
+  height: var(--td-switch-dot-size, 44rpx);
   border-radius: 50%;
   background-color: var(--td-text-color-anti, var(--td-font-white-1, #ffffff));
   transition: all 0.3s;
@@ -92,32 +92,32 @@
   background-color: var(--td-switch-dot-disabled-color, var(--td-font-white-1, #ffffff));
 }
 .t-switch__dot--large {
-  width: var(--td-switch-dot-large-size, 26px);
-  height: var(--td-switch-dot-large-size, 26px);
+  width: var(--td-switch-dot-large-size, 52rpx);
+  height: var(--td-switch-dot-large-size, 52rpx);
 }
 .t-switch__dot--small {
-  width: var(--td-switch-dot-small-size, 18px);
-  height: var(--td-switch-dot-small-size, 18px);
+  width: var(--td-switch-dot-small-size, 36rpx);
+  height: var(--td-switch-dot-small-size, 36rpx);
 }
 .t-switch__dot--checked {
-  left: calc(var(--td-switch-width, 45px) - var(--td-switch-dot-size, 22px) - var(--td-switch-dot-horizontal-margin, 3px));
+  left: calc(var(--td-switch-width, 90rpx) - var(--td-switch-dot-size, 44rpx) - var(--td-switch-dot-horizontal-margin, 6rpx));
 }
 .t-switch__dot--large.t-switch__dot--checked {
-  left: calc(var(--td-switch-large-width, 52px) - var(--td-switch-dot-large-size, 26px) - var(--td-switch-dot-horizontal-margin, 3px));
+  left: calc(var(--td-switch-large-width, 104rpx) - var(--td-switch-dot-large-size, 52rpx) - var(--td-switch-dot-horizontal-margin, 6rpx));
 }
 .t-switch__dot--small.t-switch__dot--checked {
-  left: calc(var(--td-switch-small-width, 39px) - var(--td-switch-dot-small-size, 18px) - var(--td-switch-dot-horizontal-margin, 3px));
+  left: calc(var(--td-switch-small-width, 78rpx) - var(--td-switch-dot-small-size, 36rpx) - var(--td-switch-dot-horizontal-margin, 6rpx));
 }
 .t-switch__dot--plain:not(.t-switch__dot--checked) {
-  width: var(--td-switch-dot-plain-size, 18px);
-  height: var(--td-switch-dot-plain-size, 18px);
-  left: var(--td-switch-dot-plain-horizontal-margin, 5px);
+  width: var(--td-switch-dot-plain-size, 36rpx);
+  height: var(--td-switch-dot-plain-size, 36rpx);
+  left: var(--td-switch-dot-plain-horizontal-margin, 10rpx);
 }
 .t-switch__dot--large.t-switch__dot--plain:not(.t-switch__dot--checked) {
-  width: var(--td-switch-dot-plain-large-size, 22px);
-  height: var(--td-switch-dot-plain-large-size, 22px);
+  width: var(--td-switch-dot-plain-large-size, 44rpx);
+  height: var(--td-switch-dot-plain-large-size, 44rpx);
 }
 .t-switch__dot--small.t-switch__dot--plain:not(.t-switch__dot--checked) {
-  width: var(--td-switch-dot-plain-small-size, 14px);
-  height: var(--td-switch-dot-plain-small-size, 14px);
+  width: var(--td-switch-dot-plain-small-size, 28rpx);
+  height: var(--td-switch-dot-plain-small-size, 28rpx);
 }

@@ -8,10 +8,12 @@ isComponent: true
 
 ## 引入
 
-可在 `main.ts` 或在需要使用的页面或组件中引入。
+推荐使用 easycom 模式引入组件，配置后无需手动 import 即可直接在模板中使用 `<t-stepper />`。详细配置请参考 [快速开始](../getting-started)。
+
+如需手动引入：
 
 ```js
-import TStepper from 'tdesign-uniapp/stepper/stepper.vue';
+import TStepper from '@tdesign/uniapp/stepper/stepper.vue';
 ```
 
 ### 组件类型
@@ -54,7 +56,7 @@ input-width | Number | - | 输入框宽度，默认单位 `px` | N
 integer | Boolean | true | 是否整型 | N
 max | Number | 100 | 最大值 | N
 min | Number | 0 | 最小值 | N
-size | String | medium | 组件尺寸。可选项：small/medium/large。TS 类型：`SizeEnum`。[通用类型定义](https://github.com/novlan1/tdesign-uniapp/blob/develop/packages/tdesign/common/common.ts) | N
+size | String | medium | 组件尺寸。可选项：small/medium/large。TS 类型：`SizeEnum`。[通用类型定义](https://github.com/Tencent/tdesign-miniprogram/tree/develop/packages/uniapp-components/common/common.ts) | N
 step | Number | 1 | 步长 | N
 theme | String | normal | 组件风格。可选项：normal/filled/outline | N
 value | String / Number | 0 | 值。支持语法糖 `v-model:value` | N
@@ -81,10 +83,10 @@ t-class-plus | 右侧递增号样式类
 ### CSS Variables
 
 组件提供了下列 CSS 变量，可用于自定义样式。
-| 名称 | 默认值 | 描述 |
-| -- | -- | -- | 
-| --td-stepper-input-disabled-bg | @bg-color-component-disabled | - |
-| --td-stepper-input-disabled-color | @text-color-disabled | - |
-| --td-stepper-border-color | @component-border | - |
-| --td-stepper-border-radius | @radius-small | - |
-| --td-stepper-input-color | @text-color-primary | - |
+名称 | 默认值 | 描述
+-- | -- | --
+--td-stepper-input-disabled-bg | @bg-color-component-disabled | -
+--td-stepper-input-disabled-color | @text-color-disabled | -
+--td-stepper-border-color | @component-border | -
+--td-stepper-border-radius | @radius-small | -
+--td-stepper-input-color | @text-color-primary | -

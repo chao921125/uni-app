@@ -5,26 +5,23 @@
       :id="id || classPrefix"
       :ref="id || classPrefix"
       :class="classPrefix + ' ' + tClass + ' ' + classPrefix + '--' + theme + ' ' + fadeClass"
-      :style="tools._style([getMessageStyles(zIndex, offset, wrapTop), customStyle])"
+      :style="'' + tools._style([getMessageStyles(zIndex, offset, wrapTop), customStyle])"
       :animation="showAnimation"
       aria-role="alert"
     >
       <view :class="classPrefix + '__icon--left'">
         <slot name="icon" />
-        <block
-          v-if="_icon"
-          name="icon"
-        >
+        <block v-if="innerIcon" name="icon">
           <t-icon
-            :custom-style="_icon.style || ''"
+            :custom-style="innerIcon.style || ''"
             :t-class="tClassIcon"
-            :prefix="_icon.prefix"
-            :name="_icon.name"
-            :size="_icon.size"
-            :color="_icon.color"
+            :prefix="innerIcon.prefix"
+            :name="innerIcon.name"
+            :size="innerIcon.size"
+            :color="innerIcon.color"
             :aria-hidden="true"
-            :aria-label="_icon.ariaLabel"
-            :aria-role="_icon.ariaRole"
+            :aria-label="innerIcon.ariaLabel"
+            :aria-role="innerIcon.ariaRole"
           />
         </block>
       </view>
@@ -48,40 +45,34 @@
         </view>
       </view>
       <t-link
-        v-if="_link && _link.content"
+        v-if="innerLink && innerLink.content"
         :t-class="classPrefix + '__link ' + tClassLink"
-        :custom-style="tools._style([_link.style, _link.customStyle])"
-        :disabled="_link.disabled || false"
-        :hover="_link.hover || true"
-        :theme="_link.theme || 'primary'"
-        :size="_link.size || 'medium'"
-        :prefix-icon="_link.prefixIcon || ''"
-        :suffix-icon="_link.suffixIcon || ''"
-        :underline="_link.underline || false"
-        :content="_link.content || ''"
-        :navigator-props="_link.navigatorProps || null"
+        :custom-style="tools._style([innerLink.style, innerLink.customStyle])"
+        :disabled="innerLink.disabled || false"
+        :hover="innerLink.hover || true"
+        :theme="innerLink.theme || 'primary'"
+        :size="innerLink.size || 'medium'"
+        :prefix-icon="innerLink.prefixIcon || ''"
+        :suffix-icon="innerLink.suffixIcon || ''"
+        :underline="innerLink.underline || false"
+        :content="innerLink.content || ''"
+        :navigator-props="innerLink.navigatorProps || null"
         @complete="handleLinkClick"
       />
       <slot name="link" />
-      <view
-        :class="classPrefix + '__icon--right'"
-        @click="handleClose"
-      >
+      <view :class="classPrefix + '__icon--right'" @click="handleClose">
         <slot name="close-btn" />
-        <block
-          v-if="_closeBtn"
-          name="icon"
-        >
+        <block v-if="iCloseBtn" name="icon">
           <t-icon
-            :custom-style="_closeBtn.style || ''"
+            :custom-style="iCloseBtn.style || ''"
             :t-class="tClassCloseBtn"
-            :prefix="_closeBtn.prefix"
-            :name="_closeBtn.name"
-            :size="_closeBtn.size"
-            :color="_closeBtn.color"
+            :prefix="iCloseBtn.prefix"
+            :name="iCloseBtn.name"
+            :size="iCloseBtn.size"
+            :color="iCloseBtn.color"
             :aria-hidden="false"
-            :aria-label="_closeBtn.ariaLabel || '关闭'"
-            :aria-role="_closeBtn.ariaRole || 'button'"
+            :aria-label="iCloseBtn.ariaLabel || '关闭'"
+            :aria-role="iCloseBtn.ariaRole || 'button'"
           />
         </block>
       </view>
@@ -89,23 +80,24 @@
   </view>
 </template>
 <script>
-import tIcon from '../icon/icon';
-import tLink from '../link/link';
-import { uniComponent } from '../common/src/index';
 import { prefix } from '../common/config';
+import { uniComponent } from '../common/src/index';
 import { getRect, unitConvert, calcIcon } from '../common/utils';
-import { isObject } from '../common/validator';
 import tools from '../common/utils.wxs';
-import { getMessageStyles } from './computed.js';
+import { isObject } from '../common/validator';
+import TIcon from '../icon/icon';
+import TLink from '../link/link';
+
 import { messageDefaultData } from '../message/config';
 
+import { getMessageStyles } from './computed.js';
 
 const SHOW_DURATION = 400;
 const name = `${prefix}-message`;
 const THEME_ICON = {
   info: 'info-circle-filled',
   success: 'check-circle-filled',
-  warning: 'info-circle-filled',
+  warning: 'error-circle-filled',
   error: 'error-circle-filled',
 };
 const rawData = {
@@ -118,6 +110,7 @@ const rawData = {
   fadeClass: '',
 
   closeTimeoutContext: 0,
+  hideTimeoutContext: 0,
   nextAnimationContext: 0,
   resetAnimation: uni.createAnimation({
     duration: 0,
@@ -125,229 +118,231 @@ const rawData = {
   }),
 };
 
-export default uniComponent({
-  name,
-  options: {
-    styleIsolation: 'shared',
-  },
-  externalClasses: [
-    `${prefix}-class`,
-    `${prefix}-class-content`,
-    `${prefix}-class-icon`,
-    `${prefix}-class-link`,
-    `${prefix}-class-close-btn`,
-  ],
+export default {
   components: {
-    tIcon,
-    tLink,
+    TIcon,
+    TLink,
   },
-  props: {
-  },
-  emits: [
-    'duration-end',
-    'close-btn-click',
-    'link-click',
-  ],
-  data() {
-    return {
-      ...rawData,
-      ...messageDefaultData,
-      animation: [],
-
-      tools,
-    };
-  },
-  computed: {
-    innerMarquee() {
-      const { marquee } = this;
-      if (JSON.stringify(marquee) === '{}' || JSON.stringify(marquee) === 'true') {
-        return {
-          speed: 50,
-          loop: -1,
-          delay: 0,
-        };
-      }
-      return this.marquee;
+  ...uniComponent({
+    name,
+    options: {
+      styleIsolation: 'shared',
     },
-  },
-  watch: {
-    theme: {
-      handler(theme) {
-        this._icon = calcIcon(this.icon, THEME_ICON[theme]);
-      },
-      immediate: true,
-    },
-    icon: {
-      handler(icon) {
-        this._icon = calcIcon(icon, THEME_ICON[this.theme]);
-      },
-      immediate: true,
-    },
-
-
-    link: {
-      handler(v) {
-        const _link = isObject(v) ? { ...v } : { content: v };
-        this._link = _link;
-      },
-      immediate: true,
-    },
-
-    closeBtn: {
-      handler(v) {
-        this._closeBtn = calcIcon(v, 'close');
-      },
-      immediate: true,
-    },
-  },
-  mounted() {
-    this.memoInitialData();
-  },
-  beforeUnMount() {
-    this.clearMessageAnimation();
-  },
-  methods: {
-    getMessageStyles,
-    /** 记录组件设置的项目 */
-    memoInitialData() {
-      this.initialData = {
+    externalClasses: [
+      `${prefix}-class`,
+      `${prefix}-class-content`,
+      `${prefix}-class-icon`,
+      `${prefix}-class-link`,
+      `${prefix}-class-close-btn`,
+    ],
+    props: {},
+    emits: ['duration-end', 'close-btn-click', 'link-click'],
+    data() {
+      return {
         ...rawData,
         ...messageDefaultData,
         animation: [],
+
+        tools,
+        innerIcon: null,
+        innerLink: null,
+        iCloseBtn: null,
+        id: '',
+        height: 48,
+        onHide: null,
       };
     },
-
-    resetData(cb) {
-      const { initialData = {} } = this;
-      Object.keys(initialData).forEach((key) => {
-        this[key] = initialData[key];
-      });
-      setTimeout(cb);
+    computed: {
+      innerMarquee() {
+        const { marquee } = this;
+        if (marquee && (JSON.stringify(marquee) === '{}' || JSON.stringify(marquee) === 'true')) {
+          return {
+            speed: 50,
+            loop: -1,
+            delay: 0,
+          };
+        }
+        return this.marquee;
+      },
     },
+    watch: {
+      theme: {
+        handler(theme) {
+          this.innerIcon = calcIcon(this.icon, THEME_ICON[theme]);
+        },
+        immediate: true,
+      },
+      icon: {
+        handler(icon) {
+          this.innerIcon = calcIcon(icon, THEME_ICON[this.theme]);
+        },
+        immediate: true,
+      },
 
-    /** 检查是否需要开启一个新的动画循环 */
-    checkAnimation() {
-      const { innerMarquee } = this;
-      if (!innerMarquee || innerMarquee.loop === 0) {
-        return;
-      }
+      link: {
+        handler(v) {
+          const innerLink = isObject(v) ? { ...v } : { content: v };
+          this.innerLink = innerLink;
+        },
+        immediate: true,
+      },
 
-      const speeding = innerMarquee.speed;
+      closeBtn: {
+        handler(v) {
+          this.iCloseBtn = calcIcon(v, 'close');
+        },
+        immediate: true,
+      },
+    },
+    mounted() {
+      this.memoInitialData();
+    },
+    beforeUnmount() {
+      this.clearMessageAnimation();
+    },
+    methods: {
+      getMessageStyles,
+      /** 记录组件设置的项目 */
+      memoInitialData() {
+        this.initialData = {
+          ...rawData,
+          ...messageDefaultData,
+          animation: [],
+        };
+      },
 
-      if (this.loop > 0) {
-        this.loop -= 1;
-      } else if (this.loop === 0) {
-      // 动画回到初始位置
-        this.animation = this.resetAnimation
-          .translateX(0)
-          .step()
-          .export();
-        return;
-      }
+      resetData(cb) {
+        const { initialData = {} } = this;
+        Object.keys(initialData).forEach((key) => {
+          this[key] = initialData[key];
+        });
+        setTimeout(cb);
+      },
 
-      if (this.nextAnimationContext) {
-        this.clearMessageAnimation();
-      }
+      /** 检查是否需要开启一个新的动画循环 */
+      checkAnimation() {
+        const { innerMarquee } = this;
+        if (!innerMarquee || innerMarquee.loop === 0) {
+          return;
+        }
 
-      const warpID = `#${name}__text-wrap`;
-      const nodeID = `#${name}__text`;
-      Promise.all([getRect(this, nodeID), getRect(this, warpID)]).then(([nodeRect, wrapRect]) => {
-        this.animation = this.resetAnimation.translateX(wrapRect.width).step()
-          .export();
+        const speeding = innerMarquee.speed;
+
+        if (this.loop > 0) {
+          this.loop -= 1;
+        } else if (this.loop === 0) {
+          // 动画回到初始位置
+          this.animation = this.resetAnimation.translateX(0).step().export();
+          return;
+        }
+
+        if (this.nextAnimationContext) {
+          this.clearMessageAnimation();
+        }
+
+        const warpID = `#${name}__text-wrap`;
+        const nodeID = `#${name}__text`;
+        Promise.all([getRect(this, nodeID), getRect(this, warpID)]).then(([nodeRect, wrapRect]) => {
+          this.animation = this.resetAnimation.translateX(wrapRect.width).step().export();
+
+          setTimeout(() => {
+            const durationTime = ((nodeRect.width + wrapRect.width) / speeding) * 1000;
+            const nextAnimation = uni
+              .createAnimation({
+                // 默认50px/s
+                duration: durationTime,
+              })
+              .translateX(-nodeRect.width)
+              .step()
+              .export();
+
+            // 这里就只能用 setTimeout/20, nextTick 没用
+            // 不用这个的话会出现reset动画没跑完就开始跑这个等的奇怪问题
+            setTimeout(() => {
+              this.nextAnimationContext = setTimeout(this.checkAnimation.bind(this), durationTime);
+              this.animation = nextAnimation;
+            }, 20);
+          });
+        });
+      },
+
+      /** 清理动画循环 */
+      clearMessageAnimation() {
+        clearTimeout(this.nextAnimationContext);
+        this.nextAnimationContext = 0;
+      },
+
+      show(offsetHeight = 0) {
+        const { duration, innerMarquee, offset, id } = this;
+        this.visible = true;
+        this.loop = innerMarquee.loop || this.loop;
+        this.fadeClass = `${name}__fade`;
+        this.wrapTop = unitConvert(offset[0]) + offsetHeight;
+
+        this.reset();
+        setTimeout(() => {
+          this.checkAnimation();
+        });
+
+        if (duration && duration > 0) {
+          this.closeTimeoutContext = setTimeout(() => {
+            this.hide();
+            this.$emit('duration-end', { self: this });
+          }, duration);
+        }
+        const wrapID = id ? `#${id}` : `#${name}`;
 
         setTimeout(() => {
-          const durationTime = ((nodeRect.width + wrapRect.width) / speeding) * 1000;
-          const nextAnimation = uni
-            .createAnimation({
-            // 默认50px/s
-              duration: durationTime,
+          getRect(this, wrapID)
+            .then((wrapRect) => {
+              this.height = wrapRect.height;
+              setTimeout(() => {
+                this.fadeClass = '';
+              });
             })
-            .translateX(-nodeRect.width)
-            .step()
-            .export();
-
-          // 这里就只能用 setTimeout/20, nextTick 没用
-          // 不用这个的话会出现reset动画没跑完就开始跑这个等的奇怪问题
-          setTimeout(() => {
-            this.nextAnimationContext = setTimeout(this.checkAnimation.bind(this), durationTime);
-            this.animation = nextAnimation;
-          }, 20);
+            .catch(() => {});
         });
-      });
+      },
+
+      hide() {
+        this.reset();
+        this.fadeClass = `${name}__fade`;
+
+        this.hideTimeoutContext = setTimeout(() => {
+          this.visible = false;
+          this.animation = [];
+          this.hideTimeoutContext = 0;
+        }, SHOW_DURATION);
+        if (typeof this.onHide === 'function') {
+          this.onHide();
+        }
+      },
+
+      // 重置定时器
+      reset() {
+        if (this.nextAnimationContext) {
+          this.clearMessageAnimation();
+        }
+        clearTimeout(this.closeTimeoutContext);
+        this.closeTimeoutContext = 0;
+        // 同时清掉上一次 hide 中用于延迟将 visible 置 false 的定时器，
+        // 避免连续快速调用 hide 后又调 show 时，旧的 timeout 把新消息 hide 掉。
+        if (this.hideTimeoutContext) {
+          clearTimeout(this.hideTimeoutContext);
+          this.hideTimeoutContext = 0;
+        }
+      },
+
+      handleClose() {
+        this.hide();
+        this.$emit('close-btn-click');
+      },
+
+      handleLinkClick() {
+        this.$emit('link-click');
+      },
     },
-
-    /** 清理动画循环 */
-    clearMessageAnimation() {
-      clearTimeout(this.nextAnimationContext);
-      this.nextAnimationContext = 0;
-    },
-
-    show(offsetHeight = 0) {
-      const { duration, innerMarquee, offset, id } = this;
-      this.visible = true;
-      this.loop = innerMarquee.loop || this.loop;
-      this.fadeClass = `${name}__fade`;
-      this.wrapTop = unitConvert(offset[0]) + offsetHeight;
-
-      this.reset();
-      setTimeout(() => {
-        this.checkAnimation();
-      });
-
-      if (duration && duration > 0) {
-        this.closeTimeoutContext = setTimeout(() => {
-          this.hide();
-          this.$emit('duration-end', { self: this });
-        }, duration);
-      }
-      const wrapID = id ? `#${id}` : `#${name}`;
-
-      setTimeout(() => {
-        getRect(this, wrapID)
-          .then((wrapRect) => {
-            this.height = wrapRect.height;
-            setTimeout(() => {
-              this.fadeClass = '';
-            });
-          })
-          .catch(() => {
-          });
-      });
-    },
-
-    hide() {
-      this.reset();
-      this.fadeClass = `${name}__fade`;
-
-      setTimeout(() => {
-        this.visible = false;
-        this.animation = [];
-      }, SHOW_DURATION);
-      if (typeof this.onHide === 'function') {
-        this.onHide();
-      }
-    },
-
-    // 重置定时器
-    reset() {
-      if (this.nextAnimationContext) {
-        this.clearMessageAnimation();
-      }
-      clearTimeout(this.closeTimeoutContext);
-      this.closeTimeoutContext = 0;
-    },
-
-    handleClose() {
-      this.hide();
-      this.$emit('close-btn-click');
-    },
-
-    handleLinkClick() {
-      this.$emit('link-click');
-    },
-  },
-});
+  }),
+};
 </script>
-<style scoped>
-@import './message-item.css';
-</style>
+<style scoped src="./message-item.css"></style>

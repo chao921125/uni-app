@@ -1,6 +1,6 @@
 .t-progress {
   --td-progress-inner-bg-color: var(--td-brand-color, var(--td-primary-color-7, #0052d9));
-  --td-progress-track-bg-color: var(--td-bg-color-component, var(--td-gray-color-3, #e7e7e7));
+  --td-progress-track-bg-color: var(--td-bg-color-component, var(--td-gray-color-3, #e8e8e8));
   --td-progress-circle-from: 0deg;
 }
 .t-progress__inner {
@@ -12,13 +12,13 @@
 }
 .t-progress__bar {
   width: 100%;
-  height: var(--td-progress-line-stroke-width, 6px);
+  height: var(--td-progress-line-stroke-width, 12rpx);
   overflow: hidden;
-  background: var(--td-progress-track-bg-color, var(--td-bg-color-component, var(--td-gray-color-3, #e7e7e7)));
+  background: var(--td-progress-track-bg-color, var(--td-bg-color-component, var(--td-gray-color-3, #e8e8e8)));
   border-radius: var(--td-radius-round, 999px);
 }
 .t-progress__info {
-  padding-left: var(--td-spacer, 8px);
+  padding-left: var(--td-spacer, 16rpx);
   box-sizing: border-box;
   color: var(--td-progress-info-dark-color, var(--td-text-color-primary, var(--td-font-gray-1, rgba(0, 0, 0, 0.9))));
   white-space: nowrap;
@@ -30,21 +30,21 @@
   align-items: center;
 }
 .t-progress--thin :deep(.t-progress__icon) {
-  font-size: calc(var(--td-font-size-base, 14px) + 2px);
+  font-size: calc(var(--td-font-size-base, 28rpx) + 2px);
 }
 .t-progress--plump {
-  height: var(--td-progress-stroke-plump-width, 20px);
-  border-radius: calc(var(--td-progress-stroke-plump-width, 20px) / 2);
+  height: var(--td-progress-stroke-plump-width, 40rpx);
+  border-radius: calc(var(--td-progress-stroke-plump-width, 40rpx) / 2);
   display: flex;
   align-items: center;
 }
 .t-progress--plump .t-progress__info {
-  font-size: var(--td-font-size-s, 12px);
+  font: var(--td-font-body-small, 24rpx / 40rpx var(--td-font-family, PingFang SC, Microsoft YaHei, Arial Regular));
 }
 .t-progress--over-ten .t-progress__info {
   position: absolute;
   top: 50%;
-  right: var(--td-spacer, 8px);
+  right: var(--td-spacer, 16rpx);
   color: var(--td-progress-info-light-color, var(--td-text-color-anti, var(--td-font-white-1, #ffffff)));
   transform: translateY(-50%);
 }
@@ -57,8 +57,8 @@
 }
 .t-progress__canvas--circle {
   position: relative;
-  width: var(--td-progress-circle-width, 112px);
-  height: var(--td-progress-circle-width, 112px);
+  width: var(--td-progress-circle-width, 224rpx);
+  height: var(--td-progress-circle-width, 224rpx);
   border-radius: var(--td-radius-circle, 50%);
 }
 .t-progress__canvas--circle .t-progress__canvas--inner {
@@ -66,20 +66,19 @@
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
-  width: calc(100% - var(--td-progress-stroke-circle-width, 6px)*2);
-  height: calc(100% - var(--td-progress-stroke-circle-width, 6px)*2);
+  width: calc(100% - var(--td-progress-stroke-circle-width, 12rpx)*2);
+  height: calc(100% - var(--td-progress-stroke-circle-width, 12rpx)*2);
   border-radius: var(--td-radius-circle, 50%);
   display: flex;
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  background-color: var(--td-progress-circle-inner-bg-color, var(--td-text-color-anti, var(--td-font-white-1, #ffffff)));
+  background-color: var(--td-progress-circle-inner-bg-color, var(--td-bg-color-container, var(--td-font-white-1, #ffffff)));
 }
 .t-progress__canvas--circle .t-progress__info {
   margin: 0;
-  font-size: var(--td-progress-circle-label-font-size, 20px);
-  font-weight: var(--td-progress-circle-label-font-weight, 700);
-  line-height: var(--td-progress-circle-label-line-height, 28px);
+  padding: 0;
+  font: var(--td-progress-circle-label-font, var(--td-font-title-extraLarge, 600 40rpx / 56rpx var(--td-font-family, PingFang SC, Microsoft YaHei, Arial Regular)));
   overflow: hidden;
   text-overflow: ellipsis;
   display: -webkit-box;
@@ -87,9 +86,9 @@
   -webkit-line-clamp: 2;
 }
 .t-progress__canvas--circle--micro {
-  --td-progress-circle-width: 24px;
-  --td-progress-stroke-circle-width: 2px;
-  --td-progress-circle-icon-font-size: 20px;
+  --td-progress-circle-width: 48rpx;
+  --td-progress-stroke-circle-width: 4rpx;
+  --td-progress-circle-icon-size: 40rpx;
 }
 .t-progress--status--active .t-progress__inner::before {
   position: absolute;

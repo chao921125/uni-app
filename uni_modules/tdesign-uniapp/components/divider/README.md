@@ -8,10 +8,12 @@ isComponent: true
 
 ## 引入
 
-可在 `main.ts` 或在需要使用的页面或组件中引入。
+推荐使用 easycom 模式引入组件，配置后无需手动 import 即可直接在模板中使用 `<t-divider />`。详细配置请参考 [快速开始](../getting-started)。
+
+如需手动引入：
 
 ```js
-import TDivider from 'tdesign-uniapp/divider/divider.vue';
+import TDivider from '@tdesign/uniapp/divider/divider.vue';
 ```
 
 ### 基础分割符
@@ -52,14 +54,13 @@ t-class-content | 内容样式类
 ### CSS Variables
 
 组件提供了下列 CSS 变量，可用于自定义样式。
-| 名称 | 默认值 | 描述 |
-| -- | -- | -- | 
-| --td-divider-border-width | 2rpx | - |
-| --td-divider-color | @bg-color-component | - |
-| --td-divider-content-color | @text-color-placeholder | - |
-| --td-divider-content-font-size | @font-size-s | - |
-| --td-divider-content-line-height | 40rpx | - |
-| --td-divider-content-line-style | solid | - |
-| --td-divider-content-margin | @spacer-1 | - |
-| --td-divider-horizontal-margin | 20rpx | - |
-| --td-divider-vertical-margin | @spacer | - |
+名称 | 默认值 | 描述
+-- | -- | --
+--td-divider-border-width | 2rpx | -
+--td-divider-color | @bg-color-component | -
+--td-divider-content-color | @text-color-placeholder | -
+--td-divider-content-font | @font-body-small | -
+--td-divider-content-line-style | solid | -
+--td-divider-content-margin | @spacer-1 | -
+--td-divider-horizontal-margin | 20rpx | -
+--td-divider-vertical-margin | @spacer | -

@@ -1,11 +1,12 @@
 import { ActionSheetItem } from './type';
+
 export { ActionSheetItem };
 declare type Instance = any;
 declare type Context = any;
 
 export declare enum ActionSheetTheme {
   List = 'list',
-  Grid = 'grid'
+  Grid = 'grid',
 }
 
 interface ActionSheetProps {

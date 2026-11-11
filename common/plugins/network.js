@@ -1,11 +1,10 @@
 /**
  * UniApp 网络与WebSocket模块封装
  * 功能：HTTP请求/WebSocket/下载/上传/网络状态监听
- * 平台：全平台兼容
+ * 平台：小程序端（全平台）
  */
 
 import Constants from "@/common/utils/constants.js";
-import Platform from "./platform.js";
 import Storage from "./storage.js";
 
 // ==================== HTTP请求封装（增强版） ====================

@@ -11,7 +11,7 @@ let cachedSystemInfo = null;
 
 // 封装规则
 const rules = {
-	// 微信小程序拆分获取（新 API 性能更好）
+	// 微信小程序拆分获取（新 API 性能更好，其余小程序平台返回原始结果）
 	getSystemInfo: {
 		transform: async (res) => {
 			if (Platform.is("mp-weixin")) {
@@ -79,8 +79,6 @@ device.getInfo = async (force = false) => {
 		// 平台标识
 		platform: Platform.name,
 		isMp: Platform.isMp(),
-		isApp: Platform.isApp(),
-		isH5: Platform.isH5(),
 	};
 	return cachedSystemInfo;
 };

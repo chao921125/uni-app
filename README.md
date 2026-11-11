@@ -11,10 +11,6 @@
 10. vant-weap 废弃 panel
 ```
 
-# 注意：此项目仅支持微信小程序，其他端一概没有做适配，请勿运行。
+# 注意：此项目仅支持小程序端（微信/支付宝/百度/字节/QQ/快手/飞书/京东/钉钉等），H5 与 App 端不做适配，请勿运行。
 
 # 推荐UI及各种插件 [点击前往](https://github.com/chao921125/vue-vite)
-
-# APP 离线打包
-###### [APK](https://nativesupport.dcloud.net.cn/AppDocs/download/android.html)
-###### [IOS](https://nativesupport.dcloud.net.cn/AppDocs/download/ios.html)

@@ -1,6 +1,6 @@
-// AI生成
 /**
- * 平台检测工具（条件编译 + 运行时降级）
+ * 平台检测工具（条件编译，仅小程序端）
+ * 支持：微信/支付宝/百度/字节/QQ/快手/飞书/京东/小红书/鸿蒙元服务/钉钉
  */
 
 export const Platform = {
@@ -8,6 +8,9 @@ export const Platform = {
 		// 编译时替换，零运行时开销
 		// #ifdef MP-WEIXIN
 		return "mp-weixin";
+		// #endif
+		// #ifdef MP-DINGTALK
+		return "mp-dingtalk";
 		// #endif
 		// #ifdef MP-ALIPAY
 		return "mp-alipay";
@@ -21,10 +24,21 @@ export const Platform = {
 		// #ifdef MP-QQ
 		return "mp-qq";
 		// #endif
-		// 运行时降级
-		if (typeof process !== "undefined" && process.env?.UNI_PLATFORM) {
-			return process.env.UNI_PLATFORM;
-		}
+		// #ifdef MP-KUAISHOU
+		return "mp-kuaishou";
+		// #endif
+		// #ifdef MP-LARK
+		return "mp-lark";
+		// #endif
+		// #ifdef MP-JD
+		return "mp-jd";
+		// #endif
+		// #ifdef MP-XHS
+		return "mp-xhs";
+		// #endif
+		// #ifdef MP-HARMONY
+		return "mp-harmony";
+		// #endif
 		return "unknown";
 	},
 
@@ -36,22 +50,14 @@ export const Platform = {
 		return this.name?.startsWith("mp-");
 	},
 
-	isApp() {
-		return this.name === "app-plus";
-	},
-
-	isH5() {
-		return this.name === "h5";
-	},
-
-	// 平台能力检测
+	// 平台能力检测（小程序端）
 	supports: {
 		// 是否支持 WebSocket
 		websocket: () => !["mp-toutiao", "mp-qq"].includes(Platform.name),
 		// 是否支持蓝牙
 		bluetooth: () => Platform.isMp(),
 		// 是否支持支付
-		payment: () => ["mp-weixin", "mp-alipay"].includes(Platform.name),
+		payment: () => ["mp-weixin", "mp-alipay", "mp-dingtalk"].includes(Platform.name),
 		// 是否支持分享
 		share: () => Platform.isMp(),
 		// 是否支持推送

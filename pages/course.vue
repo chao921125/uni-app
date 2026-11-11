@@ -71,7 +71,7 @@ onPullDownRefresh(() => {
 			<view class="nav-content">
 				<text class="nav-title">课程中心</text>
 				<view class="nav-right">
-					<u-icon name="search" size="20" color="#333" @click="uni.showToast({ title: '搜索课程', icon: 'none' })"></u-icon>
+					<t-icon name="search" size="20" color="#333" @click="uni.showToast({ title: '搜索课程', icon: 'none' })"></t-icon>
 				</view>
 			</view>
 		</view>
@@ -95,7 +95,7 @@ onPullDownRefresh(() => {
 			<view class="filter-bar">
 				<view class="filter-item" @click="filterFree = !filterFree">
 					<view :class="['filter-check', filterFree ? 'checked' : '']">
-						<u-icon v-if="filterFree" name="checkmark" size="12" color="#fff"></u-icon>
+						<t-icon v-if="filterFree" name="check" size="12" color="#fff"></t-icon>
 					</view>
 					<text class="filter-label">仅看免费</text>
 				</view>
@@ -129,7 +129,7 @@ onPullDownRefresh(() => {
 			</view>
 
 			<view v-if="filteredCourses.length === 0" class="empty-state">
-				<u-icon name="info-circle" size="48" color="#d1d5db"></u-icon>
+				<t-icon name="info-circle" size="48" color="#d1d5db"></t-icon>
 				<text class="empty-text">暂无相关课程</text>
 			</view>
 

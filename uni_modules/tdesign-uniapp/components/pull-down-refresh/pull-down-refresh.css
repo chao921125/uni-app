@@ -1,7 +1,6 @@
 .t-pull-down-refresh {
   overflow: hidden;
   height: 100%;
-  width: 100%;
 }
 .t-pull-down-refresh__track {
   position: relative;
@@ -12,7 +11,7 @@
 .t-pull-down-refresh__tips {
   position: absolute;
   color: var(--td-pull-down-refresh-color, var(--td-text-color-placeholder, var(--td-font-gray-3, rgba(0, 0, 0, 0.4))));
-  font-size: 12px;
+  font-size: 24rpx;
   top: 0;
   width: 100%;
   transform: translateY(-100%);
@@ -26,5 +25,5 @@
   transition: height ease 0.24s;
 }
 .t-pull-down-refresh__text {
-  margin: 8px 0 0;
+  margin: 16rpx 0 0;
 }

@@ -1,11 +1,9 @@
 /**
- * UniApp 地图与位置服务模块封装
+ * UniApp 地图与位置服务模块封装（仅小程序端）
  * 功能：定位/地图/路线规划/地理编码
- * 平台：全平台兼容（集成高德、腾讯地图SDK）
  */
 
 import { createModule } from "./promise.js";
-import Platform from "./platform.js";
 
 // 封装规则
 const rules = {
@@ -140,7 +138,7 @@ location.service = {
 		// #endif
 
 		// #ifndef MP-WEIXIN
-		// 其他平台使用标准API
+		// 其他小程序平台使用标准API
 		location.startLocationUpdate?.({
 			success: () => {
 				uni.onLocationChange?.(callback);

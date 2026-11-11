@@ -1,5 +1,21 @@
 import { getRegExp } from '../common/runtime/wxs-polyfill';
 
+export function isDateSelected(dateItem) {
+  return ['start', 'end', 'selected', 'centre'].indexOf(dateItem.type) >= 0;
+}
+
+export function getMonthTitle(year, month, pattern = '') {
+  // prettier-ignore
+  const REGEXP = getRegExp('\\{year\\}|\\{month\\}', 'g');
+
+  return pattern.replace(REGEXP, (match) => {
+    const replacements = {
+      '{year}': year,
+      '{month}': month < 10 ? `0${month}` : month,
+    };
+    return replacements[match] || match;
+  });
+}
 
 export function getDateLabel(monthItem, dateItem) {
   const weekdayText = ['日', '一', '二', '三', '四', '五', '六'];
@@ -22,21 +38,3 @@ export function getDateLabel(monthItem, dateItem) {
   }
   return label;
 }
-
-export function isDateSelected(dateItem) {
-  return ['start', 'end', 'selected', 'centre'].indexOf(dateItem.type) >= 0;
-}
-
-export function getMonthTitle(year, month, pattern = '') {
-  // prettier-ignore
-  const REGEXP = getRegExp('\\{year\\}|\\{month\\}', 'g');
-
-  return pattern.replace(REGEXP, (match) => {
-    const replacements = {
-      '{year}': year,
-      '{month}': month < 10 ? `0${month}` : month,
-    };
-    return replacements[match] || match;
-  });
-}
-

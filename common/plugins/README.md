@@ -1,6 +1,6 @@
 # UniApp 插件模块文档
 
-本目录包含经过封装的 UniApp 常用功能模块，提供统一的 API 接口和跨平台兼容性。
+本目录包含经过封装的 UniApp 常用功能模块，提供统一的 API 接口（本项目仅支持小程序端，不含 H5/App）。
 
 ## 📦 模块列表
 
@@ -12,7 +12,7 @@ import device from "@/common/plugins/device.js";
 
 // 获取系统信息（带缓存）
 const info = await device.getInfo();
-console.log(info.platform); // 'mp-weixin' | 'app-plus' | 'h5'
+console.log(info.platform); // 'mp-weixin' | 'mp-alipay' | 'mp-baidu' | 'mp-toutiao' | 'mp-qq' 等
 console.log(info.isNotch);  // 是否为刘海屏
 console.log(info.totalHeaderHeight); // 总头部高度
 
@@ -126,7 +126,7 @@ await network.isConnected(); // 是否联网
 ---
 
 ### 4. **permission.js** - 权限管理模块
-**功能：** 全平台权限检查和请求（App/小程序/H5）
+**功能：** 小程序权限检查和请求（uni.getSetting/uni.authorize 通用封装）
 
 ```javascript
 import { Permission } from "@/common/plugins/permission.js";
@@ -134,7 +134,7 @@ import { Permission } from "@/common/plugins/permission.js";
 // 检查单个权限
 const status = await Permission.check("camera");
 // 返回值：
-// -2: 不支持 | -1: 错误 | 0: 未请求 | 1: 已授权 | 2: 已拒绝 | 3: 系统关闭 | 4: 部分授权(iOS)
+// -2: 不支持 | -1: 错误 | 0: 未请求 | 1: 已授权 | 2: 已拒绝 | 3: 系统关闭
 
 // 请求权限
 const result = await Permission.request("location", {
@@ -171,10 +171,8 @@ const text = Permission.getStatusText("camera", 2);
 - `album` - 相册
 - `bluetooth` - 蓝牙
 - `notification` - 通知推送
-- `calendar` - 日历
+- `calendar` - 日历（小程序不支持）
 - `contact` - 通讯录
-- `phone` - 电话状态（仅App）
-- `sms` - 短信（仅Android）
 
 ---
 
@@ -185,13 +183,11 @@ const text = Permission.getStatusText("camera", 2);
 import Platform from "@/common/plugins/platform.js";
 
 // 获取平台名称
-console.log(Platform.name); // 'mp-weixin' | 'app-plus' | 'h5'
+console.log(Platform.name); // 'mp-weixin' | 'mp-alipay' | 'mp-baidu' | 'mp-toutiao' | 'mp-qq' 等
 
 // 平台判断
 Platform.is("mp-weixin"); // 是否微信小程序
 Platform.isMp();          // 是否小程序
-Platform.isApp();         // 是否App
-Platform.isH5();          // 是否H5
 
 // 能力检测
 Platform.supports.websocket(); // 是否支持WebSocket

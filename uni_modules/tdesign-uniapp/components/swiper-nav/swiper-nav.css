@@ -5,85 +5,84 @@
 }
 .t-swiper-nav__dots-item,
 .t-swiper-nav__dots-bar-item {
-  width: var(--td-swiper-nav-dot-size, 6px);
-  height: var(--td-swiper-nav-dot-size, 6px);
+  width: var(--td-swiper-nav-dot-size, 12rpx);
+  height: var(--td-swiper-nav-dot-size, 12rpx);
   background: var(--td-swiper-nav-dot-color, var(--td-font-white-2, rgba(255, 255, 255, 0.55)));
   border-radius: 50%;
-  margin: 0 5px;
+  margin: 0 10rpx;
   transition: all 0.4s ease-in;
 }
 .t-swiper-nav__dots-item--vertical,
 .t-swiper-nav__dots-bar-item--vertical {
-  margin: 5px 0;
+  margin: 10rpx 0;
 }
 .t-swiper-nav__dots-item--active,
 .t-swiper-nav__dots-bar-item--active {
   background-color: var(--td-swiper-nav-dot-active-color, var(--td-text-color-anti, var(--td-font-white-1, #ffffff)));
 }
 .t-swiper-nav__dots-bar-item--vertical.t-swiper-nav__dots-bar-item--active {
-  width: var(--td-swiper-nav-dot-size, 6px);
-  height: var(--td-swiper-nav-dots-bar-active-width, 20px);
+  width: var(--td-swiper-nav-dot-size, 12rpx);
+  height: var(--td-swiper-nav-dots-bar-active-width, 40rpx);
 }
 .t-swiper-nav__dots-bar-item--active {
-  width: var(--td-swiper-nav-dots-bar-active-width, 20px);
-  border-radius: calc(var(--td-swiper-nav-dot-size, 6px) / 2);
+  width: var(--td-swiper-nav-dots-bar-active-width, 40rpx);
+  border-radius: calc(var(--td-swiper-nav-dot-size, 12rpx) / 2);
   background-color: var(--td-swiper-nav-dot-active-color, var(--td-text-color-anti, var(--td-font-white-1, #ffffff)));
 }
 .t-swiper-nav--left {
   position: absolute;
-  left: 12px;
+  left: 24rpx;
   top: 50%;
   transform: translateY(-50%);
 }
 .t-swiper-nav--right {
   position: absolute;
-  right: 12px;
+  right: 24rpx;
   top: 50%;
   transform: translateY(-50%);
 }
 .t-swiper-nav--top-left {
   position: absolute;
-  top: 12px;
-  left: 12px;
+  top: 24rpx;
+  left: 24rpx;
 }
 .t-swiper-nav--top {
   position: absolute;
   left: 50%;
-  top: 12px;
+  top: 24rpx;
   transform: translateX(-50%);
 }
 .t-swiper-nav--top-right {
   position: absolute;
-  top: 12px;
-  right: 12px;
+  top: 24rpx;
+  right: 24rpx;
 }
 .t-swiper-nav--bottom-left {
   position: absolute;
-  left: 12px;
-  bottom: 12px;
+  left: 24rpx;
+  bottom: 24rpx;
 }
 .t-swiper-nav--bottom {
   position: absolute;
   left: 50%;
-  bottom: 12px;
+  bottom: 24rpx;
   transform: translateX(-50%);
 }
 .t-swiper-nav--bottom-right {
   position: absolute;
-  right: 12px;
-  bottom: 12px;
+  right: 24rpx;
+  bottom: 24rpx;
 }
 .t-swiper-nav--vertical {
   flex-direction: column;
 }
 .t-swiper-nav__fraction {
-  padding: 0 8px;
-  height: var(--td-swiper-nav-fraction-height, 24px);
-  line-height: var(--td-swiper-nav-fraction-height, 24px);
-  border-radius: calc(var(--td-swiper-nav-fraction-height, 24px) / 2);
+  padding: 0 16rpx;
+  height: var(--td-swiper-nav-fraction-height, 48rpx);
+  border-radius: calc(var(--td-swiper-nav-fraction-height, 48rpx) / 2);
   background: var(--td-swiper-nav-fraction-bg-color, var(--td-font-gray-3, rgba(0, 0, 0, 0.4)));
   color: var(--td-swiper-nav-fraction-color, var(--td-text-color-anti, var(--td-font-white-1, #ffffff)));
-  font-size: var(--td-swiper-nav-fraction-font-size, 12px);
+  font: var(--td-swiper-nav-fraction-font, var(--td-font-body-small, 24rpx / 40rpx var(--td-font-family, PingFang SC, Microsoft YaHei, Arial Regular)));
 }
 .t-swiper-nav__btn {
   width: 100%;
@@ -96,8 +95,8 @@
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  width: var(--td-swiper-nav-btn-size, 24px);
-  height: var(--td-swiper-nav-btn-size, 24px);
+  width: var(--td-swiper-nav-btn-size, 48rpx);
+  height: var(--td-swiper-nav-btn-size, 48rpx);
   border-radius: 50%;
   background: var(--td-swiper-nav-btn-bg-color, var(--td-font-gray-3, rgba(0, 0, 0, 0.4)));
 }
@@ -108,24 +107,24 @@
   top: 50%;
   display: block;
   content: '';
-  width: 6px;
-  height: 6px;
+  width: 12rpx;
+  height: 12rpx;
   border-color: var(--td-swiper-nav-btn-color, var(--td-text-color-anti, var(--td-font-white-1, #ffffff)));
   border-style: solid;
 }
 .t-swiper-nav__btn--prev {
-  left: 15px;
+  left: 30rpx;
 }
 .t-swiper-nav__btn--prev::after {
-  margin-left: 2px;
-  border-width: 1px 0 0 1px;
+  margin-left: 4rpx;
+  border-width: 2rpx 0 0 2rpx;
   transform: translate(-50%, -50%) rotateZ(-45deg);
 }
 .t-swiper-nav__btn--next {
-  right: 15px;
+  right: 30rpx;
 }
 .t-swiper-nav__btn--next::after {
-  margin-left: -2px;
-  border-width: 1px 1px 0 0;
+  margin-left: -4rpx;
+  border-width: 2rpx 2rpx 0 0;
   transform: translate(-50%, -50%) rotateZ(45deg);
 }

@@ -7,7 +7,7 @@
   width: auto;
 }
 .t-grid--card {
-  margin: 0 16px;
-  border-radius: var(--td-grid-card-radius, var(--td-radius-large, 9px));
+  margin: 0 32rpx;
+  border-radius: var(--td-grid-card-radius, var(--td-radius-large, 18rpx));
   overflow: hidden;
 }

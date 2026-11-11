@@ -1,60 +1,55 @@
 <template>
   <view
     :id="tId"
-    :class="' ' + tClass + ' ' + classPrefix + ' '+(switchMode !== 'none' ? classPrefix + '__with-action' : '')"
+    :class="' ' + tClass + ' ' + classPrefix + ' ' + (switchMode !== 'none' ? classPrefix + '__with-action' : '')"
   >
-    <view
-      v-if="switchMode !== 'none'"
-      :class="classPrefix + '__action'"
-    >
+    <view v-if="switchMode !== 'none'" :class="classPrefix + '__action'">
       <view
         v-if="switchMode === 'year-month'"
-        :class="utils.cls(classPrefix + '__icon', [['disabled', preYearBtnDisable]])"
+        :class="'' + utils.cls(classPrefix + '__icon', [['disabled', preYearBtnDisable]])"
         :data-disabled="preYearBtnDisable"
         data-type="pre-year"
         @click="handleSwitchModeChange"
       >
-        <TIcon name="chevron-left-double" />
+        <t-icon name="chevron-left-double" />
       </view>
       <view
-        :class="utils.cls(classPrefix + '__icon', [['disabled', prevMonthBtnDisable]])"
+        :class="'' + utils.cls(classPrefix + '__icon', [['disabled', prevMonthBtnDisable]])"
         :data-disabled="prevMonthBtnDisable"
         data-type="pre-month"
         @click="handleSwitchModeChange"
       >
-        <TIcon name="chevron-left" />
+        <t-icon name="chevron-left" />
       </view>
     </view>
     <view :class="classPrefix + '__title'">
       {{ title }}
     </view>
-    <view
-      v-if="switchMode !== 'none'"
-      :class="classPrefix + '__action'"
-    >
+    <view v-if="switchMode !== 'none'" :class="classPrefix + '__action'">
       <view
-        :class="utils.cls(classPrefix + '__icon', [['disabled', nextMonthBtnDisable]])"
+        :class="'' + utils.cls(classPrefix + '__icon', [['disabled', nextMonthBtnDisable]])"
         :data-disabled="nextMonthBtnDisable"
         data-type="next-month"
         @click="handleSwitchModeChange"
       >
-        <TIcon name="chevron-right" />
+        <t-icon name="chevron-right" />
       </view>
       <view
         v-if="switchMode === 'year-month'"
-        :class="utils.cls(classPrefix + '__icon', [['disabled', nextYearBtnDisable]])"
+        :class="'' + utils.cls(classPrefix + '__icon', [['disabled', nextYearBtnDisable]])"
         :data-disabled="nextYearBtnDisable"
         data-type="next-year"
         @click="handleSwitchModeChange"
       >
-        <TIcon name="chevron-right-double" />
+        <t-icon name="chevron-right-double" />
       </view>
     </view>
   </view>
 </template>
 <script>
-import TIcon from '../icon/icon.vue';
 import utils from '../common/utils.wxs';
+import TIcon from '../icon/icon.vue';
+
 import props from './calendar-header.props';
 import { getMonthTitle } from './computed';
 
@@ -69,20 +64,14 @@ export default {
   props: {
     ...props,
   },
-  emits: [
-    'handleSwitchModeChange',
-  ],
+  emits: ['handleSwitchModeChange'],
   data() {
     return {
       utils,
     };
   },
-  watch: {
-
-  },
-  mounted() {
-
-  },
+  watch: {},
+  mounted() {},
   methods: {
     handleSwitchModeChange(...args) {
       this.$emit('handleSwitchModeChange', ...args);
@@ -90,9 +79,6 @@ export default {
     getMonthTitle,
   },
 };
-
 </script>
 
-<style scoped>
-@import './calendar.css';
-</style>
+<style scoped src="./calendar.css"></style>

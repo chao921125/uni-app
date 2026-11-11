@@ -1,4 +1,5 @@
 import { getDateRect, isSameDate, getMonthDateRect, isValidDate, getDate } from '../date';
+
 export default class TCalendar {
   constructor(options = {}) {
     this.type = 'single';
@@ -6,6 +7,7 @@ export default class TCalendar {
     if (!this.minDate) this.minDate = getDate();
     if (!this.maxDate) this.maxDate = getDate(6);
   }
+
   getTrimValue() {
     const { value, type } = this;
     const format = (val) => {
@@ -16,12 +18,13 @@ export default class TCalendar {
     if (type === 'single' && isValidDate(value)) return format(value);
     if (type === 'multiple' || type === 'range') {
       if (Array.isArray(value)) {
-        const isValid = value.every(item => isValidDate(item));
-        return isValid ? value.map(item => format(item)) : [];
+        const isValid = value.every((item) => isValidDate(item));
+        return isValid ? value.map((item) => format(item)) : [];
       }
       return [];
     }
   }
+
   getDays(weekdays) {
     const ans = [];
     let i = this.firstDayOfWeek % 7;
@@ -31,6 +34,7 @@ export default class TCalendar {
     }
     return ans;
   }
+
   getMonths() {
     const ans = [];
     const selectedDate = this.getTrimValue();
@@ -41,11 +45,12 @@ export default class TCalendar {
     const { year: maxYear, month: maxMonth, time: maxTime } = getDateRect(maxDate);
     const calcType = (year, month, date) => {
       const curDate = new Date(year, month, date, 23, 59, 59);
+
       if (type === 'single' && selectedDate) {
         if (isSameDate({ year, month, date }, selectedDate)) return 'selected';
       }
       if (type === 'multiple' && selectedDate) {
-        const hit = selectedDate.some(item => isSameDate({ year, month, date }, item));
+        const hit = selectedDate.some((item) => isSameDate({ year, month, date }, item));
         if (hit) {
           return 'selected';
         }
@@ -55,18 +60,22 @@ export default class TCalendar {
           const [startDate, endDate] = selectedDate;
           const compareWithStart = startDate && isSameDate({ year, month, date }, startDate);
           const compareWithEnd = endDate && isSameDate({ year, month, date }, endDate);
+
           if (compareWithStart && compareWithEnd && allowSameDay) return 'start-end';
           if (compareWithStart) return 'start';
           if (compareWithEnd) return 'end';
-          if (startDate && endDate && curDate.getTime() > startDate.getTime() && curDate.getTime() < endDate.getTime()) return 'centre';
+          if (startDate && endDate && curDate.getTime() > startDate.getTime() && curDate.getTime() < endDate.getTime())
+            return 'centre';
         }
       }
+
       const minCurDate = new Date(year, month, date, 0, 0, 0);
       if (curDate.getTime() < minTime || minCurDate.getTime() > maxTime) {
         return 'disabled';
       }
       return '';
     };
+
     while (minYear < maxYear || (minYear === maxYear && minMonth <= maxMonth)) {
       const target = getMonthDateRect(new Date(minYear, minMonth, 1));
       const months = [];
@@ -89,8 +98,10 @@ export default class TCalendar {
       minYear = curDate.year;
       minMonth = curDate.month;
     }
+
     return ans;
   }
+
   select({ cellType, year, month, date }) {
     const { type } = this;
     const selectedDate = this.getTrimValue();
@@ -105,7 +116,7 @@ export default class TCalendar {
       }
     } else if (type === 'multiple' && Array.isArray(selectedDate)) {
       const newVal = [...selectedDate];
-      const index = selectedDate.findIndex(item => isSameDate(item, selected));
+      const index = selectedDate.findIndex((item) => isSameDate(item, selected));
       if (index > -1) {
         newVal.splice(index, 1);
       } else {

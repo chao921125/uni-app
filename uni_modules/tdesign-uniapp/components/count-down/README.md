@@ -12,10 +12,12 @@ isComponent: true
 
 ## 引入
 
-可在 `main.ts` 或在需要使用的页面或组件中引入。
+推荐使用 easycom 模式引入组件，配置后无需手动 import 即可直接在模板中使用 `<t-count-down />`。详细配置请参考 [快速开始](../getting-started)。
+
+如需手动引入：
 
 ```js
-import TCountDown from 'tdesign-uniapp/count-down/count-down.vue';
+import TCountDown from '@tdesign/uniapp/count-down/count-down.vue';
 ```
 
 ### 基础倒计时
@@ -46,7 +48,7 @@ time | Number | 0 | 必需。倒计时时长，单位毫秒 | Y
 
 名称 | 参数 | 描述
 -- | -- | --
-change | `(time: TimeData)` | 时间变化时触发。[详细类型定义](https://github.com/novlan1/tdesign-uniapp/blob/develop/packages/tdesign/count-down/type.ts)。<br/>`interface TimeData {  days: number; hours: number; minutes: number; seconds: number; milliseconds: number }`<br/>
+change | `(time: TimeData)` | 时间变化时触发。[详细类型定义](https://github.com/Tencent/tdesign-miniprogram/tree/develop/packages/uniapp-components/count-down/type.ts)。<br/>`interface TimeData {  days: number; hours: number; minutes: number; seconds: number; milliseconds: number }`<br/>
 finish | \- | 倒计时结束时触发
 
 ### CountDown Slots
@@ -67,10 +69,10 @@ t-class-split | 分隔线样式类
 ### CSS Variables
 
 组件提供了下列 CSS 变量，可用于自定义样式。
-| 名称 | 默认值 | 描述 |
-| -- | -- | -- | 
-| --td-countdown-bg-color | @error-color | - |
-| --td-countdown-default-color | @text-color-primary | - |
-| --td-countdown-round-border-radius | @radius-circle | - |
-| --td-countdown-round-color | @text-color-anti | - |
-| --td-countdown-square-border-radius | @radius-small | - |
+名称 | 默认值 | 描述
+-- | -- | --
+--td-countdown-bg-color | @error-color | -
+--td-countdown-default-color | @text-color-primary | -
+--td-countdown-round-border-radius | @radius-circle | -
+--td-countdown-round-color | @text-color-anti | -
+--td-countdown-square-border-radius | @radius-small | -

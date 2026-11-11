@@ -11,7 +11,7 @@ const tabs = [
 	{ text: "首页", icon: "home" },
 	{ text: "AI", icon: "chat" },
 	{ text: "课程", icon: "bookmark" },
-	{ text: "我", icon: "account" },
+	{ text: "我", icon: "user" },
 ];
 
 const onSwitchTab = (index) => {
@@ -33,11 +33,11 @@ const onSwitchTab = (index) => {
 				class="tab-item"
 				@click="onSwitchTab(index)"
 			>
-				<u-icon
-					:name="tab.icon"
-					size="24"
-					:color="current === index ? '#6366f1' : '#9ca3af'"
-				></u-icon>
+			<t-icon
+				:name="tab.icon"
+				size="24"
+				:color="current === index ? '#6366f1' : '#9ca3af'"
+			></t-icon>
 				<text
 					class="tab-text"
 					:style="{ color: current === index ? '#6366f1' : '#9ca3af' }"

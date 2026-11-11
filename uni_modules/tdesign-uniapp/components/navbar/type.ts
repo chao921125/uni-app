@@ -21,10 +21,20 @@ export interface TdNavbarProps {
    */
   fixed?: boolean;
   /**
+   * 【实验】是否销毁导航栏，仅场景值为 1433、1434、1177、1175 时有效
+   * @default false
+   */
+  isHiddenInSpecialScene?: boolean;
+  /**
    * 是否展示左侧箭头
    * @default false
    */
   leftArrow?: boolean;
+  /**
+   * 固定在顶部时是否开启占位
+   * @default false
+   */
+  placeholder?: boolean;
   /**
    * 是否开启顶部安全区适配
    * @default true
@@ -44,6 +54,11 @@ export interface TdNavbarProps {
    */
   visible?: boolean;
   /**
+   * 导航栏栏层级
+   * @default 1
+   */
+  zIndex?: number;
+  /**
    * navigateBack 执行完成后触发（失败或成功均会触发）
    */
   onComplete?: () => void;
@@ -55,6 +70,10 @@ export interface TdNavbarProps {
    * 点击左侧箭头时触发
    */
   onGoBack?: () => void;
+  /**
+   * 点击右侧图标时触发
+   */
+  onRightClick?: () => void;
   /**
    * navigateBack 执行成功后触发
    */

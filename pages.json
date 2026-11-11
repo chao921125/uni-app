@@ -47,9 +47,7 @@
 	"easycom": {
 		"autoscan": true,
 		"custom": {
-			"^u--(.*)": "@/uni_modules/uview-plus/components/u-$1/u-$1.vue",
-			"^up-(.*)": "@/uni_modules/uview-plus/components/u-$1/u-$1.vue",
-			"^u-([^-].*)": "@/uni_modules/uview-plus/components/u-$1/u-$1.vue"
+			"^t-(.*)": "@/uni_modules/tdesign-uniapp/components/$1/$1.vue"
 		}
 	},
 	"globalStyle": {

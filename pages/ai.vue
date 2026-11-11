@@ -74,7 +74,7 @@ onLoad(() => {
 			<view class="nav-content">
 				<view class="nav-left">
 					<view class="ai-badge">
-						<u-icon name="chat" size="16" color="#fff"></u-icon>
+						<t-icon name="chat" size="16" color="#fff"></t-icon>
 					</view>
 					<text class="nav-title">AI 助手</text>
 				</view>
@@ -96,7 +96,7 @@ onLoad(() => {
 			<view class="chat-list">
 				<view v-for="(msg, index) in messages" :key="index" :class="['msg-wrap', msg.role === 'user' ? 'msg-user' : 'msg-ai']">
 					<view v-if="msg.role === 'ai'" class="msg-avatar">
-						<u-icon name="chat" size="20" color="#fff"></u-icon>
+						<t-icon name="chat" size="20" color="#fff"></t-icon>
 					</view>
 					<view :class="['msg-bubble', msg.role === 'user' ? 'bubble-user' : 'bubble-ai']">
 						<text class="msg-text">{{ msg.content }}</text>
@@ -117,17 +117,18 @@ onLoad(() => {
 
 		<!-- 输入栏 -->
 		<view class="input-bar" :style="{ bottom: 'calc(50px + env(safe-area-inset-bottom))' }">
-			<u-input
-				v-model="inputText"
+			<t-input
+				v-model:value="inputText"
 				placeholder="输入你的问题..."
-				border="none"
-				shape="circle"
+				borderless
 				:clearable="false"
+				confirm-type="send"
+				custom-style="background: transparent; padding: 0;"
 				class="input-field"
-				@confirm="sendMessage()"
-			></u-input>
+				@enter="sendMessage()"
+			></t-input>
 			<view class="send-btn" :class="{ active: inputText.trim() }" @click="sendMessage()">
-				<u-icon name="arrow-up" size="18" :color="inputText.trim() ? '#fff' : '#9ca3af'"></u-icon>
+				<t-icon name="arrow-up" size="18" :color="inputText.trim() ? '#fff' : '#9ca3af'"></t-icon>
 			</view>
 		</view>
 

@@ -1,13 +1,12 @@
 .t-notice-bar {
   display: flex;
   align-items: flex-start;
-  padding: 13px 16px;
-  font-size: var(--td-font-size-base, 14px);
+  padding: 26rpx 32rpx;
 }
 .t-notice-bar__content-wrap {
   flex: 1;
   overflow-x: hidden;
-  line-height: 22px;
+  font: var(--td-font-body-medium, 28rpx / 44rpx var(--td-font-family, PingFang SC, Microsoft YaHei, Arial Regular));
   color: var(--td-notice-bar-font-color, var(--td-text-color-primary, var(--td-font-gray-1, rgba(0, 0, 0, 0.9))));
 }
 .t-notice-bar__content {
@@ -19,8 +18,8 @@
 }
 .t-notice-bar__content--vertical {
   display: block;
-  height: 22px;
-  line-height: 22px;
+  height: 44rpx;
+  line-height: 44rpx;
 }
 .t-notice-bar__content--vertical-item {
   overflow: hidden;
@@ -31,15 +30,15 @@
   color: inherit;
 }
 .t-notice-bar__prefix-icon:not(:empty) {
-  padding-right: var(--td-spacer, 8px);
-  width: 22px;
+  padding-right: var(--td-spacer, 16rpx);
+  width: 44rpx;
 }
 .t-notice-bar__suffix-icon {
   color: var(--td-notice-bar-suffix-icon-color, var(--td-text-color-placeholder, var(--td-font-gray-3, rgba(0, 0, 0, 0.4))));
 }
 .t-notice-bar__prefix-icon,
 .t-notice-bar__suffix-icon {
-  font-size: 22px;
+  font-size: 44rpx;
 }
 .t-notice-bar__prefix-icon:empty,
 .t-notice-bar__suffix-icon:empty {
@@ -55,8 +54,8 @@
   display: none;
 }
 .t-notice-bar__suffix-icon:not(:empty) {
-  padding-left: var(--td-spacer, 8px);
-  width: 22px;
+  padding-left: var(--td-spacer, 16rpx);
+  width: 44rpx;
 }
 .t-notice-bar--info {
   color: var(--td-notice-bar-info-color, var(--td-brand-color, var(--td-primary-color-7, #0052d9)));

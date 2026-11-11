@@ -1,6 +1,6 @@
 ---
 title: SideBar 侧边栏
-description: 用于内容分类后的展示切换。
+description: 用于信息分类后的展示切换或锚点，位于页面左侧。
 spline: navigation
 isComponent: true
 ---
@@ -8,11 +8,13 @@ isComponent: true
 
 ## 引入
 
-可在 `main.ts` 或在需要使用的页面或组件中引入。
+推荐使用 easycom 模式引入组件，配置后无需手动 import 即可直接在模板中使用 `<t-side-bar />`。详细配置请参考 [快速开始](../getting-started)。
+
+如需手动引入：
 
 ```js
-import TSideBar from 'tdesign-uniapp/side-bar/side-bar.vue';
-import TSideBarItem from 'tdesign-uniapp/side-bar-item/side-bar-item.vue';
+import TSideBar from '@tdesign/uniapp/side-bar/side-bar.vue';
+import TSideBarItem from '@tdesign/uniapp/side-bar-item/side-bar-item.vue';
 ```
 
 ### 锚点用法
@@ -60,7 +62,7 @@ click | `(context: { value: number \| string; label: string })` | 点击选项�
 名称 | 类型 | 默认值 | 描述 | 必传
 -- | -- | -- | -- | --
 custom-style | Object | - | 自定义样式 | N
-badge-props | Object | - | 透传至 Badge 组件。TS 类型：`BadgeProps`，[Badge API Documents](./badge?tab=api)。[详细类型定义](https://github.com/novlan1/tdesign-uniapp/blob/develop/packages/tdesign/side-bar-item/type.ts) | N
+badge-props | Object | - | 透传至 Badge 组件。TS 类型：`BadgeProps`，[Badge API Documents](./badge?tab=api)。[详细类型定义](https://github.com/Tencent/tdesign-miniprogram/tree/develop/packages/uniapp-components/side-bar-item/type.ts) | N
 disabled | Boolean | false | 是否禁用 | N
 icon | String / Object | - | 图标，传对象则透传至 Icon | N
 label | String | - | 展示的标签 | N
@@ -75,17 +77,15 @@ value | String / Number | - | 当前选项的值 | N
 ### CSS Variables
 
 组件提供了下列 CSS 变量，可用于自定义样式。
-| 名称 | 默认值 | 描述 |
-| -- | -- | -- | 
-| --td-side-bar-bg-color | @bg-color-secondarycontainer | - |
-| --td-side-bar-height | 100% | - |
-| --td-side-bar-width | 206rpx | - |
-| --td-side-bar-active-color | @brand-color | - |
-| --td-side-bar-bg-color | @bg-color-secondarycontainer | - |
-| --td-side-bar-border-radius | 18rpx | - |
-| --td-side-bar-color | @text-color-primary | - |
-| --td-side-bar-disabled-color | @text-color-disabled | - |
-| --td-side-bar-font-size | 32rpx | - |
-| --td-side-bar-icon-size | 40rpx | - |
-| --td-side-bar-item-height | auto | - |
-| --td-side-bar-item-line-height | 48rpx | - |
+名称 | 默认值 | 描述
+-- | -- | --
+--td-side-bar-bg-color | @bg-color-secondarycontainer | -
+--td-side-bar-height | 100% | -
+--td-side-bar-width | 206rpx | -
+--td-side-bar-active-color | @brand-color | -
+--td-side-bar-border-radius | 18rpx | -
+--td-side-bar-color | @text-color-primary | -
+--td-side-bar-disabled-color | @text-color-disabled | -
+--td-side-bar-font | @font-body-large | -
+--td-side-bar-icon-size | 40rpx | -
+--td-side-bar-item-height | auto | -

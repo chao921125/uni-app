@@ -3,12 +3,11 @@
 		<!-- 导航栏主体 -->
 		<view
 			class="navbar-wrapper"
-			:class="{
-				'is-fixed': fixed,
-				'is-transparent': transparent,
-				'has-bg-image': !!bgImage,
-				'has-blur': blur,
-			}"
+		:class="{
+			'is-fixed': fixed,
+			'is-transparent': transparent,
+			'has-bg-image': !!bgImage,
+		}"
 			:style="wrapperStyle">
 			<!-- 背景层（支持图片/渐变/纯色 + 遮罩） -->
 			<view v-if="bgImage || bgGradient || bgColor" class="navbar-bg" :style="bgStyle">
@@ -72,8 +71,6 @@ const props = defineProps({
 
 	// ===== 透明模式 =====
 	transparent: { type: Boolean, default: false }, // 是否透明穿透
-	blur: { type: Boolean, default: false }, // 是否毛玻璃效果
-	blurStrength: { type: Number, default: 10 }, // 毛玻璃强度（px）
 
 	// ===== 文字颜色 =====
 	textColor: { type: String, default: "#303133" }, // 左右文字颜色
@@ -218,14 +215,6 @@ defineExpose({
 
 	&.is-transparent {
 		background-color: transparent !important;
-	}
-
-	&.has-blur {
-		// 毛玻璃效果（部分平台需开启硬件加速）
-		/* #ifdef H5 || APP-PLUS */
-		backdrop-filter: blur(v-bind('props.blurStrength + "px"'));
-		-webkit-backdrop-filter: blur(v-bind('props.blurStrength + "px"'));
-		/* #endif */
 	}
 }
 

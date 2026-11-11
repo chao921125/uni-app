@@ -9,10 +9,12 @@ isComponent: true
 
 ## 引入
 
-可在 `main.ts` 或在需要使用的页面或组件中引入。
+推荐使用 easycom 模式引入组件，配置后无需手动 import 即可直接在模板中使用 `<t-fab />`。详细配置请参考 [快速开始](../getting-started)。
+
+如需手动引入：
 
 ```js
-import TFab from 'tdesign-uniapp/fab/fab.vue';
+import TFab from '@tdesign/uniapp/fab/fab.vue';
 ```
 
 ### 基础使用
@@ -51,9 +53,9 @@ Fab 组件默认定位 `right: 16px; bottom: 32px;`，且拖拽功能也是通�
 名称 | 类型 | 默认值 | 描述 | 必传
 -- | -- | -- | -- | --
 custom-style | Object | - | 自定义样式 | N
-button-props | Object | - | 透传至 Button 组件。TS 类型：`ButtonProps`，[Button API Documents](./button?tab=api)。[详细类型定义](https://github.com/novlan1/tdesign-uniapp/blob/develop/packages/tdesign/fab/type.ts) | N
-draggable | String / Boolean | false | 是否可拖拽。`true` / `'all'`可拖动<br>`'vertical'`可垂直拖动<br>`'horizontal'`可水平拖动<br>`false`禁止拖动。TS 类型：`boolean \| FabDirectionEnum ` `type FabDirectionEnum = 'all' \| 'vertical' \| 'horizontal'`。[详细类型定义](https://github.com/novlan1/tdesign-uniapp/blob/develop/packages/tdesign/fab/type.ts) | N
-icon | String | - | 图标 | N
+button-props | Object | - | 透传至 Button 组件。TS 类型：`ButtonProps`，[Button API Documents](./button?tab=api)。[详细类型定义](https://github.com/tencent/tdesign-miniprogram/blob/develop/packages/uniapp-components/fab/type.ts) | N
+draggable | String / Boolean | false | 是否可拖拽。`true` / `'all'`可拖动<br>`'vertical'`可垂直拖动<br>`'horizontal'`可水平拖动<br>`false`禁止拖动。TS 类型：`boolean \| FabDirectionEnum ` `type FabDirectionEnum = 'all' \| 'vertical' \| 'horizontal'`。[详细类型定义](https://github.com/tencent/tdesign-miniprogram/blob/develop/packages/uniapp-components/fab/type.ts) | N
+icon | String / Object | - | 图标名称。值为字符串表示图标名称，值为 `Object` 类型，表示透传至 `icon` 组件 | N
 style | String | right: 16px; bottom: 32px; | 悬浮按钮的样式，常用于调整位置（即将废弃，建议使用 `style`） | N
 text | String | - | 文本内容 | N
 using-custom-navbar | Boolean | false | 是否使用了自定义导航栏 | N
@@ -76,6 +78,6 @@ drag-start | `(context: { e: TouchEvent })` | 开始拖拽时触发
 ### CSS Variables
 
 组件提供了下列 CSS 变量，可用于自定义样式。
-| 名称 | 默认值 | 描述 |
-| -- | -- | -- | 
-| --td-fab-shadow | @shadow-2 | - |
+名称 | 默认值 | 描述
+-- | -- | --
+--td-fab-shadow | @shadow-2 | -

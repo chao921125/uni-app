@@ -3,9 +3,6 @@
   overflow: hidden;
   width: 100%;
 }
-.watermark-move {
-  animation: watermark var(--watermark-animation-duration, 100s) linear infinite;
-}
 @keyframes watermark {
   0% {
     left: var(--watermark-left-0);

@@ -1,27 +1,17 @@
 <template>
-  <view
-    :class="[className + ' ', tClass]"
-    :style="tools._style([tagStyle, customStyle])"
-    @click="handleClick"
-  >
-    <view
-      :aria-hidden="true"
-      :class="classPrefix + '__icon'"
-    >
-      <block
-        v-if="_icon"
-        name="icon"
-      >
+  <view :class="[className + ' ', tClass]" :style="'' + tools._style([tagStyle, customStyle])" @click="handleClick">
+    <view :aria-hidden="true" :class="classPrefix + '__icon'">
+      <block v-if="innerIcon" name="icon">
         <t-icon
-          :custom-style="_icon.style || ''"
+          :custom-style="innerIcon.style || ''"
           :t-class="prefix + '-icon'"
-          :prefix="_icon.prefix"
-          :name="_icon.name"
-          :size="_icon.size"
-          :color="_icon.color"
-          :aria-hidden="!!_icon.ariaHidden"
-          :aria-label="_icon.ariaLabel"
-          :aria-role="_icon.ariaRole"
+          :prefix="innerIcon.prefix"
+          :name="innerIcon.name"
+          :size="innerIcon.size"
+          :color="innerIcon.color"
+          :aria-hidden="!!innerIcon.ariaHidden"
+          :aria-label="innerIcon.ariaLabel"
+          :aria-role="innerIcon.ariaRole"
         />
       </block>
       <slot name="icon" />
@@ -29,133 +19,123 @@
     <view :class="classPrefix + '__text'">
       <slot />
     </view>
-    <block
-      v-if="_closable"
-      name="icon"
-    >
+    <block v-if="innerClosable" name="icon">
       <t-icon
-        :custom-style="_closable.style || ''"
+        :custom-style="innerClosable.style || ''"
         :t-class="classPrefix + '__icon-close ' + prefix + '-icon'"
-        :prefix="_closable.prefix"
-        :name="_closable.name"
-        :size="_closable.size"
-        :color="_closable.color"
-        :aria-hidden="!!_closable.ariaHidden"
-        :aria-label="_closable.ariaLabel || '关闭'"
-        :aria-role="_closable.ariaRole"
-        @click="handleClose"
+        :prefix="innerClosable.prefix"
+        :name="innerClosable.name"
+        :size="innerClosable.size"
+        :color="innerClosable.color"
+        :aria-hidden="!!innerClosable.ariaHidden"
+        :aria-label="innerClosable.ariaLabel || '关闭'"
+        :aria-role="innerClosable.ariaRole"
+        @click.stop="handleClose"
       />
     </block>
-    <slot
-      v-else
-      name="closable"
-    />
+    <slot v-else name="closable" />
   </view>
 </template>
 <script>
-import tIcon from '.././icon/icon';
-import { uniComponent } from '../common/src/index';
+import TIcon from '.././icon/icon';
 import { prefix } from '../common/config';
-import props from './props';
-import { classNames, calcIcon } from '../common/utils';
-import { isNumber } from '../common/validator';
-import tools from '../common/utils.wxs';
+import { uniComponent } from '../common/src/index';
 
+import { classNames, calcIcon } from '../common/utils';
+import tools from '../common/utils.wxs';
+import { isNumeric } from '../common/validator';
+
+import props from './props';
 
 const name = `${prefix}-tag`;
 
-
-export default uniComponent({
-  name,
-  options: {
-    styleIsolation: 'shared',
-  },
-  externalClasses: [
-    `${prefix}-class`,
-  ],
+export default {
   components: {
-    tIcon,
+    TIcon,
   },
-  props: {
-    ...props,
-  },
-  data() {
-    return {
-      prefix,
-      classPrefix: name,
-      className: '',
-      tagStyle: '',
-      tools,
+  ...uniComponent({
+    name,
+    options: {
+      styleIsolation: 'shared',
+    },
+    externalClasses: [`${prefix}-class`],
+    props: {
+      ...props,
+    },
+    data() {
+      return {
+        prefix,
+        classPrefix: name,
+        className: '',
+        tagStyle: '',
+        tools,
 
-      _icon: null,
-      _closable: null,
-    };
-  },
-  watch: {
-    size: 'setClass',
-    shape: 'setClass',
-    theme: 'setClass',
-    variant: 'setClass',
-    disabled: 'setClass',
-    maxWidth: 'setTagStyle',
-    icon: {
-      handler(s) {
-        this._icon = calcIcon(s);
+        innerIcon: null,
+        innerClosable: null,
+      };
+    },
+    watch: {
+      size: 'setClass',
+      shape: 'setClass',
+      theme: 'setClass',
+      variant: 'setClass',
+      disabled: 'setClass',
+      maxWidth: 'setTagStyle',
+      icon: {
+        handler(s) {
+          this.innerIcon = calcIcon(s);
+        },
+        immediate: true,
       },
-      immediate: true,
-    },
-    closable: {
-      handler(s) {
-        this.setClass();
-        this._closable = calcIcon(s, 'close');
+      closable: {
+        handler(s) {
+          this.setClass();
+          this.innerClosable = calcIcon(s, 'close');
+        },
+        immediate: true,
       },
-      immediate: true,
     },
-  },
-  mounted() {
-    this.setClass();
-    this.setTagStyle();
-  },
-  methods: {
-    setClass() {
-      const { prefix, classPrefix } = this;
-      const { size, shape, theme, variant, closable, disabled } = this;
-      const tagClass = [
-        classPrefix,
-        `${classPrefix}--${theme || 'default'}`,
-        `${classPrefix}--${variant}`,
-        closable ? `${classPrefix}--closable ${prefix}-is-closable` : '',
-        disabled ? `${classPrefix}--disabled ${prefix}-is-disabled` : '',
-        `${classPrefix}--${size}`,
-        `${classPrefix}--${shape}`,
-      ];
-      const className = classNames(tagClass);
-      this.className = className;
+    mounted() {
+      this.setClass();
+      this.setTagStyle();
     },
+    methods: {
+      setClass() {
+        const { prefix, classPrefix } = this;
+        const { size, shape, theme, variant, closable, disabled } = this;
+        const tagClass = [
+          classPrefix,
+          `${classPrefix}--${theme || 'default'}`,
+          `${classPrefix}--${variant}`,
+          closable ? `${classPrefix}--closable ${prefix}-is-closable` : '',
+          disabled ? `${classPrefix}--disabled ${prefix}-is-disabled` : '',
+          `${classPrefix}--${size}`,
+          `${classPrefix}--${shape}`,
+        ];
+        const className = classNames(tagClass);
+        this.className = className;
+      },
 
-    setTagStyle() {
-      const { maxWidth } = this;
-      if (!maxWidth) {
-        return '';
-      }
-      const width = isNumber(maxWidth) ? `${maxWidth}px` : maxWidth;
-      this.tagStyle = `max-width:${width};`;
-    },
+      setTagStyle() {
+        const { maxWidth } = this;
+        if (!maxWidth) {
+          return '';
+        }
+        const width = isNumeric(maxWidth) ? `${maxWidth}px` : maxWidth;
+        this.tagStyle = `max-width:${width};`;
+      },
 
-    handleClick(e) {
-      if (this.disabled) return;
-      this.$emit('click', { e });
-    },
+      handleClick(e) {
+        if (this.disabled) return;
+        this.$emit('click', { e });
+      },
 
-    handleClose(e) {
-      if (this.disabled) return;
-      this.$emit('close', { e });
+      handleClose(e) {
+        if (this.disabled) return;
+        this.$emit('close', { e });
+      },
     },
-  },
-});
-
+  }),
+};
 </script>
-<style scoped>
-@import './tag.css';
-
-</style>
+<style scoped src="./tag.css"></style>

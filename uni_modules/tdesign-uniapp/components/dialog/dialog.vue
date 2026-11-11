@@ -14,18 +14,10 @@
     @visible-change="overlayClick"
   >
     <template #content>
-      <view
-        :class="classPrefix + ' ' + tClass"
-      >
+      <view :class="classPrefix + ' ' + tClass">
         <slot name="top" />
-        <view
-          v-if="dataCloseBtn"
-          :class="classPrefix + '__close-btn'"
-          @click="onClose"
-        >
-          <template
-            v-if="tools.isObject(dataCloseBtn)"
-          >
+        <view v-if="dataCloseBtn" :class="classPrefix + '__close-btn'" @click="onClose">
+          <template v-if="tools.isObject(dataCloseBtn)">
             <t-icon
               :custom-style="dataCloseBtn.style || ''"
               :prefix="dataCloseBtn.prefix"
@@ -37,24 +29,14 @@
               :aria-role="dataCloseBtn.ariaRole"
             />
           </template>
-          <t-icon
-            v-else
-            name="close"
-            size="44rpx"
-          />
+          <t-icon v-else name="close" size="44rpx" />
         </view>
         <view :class="classPrefix + '__content ' + tClassContent">
-          <view
-            v-if="dataTitle"
-            :class="classPrefix + '__header'"
-          >
+          <view v-if="dataTitle" :class="classPrefix + '__header'">
             {{ dataTitle }}
           </view>
           <slot name="title" />
-          <view
-            v-if="dataContent"
-            :class="classPrefix + '__body'"
-          >
+          <view v-if="dataContent" :class="classPrefix + '__body'">
             <text :class="classPrefix + '__body-text'">
               {{ dataContent }}
             </text>
@@ -64,9 +46,10 @@
         <slot name="middle" />
         <view
           :class="
+            '' +
             tools.cls(classPrefix + '__footer', [
               ['column', dataButtonLayout === 'vertical'],
-              ['full', buttonVariant == 'text' && (!dataActions || dataActions.length == 0)]
+              ['full', buttonVariant == 'text' && (!dataActions || dataActions.length == 0)],
             ])
           "
         >
@@ -105,108 +88,108 @@
               :app-parameter="actionItem.appParameter"
               :show-message-card="actionItem.showMessageCard"
               :aria-label="actionItem.ariaLabel"
-              @click="onTplButtonTap($event, { type: 'action', extra: index })"
-              @getuserinfo="onTplButtonTap($event, { type: 'action', extra: index })"
-              @contact="onTplButtonTap($event, { type: 'action', extra: index })"
-              @getphonenumber="onTplButtonTap($event, { type: 'action', extra: index })"
-              @error="onTplButtonTap($event, { type: 'action', extra: index })"
-              @opensetting="onTplButtonTap($event, { type: 'action', extra: index })"
-              @launchapp="onTplButtonTap($event, { type: 'action', extra: index })"
-              @agreeprivacyauthorization="onTplButtonTap($event, { type: 'action', extra: index })"
+              @click="(e) => onTplButtonTap(e, { type: 'action', extra: index })"
+              @getuserinfo="(e) => onTplButtonTap(e, { type: 'action', extra: index })"
+              @contact="(e) => onTplButtonTap(e, { type: 'action', extra: index })"
+              @getphonenumber="(e) => onTplButtonTap(e, { type: 'action', extra: index })"
+              @error="(e) => onTplButtonTap(e, { type: 'action', extra: index })"
+              @opensetting="(e) => onTplButtonTap(e, { type: 'action', extra: index })"
+              @launchapp="(e) => onTplButtonTap(e, { type: 'action', extra: index })"
+              @agreeprivacyauthorization="(e) => onTplButtonTap(e, { type: 'action', extra: index })"
             >
               <slot v-if="actionItem.useDefaultSlot || false" />
             </t-button>
           </template>
           <slot name="actions" />
-          <template v-if="_cancel">
+          <template v-if="innerCancel">
             <t-button
-              :t-id="_cancel.tId"
-              :custom-style="_cancel.style"
-              :block="_cancel.block"
-              :t-class="_cancel.tClass"
-              :class="_cancel.class"
-              :disabled="_cancel.disabled"
+              :t-id="innerCancel.tId"
+              :custom-style="innerCancel.style"
+              :block="innerCancel.block"
+              :t-class="innerCancel.tClass"
+              :class="innerCancel.class"
+              :disabled="innerCancel.disabled"
               :data-type="'cancel'"
-              :data-extra="_cancel.index"
-              :custom-dataset="_cancel.customDataset"
-              :content="_cancel.content"
-              :icon="_cancel.icon"
-              :loading="_cancel.loading"
-              :loading-props="_cancel.loadingProps"
-              :theme="_cancel.theme"
-              :ghost="_cancel.ghost"
-              :shape="_cancel.shape"
-              :size="_cancel.size"
-              :variant="_cancel.variant"
-              :open-type="_cancel.openType"
-              :hover-class="_cancel.hoverClass"
-              :hover-stop-propagation="_cancel.hoverStopPropagation"
-              :hover-start-time="_cancel.hoverStartTime"
-              :hover-stay-time="_cancel.hoverStayTime"
-              :lang="_cancel.lang"
-              :session-from="_cancel.sessionFrom"
-              :send-message-title="_cancel.sendMessageTitle"
-              :send-message-path="_cancel.sendMessagePath"
-              :send-message-img="_cancel.sendMessageImg"
-              :app-parameter="_cancel.appParameter"
-              :show-message-card="_cancel.showMessageCard"
-              :aria-label="_cancel.ariaLabel"
-              @click="onCancel($event, { type: 'action', extra: 0 })"
-              @getuserinfo="onCancel($event, { type: 'action', extra: 0 })"
-              @contact="onCancel($event, { type: 'action', extra: 0 })"
-              @getphonenumber="onCancel($event, { type: 'action', extra: 0 })"
-              @error="onCancel($event, { type: 'action', extra: 0 })"
-              @opensetting="onCancel($event, { type: 'action', extra: 0 })"
-              @launchapp="onCancel($event, { type: 'action', extra: 0 })"
-              @agreeprivacyauthorization="onCancel($event, { type: 'action', extra: 0 })"
+              :data-extra="innerCancel.index"
+              :custom-dataset="innerCancel.customDataset"
+              :content="innerCancel.content"
+              :icon="innerCancel.icon"
+              :loading="innerCancel.loading"
+              :loading-props="innerCancel.loadingProps"
+              :theme="innerCancel.theme"
+              :ghost="innerCancel.ghost"
+              :shape="innerCancel.shape"
+              :size="innerCancel.size"
+              :variant="innerCancel.variant"
+              :open-type="innerCancel.openType"
+              :hover-class="innerCancel.hoverClass"
+              :hover-stop-propagation="innerCancel.hoverStopPropagation"
+              :hover-start-time="innerCancel.hoverStartTime"
+              :hover-stay-time="innerCancel.hoverStayTime"
+              :lang="innerCancel.lang"
+              :session-from="innerCancel.sessionFrom"
+              :send-message-title="innerCancel.sendMessageTitle"
+              :send-message-path="innerCancel.sendMessagePath"
+              :send-message-img="innerCancel.sendMessageImg"
+              :app-parameter="innerCancel.appParameter"
+              :show-message-card="innerCancel.showMessageCard"
+              :aria-label="innerCancel.ariaLabel"
+              @click="(e) => onCancel(e, { type: 'action', extra: 0 })"
+              @getuserinfo="(e) => onCancel(e, { type: 'action', extra: 0 })"
+              @contact="(e) => onCancel(e, { type: 'action', extra: 0 })"
+              @getphonenumber="(e) => onCancel(e, { type: 'action', extra: 0 })"
+              @error="(e) => onCancel(e, { type: 'action', extra: 0 })"
+              @opensetting="(e) => onCancel(e, { type: 'action', extra: 0 })"
+              @launchapp="(e) => onCancel(e, { type: 'action', extra: 0 })"
+              @agreeprivacyauthorization="(e) => onCancel(e, { type: 'action', extra: 0 })"
             >
-              <slot v-if="_cancel.useDefaultSlot || false" />
+              <slot v-if="innerCancel.useDefaultSlot || false" />
             </t-button>
           </template>
           <slot name="cancel-btn" />
-          <template v-if="_confirm">
+          <template v-if="innerConfirm">
             <t-button
-              :t-id="_confirm.tId"
-              :custom-style="_confirm.style"
-              :block="_confirm.block"
-              :t-class="_confirm.tClass"
-              :class="_confirm.class"
-              :disabled="_confirm.disabled"
+              :t-id="innerConfirm.tId"
+              :custom-style="innerConfirm.style"
+              :block="innerConfirm.block"
+              :t-class="innerConfirm.tClass"
+              :class="innerConfirm.class"
+              :disabled="innerConfirm.disabled"
               :data-type="'confirm'"
-              :data-extra="_confirm.index"
-              :custom-dataset="_confirm.customDataset"
-              :content="_confirm.content"
-              :icon="_confirm.icon"
-              :loading="_confirm.loading"
-              :loading-props="_confirm.loadingProps"
-              :theme="_confirm.theme || 'primary'"
-              :ghost="_confirm.ghost"
-              :shape="_confirm.shape"
-              :size="_confirm.size"
-              :variant="_confirm.variant"
-              :open-type="_confirm.openType"
-              :hover-class="_confirm.hoverClass"
-              :hover-stop-propagation="_confirm.hoverStopPropagation"
-              :hover-start-time="_confirm.hoverStartTime"
-              :hover-stay-time="_confirm.hoverStayTime"
-              :lang="_confirm.lang"
-              :session-from="_confirm.sessionFrom"
-              :send-message-title="_confirm.sendMessageTitle"
-              :send-message-path="_confirm.sendMessagePath"
-              :send-message-img="_confirm.sendMessageImg"
-              :app-parameter="_confirm.appParameter"
-              :show-message-card="_confirm.showMessageCard"
-              :aria-label="_confirm.ariaLabel"
-              @click="onConfirm($event, { type: 'action', extra: 0 })"
-              @getuserinfo="onConfirm($event, { type: 'action', extra: 0 })"
-              @contact="onConfirm($event, { type: 'action', extra: 0 })"
-              @getphonenumber="onConfirm($event, { type: 'action', extra: 0 })"
-              @error="onTplButtonConfirmonTap($event, { type: 'action', extra: 0 })"
-              @opensetting="onConfirm($event, { type: 'action', extra: 0 })"
-              @launchapp="onConfirm($event, { type: 'action', extra: 0 })"
-              @agreeprivacyauthorization="onConfirm($event, { type: 'action', extra: 0 })"
+              :data-extra="innerConfirm.index"
+              :custom-dataset="innerConfirm.customDataset"
+              :content="innerConfirm.content"
+              :icon="innerConfirm.icon"
+              :loading="innerConfirm.loading"
+              :loading-props="innerConfirm.loadingProps"
+              :theme="innerConfirm.theme || 'primary'"
+              :ghost="innerConfirm.ghost"
+              :shape="innerConfirm.shape"
+              :size="innerConfirm.size"
+              :variant="innerConfirm.variant"
+              :open-type="innerConfirm.openType"
+              :hover-class="innerConfirm.hoverClass"
+              :hover-stop-propagation="innerConfirm.hoverStopPropagation"
+              :hover-start-time="innerConfirm.hoverStartTime"
+              :hover-stay-time="innerConfirm.hoverStayTime"
+              :lang="innerConfirm.lang"
+              :session-from="innerConfirm.sessionFrom"
+              :send-message-title="innerConfirm.sendMessageTitle"
+              :send-message-path="innerConfirm.sendMessagePath"
+              :send-message-img="innerConfirm.sendMessageImg"
+              :app-parameter="innerConfirm.appParameter"
+              :show-message-card="innerConfirm.showMessageCard"
+              :aria-label="innerConfirm.ariaLabel"
+              @click="(e) => onConfirm(e, { type: 'action', extra: 0 })"
+              @getuserinfo="(e) => onConfirm(e, { type: 'action', extra: 0 })"
+              @contact="(e) => onConfirm(e, { type: 'action', extra: 0 })"
+              @getphonenumber="(e) => onConfirm(e, { type: 'action', extra: 0 })"
+              @error="(e) => onTplButtonConfirmonTap(e, { type: 'action', extra: 0 })"
+              @opensetting="(e) => onConfirm(e, { type: 'action', extra: 0 })"
+              @launchapp="(e) => onConfirm(e, { type: 'action', extra: 0 })"
+              @agreeprivacyauthorization="(e) => onConfirm(e, { type: 'action', extra: 0 })"
             >
-              <slot v-if="_confirm.useDefaultSlot || false" />
+              <slot v-if="innerConfirm.useDefaultSlot || false" />
             </t-button>
           </template>
           <slot name="confirm-btn" />
@@ -216,207 +199,212 @@
   </t-popup>
 </template>
 <script>
-import tPopup from '../popup/popup';
-import tIcon from '../icon/icon';
-import tButton from '../button/button';
-import { uniComponent } from '../common/src/index';
+import TButton from '../button/button';
 import { prefix } from '../common/config';
-import props from './props';
-import { toCamel, coalesce } from '../common/utils';
-import { isObject } from '../common/validator';
-import useCustomNavbar from '../mixins/using-custom-navbar';
-import tools from '../common/utils.wxs';
-import { getActionClass } from './computed.js';
+
 import { getFunctionalMixin } from '../common/functional/mixin';
+import { uniComponent } from '../common/src/index';
+import { toCamel, coalesce, toPascal } from '../common/utils';
+import tools from '../common/utils.wxs';
+import { isObject } from '../common/validator';
 import { canUseVirtualHost } from '../common/version';
+import TIcon from '../icon/icon';
+import useCustomNavbar from '../mixins/using-custom-navbar';
+import TPopup from '../popup/popup';
+
+import { getActionClass } from './computed.js';
+
+import props from './props';
 
 const name = `${prefix}-dialog`;
 
-
-export default uniComponent({
-  name,
-  options: {
-    styleIsolation: 'shared',
-  },
-  externalClasses: [
-    `${prefix}-class`,
-    `${prefix}-class-content`,
-    `${prefix}-class-confirm`,
-    `${prefix}-class-cancel`,
-    `${prefix}-class-action`,
-  ],
-  mixins: [getFunctionalMixin(props), useCustomNavbar],
+export default {
   components: {
-    tPopup,
-    tIcon,
-    tButton,
+    TPopup,
+    TIcon,
+    TButton,
   },
-  props: {
-    ...props,
-  },
-  data() {
-    return {
-      prefix,
-      classPrefix: name,
-      buttonVariant: 'text',
-      tools,
-
-      _confirm: null,
-      _cancel: null,
-      useVirtualHost: canUseVirtualHost(),
-    };
-  },
-  watch: {
-    dataConfirmBtn: {
-      handler() {
-        this.onWatchBtn(this.dataConfirmBtn, this.dataCancelBtn);
-      },
-      immediate: true,
+  ...uniComponent({
+    name,
+    options: {
+      styleIsolation: 'shared',
     },
-    dataCancelBtn: {
-      handler() {
-        this.onWatchBtn(this.dataConfirmBtn, this.dataCancelBtn);
-      },
-      immediate: true,
+    externalClasses: [
+      `${prefix}-class`,
+      `${prefix}-class-content`,
+      `${prefix}-class-confirm`,
+      `${prefix}-class-cancel`,
+      `${prefix}-class-action`,
+    ],
+    mixins: [getFunctionalMixin(props), useCustomNavbar],
+    props: {
+      ...props,
     },
-  },
-  methods: {
-    coalesce,
-    getActionClass,
-    onWatchBtn(confirm, cancel) {
-      const { prefix, classPrefix, dataButtonLayout } = this;
-      const rect = { buttonVariant: 'text' };
-      const useBaseVariant = [confirm, cancel].some(item => isObject(item) && item.variant && item.variant !== 'text');
-      const buttonMap = { confirm, cancel };
-      const cls = [`${classPrefix}__button`];
-      const externalCls = [];
+    data() {
+      return {
+        prefix,
+        classPrefix: name,
+        buttonVariant: 'text',
+        tools,
 
-      if (useBaseVariant) {
-        rect.buttonVariant = 'base';
-        cls.push(`${classPrefix}__button--${dataButtonLayout}`);
-      } else {
-        cls.push(`${classPrefix}__button--text`);
-        externalCls.push(`${classPrefix}-button`);
-      }
+        innerConfirm: null,
+        innerCancel: null,
+        useVirtualHost: canUseVirtualHost(),
+      };
+    },
+    watch: {
+      dataConfirmBtn: {
+        handler() {
+          this.onWatchBtn(this.dataConfirmBtn, this.dataCancelBtn);
+        },
+        immediate: true,
+      },
+      dataCancelBtn: {
+        handler() {
+          this.onWatchBtn(this.dataConfirmBtn, this.dataCancelBtn);
+        },
+        immediate: true,
+      },
+    },
+    methods: {
+      coalesce,
+      getActionClass,
+      onWatchBtn(confirm, cancel) {
+        const { prefix, classPrefix, dataButtonLayout } = this;
+        const rect = { buttonVariant: 'text' };
+        const useBaseVariant = [confirm, cancel].some(
+          (item) => isObject(item) && item.variant && item.variant !== 'text',
+        );
+        const buttonMap = { confirm, cancel };
+        const cls = [`${classPrefix}__button`];
+        const externalCls = [];
 
-      const useVirtualHost = canUseVirtualHost();
-
-      Object.keys(buttonMap).forEach((key) => {
-        const btn = buttonMap[key];
-        const rootClass = [...cls, `${classPrefix}__button--${key}`];
-        const tClass = [...externalCls, this[toCamel(`${prefix}-class-${key}`)], ...rootClass].join(' ');
-
-        const base = {
-          block: true,
-          rootClass,
-
-          tClass: useVirtualHost ? tClass : '',
-          class: !useVirtualHost ? tClass : '',
-
-          variant: rect.buttonVariant,
-          openType: '',
-        };
-
-        if (key === 'cancel' && rect.buttonVariant === 'base') {
-          base.theme = 'light';
-        }
-
-        if (typeof btn === 'string') {
-          rect[`_${key}`] = { ...base, content: btn };
-        } else if (btn && typeof btn === 'object') {
-          rect[`_${key}`] = { ...base, ...btn };
+        if (useBaseVariant) {
+          rect.buttonVariant = 'base';
+          cls.push(`${classPrefix}__button--${dataButtonLayout}`);
         } else {
-          rect[`_${key}`] = null;
+          cls.push(`${classPrefix}__button--text`);
+          externalCls.push(`${classPrefix}-button`);
         }
-      });
 
-      Object.keys(rect).forEach((key) => {
-        this[key] = rect[key];
-      });
-    },
-    onTplButtonTap(e, { type, extra }) {
-      const evtType = e.type;
-      const button = this[`_${type}`];
-      const cbName = `bind${evtType}`;
+        const useVirtualHost = canUseVirtualHost();
 
-      if (type === 'action') {
-        this.onActionTap(extra);
-        return;
-      }
+        Object.keys(buttonMap).forEach((key) => {
+          const btn = buttonMap[key];
+          const rootClass = [...cls, `${classPrefix}__button--${key}`];
+          const tClass = [...externalCls, this[toCamel(`${prefix}-class-${key}`)], ...rootClass].join(' ');
 
-      if (typeof button?.[cbName] === 'function') {
-        const closeFlag = button[cbName](e);
-        if (closeFlag) {
+          const base = {
+            block: true,
+            rootClass,
+
+            tClass: useVirtualHost ? tClass : '',
+            class: !useVirtualHost ? tClass : '',
+
+            variant: rect.buttonVariant,
+            openType: '',
+          };
+
+          if (key === 'cancel' && rect.buttonVariant === 'base') {
+            base.theme = 'light';
+          }
+          const parsedKey = `inner${toPascal(key)}`;
+
+          if (typeof btn === 'string') {
+            rect[`${parsedKey}`] = { ...base, content: btn };
+          } else if (btn && typeof btn === 'object') {
+            rect[`${parsedKey}`] = { ...base, ...btn };
+          } else {
+            rect[`${parsedKey}`] = null;
+          }
+        });
+
+        Object.keys(rect).forEach((key) => {
+          this[key] = rect[key];
+        });
+      },
+      onTplButtonTap(e, { type, extra }) {
+        const evtType = e.type;
+        const button = this[`_${type}`];
+        const cbName = `bind${evtType}`;
+
+        if (type === 'action') {
+          this.onActionTap(extra);
+          return;
+        }
+
+        if (typeof button?.[cbName] === 'function') {
+          const closeFlag = button[cbName](e);
+          if (closeFlag) {
+            this.close();
+          }
+        }
+
+        const hasOpenType = !!button?.openType;
+        if (!hasOpenType && ['confirm', 'cancel'].includes(type)) {
+          this[toCamel(`on-${type}`)]?.(type);
+        }
+
+        if (evtType !== 'click') {
+          const success = e.detail?.errMsg?.indexOf('ok') > -1;
+          this.$emit(success ? 'open-type-event' : 'open-type-error-event', e.detail);
+        }
+      },
+
+      onConfirm(e) {
+        this.$emit('confirm', { e });
+
+        if (this._onConfirm) {
+          this._onConfirm({ trigger: 'confirm' });
           this.close();
         }
-      }
+      },
 
-      const hasOpenType = !!button?.openType;
-      if (!hasOpenType && ['confirm', 'cancel'].includes(type)) {
-        this[toCamel(`on-${type}`)]?.(type);
-      }
+      onCancel(e) {
+        const trigger = { trigger: 'cancel' };
 
-      if (evtType !== 'click') {
-        const success = e.detail?.errMsg?.indexOf('ok') > -1;
-        this.$emit(success ? 'open-type-event' : 'open-type-error-event', e.detail);
-      }
-    },
+        this.$emit('cancel', { e });
+        this.$emit('close', trigger);
 
-    onConfirm(e) {
-      this.$emit('confirm', { e });
+        if (this._onCancel) {
+          this._onCancel(trigger);
+          this.close();
+        }
+      },
 
-      if (this._onConfirm) {
-        this._onConfirm({ trigger: 'confirm' });
-        this.close();
-      }
-    },
-
-    onCancel(e) {
-      const trigger = { trigger: 'cancel' };
-
-      this.$emit('cancel', { e });
-      this.$emit('close', trigger);
-
-      if (this._onCancel) {
-        this._onCancel(trigger);
-        this.close();
-      }
-    },
-
-    onClose() {
-      const trigger = { trigger: 'close-btn' };
-
-      this.$emit('close', trigger);
-      this._onCancel?.(trigger);
-      this.close();
-    },
-
-    close() {
-      this.dataVisible = false;
-    },
-
-    overlayClick(e) {
-      this.$emit('overlay-click', { e });
-
-      if (this.dataCloseOnOverlayClick) {
-        const trigger = { trigger: 'overlay' };
+      onClose() {
+        const trigger = { trigger: 'close-btn' };
 
         this.$emit('close', trigger);
         this._onCancel?.(trigger);
         this.close();
-      }
-    },
+      },
 
-    onActionTap(index) {
-      this.$emit('action', { index });
-      if (this._onAction) {
-        this._onAction({ index });
-        this.close();
-      }
+      close() {
+        this.dataVisible = false;
+      },
+
+      overlayClick(e) {
+        this.$emit('overlay-click', { e });
+
+        if (this.dataCloseOnOverlayClick) {
+          const trigger = { trigger: 'overlay' };
+
+          this.$emit('close', trigger);
+          this._onCancel?.(trigger);
+          this.close();
+        }
+      },
+
+      onActionTap(index) {
+        this.$emit('action', { index });
+        if (this._onAction) {
+          this._onAction({ index });
+          this.close();
+        }
+      },
     },
-  },
-});
+  }),
+};
 </script>
-<style scoped>
-@import './dialog.css';
-</style>
+<style scoped src="./dialog.css"></style>

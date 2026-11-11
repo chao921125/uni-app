@@ -9,22 +9,16 @@
       :custom-navbar-height="customNavbarHeight"
       :placement="placement == 'right' ? 'right' : 'left'"
       :show-overlay="showOverlay"
+      :overlay-props="overlayProps"
       :close-on-overlay-click="closeOnOverlayClick"
-      @visible-change="visibleChange"
+      @visible-change="onVisibleChange"
     >
       <view :class="classPrefix">
         <slot name="title" />
-        <view
-          v-if="title"
-          :class="classPrefix + '__title'"
-        >
+        <view v-if="title" :class="classPrefix + '__title'">
           {{ title }}
         </view>
-        <scroll-view
-          :class="classPrefix + '__sidebar'"
-          scroll-y
-          type="list"
-        >
+        <scroll-view :class="classPrefix + '__sidebar'" scroll-y type="list">
           <view
             v-for="(item, index) in items"
             :key="index"
@@ -37,13 +31,9 @@
             :data-index="index"
             :aria-role="ariaRole || 'button'"
             :aria-label="item.title"
-            @click="itemClick"
+            @click="onItemClick"
           >
-            <view
-              v-if="item.icon"
-              :aria-hidden="true"
-              :class="classPrefix + '__sidebar-item-icon'"
-            >
+            <view v-if="item.icon" :aria-hidden="true" :class="classPrefix + '__sidebar-item-icon'">
               <t-icon :name="item.icon" />
             </view>
 
@@ -61,78 +51,76 @@
   </view>
 </template>
 <script>
-import tPopup from '../popup/popup';
-import tIcon from '../icon/icon';
-import { uniComponent } from '../common/src/index';
 import { prefix } from '../common/config';
+import { uniComponent } from '../common/src/index';
 import { coalesce } from '../common/utils';
-import props from './props';
-import useCustomNavbar from '../mixins/using-custom-navbar';
-import tools from '../common/utils.wxs';
 
+import tools from '../common/utils.wxs';
+import TIcon from '../icon/icon';
+import useCustomNavbar from '../mixins/using-custom-navbar';
+import TPopup from '../popup/popup';
+
+import props from './props';
 
 const name = `${prefix}-drawer`;
 
-
-export default uniComponent({
-  name,
-  options: {
-    styleIsolation: 'shared',
-  },
-  mixins: [
-    useCustomNavbar,
-  ],
+export default {
   components: {
-    tPopup,
-    tIcon,
+    TPopup,
+    TIcon,
   },
-  props: {
-    ...props,
-  },
-  emits: [
-    'update:visible',
-    'close',
-    'overlay-click',
-    'item-click',
-  ],
-  data() {
-    return {
-      classPrefix: name,
-      tools,
-      dataVisible: coalesce(this.visible, this.defaultVisible),
-    };
-  },
-  watch: {
-    visible(e) {
-      this.dataVisible = e;
+  ...uniComponent({
+    name,
+    options: {
+      styleIsolation: 'shared',
     },
-  },
-  methods: {
-    // closeOnOverlayClick 为 true 时才能触发 popup 的 visible-change 事件
-    visibleChange(detail) {
-      const { visible } = detail;
-      const { showOverlay } = this;
-
-      this.dataVisible = visible;
-
-      if (!visible) {
-        this.$emit('close', { trigger: 'overlay' });
-      }
-
-      if (showOverlay) {
-        this.$emit('overlay-click', { visible });
-      }
-      this.$emit('update:visible', visible);
+    mixins: [useCustomNavbar],
+    props: {
+      ...props,
     },
-
-    itemClick(detail) {
-      const { index, item } = detail.currentTarget.dataset;
-
-      this.$emit('item-click', { index, item });
+    emits: ['update:visible', 'close', 'overlay-click', 'item-click'],
+    data() {
+      return {
+        classPrefix: name,
+        tools,
+        dataVisible: coalesce(this.visible, this.defaultVisible),
+      };
     },
-  },
-});
+    watch: {
+      visible(e) {
+        this.dataVisible = e;
+      },
+    },
+    methods: {
+      // closeOnOverlayClick 为 true 时才能触发 popup 的 visible-change 事件
+      onVisibleChange(detail) {
+        const { visible } = detail;
+        const { showOverlay } = this;
+
+        this.dataVisible = visible;
+
+        if (!visible) {
+          this.$emit('close', { trigger: 'overlay' });
+        }
+
+        if (showOverlay) {
+          this.$emit('overlay-click', { visible });
+        }
+        this.$emit('update:visible', visible);
+      },
+
+      onItemClick(detail) {
+        const { index, item } = detail.currentTarget.dataset;
+
+        this.$emit('item-click', { index, item });
+      },
+    },
+  }),
+};
 </script>
-<style scoped>
-@import './drawer.css';
+<style scoped src="./drawer.css"></style>
+<style>
+.t-drawer__sidebar {
+  width: 100%;
+}
 </style>

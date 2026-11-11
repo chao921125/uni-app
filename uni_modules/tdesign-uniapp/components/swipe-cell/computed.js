@@ -3,7 +3,6 @@ import _ from '../common/utils.wxs';
 const THRESHOLD = 0.3;
 const MIN_DISTANCE = 10;
 
-
 export function initRightWidth() {
   initOpen.call(this, this);
 }
@@ -71,8 +70,7 @@ function swipeMove(_offset = 0) {
   const { state } = this;
   state.offset = range(_offset, -state.rightWidth, +state.leftWidth);
   const transform = `translate3d(${state.offset}px, 0, 0)`;
-  // const transition = state.dragging ? 'none' : 'transform .6s cubic-bezier(0.18, 0.89, 0.32, 1)';
-  const transition = 'transform .6s cubic-bezier(0.18, 0.89, 0.32, 1)';
+  const transition = state.dragging ? 'none' : 'transform .6s cubic-bezier(0.18, 0.89, 0.32, 1)';
 
   this.wrapperStyle = _._style({
     '-webkit-transform': transform,
@@ -144,15 +142,15 @@ export function endDrag() {
   state.dragging = false;
   // 左/右侧有可滑动区域，且当前不是已open状态，且滑动幅度超过阈值时open左/右侧（滚动到该侧的最边上）
   if (
-    +state.rightWidth > 0
-    && -state.startOffset < +state.rightWidth
-    && -state.offset > +state.rightWidth * THRESHOLD
+    +state.rightWidth > 0 &&
+    -state.startOffset < +state.rightWidth &&
+    -state.offset > +state.rightWidth * THRESHOLD
   ) {
     open.call(this, 'right');
   } else if (
-    +state.leftWidth > 0
-    && state.startOffset < +state.leftWidth
-    && state.offset > +state.leftWidth * THRESHOLD
+    +state.leftWidth > 0 &&
+    state.startOffset < +state.leftWidth &&
+    state.offset > +state.leftWidth * THRESHOLD
   ) {
     open.call(this, 'left');
   } else {
@@ -163,4 +161,3 @@ export function endDrag() {
   }
   this.$emit('dragend');
 }
-

@@ -1,17 +1,19 @@
 ---
 title: ActionSheet 动作面板
 description: 由用户操作后触发的一种特定的模态弹出框 ，呈现一组与当前情境相关的两个或多个选项。
-spline: data
+spline: message
 isComponent: true
 ---
 
 
 ## 引入
 
-可在 `main.ts` 或在需要使用的页面或组件中引入。
+推荐使用 easycom 模式引入组件，配置后无需手动 import 即可直接在模板中使用 `<t-action-sheet />`。详细配置请参考 [快速开始](../getting-started)。
+
+如需手动引入：
 
 ```js
-import TActionSheet from 'tdesign-uniapp/action-sheet/action-sheet.vue';
+import TActionSheet from '@tdesign/uniapp/action-sheet/action-sheet.vue';
 ```
 
 
@@ -40,7 +42,10 @@ import TActionSheet from 'tdesign-uniapp/action-sheet/action-sheet.vue';
 ### 支持指令调用
 
 ```javascript
-import ActionSheet, { ActionSheetTheme } from 'tdesign-uniapp/action-sheet/index';
+// ActionSheetPlugin 和 ActionSheet 均可使用
+import { ActionSheetPlugin, ActionSheetTheme } from '@tdesign/uniapp';
+// 或
+// import { ActionSheet, ActionSheetTheme } from '@tdesign/uniapp';
 
 // 指令调用不同于组件引用不需要传入visible
 const basicListOption: ActionSheetShowOption = {
@@ -61,7 +66,7 @@ const basicListOption: ActionSheetShowOption = {
   ],
 };
 
-const handler = ActionSheet.show(basicListOption);
+const handler = ActionSheetPlugin.show(basicListOption);
 ```
 
 指令调用的关闭如下
@@ -82,21 +87,22 @@ align | String | center | 水平对齐方式。可选项：center/left | N
 cancel-text | String | - | 设置取消按钮的文本 | N
 count | Number | 8 | 设置每页展示菜单的数量，仅当 type=grid 时有效 | N
 description | String | - | 动作面板描述文字 | N
-items | Array | [] | 菜单项。TS 类型：`Array<string \| ActionSheetItem>` `interface ActionSheetItem { label: string; color?: string; disabled?: boolean; icon?: string; suffixIcon?: string }`。[详细类型定义](https://github.com/novlan1/tdesign-uniapp/blob/develop/packages/tdesign/action-sheet/type.ts) | N
-popup-props | Object | {} | 透传 Popup 组件全部属性。TS 类型：`PopupProps`，[Popup API Documents](./popup?tab=api)。[详细类型定义](https://github.com/novlan1/tdesign-uniapp/blob/develop/packages/tdesign/action-sheet/type.ts) | N
+items | Array | [] | 菜单项。TS 类型：`Array<string \| ActionSheetItem>` `interface ActionSheetItem { label: string; description?: string; color?: string; disabled?: boolean; icon?: string \| object; suffixIcon?: string \| object }`。[详细类型定义](https://github.com/tencent/tdesign-miniprogram/blob/develop/packages/uniapp-components/action-sheet/type.ts) | N
+popup-props | Object | {} | 透传 Popup 组件全部属性。TS 类型：`PopupProps`，[Popup API Documents](./popup?tab=api)。[详细类型定义](https://github.com/tencent/tdesign-miniprogram/blob/develop/packages/uniapp-components/action-sheet/type.ts) | N
+prevent-scroll-through | Boolean | true | 防止滚动穿透，即不允许点击和滚动 | N
 show-cancel | Boolean | true | 是否显示取消按钮 | N
 show-overlay | Boolean | true | 是否显示遮罩层 | N
 theme | String | list | 展示类型，列表和表格形式展示。可选项：list/grid | N
 using-custom-navbar | Boolean | false | 是否使用了自定义导航栏 | N
-visible | Boolean | false | 显示与隐藏。支持语法糖 `v-model:visible` | N
-default-visible | Boolean | false | 显示与隐藏。非受控属性 | N
+visible | Boolean | false | 显示与隐藏。支持语法糖 `v-model:visible`。TS 类型：`boolean \| null` | N
+default-visible | Boolean | false | 显示与隐藏。非受控属性。TS 类型：`boolean \| null` | N
 
 ### ActionSheet Events
 
 名称 | 参数 | 描述
 -- | -- | --
 cancel | \- | 点击取消按钮时触发
-close | `(context: { trigger: ActionSheetTriggerSource })` | 关闭时触发。[详细类型定义](https://github.com/novlan1/tdesign-uniapp/blob/develop/packages/tdesign/action-sheet/type.ts)。<br/>`type ActionSheetTriggerSource = 'overlay' \| 'command' \| 'select' `<br/>
+close | `(context: { trigger: ActionSheetTriggerSource })` | 关闭时触发。[详细类型定义](https://github.com/tencent/tdesign-miniprogram/blob/develop/packages/uniapp-components/action-sheet/type.ts)。<br/>`type ActionSheetTriggerSource = 'overlay' \| 'command' \| 'select' `<br/>
 selected | `(context: {  selected: ActionSheetItem \| string, index: number })` | 选择菜单项时触发
 
 ### ActionSheet Slots
@@ -116,15 +122,16 @@ t-class-content | 内容样式类
 ### CSS Variables
 
 组件提供了下列 CSS 变量，可用于自定义样式。
-| 名称 | 默认值 | 描述 |
-| -- | -- | -- | 
-| --td-action-sheet-border-color | @border-level-1-color | - |
-| --td-action-sheet-border-radius | @radius-extraLarge | - |
-| --td-action-sheet-cancel-color | @text-color-primary | - |
-| --td-action-sheet-cancel-height | 96rpx | - |
-| --td-action-sheet-color | @text-color-primary | - |
-| --td-action-sheet-description-color | @text-color-placeholder | - |
-| --td-action-sheet-gap-color | @bg-color-page | - |
-| --td-action-sheet-list-item-disabled-color | @text-color-disabled | - |
-| --td-action-sheet-list-item-height | 112rpx | - |
-| --td-action-sheet-text-align | center | - |
+名称 | 默认值 | 描述
+-- | -- | --
+--td-action-sheet-border-color | @component-stroke | -
+--td-action-sheet-border-radius | @radius-extraLarge | -
+--td-action-sheet-cancel-color | @text-color-primary | -
+--td-action-sheet-color | @text-color-primary | -
+--td-action-sheet-description-color | @text-color-placeholder | -
+--td-action-sheet-description-font | @font-body-medium | -
+--td-action-sheet-disabled-color | @text-color-disabled | -
+--td-action-sheet-dot-active-color | @brand-color | -
+--td-action-sheet-dot-color | @text-color-disabled | -
+--td-action-sheet-dot-size | 16rpx | -
+--td-action-sheet-gap-color | @bg-color-page | -

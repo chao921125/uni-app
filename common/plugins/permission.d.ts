@@ -1,4 +1,4 @@
-// utils/permission.d.ts
+// utils/permission.d.ts（微信小程序专用）
 
 export enum PermissionStatus {
 	NOT_SUPPORTED = -2, // 平台不支持
@@ -7,15 +7,12 @@ export enum PermissionStatus {
 	AUTHORIZED = 1, // 已授权
 	DENIED = 2, // 用户拒绝（可再次请求）
 	RESTRICTED = 3, // 系统限制/永久拒绝/功能关闭
-	LIMITED = 4, // iOS 14+ 部分授权（相册）
 }
 
-export type PermissionKey = "location" | "locationBackground" | "camera" | "record" | "album" | "bluetooth" | "notification" | "calendar" | "contact" | "phone" | "sms";
+export type PermissionKey = "location" | "locationBackground" | "camera" | "record" | "album" | "bluetooth" | "notification" | "calendar" | "contact";
 
 export interface PermissionConfig {
 	mp: string | null;
-	android: string | string[];
-	ios: string | null;
 	desc: string;
 }
 
@@ -33,10 +30,6 @@ export interface PermissionResult {
 export interface PlatformInfo {
 	name: string;
 	isMp(): boolean;
-	isApp(): boolean;
-	isH5(): boolean;
-	isIOS(): boolean;
-	isAndroid(): boolean;
 }
 
 export interface PermissionAPI {

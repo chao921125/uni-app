@@ -8,50 +8,6 @@ export default {
 	onLaunch: function () {
 		console.log("App Launch");
 
-		// 设置小程序分享
-		// #ifdef MP-WEIXIN
-		// ✅ 必须定义 onShareAppMessage，否则 showShareMenu 可能失败
-		// onShareAppMessage(() => {
-		// 	return {
-		// 		title: "分享标题",
-		// 		path: "/pages/index/index?id=123",
-		// 		imageUrl: "/static/share.jpg", // 自定义分享图
-		// 	};
-		// });
-
-		// // ✅ 如果需要分享到朋友圈，也需定义
-		// onShareTimeline(() => {
-		// 	return {
-		// 		title: "朋友圈分享标题",
-		// 		query: "id=123",
-		// 		imageUrl: "/static/share.jpg",
-		// 	};
-		// });
-
-		// // ✅ 在页面就绪后调用 showShareMenu
-		// onReady(() => {
-		// 	initShareMenu();
-		// });
-
-		// const initShareMenu = () => {
-		// 	uni.showShareMenu({
-		// 		withShareTicket: true, // 使用分享返回票据
-		// 		menus: ["shareAppMessage", "shareTimeline"], // 指定分享菜单
-		// 		success: () => {
-		// 			console.log("✅ 分享菜单显示成功");
-		// 		},
-		// 		fail: (err) => {
-		// 			console.error("❌ 分享菜单显示失败:", err);
-		// 			// 降级处理：不强制要求分享功能
-		// 		},
-		// 	});
-		// };
-		// #endif
-
-		// #ifdef MP-WEIXIN
-		const custom = uni.getMenuButtonBoundingClientRect();
-		// #endif
-
 		// 启动时注入 CSS 变量
 		injectSystemVars(); // 监听屏幕变化（可选）
 		watchSystemChange((metrics) => {
@@ -124,10 +80,6 @@ export default {
 	onUnhandledRejection: function (res) {
 		// res 包含 reason 和 promise 属性
 		const reason = res?.reason || res;
-		// uview-plus 主题模块在页面挂载时调用 setTabBarStyle，页面未就绪时会失败，属库内部时序问题且无害，忽略
-		if (reason?.errMsg && /setTabBarStyle:fail not TabBar page/.test(reason.errMsg)) {
-			return;
-		}
 		console.error("[UnhandledRejection]", reason);
 
 		// 开发环境显示详细错误
@@ -166,6 +118,5 @@ export default {
 <style lang="scss">
 // 组件
 // @import "@/uni_modules/uni-scss/index.scss";
-@import "@/uni_modules/uview-plus/index.scss";
 @import "@/static/styles/index.scss";
 </style>

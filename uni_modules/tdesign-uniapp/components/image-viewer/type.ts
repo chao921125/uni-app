@@ -4,6 +4,8 @@
  * 该文件为脚本自动生成文件，请勿随意修改。如需修改请联系 PMC
  * */
 
+import type { TdImageProps as ImageProps } from '../image/type';
+
 export interface TdImageViewerProps {
   /**
    * 遮罩的背景颜色
@@ -21,6 +23,10 @@ export interface TdImageViewerProps {
    */
   deleteBtn?: string | boolean | object;
   /**
+   * 透传至 Image 组件
+   */
+  imageProps?: ImageProps;
+  /**
    * 图片数组
    * @default []
    */
@@ -36,6 +42,11 @@ export interface TdImageViewerProps {
    */
   lazy?: boolean;
   /**
+   * 图片最大放大比例
+   * @default 3
+   */
+  maxZoom?: number;
+  /**
    * 是否显示页码
    * @default false
    */
@@ -49,12 +60,12 @@ export interface TdImageViewerProps {
    * 隐藏/显示预览
    * @default false
    */
-  visible?: boolean;
+  visible?: boolean | null;
   /**
    * 隐藏/显示预览，非受控属性
    * @default false
    */
-  defaultVisible?: boolean;
+  defaultVisible?: boolean | null;
   /**
    * 翻页时回调
    */

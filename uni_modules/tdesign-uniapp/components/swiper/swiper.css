@@ -2,7 +2,7 @@
   position: relative;
 }
 .t-swiper-host {
-  border-radius: var(--td-swiper-radius, var(--td-radius-large, 9px));
+  border-radius: var(--td-swiper-radius, var(--td-radius-large, 18rpx));
   overflow: hidden;
   transform: translateY(0);
 }

@@ -335,15 +335,13 @@ Router.to("/pages/detail", { params: { id: 123 } });
 
 ### Q1: 如何判断当前平台？
 
+本项目仅支持小程序端，可通过条件编译在编译期确定平台：
+
 ```javascript
 import Platform from "@/common/plugins/platform.js";
 
 if (Platform.isMp()) {
-  console.log("小程序环境");
-} else if (Platform.isApp()) {
-  console.log("App环境");
-} else if (Platform.isH5()) {
-  console.log("H5环境");
+  console.log("小程序环境", Platform.name); // mp-weixin / mp-alipay / mp-baidu 等
 }
 ```
 

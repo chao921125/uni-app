@@ -10,7 +10,7 @@ const tabs = [
 	{ text: "首页", icon: "home", path: "/pages/home" },
 	{ text: "AI", icon: "chat", path: "/pages/ai" },
 	{ text: "课程", icon: "bookmark", path: "/pages/course" },
-	{ text: "我", icon: "account", path: "/pages/my" },
+	{ text: "我", icon: "user", path: "/pages/my" },
 ];
 
 const onChange = (index) => {
@@ -27,11 +27,11 @@ const onChange = (index) => {
 			class="tab-item"
 			@click="onChange(index)"
 		>
-			<u-icon
+			<t-icon
 				:name="tab.icon"
 				size="24"
 				:color="current === index ? '#6366f1' : '#9ca3af'"
-			></u-icon>
+			></t-icon>
 			<text
 				class="tab-text"
 				:style="{ color: current === index ? '#6366f1' : '#9ca3af' }"

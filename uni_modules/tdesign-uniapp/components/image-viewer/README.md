@@ -9,10 +9,12 @@ isComponent: true
 
 ## 引入
 
-可在 `main.ts` 或在需要使用的页面或组件中引入。
+推荐使用 easycom 模式引入组件，配置后无需手动 import 即可直接在模板中使用 `<t-image-viewer />`。详细配置请参考 [快速开始](../getting-started)。
+
+如需手动引入：
 
 ```js
-import TImageViewer from 'tdesign-uniapp/image-viewer/image-viewer.vue';
+import TImageViewer from '@tdesign/uniapp/image-viewer/image-viewer.vue';
 ```
 
 ### 类型
@@ -39,21 +41,23 @@ custom-style | Object | - | 自定义样式 | N
 background-color | String | - | 遮罩的背景颜色 | N
 close-btn | String / Boolean / Object | false | 是否显示关闭操作，前提需要开启页码。值为字符串表示图标名称，值为 `true` 表示使用默认图标 `close`，值为 `Object` 类型，表示透传至 `icon` ，不传表示不显示图标 | N
 delete-btn | String / Boolean / Object | false | 是否显示删除操作，前提需要开启页码。值为字符串表示图标名称，值为 `true` 表示使用默认图标 `delete`，值为 `Object` 类型，表示透传至 `icon`，不传表示不显示图标 | N
+image-props | Object | - | 透传至 Image 组件。TS 类型：`ImageProps`，[Image API Documents](./image?tab=api)。[详细类型定义](https://github.com/tencent/tdesign-miniprogram/blob/develop/packages/uniapp-components/image-viewer/type.ts) | N
 images | Array | [] | 图片数组。TS 类型：`Array<string>` | N
 initial-index | Number | 0 | 初始化页码。TS 类型：`Number` | N
 lazy | Boolean | true | 是否开启图片懒加载。开启后会预加载当前图片、相邻图片 | N
+max-zoom | Number | 3 | 图片最大放大比例 | N
 show-index | Boolean | false | 是否显示页码 | N
 using-custom-navbar | Boolean | false | 是否使用了自定义导航栏 | N
-visible | Boolean | false | 隐藏/显示预览。支持语法糖 `v-model:visible` | N
-default-visible | Boolean | false | 隐藏/显示预览。非受控属性 | N
+visible | Boolean | false | 隐藏/显示预览。支持语法糖 `v-model:visible`。TS 类型：`boolean \| null` | N
+default-visible | Boolean | false | 隐藏/显示预览。非受控属性。TS 类型：`boolean \| null` | N
 
 ### ImageViewer Events
 
 名称 | 参数 | 描述
 -- | -- | --
 change | `(context: { index: number })` | 翻页时回调
-close | `(context: { trigger: 'overlay' \| 'button', visible: Boolean, index: Number })` | 点击操作按钮button或者overlay时触发
-delete | `(context: { index: number })` | 点击删除操作按钮时触发
+close | `(context: { trigger: 'overlay' \| 'button', visible: Boolean, index: Number } )` | 点击操作按钮button或者overlay时触发
+delete | `(context: { index: number } )` | 点击删除操作按钮时触发
 
 ### ImageViewer Slots
 
@@ -65,13 +69,13 @@ delete-btn | 删除操作
 ### CSS Variables
 
 组件提供了下列 CSS 变量，可用于自定义样式。
-| 名称 | 默认值 | 描述 |
-| -- | -- | -- | 
-| --td-image-viewer-close-margin-left | @spacer-1 | - |
-| --td-image-viewer-delete-margin-right | @spacer-1 | - |
-| --td-image-viewer-mask-bg-color | @mask-active | - |
-| --td-image-viewer-nav-bg-color | #000 | - |
-| --td-image-viewer-nav-color | @text-color-anti | - |
-| --td-image-viewer-nav-height | 96rpx | - |
-| --td-image-viewer-nav-index-font-size | @font-size-base | - |
-| --td-image-viewer-top | @position-fixed-top | - |
+名称 | 默认值 | 描述
+-- | -- | --
+--td-image-viewer-close-margin-left | @spacer-1 | -
+--td-image-viewer-delete-margin-right | @spacer-1 | -
+--td-image-viewer-mask-bg-color | @mask-active | -
+--td-image-viewer-nav-bg-color | #000 | -
+--td-image-viewer-nav-color | @text-color-anti | -
+--td-image-viewer-nav-height | 96rpx | -
+--td-image-viewer-nav-index-font-size | @font-size-base | -
+--td-image-viewer-top | @position-fixed-top | -

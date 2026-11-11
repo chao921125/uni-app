@@ -8,10 +8,12 @@ isComponent: true
 
 ## 引入
 
-可在 `main.ts` 或在需要使用的页面或组件中引入。
+推荐使用 easycom 模式引入组件，配置后无需手动 import 即可直接在模板中使用 `<t-cascader />`。详细配置请参考 [快速开始](../getting-started)。
+
+如需手动引入：
 
 ```js
-import TCascader from 'tdesign-uniapp/cascader/cascader.vue';
+import TCascader from '@tdesign/uniapp/cascader/cascader.vue';
 ```
 
 ### 基础用法
@@ -49,9 +51,13 @@ import TCascader from 'tdesign-uniapp/cascader/cascader.vue';
 custom-style | Object | - | 自定义样式 | N
 check-strictly | Boolean | false | 父子节点选中状态不再关联，可各自选中或取消 | N
 close-btn | Boolean | true | 关闭按钮 | N
-keys | Object | - | 用来定义 value / label 在 `options` 中对应的字段别名。TS 类型：`KeysType`。[通用类型定义](https://github.com/novlan1/tdesign-uniapp/blob/develop/packages/tdesign/common/common.ts) | N
+filter | Function | - |  自定义过滤函数。返回 true 表示匹配，未设置时使用内置匹配规则：对路径中所有 label 拼接后做大小写不敏感的 includes 匹配。TS 类型：`CascaderFilterFunction ` `type CascaderFilterFunction<CascaderOption extends TreeOptionData = TreeOptionData> = (keyword: string, option: CascaderOption, path: CascaderOption[]) => boolean`。[通用类型定义](https://github.com/tencent/tdesign-miniprogram/blob/develop/packages/uniapp-components/common/common.ts)。[详细类型定义](https://github.com/tencent/tdesign-miniprogram/blob/develop/packages/uniapp-components/cascader/type.ts) | N
+filter-placeholder | String | - | 搜索框占位符描述文本 | N
+filterable | Boolean | false | 是否可搜索，开启后顶部会展示一个搜索框  | N
+keys | Object | - | 用来定义 value / label / children / disabled 在 `options` 中对应的字段别名。TS 类型：`CascaderKeysType` `type CascaderKeysType = TreeKeysType`。[通用类型定义](https://github.com/tencent/tdesign-miniprogram/blob/develop/packages/uniapp-components/common/common.ts)。[详细类型定义](https://github.com/tencent/tdesign-miniprogram/blob/develop/packages/uniapp-components/cascader/type.ts) | N
 options | Array | [] | 可选项数据源。TS 类型：`Array<CascaderOption>` | N
-placeholder | String | 选择选项 | 未选中时的提示文案 | N
+placeholder | String | - | 未选中时的提示文案。组件内置默认值为：'选择选项' | N
+popup-props | Object | {} | 透传 Popup 组件全部属性。TS 类型：`PopupProps`，[Popup API Documents](./popup?tab=api)。[详细类型定义](https://github.com/tencent/tdesign-miniprogram/blob/develop/packages/uniapp-components/cascader/type.ts) | N
 sub-titles | Array | [] | 每级展示的次标题。TS 类型：`Array<string>` | N
 theme | String | step | 展示风格。可选项：step/tab | N
 title | String | - | 标题 | N
@@ -64,7 +70,7 @@ visible | Boolean | false | 是否展示 | N
 名称 | 参数 | 描述
 -- | -- | --
 change | `(context: { value: string \| number, selectedOptions: string[] })` | 值发生变更时触发
-close | `(context: { trigger: CascaderTriggerSource })` | 关闭时触发。[详细类型定义](https://github.com/novlan1/tdesign-uniapp/blob/develop/packages/tdesign/cascader/type.ts)。<br/>`type CascaderTriggerSource = 'overlay' \| 'close-btn' \| 'finish'`<br/>
+close | `(context: { trigger: CascaderTriggerSource })` | 关闭时触发。[详细类型定义](https://github.com/tencent/tdesign-miniprogram/blob/develop/packages/uniapp-components/cascader/type.ts)。<br/>`type CascaderTriggerSource = 'overlay' \| 'close-btn' \| 'finish'`<br/>
 pick | `(context: { value: string \| number, label: string, index: number, level: number })` | 选择后触发
 
 ### Cascader Slots
@@ -79,19 +85,18 @@ title | 自定义 `title` 显示内容
 ### CSS Variables
 
 组件提供了下列 CSS 变量，可用于自定义样式。
-| 名称 | 默认值 | 描述 |
-| -- | -- | -- | 
-| --td-cascader-active-color | @brand-color | - |
-| --td-cascader-bg-color | @bg-color-container | - |
-| --td-cascader-border-color | @component-stroke | - |
-| --td-cascader-content-height | 78vh | - |
-| --td-cascader-disabled-color | @text-color-disabled | - |
-| --td-cascader-options-height | calc(100% - @cascader-step-height) | - |
-| --td-cascader-options-title-color | @text-color-placeholder | - |
-| --td-cascader-step-arrow-color | @text-color-placeholder | - |
-| --td-cascader-step-dot-size | 16rpx | - |
-| --td-cascader-step-height | 88rpx | - |
-| --td-cascader-title-color | @text-color-primary | - |
-| --td-cascader-title-height | 26rpx | - |
-| --td-cascader-title-padding | @spacer-2 | - |
-| --td-cascader-title-font-size | 36rpx | - |
+名称 | 默认值 | 描述
+-- | -- | --
+--td-cascader-active-color | @brand-color | -
+--td-cascader-bg-color | @bg-color-container | -
+--td-cascader-border-color | @component-stroke | -
+--td-cascader-content-height | 78vh | -
+--td-cascader-disabled-color | @text-color-disabled | -
+--td-cascader-options-height | calc(100% - @cascader-step-height) | -
+--td-cascader-options-title-color | @text-color-placeholder | -
+--td-cascader-step-arrow-color | @text-color-placeholder | -
+--td-cascader-step-dot-size | 16rpx | -
+--td-cascader-step-height | 88rpx | -
+--td-cascader-title-color | @text-color-primary | -
+--td-cascader-title-font | @font-title-large | -
+--td-cascader-title-padding | @spacer-2 | -

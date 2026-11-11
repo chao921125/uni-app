@@ -9,3 +9,5 @@ export function goBackOrGoHome(home = '/pages/home/home') {
     });
   }
 }
+
+export default goBackOrGoHome;

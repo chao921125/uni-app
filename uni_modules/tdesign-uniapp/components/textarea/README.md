@@ -9,11 +9,13 @@ isComponent: true
 
 ## 引入
 
-可在 `main.ts` 或在需要使用的页面或组件中引入。
+推荐使用 easycom 模式引入组件，配置后无需手动 import 即可直接在模板中使用 `<t-textarea />`。详细配置请参考 [快速开始](../getting-started)。
+
+如需手动引入：
 
 
 ```js
-import TTextarea from 'tdesign-uniapp/textarea/textarea.vue';
+import TTextarea from '@tdesign/uniapp/textarea/textarea.vue';
 ```
 
 ### 组件类型
@@ -87,8 +89,8 @@ readonly | Boolean | undefined | 只读状态 | N
 selection-end | Number | -1 | 光标结束位置，自动聚集时有效，需与 selection-start 搭配使用 | N
 selection-start | Number | -1 | 光标起始位置，自动聚集时有效，需与 selection-end 搭配使用 | N
 show-confirm-bar | Boolean | true | 是否显示键盘上方带有”完成“按钮那一栏 | N
-value | String / Number | - | 文本框值。支持语法糖 `v-model:value`。TS 类型：`TextareaValue` `type TextareaValue = string \| number`。[详细类型定义](https://github.com/novlan1/tdesign-uniapp/blob/develop/packages/tdesign/textarea/type.ts) | N
-default-value | String / Number | - | 文本框值。非受控属性。TS 类型：`TextareaValue` `type TextareaValue = string \| number`。[详细类型定义](https://github.com/novlan1/tdesign-uniapp/blob/develop/packages/tdesign/textarea/type.ts) | N
+value | String / Number | - | 文本框值。支持语法糖 `v-model:value`。TS 类型：`TextareaValue` `type TextareaValue = string \| number`。[详细类型定义](https://github.com/Tencent/tdesign-miniprogram/tree/develop/packages/uniapp-components/textarea/type.ts) | N
+default-value | String / Number | - | 文本框值。非受控属性。TS 类型：`TextareaValue` `type TextareaValue = string \| number`。[详细类型定义](https://github.com/Tencent/tdesign-miniprogram/tree/develop/packages/uniapp-components/textarea/type.ts) | N
 
 ### Textarea Events
 
@@ -119,14 +121,14 @@ t-class-textarea | 多行文本框样式类
 ### CSS Variables
 
 组件提供了下列 CSS 变量，可用于自定义样式。
-| 名称 | 默认值 | 描述 |
-| -- | -- | -- | 
-| --td-textarea-background-color | @bg-color-container | - |
-| --td-textarea-border-color | @component-border | - |
-| --td-textarea-border-radius | @radius-default | - |
-| --td-textarea-disabled-text-color | @text-color-disabled | - |
-| --td-textarea-indicator-text-color | @text-color-placeholder | - |
-| --td-textarea-label-color | @text-color-primary | - |
-| --td-textarea-padding | 32rpx | - |
-| --td-textarea-placeholder-color | @text-color-placeholder | - |
-| --td-textarea-text-color | @text-color-primary | - |
+名称 | 默认值 | 描述
+-- | -- | --
+--td-textarea-background-color | @bg-color-container | -
+--td-textarea-border-color | @component-border | -
+--td-textarea-border-radius | @radius-default | -
+--td-textarea-disabled-text-color | @text-color-disabled | -
+--td-textarea-indicator-text-color | @text-color-placeholder | -
+--td-textarea-label-color | @text-color-primary | -
+--td-textarea-padding | 32rpx | -
+--td-textarea-placeholder-color | @text-color-placeholder | -
+--td-textarea-text-color | @text-color-primary | -

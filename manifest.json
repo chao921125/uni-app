@@ -24,6 +24,7 @@
     },
     "mp-weixin" : {
         "appid" : "wxa52bb659b38d1ae2",
+        "secret" : "3f3e38fc91602479cbb0df3c95b2033b",
         "setting" : {
             "urlCheck" : false,
             "es6" : true,

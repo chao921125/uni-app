@@ -2,7 +2,7 @@
 /**
  * UniApp UI交互模块封装
  * 功能：Toast/Modal/Loading/ActionSheet/Picker等UI组件
- * 平台：全平台兼容
+ * 平台：小程序端（全平台）
  */
 
 import Platform from "./platform.js";

@@ -1,17 +1,19 @@
 ---
 title: Slider 滑动选择器
 description: 用于选择横轴上的数值、区间、档位。
-spline: data
+spline: form
 isComponent: true
 ---
 
 
 ## 引入
 
-可在 `main.ts` 或在需要使用的页面或组件中引入。
+推荐使用 easycom 模式引入组件，配置后无需手动 import 即可直接在模板中使用 `<t-slider />`。详细配置请参考 [快速开始](../getting-started)。
+
+如需手动引入：
 
 ```js
-import TSlider from 'tdesign-uniapp/slider/slider.vue';
+import TSlider from '@tdesign/uniapp/slider/slider.vue';
 ```
 
 ### 组件类型
@@ -82,8 +84,8 @@ range | Boolean | false | 双游标滑块 | N
 show-extreme-value | Boolean | false | 是否边界值 | N
 step | Number | 1 | 步长 | N
 theme | String | default | 滑块风格。可选项：default/capsule | N
-value | Number / Array | 0 | 滑块值。支持语法糖 `v-model:value`。TS 类型：`SliderValue` `type SliderValue = number \| Array<number>`。[详细类型定义](https://github.com/novlan1/tdesign-uniapp/blob/develop/packages/tdesign/slider/type.ts) | N
-default-value | Number / Array | 0 | 滑块值。非受控属性。TS 类型：`SliderValue` `type SliderValue = number \| Array<number>`。[详细类型定义](https://github.com/novlan1/tdesign-uniapp/blob/develop/packages/tdesign/slider/type.ts) | N
+value | Number / Array | 0 | 滑块值。支持语法糖 `v-model:value`。TS 类型：`SliderValue` `type SliderValue = number \| Array<number>`。[详细类型定义](https://github.com/Tencent/tdesign-miniprogram/tree/develop/packages/uniapp-components/slider/type.ts) | N
+default-value | Number / Array | 0 | 滑块值。非受控属性。TS 类型：`SliderValue` `type SliderValue = number \| Array<number>`。[详细类型定义](https://github.com/Tencent/tdesign-miniprogram/tree/develop/packages/uniapp-components/slider/type.ts) | N
 vertical | Boolean | false | 是否是垂直的滑块（渲染垂直滑块时，默认高度为400rpx，可通过修改`--td-slider-bar-height`来自定义高度） | N
 
 ### Slider Events
@@ -107,22 +109,21 @@ t-class-cursor | 游标样式类
 ### CSS Variables
 
 组件提供了下列 CSS 变量，可用于自定义样式。
-| 名称 | 默认值 | 描述 |
-| -- | -- | -- | 
-| --td-slider-active-color | @brand-color | - |
-| --td-slider-bar-height | 8rpx | - |
-| --td-slider-bar-width | 8rpx | - |
-| --td-slider-capsule-bar-color | @bg-color-component | - |
-| --td-slider-capsule-bar-heihgt | 48rpx | - |
-| --td-slider-capsule-bar-width | 48rpx | - |
-| --td-slider-capsule-line-heihgt | 36rpx | - |
-| --td-slider-default-color | @bg-color-component | - |
-| --td-slider-default-color | @bg-color-component-disabled | - |
-| --td-slider-disabled-color | @brand-color-disabled | - |
-| --td-slider-disabled-text-color | @text-color-disabled | - |
-| --td-slider-dot-bg-color | #fff | - |
-| --td-slider-dot-color | @component-border | - |
-| --td-slider-dot-disabled-bg-color | #fff | - |
-| --td-slider-dot-disabled-border-color | #f3f3f3 | - |
-| --td-slider-dot-size | 40rpx | - |
-| --td-slider-text-color | @text-color-primary | - |
+名称 | 默认值 | 描述
+-- | -- | --
+--td-slider-active-color | @brand-color | -
+--td-slider-bar-height | 8rpx | -
+--td-slider-bar-width | 8rpx | -
+--td-slider-capsule-bar-color | @bg-color-component | -
+--td-slider-capsule-bar-heihgt | 48rpx | -
+--td-slider-capsule-bar-width | 48rpx | -
+--td-slider-capsule-line-heihgt | 36rpx | -
+--td-slider-default-color | @bg-color-component | -
+--td-slider-disabled-color | @brand-color-disabled | -
+--td-slider-disabled-text-color | @text-color-disabled | -
+--td-slider-dot-bg-color | #fff | -
+--td-slider-dot-color | @component-border | -
+--td-slider-dot-disabled-bg-color | #fff | -
+--td-slider-dot-disabled-border-color | #f3f3f3 | -
+--td-slider-dot-size | 40rpx | -
+--td-slider-text-color | @text-color-primary | -

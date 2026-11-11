@@ -2,7 +2,7 @@
   display: flex;
 }
 .t-step--vertical {
-  padding-right: 16px;
+  padding-right: 32rpx;
 }
 .t-steps {
   display: flex;

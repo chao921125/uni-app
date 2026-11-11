@@ -2,7 +2,7 @@
 /**
  * UniApp 媒体模块封装
  * 功能：图片/视频/音频/相机/文件管理
- * 平台：全平台兼容（App/小程序/H5）
+ * 平台：小程序端（全平台）
  */
 
 import { createModule } from "./promise.js";

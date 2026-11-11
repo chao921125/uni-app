@@ -11,11 +11,17 @@ const banners = ref([
 	{ title: "AI 智能助手", desc: "随时提问，即时解答", bg: "linear-gradient(135deg, #0ea5e9, #06b6d4)" },
 ]);
 
+const bannerCurrent = ref(0);
+
+const onBannerChange = (e) => {
+	bannerCurrent.value = e.detail.current;
+};
+
 const quickEntries = reactive([
 	{ icon: "chat", label: "AI 对话", color: "#6366f1" },
 	{ icon: "bookmark", label: "课程中心", color: "#ec4899" },
-	{ icon: "account", label: "学习社区", color: "#0ea5e9" },
-	{ icon: "checkmark-circle", label: "每日签到", color: "#f59e0b" },
+	{ icon: "user", label: "学习社区", color: "#0ea5e9" },
+	{ icon: "check-circle", label: "每日签到", color: "#f59e0b" },
 ]);
 
 const courses = reactive([
@@ -56,28 +62,31 @@ const onProductTap = (product) => {
 			<view class="nav-content">
 				<text class="nav-title">CCNET</text>
 				<view class="nav-right">
-					<u-icon name="search" size="20" color="#333" @click="uni.showToast({ title: '搜索', icon: 'none' })"></u-icon>
+					<t-icon name="search" size="20" color="#333" @click="uni.showToast({ title: '搜索', icon: 'none' })"></t-icon>
 				</view>
 			</view>
 		</view>
 
 		<scroll-view scroll-y class="content" :style="{ paddingTop: statusBarHeight + 44 + 'px' }">
 			<view class="banner-wrap">
-				<u-swiper :list="banners" indicator indicatorMode="line" radius="16" height="160" :autoplay="true" interval="3000">
-					<template #default="{ item }">
-						<view class="banner-item" :style="{ background: item.bg }">
-							<text class="banner-title">{{ item.title }}</text>
-							<text class="banner-desc">{{ item.desc }}</text>
-						</view>
-					</template>
-				</u-swiper>
+				<view class="banner-swiper-wrap">
+					<swiper class="banner-swiper" :autoplay="true" :interval="3000" circular @change="onBannerChange">
+						<swiper-item v-for="(item, index) in banners" :key="index">
+							<view class="banner-item" :style="{ background: item.bg }">
+								<text class="banner-title">{{ item.title }}</text>
+								<text class="banner-desc">{{ item.desc }}</text>
+							</view>
+						</swiper-item>
+					</swiper>
+					<t-swiper-nav type="dots-bar" :current="bannerCurrent" :total="banners.length" pagination-position="bottom"></t-swiper-nav>
+				</view>
 			</view>
 
 			<view class="section">
 				<view class="quick-grid">
 					<view v-for="item in quickEntries" :key="item.label" class="quick-item" @click="onQuickTap(item)">
 						<view class="quick-icon" :style="{ background: item.color + '15' }">
-							<u-icon :name="item.icon" size="24" :color="item.color"></u-icon>
+							<t-icon :name="item.icon" size="24" :color="item.color"></t-icon>
 						</view>
 						<text class="quick-label">{{ item.label }}</text>
 					</view>
@@ -110,15 +119,15 @@ const onProductTap = (product) => {
 				</view>
 				<view class="info-card">
 					<view class="info-item">
-						<u-icon name="checkmark-circle-fill" size="18" color="#10b981"></u-icon>
+						<t-icon name="check-circle-filled" size="18" color="#10b981"></t-icon>
 						<text class="info-text">AI 智能辅导：基于大模型技术，提供个性化学习方案</text>
 					</view>
 					<view class="info-item">
-						<u-icon name="checkmark-circle-fill" size="18" color="#10b981"></u-icon>
+						<t-icon name="check-circle-filled" size="18" color="#10b981"></t-icon>
 						<text class="info-text">海量课程资源：覆盖AI全领域，从入门到精通</text>
 					</view>
 					<view class="info-item">
-						<u-icon name="checkmark-circle-fill" size="18" color="#10b981"></u-icon>
+						<t-icon name="check-circle-filled" size="18" color="#10b981"></t-icon>
 						<text class="info-text">社区学习：与同行交流，共同进步</text>
 					</view>
 				</view>
@@ -132,7 +141,7 @@ const onProductTap = (product) => {
 				<view class="product-grid">
 					<view v-for="product in products" :key="product.title" class="product-card" @click="onProductTap(product)">
 						<view class="product-cover">
-							<u-icon name="shopping-cart" size="32" color="#6366f1"></u-icon>
+							<t-icon name="cart" size="32" color="#6366f1"></t-icon>
 						</view>
 						<text class="product-title">{{ product.title }}</text>
 						<text class="product-desc">{{ product.desc }}</text>
@@ -187,6 +196,15 @@ const onProductTap = (product) => {
 }
 .banner-wrap {
 	padding: 16rpx 20rpx;
+}
+.banner-swiper-wrap {
+	position: relative;
+	height: 160px;
+	border-radius: 16rpx;
+	overflow: hidden;
+}
+.banner-swiper {
+	height: 160px;
 }
 .banner-item {
 	height: 100%;

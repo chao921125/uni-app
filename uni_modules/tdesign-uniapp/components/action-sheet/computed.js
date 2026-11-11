@@ -1,3 +1,5 @@
+import utils from '../common/utils.wxs';
+
 export const getListThemeItemClass = function (props) {
   const { classPrefix } = props;
   const { item } = props;
@@ -9,7 +11,18 @@ export const getListThemeItemClass = function (props) {
   return classList.join(' ');
 };
 
+export const getIconData = function (icon) {
+  if (utils.isString(icon)) {
+    return { name: icon, size: '48rpx' };
+  }
+
+  if (utils.isNoEmptyObj(icon)) {
+    return icon;
+  }
+
+  return null;
+};
+
 export const isImage = function (name) {
   return name.indexOf('/') !== -1;
 };
-

@@ -1,4 +1,5 @@
 import type { ActionSheetItem, ActionSheetTheme, ActionSheetShowOption } from './show.d.ts';
+
 export { ActionSheetItem, ActionSheetTheme, ActionSheetShowOption };
 
 declare type Instance = any;

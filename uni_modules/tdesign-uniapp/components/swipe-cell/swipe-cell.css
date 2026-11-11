@@ -20,13 +20,12 @@
   display: inline-flex;
   justify-content: center;
   align-items: center;
-  padding: 0 var(--td-spacer-2, 16px);
+  padding: 0 var(--td-spacer-2, 32rpx);
 }
 :deep(.t-swipe-cell__icon) {
-  font-size: var(--td-font-size-xl, 20px);
+  font-size: var(--td-font-size-xl, 40rpx);
 }
 :deep(.t-swipe-cell__icon) + .t-swipe-cell__text:not(:empty) {
-  margin-left: var(--td-spacer, 8px);
-  font-size: var(--td-font-size-base, 14px);
-  line-height: 22px;
+  margin-left: var(--td-spacer, 16rpx);
+  font: var(--td-font-body-medium, 28rpx / 44rpx var(--td-font-family, PingFang SC, Microsoft YaHei, Arial Regular));
 }

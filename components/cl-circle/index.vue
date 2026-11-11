@@ -114,7 +114,8 @@ export default {
 			let query;
 			// #ifdef MP-WEIXIN
 			query = wx.createSelectorQuery().in(this);
-			// #else
+			// #endif
+			// #ifndef MP-WEIXIN
 			query = uni.createSelectorQuery().in(this);
 			// #endif
 

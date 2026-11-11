@@ -8,10 +8,12 @@ isComponent: true
 
 ## 引入
 
-可在 `main.ts` 或在需要使用的页面或组件中引入。
+推荐使用 easycom 模式引入组件，配置后无需手动 import 即可直接在模板中使用 `<t-empty />`。详细配置请参考 [快速开始](../getting-started)。
+
+如需手动引入：
 
 ```js
-import TEmpty from 'tdesign-uniapp/empty/empty.vue';
+import TEmpty from '@tdesign/uniapp/empty/empty.vue';
 ```
 
 ### 类型
@@ -60,11 +62,10 @@ t-class-image | 图片样式类
 ### CSS Variables
 
 组件提供了下列 CSS 变量，可用于自定义样式。
-| 名称 | 默认值 | 描述 |
-| -- | -- | -- | 
-| --td-empty-action-margin-top | @spacer-4 | - |
-| --td-empty-description-color | @text-color-placeholder | - |
-| --td-empty-description-font-size | @font-size-base | - |
-| --td-empty-description-line-height | 44rpx | - |
-| --td-empty-description-margin-top | @spacer-2 | - |
-| --td-empty-icon-color | @text-color-placeholder | - |
+名称 | 默认值 | 描述
+-- | -- | --
+--td-empty-action-margin-top | @spacer-4 | -
+--td-empty-description-color | @text-color-placeholder | -
+--td-empty-description-font | @font-body-medium | -
+--td-empty-description-margin-top | @spacer-2 | -
+--td-empty-icon-color | @text-color-placeholder | -

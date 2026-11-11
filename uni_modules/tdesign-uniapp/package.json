@@ -1,8 +1,8 @@
 {
   "name": "tdesign-uniapp",
   "id": "tdesign-uniapp",
-  "displayName": "TDesign UniApp",
-  "version": "0.6.0",
+  "displayName": "TDesign Uniapp",
+  "version": "1.0.0",
   "author": "novlan1",
   "title": "tdesign-uniapp",
   "description": "TDesign Component for uniapp",
@@ -12,16 +12,16 @@
     "uniapp",
     "vue"
 ],
-  "homepage": "https://uwayfly.com/tdesign-uniapp/",
+  "homepage": "https://tdesign.tencent.com/uniapp/",
   "bugs": {
-    "url": "https://github.com/novlan1/tdesign-uniapp/issues"
+    "url": "https://github.com/Tencent/tdesign-miniprogram/issues"
   },
-  "repository": "https://github.com/novlan1/tdesign-uniapp",
+  "repository": "https://github.com/Tencent/tdesign-miniprogram",
   "license": "MIT",
   "engines": {
     "node": ">=14",
-    "uni-app": "^3.6.15",
-    "uni-app-x": "^3.6.15"
+    "uni-app": "^3.99",
+    "uni-app-x": "^3.99"
   },
   "dcloudext": {
     "type": "component-vue",
@@ -41,7 +41,7 @@
       "data": "插件不采集任何数据",
       "permissions": "无"
     },
-    "npmurl": "https://www.npmjs.com/package/tdesign-uniapp",
+    "npmurl": "https://www.npmjs.com/package/@tdesign/uniapp",
     "darkmode": "√",
     "i18n": "√",
     "widescreen": "√"
@@ -58,30 +58,31 @@
       "client": {
         "uni-app": {
           "vue": {
-            "vue2": "-",
-            "vue3": {}
+            "vue2": "√",
+            "vue3": "√"
           },
           "web": {
             "safari": "√",
             "chrome": "√"
           },
           "app": {
-            "vue": "-",
+            "vue": "√",
             "nvue": "-",
-            "android": "-",
-            "ios": "-",
-            "harmony": "-"
+            "android": "√",
+            "ios": "√",
+            "harmony": "√"
           },
           "mp": {
-            "weixin": "-",
-            "alipay": "-",
-            "toutiao": "-",
-            "baidu": "-",
-            "kuaishou": "-",
-            "jd": "-",
+            "weixin": "√",
+            "alipay": "√",
+            "toutiao": "√",
+            "baidu": "√",
+            "kuaishou": "√",
+            "jd": "√",
             "harmony": "-",
-            "qq": "-",
-            "lark": "-"
+            "qq": "√",
+            "lark": "√",
+            "xhs": "√"
           },
           "quickapp": {
             "huawei": "-",

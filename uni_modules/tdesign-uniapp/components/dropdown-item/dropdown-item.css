@@ -6,7 +6,6 @@
   top: 0;
   overflow: hidden;
   bottom: 0;
-  /** 树形结构 */
 }
 .t-dropdown-item__content {
   display: flex;
@@ -26,25 +25,24 @@
   flex: 1;
   background: var(--td-dropdown-menu-bg-color, var(--td-bg-color-container, var(--td-font-white-1, #ffffff)));
   overflow: auto;
-  max-height: var(--td-dropdown-body-max-height, 280px);
+  max-height: var(--td-dropdown-body-max-height, 560rpx);
 }
 .t-dropdown-item__body--tree {
   display: flex;
   overflow: hidden;
 }
 .t-dropdown-item__body--multi {
-  padding-top: var(--td-spacer, 8px);
-  padding-bottom: var(--td-spacer, 8px);
+  padding-top: var(--td-spacer, 16rpx);
+  padding-bottom: var(--td-spacer, 16rpx);
   overflow-y: auto;
 }
 .t-dropdown-item__scroll {
-  max-height: var(--td-dropdown-body-max-height, 280px);
-  width: 100%;
+  max-height: var(--td-dropdown-body-max-height, 560rpx);
 }
 .t-dropdown-item__footer {
   display: flex;
   background: var(--td-dropdown-menu-bg-color, var(--td-bg-color-container, var(--td-font-white-1, #ffffff)));
-  padding: 16px;
+  padding: 32rpx;
   position: relative;
 }
 .t-dropdown-item__footer::after {
@@ -55,7 +53,7 @@
   bottom: unset;
   left: unset;
   right: unset;
-  background-color: var(--td-component-border, var(--td-gray-color-4, #dcdcdc));
+  background-color: var(--td-component-border, var(--td-gray-color-4, #dddddd));
 }
 .t-dropdown-item__footer::after {
   height: 1px;
@@ -67,20 +65,29 @@
   flex: 1;
 }
 :deep(.t-dropdown-item__footer-btn + .t-dropdown-item__footer-btn) {
-  margin-left: 16px;
+  margin-left: 32rpx;
 }
 .t-dropdown-item__body:empty,
 .t-dropdown-item__footer:empty {
   display: none;
 }
-.t-dropdown-item__tree-item {
-  height: var(--td-tree-item-height, 48px);
-  line-height: var(--td-tree-item-height, 48px);
-  font-size: var(--td-tree-item-font-size, 16px);
-  padding-left: 16px;
+.t-dropdown-item__radio,
+.t-dropdown-item__checkbox {
+  width: 100%;
+  overflow: scroll;
+  box-sizing: border-box;
 }
-.t-dropdown-item__tree-item--active {
-  color: var(--td-tree-item-active-color, var(--td-brand-color, var(--td-primary-color-7, #0052d9)));
+.t-dropdown-item__radio-group,
+.t-dropdown-item__checkbox-group {
+  display: grid;
+  grid-gap: 24rpx;
+}
+.t-dropdown-item__radio-group {
+  display: grid;
+  grid-gap: 0rpx;
+}
+.t-dropdown-item__checkbox-group {
+  padding: 32rpx;
 }
 .t-dropdown-item__mask {
   position: fixed;

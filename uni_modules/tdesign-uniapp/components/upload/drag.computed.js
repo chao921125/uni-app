@@ -113,7 +113,6 @@ export function longPress(event, index) {
 }
 
 export function touchMove(event, index) {
-  // const ins = event.instance;
   const st = this.getState();
   const _ = st.dragBaseData;
 
@@ -121,6 +120,13 @@ export function touchMove(event, index) {
   if (!mTouch) return;
 
   if (!st.dragging) return;
+
+  // 仅在真正拖拽时阻止默认滚动（H5 端）。
+  // 不能像旧实现那样在模板上挂 `.prevent`：它会在未拖拽的点击（如删除按钮）时
+  // preventDefault touchmove，导致 H5 不再派发后续 click，删除/预览事件全部失效。
+  if (event.cancelable !== false && typeof event.preventDefault === 'function') {
+    event.preventDefault();
+  }
 
   // 如果不是同一个触发点则返回
   if (st.sId !== mTouch.identifier) return;
@@ -186,7 +192,9 @@ export function touchEnd(event, index) {
   if (!st.dragging) return;
   triggerCustomEvent(st.list, 'sortend', this);
 
+  this.setDragItemClass(index, 'remove', `${classPrefix}__drag--cur`);
   this.setDragItemClass(index, 'add', `${classPrefix}__drag--tran`);
+
   this.setDragItemStyle(index, `transform: translate3d(${st.list[st.cur].tranX},${st.list[st.cur].tranY}, 0)`);
 
   st.preStartKey = -1;
@@ -218,7 +226,7 @@ export function listObserver(newVal) {
   st.list = newVal || [];
   st.list.forEach((item, index) => {
     this.setDragItemClass(index, 'remove', `${classPrefix}__drag--tran`);
-    this.setDragItemStyle(index,  `transform: translate3d(${item.tranX},${item.tranY}, 0)`);
+    this.setDragItemStyle(index, `transform: translate3d(${item.tranX},${item.tranY}, 0)`);
     if (item.fixed) this.setDragItemClass(index, 'add', `${classPrefix}__drag--fixed`);
   });
   dragCollisionList = [];

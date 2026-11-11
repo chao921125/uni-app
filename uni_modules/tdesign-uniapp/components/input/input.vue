@@ -1,35 +1,41 @@
 <template>
   <view
-    :style="tools._style([customStyle])"
-    :class="tools.cls(classPrefix, [['border', !borderless], ['readonly', readonly], ['disabled', disabled]])
-      + ' ' + classPrefix + '--layout-' + layout + ' ' + tClass"
+    :style="'' + tools._style([customStyle])"
+    :class="
+      '' +
+      tools.cls(classPrefix, [
+        ['border', !borderless],
+        ['readonly', readonly],
+        ['disabled', disabled],
+      ]) +
+      ' ' +
+      classPrefix +
+      '--layout-' +
+      layout +
+      ' ' +
+      tClass
+    "
     aria-describedby
   >
     <view :class="classPrefix + '__wrap--prefix'">
       <view :class="classPrefix + '__icon--prefix'">
         <slot name="prefix-icon" />
-        <block
-          v-if="_prefixIcon"
-          name="icon"
-        >
+        <block v-if="iPrefixIcon" name="icon">
           <t-icon
-            :custom-style="_prefixIcon.style || ''"
+            :custom-style="iPrefixIcon.style || ''"
             :t-class="tClassPrefixIcon"
-            :prefix="_prefixIcon.prefix"
-            :name="_prefixIcon.name"
-            :size="_prefixIcon.size"
-            :color="_prefixIcon.color"
+            :prefix="iPrefixIcon.prefix"
+            :name="iPrefixIcon.name"
+            :size="iPrefixIcon.size"
+            :color="iPrefixIcon.color"
             :aria-hidden="true"
-            :aria-label="_prefixIcon.ariaLabel"
-            :aria-role="_prefixIcon.ariaRole"
-            @click="_prefixIcon.click || ''"
+            :aria-label="iPrefixIcon.ariaLabel"
+            :aria-role="iPrefixIcon.ariaRole"
+            @click="iPrefixIcon.click || ''"
           />
         </block>
       </view>
-      <view
-        :class="classPrefix + '__label ' + tClassLabel"
-        aria-hidden
-      >
+      <view :class="classPrefix + '__label ' + tClassLabel" aria-hidden>
         <slot name="label" />
         <block v-if="label">
           {{ label }}
@@ -37,17 +43,16 @@
       </view>
     </view>
     <view :class="classPrefix + '__wrap'">
-      <view
-        :class="classPrefix + '__content ' + classPrefix + '--' + status"
-        @click="onClick"
-      >
+      <view :class="classPrefix + '__content ' + classPrefix + '--' + status" @click="onClick">
         <input
-          :class="getInputClass(classPrefix, suffix, align, disabled) + ' ' + tClassInput"
+          :class="'' + getInputClass(classPrefix, suffix, align, disabled) + ' ' + tClassInput"
           :maxlength="allowInputOverMax ? -1 : maxlength"
           :disabled="disabled || readonly"
           :placeholder="placeholder"
           :placeholder-style="placeholderStyle"
-          :placeholder-class="tools.cls(classPrefix + '__placeholder', [['disabled', disabled]]) + ' ' + placeholderClass"
+          :placeholder-class="
+            tools.cls(classPrefix + '__placeholder', [['disabled', disabled]]) + ' ' + placeholderClass
+          "
           :value="dataValue"
           :password="type === 'password'"
           :type="type === 'password' ? 'text' : type"
@@ -73,59 +78,51 @@
           :aria-label="label"
           :aria-roledescription="label"
           @input="onInput"
+          @change="onChange"
           @focus="onFocus"
           @blur="onBlur"
           @confirm="onConfirm"
           @keyboardheightchange="onKeyboardHeightChange"
           @nicknamereview="onNickNameReview"
-        >
+        />
         <view
-          v-if="_clearIcon && dataValue && dataValue.length && showClearIcon"
+          v-if="iClearIcon && dataValue && dataValue.length && showClearIcon"
           :class="classPrefix + '__wrap--clearable-icon'"
           @click.stop="clearInput"
         >
           <t-icon
-            :custom-style="_clearIcon.style || ''"
+            :custom-style="iClearIcon.style || ''"
             :t-class="tClassClearable"
-            :prefix="_clearIcon.prefix"
-            :name="_clearIcon.name"
-            :size="_clearIcon.size"
-            :color="_clearIcon.color"
+            :prefix="iClearIcon.prefix"
+            :name="iClearIcon.name"
+            :size="iClearIcon.size"
+            :color="iClearIcon.color"
             :aria-hidden="false"
-            :aria-label="_clearIcon.ariaLabel || '清除'"
-            :aria-role="_clearIcon.ariaRole || 'button'"
-            @click="_clearIcon.click || ''"
+            :aria-label="iClearIcon.ariaLabel || '清除'"
+            :aria-role="iClearIcon.ariaRole || 'button'"
+            @click="iClearIcon.click || ''"
           />
         </view>
-        <view
-          :class="classPrefix + '__wrap--suffix ' + tClassSuffix"
-          @click="onSuffixClick"
-        >
+        <view :class="classPrefix + '__wrap--suffix ' + tClassSuffix" @click="onSuffixClick">
           <text v-if="suffix">
             {{ suffix }}
           </text>
           <slot name="suffix" />
         </view>
-        <view
-          :class="classPrefix + '__wrap--suffix-icon'"
-          @click="onSuffixIconClick"
-        >
+        <view :class="classPrefix + '__wrap--suffix-icon'" @click="onSuffixIconClick">
           <slot name="suffix-icon" />
-          <block
-            v-if="_suffixIcon"
-            name="icon"
-          >
+          <block v-if="iSuffixIcon" name="icon">
             <t-icon
-              :custom-style="_suffixIcon.style || ''"
+              :custom-style="iSuffixIcon.style || ''"
               :t-class="tClassSuffixIcon"
-              :prefix="_suffixIcon.prefix"
-              :name="_suffixIcon.name"
-              :size="_suffixIcon.size"
-              :color="_suffixIcon.color"
+              :prefix="iSuffixIcon.prefix"
+              :name="iSuffixIcon.name"
+              :size="iSuffixIcon.size"
+              :color="iSuffixIcon.color"
               :aria-hidden="true"
-              :aria-label="_suffixIcon.ariaLabel"
-              :aria-role="_suffixIcon.ariaRole || 'button'"
-              @click="_suffixIcon.click || ''"
+              :aria-label="iSuffixIcon.ariaLabel"
+              :aria-role="iSuffixIcon.ariaRole || 'button'"
+              @click="iSuffixIcon.click || ''"
             />
           </block>
         </view>
@@ -142,240 +139,226 @@
   </view>
 </template>
 <script>
-import tIcon from '../icon/icon';
-import { uniComponent } from '../common/src/index';
 import { prefix } from '../common/config';
-import props from './props';
+import { RELATION_MAP } from '../common/relation/parent-map';
+import { uniComponent } from '../common/src/index';
 import { getCharacterLength, calcIcon, coalesce, nextTick } from '../common/utils';
-import { isDef } from '../common/validator';
-import { getInputClass } from './computed.js';
 import tools from '../common/utils.wxs';
-// import { getInnerMaxLen } from './utils';
+import { isDef } from '../common/validator';
+import TIcon from '../icon/icon';
 
+import { getInputClass } from './computed.js';
+import props from './props';
 
 const name = `${prefix}-input`;
 
-
-export default uniComponent({
-  name,
-  options: {
-    styleIsolation: 'shared',
-  },
-  externalClasses: [
-    `${prefix}-class`,
-    `${prefix}-class-prefix-icon`,
-    `${prefix}-class-label`,
-    `${prefix}-class-input`,
-    `${prefix}-class-clearable`,
-    `${prefix}-class-suffix`,
-    `${prefix}-class-suffix-icon`,
-    `${prefix}-class-tips`,
-  ],
+export default {
   components: {
-    tIcon,
+    TIcon,
   },
-  props: {
-    ...props,
-  },
-  emits: [
-    'blur',
-    'change',
-    'clear',
-    'click',
-    'enter',
-    'focus',
-    'keyboardheightchange',
-    'nicknamereview',
-    'validate',
-    'update:value',
-  ],
-  data() {
-    return {
-      prefix,
-      classPrefix: name,
-      classBasePrefix: prefix,
-      showClearIcon: true,
-      tools,
-
-      dataValue: coalesce(this.value, this.defaultValue),
-
-      // rawValue: '',
-      // innerMaxLen: -1,
-    };
-  },
-  computed: {
-  },
-  watch: {
-    prefixIcon: {
-      handler(v) {
-        this._prefixIcon = calcIcon(v);
-      },
-      immediate: true,
+  ...uniComponent({
+    name,
+    options: {
+      styleIsolation: 'shared',
     },
-
-    suffixIcon: {
-      handler(v) {
-        this._suffixIcon = calcIcon(v);
+    inject: {
+      [RELATION_MAP.FormKey]: {
+        default: null,
       },
-      immediate: true,
     },
+    externalClasses: [
+      `${prefix}-class`,
+      `${prefix}-class-prefix-icon`,
+      `${prefix}-class-label`,
+      `${prefix}-class-input`,
+      `${prefix}-class-clearable`,
+      `${prefix}-class-suffix`,
+      `${prefix}-class-suffix-icon`,
+      `${prefix}-class-tips`,
+    ],
+    props: {
+      ...props,
+    },
+    emits: [
+      'blur',
+      'change',
+      'clear',
+      'click',
+      'enter',
+      'focus',
+      'keyboardheightchange',
+      'nicknamereview',
+      'validate',
+      'update:value',
+    ],
+    data() {
+      return {
+        prefix,
+        classPrefix: name,
+        classBasePrefix: prefix,
+        showClearIcon: true,
+        tools,
 
-    clearable: {
-      handler(v) {
-        this._clearIcon = calcIcon(v, 'close-circle-filled');
+        dataValue: coalesce(this.value, this.defaultValue),
+      };
+    },
+    watch: {
+      prefixIcon: {
+        handler(v) {
+          this.iPrefixIcon = calcIcon(v);
+        },
+        immediate: true,
       },
-      immediate: true,
-    },
 
-    clearTrigger: 'updateClearIconVisible',
-    disabled: 'updateClearIconVisible',
-    readonly: 'updateClearIconVisible',
+      suffixIcon: {
+        handler(v) {
+          this.iSuffixIcon = calcIcon(v);
+        },
+        immediate: true,
+      },
 
-    value: {
-      handler(v) {
-        this.dataValue = v;
-        nextTick().then(() => {
+      clearable: {
+        handler(v) {
+          this.iClearIcon = calcIcon(v, 'close-circle-filled');
+        },
+        immediate: true,
+      },
+
+      clearTrigger: 'updateClearIconVisible',
+      disabled: 'updateClearIconVisible',
+      readonly: 'updateClearIconVisible',
+
+      value: {
+        handler(v) {
           this.dataValue = v;
-        });
+          nextTick().then(() => {
+            this.dataValue = v;
+
+            if (this[RELATION_MAP.FormKey] && this[RELATION_MAP.FormKey].onValueChange) {
+              this[RELATION_MAP.FormKey].onValueChange(v);
+            }
+          });
+        },
       },
     },
-  },
-  mounted() {
-    const { value, defaultValue } = this;
-    this.updateValue(coalesce(value, defaultValue, ''));
+    mounted() {
+      const { value, defaultValue } = this;
+      this.updateValue(coalesce(value, defaultValue, ''));
 
-    this.updateClearIconVisible();
-  },
-  methods: {
-    getInputClass,
-    updateValue(value) {
-      // this.rawValue = value;
-      this.dataValue = value;
-
-      const { allowInputOverMax, maxcharacter, maxlength } = this;
-      if (!allowInputOverMax && maxcharacter && maxcharacter > 0 && !Number.isNaN(maxcharacter)) {
-        const { length, characters } = getCharacterLength('maxcharacter', value, maxcharacter);
-        nextTick().then(() => {
-          this.dataValue = characters;
-        });
-        this.count = length;
-      } else if (!allowInputOverMax && maxlength && maxlength > 0 && !Number.isNaN(maxlength)) {
-        const { length, characters } = getCharacterLength('maxlength', value, maxlength);
-        nextTick().then(() => {
-          this.dataValue = characters;
-        });
-        this.count = length;
-      } else {
-        nextTick().then(() => {
-          this.dataValue = value;
-        });
-        this.dataValue = value;
-        this.count = isDef(value) ? String(value).length : 0;
-      }
-
-      // this.updateInnerMaxLen();
-    },
-    // updateInnerMaxLen() {
-    // this.innerMaxLen = this.getInnerMaxLen();
-    // },
-    // getInnerMaxLen() {
-    //   const {
-    //     allowInputOverMax,
-    //     maxcharacter,
-    //     maxlength,
-    //     dataValue,
-    //     rawValue,
-    //     count,
-    //   } = this;
-    //   return getInnerMaxLen({
-    //     allowInputOverMax,
-    //     maxcharacter,
-    //     maxlength,
-    //     dataValue,
-    //     rawValue,
-    //     count,
-    //   });
-    // },
-
-    updateClearIconVisible(value = false) {
-      const { clearTrigger, disabled, readonly } = this;
-      if (disabled || readonly) {
-        this.showClearIcon = false;
-        return;
-      }
-      this.showClearIcon = value || clearTrigger === 'always';
-    },
-
-    onInput(e) {
-      const { value, cursor, keyCode } = e.detail;
-      this.updateValue(value);
-      this.emitChange({ value: this.dataValue, cursor, keyCode });
-    },
-
-    onChange(e) {
-      if (this.type !== 'nickname') return;
-      const { value } = e.detail;
-      this.updateValue(value);
-      this.emitChange({ value: this.dataValue });
-    },
-
-    emitChange(data) {
-      this.$emit('change', data);
-      this.$emit('update:value', data.value);
-    },
-
-    onFocus(e) {
-      this.updateClearIconVisible(true);
-      this.$emit('focus', e.detail);
-    },
-
-    onBlur(e) {
       this.updateClearIconVisible();
-
-      // 失焦时处理 format
-      if (typeof this.format === 'function') {
-        const v = this.format(e.detail.value);
-        this.updateValue(v);
-        this.$emit('blur', { value: this.dataValue, cursor: this.count });
-        return;
-      }
-      this.$emit('blur', e.detail);
     },
+    methods: {
+      getInputClass,
+      updateValue(value) {
+        // this.rawValue = value;
+        this.dataValue = value;
 
-    onConfirm(e) {
-      this.$emit('enter', e.detail);
+        const { allowInputOverMax, maxcharacter, maxlength } = this;
+        if (!allowInputOverMax && maxcharacter && maxcharacter > 0 && !Number.isNaN(maxcharacter)) {
+          const { length, characters } = getCharacterLength('maxcharacter', value, maxcharacter);
+          nextTick().then(() => {
+            this.dataValue = characters;
+          });
+          this.count = length;
+        } else if (!allowInputOverMax && maxlength && maxlength > 0 && !Number.isNaN(maxlength)) {
+          const { length, characters } = getCharacterLength('maxlength', value, maxlength);
+          nextTick().then(() => {
+            this.dataValue = characters;
+          });
+          this.count = length;
+        } else {
+          nextTick().then(() => {
+            this.dataValue = value;
+          });
+          this.dataValue = value;
+          this.count = isDef(value) ? String(value).length : 0;
+        }
+      },
+
+      updateClearIconVisible(value = false) {
+        const { clearTrigger, disabled, readonly } = this;
+        if (disabled || readonly) {
+          this.showClearIcon = false;
+          return;
+        }
+        this.showClearIcon = value || clearTrigger === 'always';
+      },
+
+      onInput(e) {
+        const { value, cursor, keyCode } = e.detail;
+        this.updateValue(value);
+        this.emitChange({ value: this.dataValue, cursor, keyCode });
+      },
+
+      onChange(e) {
+        if (this.type !== 'nickname') return;
+        const { value } = e.detail;
+        this.updateValue(value);
+        this.emitChange({ value: this.dataValue });
+      },
+
+      emitChange(data) {
+        this.$emit('update:value', data.value);
+        this.$emit('change', data);
+      },
+
+      onFocus(e) {
+        this.updateClearIconVisible(true);
+        this.$emit('focus', e.detail);
+      },
+
+      onBlur(e) {
+        this.updateClearIconVisible();
+
+        if (this[RELATION_MAP.FormKey] && this[RELATION_MAP.FormKey].onBlur) {
+          this[RELATION_MAP.FormKey].onBlur(this.dataValue);
+        }
+
+        // 失焦时处理 format
+        if (typeof this.format === 'function') {
+          const v = this.format(e.detail.value);
+          this.updateValue(v);
+          this.$emit('blur', { value: this.dataValue, cursor: this.count });
+          return;
+        }
+        this.$emit('blur', e.detail);
+      },
+
+      onConfirm(e) {
+        this.$emit('enter', e.detail);
+      },
+
+      onSuffixClick() {
+        this.$emit('click', { trigger: 'suffix' });
+      },
+
+      onSuffixIconClick() {
+        this.$emit('click', { trigger: 'suffix-icon' });
+      },
+
+      clearInput(e) {
+        this.updateValue('');
+        this.emitChange({ value: this.dataValue });
+        this.$emit('clear', e.detail);
+      },
+
+      onKeyboardHeightChange(e) {
+        this.$emit('keyboardheightchange', e.detail);
+      },
+
+      onNickNameReview(e) {
+        this.$emit('nicknamereview', e.detail);
+      },
+
+      onClick() {
+        this.$emit('click', { trigger: 'input' });
+      },
     },
-
-    onSuffixClick() {
-      this.$emit('click', { trigger: 'suffix' });
-    },
-
-    onSuffixIconClick() {
-      this.$emit('click', { trigger: 'suffix-icon' });
-    },
-
-    clearInput(e) {
-      this.$emit('clear', e.detail);
-      this.dataValue = '';
-    },
-
-    onKeyboardHeightChange(e) {
-      this.$emit('keyboardheightchange', e.detail);
-    },
-
-    onNickNameReview(e) {
-      this.$emit('nicknamereview', e.detail);
-    },
-
-    onClick() {
-      this.$emit('click', { trigger: 'input' });
-    },
-  },
-});
-
+  }),
+};
 </script>
+<style scoped src="./input.css"></style>
 <style scoped>
-@import './input.css';
 /* #ifdef H5 */
 .t-input--disabled {
   :deep(input) {

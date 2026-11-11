@@ -1,7 +1,7 @@
 .t-col {
+  display: block;
   box-sizing: border-box;
   min-height: 1px;
-  float: left;
 }
 .t-col--1 {
   width: 4.16666667%;

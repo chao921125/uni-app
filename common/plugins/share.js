@@ -2,9 +2,9 @@ export function initShare(options = {}) {
 	const { title = "默认分享标题", path = "", imageUrl = "", withShareTicket = true, menus = ["shareAppMessage", "shareTimeline"] } = options;
 
 	return new Promise((resolve, reject) => {
-		// 1. 检查平台
-		if (process.env.UNI_PLATFORM !== "mp-weixin") {
-			resolve({ supported: false, reason: "not-weixin" });
+		// 1. 检查平台能力（仅部分小程序提供 showShareMenu，如微信）
+		if (typeof uni.showShareMenu !== "function") {
+			resolve({ supported: false, reason: "not-supported" });
 			return;
 		}
 

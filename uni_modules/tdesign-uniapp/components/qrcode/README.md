@@ -1,16 +1,18 @@
 ---
 title: QRCode 二维码
 description: 二维码能够将文本转换生成二维码的组件，支持自定义配色和 Logo 配置。
-spline: message
+spline: data
 isComponent: true
 ---
 
 ## 引入
 
-可在 `main.ts` 或在需要使用的页面或组件中引入。
+推荐使用 easycom 模式引入组件，配置后无需手动 import 即可直接在模板中使用 `<t-qrcode />`。详细配置请参考 [快速开始](../getting-started)。
+
+如需手动引入：
 
 ```js
-import TQRCode from 'tdesign-uniapp/qrcode/qrcode.vue';
+import TQRCode from '@tdesign/uniapp/qrcode/qrcode.vue';
 ```
 
 ### 01 组件类型
@@ -71,7 +73,7 @@ icon | String | - | 二维码中图片的地址 | N
 icon-size | Number / Object | 40 | 二维码中图片的大小。TS 类型：`number \| { width: number; height: number }` | N
 level | String | M | 二维码纠错等级。可选项：L/M/Q/H | N
 size | Number | 160 | 二维码大小 | N
-status | String | active | 二维码状态。可选项：active/expired/loading/scanned。TS 类型：`QRStatus` `type QRStatus = "active" \| "expired" \| "loading" \| "scanned"`。[详细类型定义](https://github.com/novlan1/tdesign-uniapp/blob/develop/packages/tdesign/qrcode/type.ts) | N
+status | String | active | 二维码状态。可选项：active/expired/loading/scanned。TS 类型：`QRStatus` `type QRStatus = "active" \| "expired" \| "loading" \| "scanned"`。[详细类型定义](https://github.com/Tencent/tdesign-miniprogram/tree/develop/packages/uniapp-components/qrcode/type.ts) | N
 status-render | Boolean | false | 是否启用自定义渲染 | N
 value | String | - | 扫描后的文本 | N
 

@@ -2,15 +2,14 @@
   display: flex;
   flex-direction: column;
   box-sizing: border-box;
-  padding: var(--td-textarea-padding, 16px);
+  padding: var(--td-textarea-padding, 32rpx);
   background-color: var(--td-textarea-background-color, var(--td-bg-color-container, var(--td-font-white-1, #ffffff)));
 }
 .t-textarea__label:not(:empty) {
-  font-size: var(--td-font-size-base, 14px);
+  font: var(--td-font-body-medium, 28rpx / 44rpx var(--td-font-family, PingFang SC, Microsoft YaHei, Arial Regular));
   color: var(--td-textarea-label-color, var(--td-text-color-primary, var(--td-font-gray-1, rgba(0, 0, 0, 0.9))));
   flex-shrink: 0;
-  line-height: 22px;
-  padding-bottom: var(--td-spacer, 8px);
+  padding-bottom: var(--td-spacer, 16rpx);
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
@@ -34,24 +33,23 @@
   background-color: transparent;
   border: 0;
   resize: none;
-  font-size: var(--td-font-size-m, 16px);
+  font: var(--td-font-body-large, 32rpx / 48rpx var(--td-font-family, PingFang SC, Microsoft YaHei, Arial Regular));
   color: var(--td-textarea-text-color, var(--td-text-color-primary, var(--td-font-gray-1, rgba(0, 0, 0, 0.9))));
-  line-height: 24px;
+  overflow-y: auto;
 }
 .t-textarea__placeholder {
   color: var(--td-textarea-placeholder-color, var(--td-text-color-placeholder, var(--td-font-gray-3, rgba(0, 0, 0, 0.4))));
-  font-size: var(--td-font-size-m, 16px);
+  font: var(--td-font-body-large, 32rpx / 48rpx var(--td-font-family, PingFang SC, Microsoft YaHei, Arial Regular));
 }
 .t-textarea__indicator:not(:empty) {
   flex-shrink: 0;
   color: var(--td-textarea-indicator-text-color, var(--td-text-color-placeholder, var(--td-font-gray-3, rgba(0, 0, 0, 0.4))));
-  font-size: var(--td-spacer-1, 12px);
+  font: var(--td-font-body-small, 24rpx / 40rpx var(--td-font-family, PingFang SC, Microsoft YaHei, Arial Regular));
   text-align: right;
-  line-height: 20px;
-  padding-top: var(--td-spacer, 8px);
+  padding-top: var(--td-spacer, 16rpx);
 }
 .t-textarea--border {
-  border-radius: var(--td-textarea-border-radius, var(--td-radius-default, 6px));
+  border-radius: var(--td-textarea-border-radius, var(--td-radius-default, 12rpx));
   position: relative;
 }
 .t-textarea--border::after {
@@ -61,7 +59,7 @@
   left: 0;
   right: 0;
   bottom: 0;
-  border: 1px solid var(--td-textarea-border-color, var(--td-component-border, var(--td-gray-color-4, #dcdcdc)));
+  border: 2rpx solid var(--td-textarea-border-color, var(--td-component-border, var(--td-gray-color-4, #dddddd)));
   border-radius: inherit;
   pointer-events: none;
 }

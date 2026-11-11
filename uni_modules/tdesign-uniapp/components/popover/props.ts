@@ -15,6 +15,8 @@ export default {
   content: {
     type: String,
   },
+  /** 如果触发元素为 `fixed` 场景，需要显示指定 `fixed` 属性为 `true`，同时需在触发元素层添加 `t-popover-wrapper--fixed` 类，用于定位触发元素  */
+  fixed: Boolean,
   /** 浮层出现位置 */
   placement: {
     type: String,
@@ -40,13 +42,13 @@ export default {
   },
   /** 是否显示气泡确认框 */
   visible: {
-    type: Boolean,
-    default: undefined,
+    type: [Boolean, null],
+    default: null as TdPopoverProps['visible'],
   },
   /** 是否显示气泡确认框，非受控属性 */
   defaultVisible: {
-    type: Boolean,
-    default: undefined,
+    type: [Boolean, null],
+    default: null as TdPopoverProps['defaultVisible'],
   },
   /** 确认框显示或隐藏时触发 */
   onVisibleChange: {

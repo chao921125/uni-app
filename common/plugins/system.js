@@ -1,7 +1,5 @@
-// AI生成
 /**
- * UniApp 系统指标工具模块（全平台兼容版）
- * 修复：process is not defined 问题
+ * UniApp 系统指标工具模块（仅小程序端）
  */
 
 let cachedMetrics = null;
@@ -10,12 +8,14 @@ let resizeListener = null;
 // ==================== 安全工具函数 ====================
 
 /**
- * 安全获取平台标识（兼容 process 未定义的环境）
+ * 获取平台标识（编译时条件编译，覆盖全部小程序平台）
  */
 function getPlatform() {
-	// 1. 优先使用 UniApp 条件编译（编译时替换，最安全）
 	// #ifdef MP-WEIXIN
 	return "mp-weixin";
+	// #endif
+	// #ifdef MP-DINGTALK
+	return "mp-dingtalk";
 	// #endif
 	// #ifdef MP-ALIPAY
 	return "mp-alipay";
@@ -29,19 +29,21 @@ function getPlatform() {
 	// #ifdef MP-QQ
 	return "mp-qq";
 	// #endif
-	// 2. 运行时降级方案（当条件编译未生效时）
-	if (typeof process !== "undefined" && process.env?.UNI_PLATFORM) {
-		return process.env.UNI_PLATFORM;
-	}
-
-	// 3. 通过 uni 对象推断
-	if (typeof uni !== "undefined") {
-		const sys = uni.getSystemInfoSync?.() || {};
-		if (sys.platform) return sys.platform;
-		if (sys.system?.toLowerCase().includes("ios")) return "ios";
-		if (sys.system?.toLowerCase().includes("android")) return "android";
-	}
-
+	// #ifdef MP-KUAISHOU
+	return "mp-kuaishou";
+	// #endif
+	// #ifdef MP-LARK
+	return "mp-lark";
+	// #endif
+	// #ifdef MP-JD
+	return "mp-jd";
+	// #endif
+	// #ifdef MP-XHS
+	return "mp-xhs";
+	// #endif
+	// #ifdef MP-HARMONY
+	return "mp-harmony";
+	// #endif
 	return "unknown";
 }
 
@@ -90,50 +92,19 @@ export function getSystemMetrics() {
 		model: sys.model || "",
 		pixelRatio: sys.pixelRatio || 1,
 
-		// 平台标识（安全获取）
+		// 平台标识
 		isMp: platform.startsWith("mp-"),
 		isWeixin: isPlatform("mp-weixin"),
-		isApp: isPlatform("app-plus"),
-		isH5: isPlatform("h5"),
 	};
 
 	return cachedMetrics;
 }
 
 /**
- * 全局注入 CSS 变量
+ * 获取系统指标并返回（小程序端无 DOM，CSS 变量由页面自行处理）
  */
 export function injectSystemVars() {
-	const m = getSystemMetrics();
-
-	// 兼容小程序：部分基础库不支持 document
-	const root = typeof document !== "undefined" ? document.documentElement || document.body : null;
-
-	if (root) {
-		const set = (key, val) => {
-			try {
-				const value = typeof val === "number" ? `${val}px` : String(val);
-				root.style.setProperty(key, value);
-			} catch (e) {
-				console.warn?.(`[System] CSS var failed: ${key}`, e);
-			}
-		};
-
-		set("--status-bar-height", m.statusBarHeight);
-		set("--nav-bar-height", m.navBarHeight);
-		set("--total-header-height", m.totalHeaderHeight);
-		set("--safe-area-bottom", m.safeAreaBottom);
-		set("--safe-area-top", m.safeAreaTop);
-		set("--window-height", m.windowHeight);
-		set("--window-width", m.windowWidth);
-		set("--screen-height", m.screenHeight);
-		set("--screen-width", m.screenWidth);
-		set("--is-iphonex", m.isIphoneX ? 1 : 0);
-		set("--platform", m.platform);
-		set("--pixel-ratio", m.pixelRatio);
-	}
-
-	return m;
+	return getSystemMetrics();
 }
 
 /**
@@ -148,7 +119,6 @@ export function watchSystemChange(callback) {
 	const handler = () => {
 		cachedMetrics = null;
 		const newMetrics = getSystemMetrics();
-		injectSystemVars();
 		callback?.(newMetrics);
 	};
 
@@ -162,20 +132,16 @@ export function watchSystemChange(callback) {
 }
 
 /**
- * 获取微信小程序胶囊位置（仅 mp-weixin 有效）
+ * 获取小程序胶囊按钮位置（微信/支付宝系支持，其余平台返回 null）
  */
 export function getCapsuleRect() {
-	// 安全判断：先确认是微信小程序，再调用微信专属 API
-	if (!isPlatform("mp-weixin")) return null;
-
 	try {
-		// 微信专属 API 安全调用
-		const wxApi = typeof wx !== "undefined" ? wx : typeof my !== "undefined" ? my : null;
-		if (typeof wxApi?.getMenuButtonBoundingClientRect !== "function") {
+		const host = typeof wx !== "undefined" ? wx : typeof my !== "undefined" ? my : null;
+		if (typeof host?.getMenuButtonBoundingClientRect !== "function") {
 			return null;
 		}
 
-		const rect = wxApi.getMenuButtonBoundingClientRect();
+		const rect = host.getMenuButtonBoundingClientRect();
 		if (!rect) return null;
 
 		return {
@@ -207,14 +173,13 @@ export function clearCache() {
  */
 export function getDebugInfo() {
 	const m = getSystemMetrics();
-	const capsule = isPlatform("mp-weixin") ? getCapsuleRect() : null;
+	const capsule = getCapsuleRect();
 
 	return {
 		metrics: m,
 		capsule,
 		env: {
 			platform: getPlatform(),
-			hasProcess: typeof process !== "undefined",
 			hasUni: typeof uni !== "undefined",
 		},
 	};

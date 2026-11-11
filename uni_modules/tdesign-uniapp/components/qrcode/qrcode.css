@@ -3,9 +3,9 @@
   display: flex;
   box-sizing: border-box;
   background-color: var(--td-bg-color-container, var(--td-font-white-1, #ffffff));
-  padding: 12px;
-  border-radius: 6px;
-  border: 1px solid var(--td-component-border, var(--td-gray-color-4, #dcdcdc));
+  padding: 24rpx;
+  border-radius: 12rpx;
+  border: 1px solid var(--td-component-border, var(--td-gray-color-4, #dddddd));
 }
 .t-qrcode.t-borderless {
   border-color: transparent;
@@ -24,9 +24,8 @@
   width: 100%;
   height: 100%;
   color: var(--td-text-color-primary, var(--td-font-gray-1, rgba(0, 0, 0, 0.9)));
-  line-height: 22px;
   background-color: var(--td-mask-background, rgba(255, 255, 255, 0.96));
   text-align: center;
-  border-radius: 6px;
-  font-size: var(--td-font-size-title-small);
+  border-radius: 12rpx;
+  font: var(--td-font-body-medium, 28rpx / 44rpx var(--td-font-family, PingFang SC, Microsoft YaHei, Arial Regular));
 }

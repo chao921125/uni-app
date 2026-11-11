@@ -20,16 +20,16 @@ const stats = reactive([
 const menuGroups = reactive([
 	{
 		items: [
-			{ icon: "order", label: "我的订单", color: "#6366f1" },
+			{ icon: "bill", label: "我的订单", color: "#6366f1" },
 			{ icon: "bookmark", label: "学习记录", color: "#ec4899" },
 			{ icon: "star", label: "我的收藏", color: "#f59e0b" },
 		],
 	},
 	{
 		items: [
-			{ icon: "rmb", label: "充值记录", color: "#10b981" },
+			{ icon: "money", label: "充值记录", color: "#10b981" },
 			{ icon: "gift", label: "兑换商城", color: "#8b5cf6" },
-			{ icon: "integral", label: "我的证书", color: "#0ea5e9" },
+			{ icon: "certificate", label: "我的证书", color: "#0ea5e9" },
 		],
 	},
 	{
@@ -55,19 +55,19 @@ const onMenuTap = (item) => {
 			<view class="header-content">
 				<view class="user-row">
 					<view class="user-avatar">
-						<u-icon name="account-fill" size="32" color="#fff"></u-icon>
+						<t-icon name="user-avatar" size="32" color="#fff"></t-icon>
 					</view>
 					<view class="user-info">
 						<text class="user-name">{{ userInfo.name }}</text>
 						<text class="user-phone">{{ userInfo.phone }}</text>
 					</view>
-					<u-icon name="arrow-right" size="16" color="rgba(255,255,255,0.7)"></u-icon>
+					<t-icon name="chevron-right" size="16" color="rgba(255,255,255,0.7)"></t-icon>
 				</view>
 
 				<view class="coin-card">
 					<view class="coin-left">
 						<view class="coin-icon">
-							<u-icon name="rmb-circle-fill" size="20" color="#f59e0b"></u-icon>
+							<t-icon name="money-filled" size="20" color="#f59e0b"></t-icon>
 						</view>
 						<view class="coin-info">
 							<text class="coin-label">AI 币余额</text>
@@ -92,10 +92,10 @@ const onMenuTap = (item) => {
 			<view v-for="(group, gi) in menuGroups" :key="gi" class="menu-group">
 				<view v-for="item in group.items" :key="item.label" class="menu-item" @click="onMenuTap(item)">
 					<view class="menu-icon" :style="{ background: item.color + '15' }">
-						<u-icon :name="item.icon" size="18" :color="item.color"></u-icon>
+						<t-icon :name="item.icon" size="18" :color="item.color"></t-icon>
 					</view>
 					<text class="menu-label">{{ item.label }}</text>
-					<u-icon name="arrow-right" size="14" color="#d1d5db"></u-icon>
+					<t-icon name="chevron-right" size="14" color="#d1d5db"></t-icon>
 				</view>
 			</view>
 
